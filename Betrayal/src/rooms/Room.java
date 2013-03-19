@@ -1,7 +1,6 @@
 package rooms;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Room {
@@ -23,11 +22,23 @@ public abstract class Room {
 		return this.name;
 	}
 	
-//	public void addRoomExit(Exit_Direction direction, Room goesTo) {
-//		getRoomExits().
-//	}
+	public void addRoomExit(Exit_Direction direction, Room goesTo) {
+		if (! this.exits.containsKey(direction)) {
+			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
+		}
+		else {
+			this.exits.put(direction, goesTo);
+		}
+	}
 	
-	
+	public Room getRoomFromExit(Exit_Direction direction) {
+		if (! this.exits.containsKey(direction)) {
+			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
+		}
+		else {
+			return this.exits.get(direction);
+		}
+	}
 	
 	public Set<Exit_Direction> getRoomExitDirections() {
 		return this.exits.keySet();

@@ -28,12 +28,12 @@ public class TestRooms {
 		foyerExits.put(Exit_Direction.WEST, null);
 		
 		organRoomExits.put(Exit_Direction.SOUTH, null);
-		foyer = new BlankRoom("Foyer", Room_Orientation.NORTH, foyerExits);
+		organRoomExits.put(Exit_Direction.WEST, null);
 		
-		
+		foyer = new BlankRoom("Foyer", Room_Orientation.NORTH, foyerExits);		
 		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits);
 	}
-		
+	
 	@Test
 	public void testGetRoomNameReturnsProperName() {
 		assertEquals("Organ Room", organRoom.getName());
@@ -43,12 +43,23 @@ public class TestRooms {
 	public void testGetRoomExitDirections() {
 		HashSet<Exit_Direction> expectedOrganRoomExits = new HashSet<Exit_Direction>();
 		expectedOrganRoomExits.add(Exit_Direction.SOUTH);
+		expectedOrganRoomExits.add(Exit_Direction.WEST);
 		assertEquals(expectedOrganRoomExits, organRoom.getRoomExitDirections());
 	}
 	
 	@Test
 	public void testGetRoomOrientation() {
 		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
+		assertEquals(Room_Orientation.NORTH, foyer.getOrientation());
+	}
+	
+	@Test
+	public void testGetConnectingRooms() {
+		foyer.addRoomExit(Exit_Direction.EAST, organRoom);
+		organRoom.addRoomExit(Exit_Direction.SOUTH, foyer);
+		
+		assertEquals(organRoom, foyer.getRoomFromExit(Exit_Direction.EAST));
+		assertEquals(foyer, organRoom.getRoomFromExit(Exit_Direction.SOUTH));
 	}
 
 }
