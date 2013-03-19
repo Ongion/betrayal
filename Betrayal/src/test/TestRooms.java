@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import rooms.Room;
 import rooms.Room.Room_Orientation;
@@ -16,6 +18,8 @@ public class TestRooms {
 	Room foyer;
 	Room organRoom;
 	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	public void setUp() {
@@ -60,8 +64,10 @@ public class TestRooms {
 		assertEquals(foyer, organRoom.getRoomFromExit(Exit_Direction.SOUTH));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testAddingARoomToANonExistingExitThrowsException() {
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Room 'Organ Room' has no exit in direction 'NORTH'");
 		organRoom.addRoomExit(Exit_Direction.NORTH, foyer);
 	}
 
