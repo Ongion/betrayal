@@ -3,12 +3,12 @@ package rooms;
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class Room {
+public class Room {
 	protected String name;
 	protected Room_Orientation orientation;
 	protected HashMap<Exit_Direction, Room> exits;
 	
-	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal"
+	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
 	public enum Exit_Direction {NORTH, EAST, SOUTH, WEST};  // Room exits are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
 	
 	

@@ -8,8 +8,6 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.BlankRoom;
-import rooms.EventRoom;
 import rooms.Room;
 import rooms.Room.Room_Orientation;
 import rooms.Room.Exit_Direction;
@@ -30,8 +28,8 @@ public class TestRooms {
 		organRoomExits.put(Exit_Direction.SOUTH, null);
 		organRoomExits.put(Exit_Direction.WEST, null);
 		
-		foyer = new BlankRoom("Foyer", Room_Orientation.NORTH, foyerExits);		
-		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits);
+		foyer = new Room("Foyer", Room_Orientation.NORTH, foyerExits);		
+		organRoom = new Room("Organ Room", Room_Orientation.WEST, organRoomExits);
 	}
 	
 	@Test
@@ -60,6 +58,11 @@ public class TestRooms {
 		
 		assertEquals(organRoom, foyer.getRoomFromExit(Exit_Direction.EAST));
 		assertEquals(foyer, organRoom.getRoomFromExit(Exit_Direction.SOUTH));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddingARoomToANonExistingExitThrowsException() {
+		organRoom.addRoomExit(Exit_Direction.NORTH, foyer);
 	}
 
 }
