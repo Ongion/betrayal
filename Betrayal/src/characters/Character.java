@@ -47,4 +47,9 @@ public abstract class Character {
 		
 	}
 	
+	public void decrementKnowledge(){
+		if (this.knowledgeIndex > 0)
+			this.knowledgeIndex--;
+	}
+	
 }
