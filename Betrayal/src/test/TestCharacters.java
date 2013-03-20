@@ -81,5 +81,20 @@ public class TestCharacters {
 		Assert.assertEquals(c.getCurrentKnowledge(), 8);
 	}
 	
+	@Test 
+	public void testDecrementKnowledge() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getCurrentKnowledge(), 4);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 3);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 3);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 1);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 1);
+	}
+	
 
 }
