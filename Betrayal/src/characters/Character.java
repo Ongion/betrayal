@@ -14,6 +14,10 @@ public abstract class Character {
 	protected int[] sanity;
 	protected int[] might;
 	protected int[] speed;
+	protected int knowledgeIndex;
+	protected int sanityIndex;
+	protected int mightIndex;
+	protected int speedIndex;
 	
 	
 	public String getName() {
@@ -31,6 +35,16 @@ public abstract class Character {
 
 	public String[] getHobbies() {
 		return this.hobbies;
+	}
+	
+	public int getCurrentKnowledge() {
+		return this.knowledge[this.knowledgeIndex];
+	}
+	
+	public void incrementKnowledge(){
+		if (this.knowledgeIndex + 1 < this.knowledge.length)
+			this.knowledgeIndex++;
+		
 	}
 	
 }
