@@ -3,7 +3,7 @@ package rooms;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Room {
+public abstract class Room {
 	protected String name;
 	protected Room_Orientation orientation;
 	protected HashMap<Exit_Direction, Room> exits;
@@ -12,10 +12,10 @@ public class Room {
 	public enum Exit_Direction {NORTH, EAST, SOUTH, WEST};  // Room exits are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
 	
 	
-	public Room (String name, Room_Orientation orientation, HashMap<Exit_Direction, Room> exits) {
+	public Room (String name) {
 		this.name = name;
-		this.orientation = orientation;
-		this.exits = exits;
+		this.orientation = Room_Orientation.NORTH;
+		this.exits = new HashMap<Exit_Direction, Room>();
 	}
 	
 	public String getName() {
@@ -38,6 +38,10 @@ public class Room {
 		else {
 			return this.exits.get(direction);
 		}
+	}
+	
+	public void setOrientation(Room_Orientation newOrientation) {
+		this.orientation = newOrientation;
 	}
 	
 	public Set<Exit_Direction> getRoomExitDirections() {
