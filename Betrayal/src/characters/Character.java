@@ -16,4 +16,21 @@ public abstract class Character {
 	protected int[] speed;
 	
 	
+	public String getName() {
+		return this.name;
+	}
+	public int getHeight() {
+		return this.height;
+	}
+	public int getWeight() {
+		return this.weight;
+	}
+	public int getAge() {
+		return this.age;
+	}
+
+	public String[] getHobbies() {
+		return this.hobbies;
+	}
+	
 }

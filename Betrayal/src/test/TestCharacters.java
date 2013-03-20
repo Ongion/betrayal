@@ -49,7 +49,11 @@ public class TestCharacters {
 		Character c = new FatherRhinehardt();
 		String[] compare = {"Fencing","Gardening"};
 		
-		Assert.assertEquals(c.getHobbies(), compare );
+		Assert.assertEquals(c.getHobbies().length, compare.length);
+		for (int i = 0; i < compare.length; i ++){
+			Assert.assertEquals(c.getHobbies()[i], compare[i] );
+		}
+		
 	}
 
 }
