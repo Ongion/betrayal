@@ -1,6 +1,5 @@
 package eventCards;
 import characters.Character;
-import characters.FatherRhinehardt;
 
 public class Rotten extends EventCard {
 	// This is only for testing purposes and will be removed
