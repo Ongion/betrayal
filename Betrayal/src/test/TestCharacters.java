@@ -18,10 +18,38 @@ public class TestCharacters {
 	
 	@Test
 	public void testGetName() {
-		
 		Character c = new FatherRhinehardt();
 		
 		Assert.assertEquals(c.getName(), "Father Rhinehardt");
+	}
+	
+	@Test
+	public void testGetAge() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getAge(), 62);
+	}
+	
+	@Test
+	public void testGetHeight() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getHeight(), 69);
+	}
+	
+	@Test
+	public void testGetWeight() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getWeight(), 185);
+	}
+	
+	@Test
+	public void testGetHobbies() {
+		Character c = new FatherRhinehardt();
+		String[] compare = {"Fencing","Gardening"};
+		
+		Assert.assertEquals(c.getHobbies(), compare );
 	}
 
 }
