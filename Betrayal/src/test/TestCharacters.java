@@ -1,15 +1,23 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import rooms.Room;
+import rooms.Room.Exit_Direction;
+import rooms.Room.Room_Orientation;
 
 import characters.Character;
 import characters.FatherRhinehardt;
 
 public class TestCharacters {
-
+	
 	@Test
 	public void testInitialization() {
 		Character c = new FatherRhinehardt();
@@ -55,5 +63,38 @@ public class TestCharacters {
 		}
 		
 	}
+	
+	@Test 
+	public void testIncrementKnowledge() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getCurrentKnowledge(), 4);
+		c.incrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 5);
+		c.incrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 6);
+		c.incrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 6);
+		c.incrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 8);
+		c.incrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 8);
+	}
+	
+	@Test 
+	public void testDecrementKnowledge() {
+		Character c = new FatherRhinehardt();
+		
+		Assert.assertEquals(c.getCurrentKnowledge(), 4);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 3);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 3);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 1);
+		c.decrementKnowledge();
+		Assert.assertEquals(c.getCurrentKnowledge(), 1);
+	}
+	
 
 }
