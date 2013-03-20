@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import rooms.FoyerRoom;
+import rooms.OrganRoomRoom;
 import rooms.Room;
 import rooms.Room.Room_Orientation;
 import rooms.Room.Exit_Direction;
@@ -23,17 +25,9 @@ public class TestRooms {
 
 	@Before
 	public void setUp() {
-		HashMap<Exit_Direction, Room> foyerExits = new HashMap<Exit_Direction, Room>();
-		HashMap<Exit_Direction, Room> organRoomExits = new HashMap<Exit_Direction, Room>();
-		
-		foyerExits.put(Exit_Direction.EAST, null);
-		foyerExits.put(Exit_Direction.WEST, null);
-		
-		organRoomExits.put(Exit_Direction.SOUTH, null);
-		organRoomExits.put(Exit_Direction.WEST, null);
-		
-		foyer = new Room("Foyer", Room_Orientation.NORTH, foyerExits);		
-		organRoom = new Room("Organ Room", Room_Orientation.WEST, organRoomExits);
+				
+		foyer = new FoyerRoom();		
+		organRoom = new OrganRoomRoom();
 	}
 	
 	@Test
@@ -51,6 +45,8 @@ public class TestRooms {
 	
 	@Test
 	public void testGetRoomOrientation() {
+		organRoom.setOrientation(Room_Orientation.WEST);
+
 		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
 		assertEquals(Room_Orientation.NORTH, foyer.getOrientation());
 	}
