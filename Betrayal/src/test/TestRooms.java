@@ -10,11 +10,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import rooms.EventRoom;
 import rooms.FoyerRoom;
-import rooms.OrganRoomRoom;
 import rooms.Room;
 import rooms.Room.Room_Orientation;
-import rooms.Room.Exit_Direction;
+import rooms.Room.Room_Direction;
 
 public class TestRooms {
 	Room foyer;
@@ -25,9 +25,12 @@ public class TestRooms {
 
 	@Before
 	public void setUp() {
+		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
+		
+		organRoomExits.add(Room_Direction.SOUTH);
+		organRoomExits.add(Room_Direction.WEST);
 				
-		foyer = new FoyerRoom();		
-		organRoom = new OrganRoomRoom();
+		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits);
 	}
 	
 	@Test
@@ -37,10 +40,10 @@ public class TestRooms {
 	
 	@Test
 	public void testGetRoomExitDirections() {
-		HashSet<Exit_Direction> expectedOrganRoomExits = new HashSet<Exit_Direction>();
-		expectedOrganRoomExits.add(Exit_Direction.SOUTH);
-		expectedOrganRoomExits.add(Exit_Direction.WEST);
-		assertEquals(expectedOrganRoomExits, organRoom.getRoomExitDirections());
+		HashSet<Room_Direction> expectedOrganRoomExits = new HashSet<Room_Direction>();
+		expectedOrganRoomExits.add(Room_Direction.SOUTH);
+		expectedOrganRoomExits.add(Room_Direction.WEST);
+		assertEquals(expectedOrganRoomExits, organRoom.getDoorExits());
 	}
 	
 	@Test
@@ -51,20 +54,4 @@ public class TestRooms {
 		assertEquals(Room_Orientation.NORTH, foyer.getOrientation());
 	}
 	
-	@Test
-	public void testGetConnectingRooms() {
-		foyer.addRoomExit(Exit_Direction.EAST, organRoom);
-		organRoom.addRoomExit(Exit_Direction.SOUTH, foyer);
-		
-		assertEquals(organRoom, foyer.getRoomFromExit(Exit_Direction.EAST));
-		assertEquals(foyer, organRoom.getRoomFromExit(Exit_Direction.SOUTH));
-	}
-	
-	@Test
-	public void testAddingARoomToANonExistingExitThrowsException() {
-		exception.expect(IllegalArgumentException.class);
-		exception.expectMessage("Room 'Organ Room' has no exit in direction 'NORTH'");
-		organRoom.addRoomExit(Exit_Direction.NORTH, foyer);
-	}
-
 }

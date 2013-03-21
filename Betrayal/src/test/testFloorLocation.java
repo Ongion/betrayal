@@ -29,5 +29,17 @@ public class TestFloorLocation {
 		assertEquals(0, floorLocation1.getY());
 		assertEquals(7,floorLocation2.getY());
 	}
+	
+	@Test
+	public void testToString() {
+		assertEquals("(0,0)", floorLocation1.toString());
+		assertEquals("(5,7)", floorLocation2.toString());
+	}
+	
+	@Test
+	public void testEquals() {
+		assertEquals(new FloorLocation(0,0), floorLocation1);
+		assertEquals(new FloorLocation(5,7), floorLocation2);
+	}
 
 }

@@ -1,57 +1,67 @@
 package rooms;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+
+import floors.Floor.FloorName;
 
 public abstract class Room {
 	protected String name;
 	protected Room_Orientation orientation;
-	protected HashMap<Exit_Direction, Room> exits;
+	protected Set<Room_Direction> doorExits;
+	protected Set<FloorName> floorsAllowedOn;
+	protected Map<Room_Direction, Integer> windows;
 	
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Exit_Direction {NORTH, EAST, SOUTH, WEST};  // Room exits are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
+	public enum Room_Direction {NORTH, EAST, SOUTH, WEST};  // Room directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
 	
 	
-	public Room (String name) {
+	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Map<Room_Direction, Integer> windows) {
 		this.name = name;
-		this.orientation = Room_Orientation.NORTH;
-		this.exits = new HashMap<Exit_Direction, Room>();
+		this.orientation = orientation;
+		this.doorExits = doorExits;
+		this.windows = windows;
 	}
 	
 	public String getName() {
 		return this.name;
 	}
-	
-	public void addRoomExit(Exit_Direction direction, Room goesTo) {
-		if (! this.exits.containsKey(direction)) {
-			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
-		}
-		else {
-			this.exits.put(direction, goesTo);
-		}
-	}
-	
-	public Room getRoomFromExit(Exit_Direction direction) {
-		if (! this.exits.containsKey(direction)) {
-			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
-		}
-		else {
-			return this.exits.get(direction);
-		}
-	}
-	
+		
 	public void setOrientation(Room_Orientation newOrientation) {
 		this.orientation = newOrientation;
 	}
 	
-	public Set<Exit_Direction> getRoomExitDirections() {
-		return this.exits.keySet();
+	public Set<Room_Direction> getDoorExits() {
+		return this.doorExits;
 	}
 	
 	public Room_Orientation getOrientation() {
 		return this.orientation;
 	}
 	
+	public Map<Room_Direction, Integer> getWindows() {
+		return this.windows;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Room) {
+			Room otherRoom = (Room) other;
+			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()) && this.doorExits.equals(otherRoom.getDoorExits()) && this.windows.equals(otherRoom.getWindows()));
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		int prime = 31;
+		int result = 1;
+		result = prime * result + (this.name== null? 0 : name.hashCode());
+		result = prime * result + (this.orientation.ordinal());
+		return result;
+	}
+		
 	public void leavingRoom(Character characterLeavingRoom) {
 		// Do nothing by default. Rooms implement this method only if they need it.
 	}
