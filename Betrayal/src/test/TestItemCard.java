@@ -11,7 +11,7 @@ public class TestItemCard {
 	private ItemCard angelFeatherCard = new AngelFeather("Angel Feather",
 			"A perfect feather fluttering in your hand.");
 	private ItemCard adrenalineShotCard = new AdrenalineShot("Adrenaline Shot", "A syringe containing a strange fluorescent liquid.");
-	
+	private ItemCard revolverCard = new Revolver("Revolver","WEAPON An old, potent-looking weapon.");	
 	@Test
 	public void TestAngelFeatherInit() {
 		assertEquals("Angel Feather", angelFeatherCard.getName());
@@ -23,5 +23,11 @@ public class TestItemCard {
 	public void TestAdrenalineShotInit(){
 		assertEquals("Adrenaline Shot", adrenalineShotCard.getName());
 		assertEquals("A syringe containing a strange fluorescent liquid.", adrenalineShotCard.getDescription());
+	}
+	
+	@Test
+	public void TestRevolverInit(){
+		assertEquals("Revolver", revolverCard.getName());
+		assertEquals("WEAPON An old, potent-looking weapon.", revolverCard.getDescription());
 	}
 }
