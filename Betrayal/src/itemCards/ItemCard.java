@@ -4,7 +4,7 @@ public class ItemCard {
 	protected String name;
 	protected String description;
 	
-	public void ItemCard(String name, String description){
+	public ItemCard(String name, String description){
 		this.name = name;
 		this.description = description;
 	}
