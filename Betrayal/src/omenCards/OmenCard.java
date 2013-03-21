@@ -1,6 +1,6 @@
 package omenCards;
 
-public class OmenCard {
+public abstract class OmenCard {
 	protected String name;
 	protected String quote;
 
@@ -25,4 +25,19 @@ public class OmenCard {
 	public void setQuote(String quote) {
 		this.quote = quote;
 	}
+
+	public boolean isHauntRoll() {
+	//For testing purposes, assume Haunt Roll is applicable.
+		
+		return true;
+	}
+
+	public boolean makeHauntRoll() {
+		if(isHauntRoll()){
+			return true;
+		}
+		return false;
+	}
+
+	public abstract Object whatToDo();
 }
