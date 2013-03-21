@@ -22,18 +22,20 @@ public class Character {
 	protected int mightIndex;
 	protected int speedIndex;
 	
-	private ResourceBundle CharacterBundle;
+	
 	
 	public Character(int charIndex, Locale l){
 		
+		ResourceBundle CharacterBundle = null;
+		
 		switch (charIndex){
-			case 0: this.CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l); break;
+			case 0: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l); break;
 		}
 		
-		String[] knowledgeString = this.CharacterBundle.getString("knowledgeArray").split(",");
-		String[] sanityString = this.CharacterBundle.getString("sanityArray").split(",");
-		String[] mightString = this.CharacterBundle.getString("mightArray").split(",");
-		String[] speedString = this.CharacterBundle.getString("speedArray").split(",");
+		String[] knowledgeString = CharacterBundle.getString("knowledgeArray").split(",");
+		String[] sanityString = CharacterBundle.getString("sanityArray").split(",");
+		String[] mightString = CharacterBundle.getString("mightArray").split(",");
+		String[] speedString = CharacterBundle.getString("speedArray").split(",");
 		//String containing the values for the different arrays
 		
 		this.knowledge = new int[knowledgeString.length];
@@ -52,45 +54,50 @@ public class Character {
 		for (int i = 0; i < might.length; i++){
 			this.might[i] = Integer.parseInt(mightString[i]);
 		}
-		//Convert the string values to ints
 		
-		this.knowledgeIndex = Integer.parseInt(this.CharacterBundle.getString("knowledgeIndex"));
-		this.sanityIndex = Integer.parseInt(this.CharacterBundle.getString("sanityIndex"));
-		this.mightIndex = Integer.parseInt(this.CharacterBundle.getString("mightIndex"));
-		this.speedIndex = Integer.parseInt(this.CharacterBundle.getString("speedIndex"));
+		//Convert the string values to ints
+		this.knowledgeIndex = Integer.parseInt(CharacterBundle.getString("knowledgeIndex"));
+		this.sanityIndex = Integer.parseInt(CharacterBundle.getString("sanityIndex"));
+		this.mightIndex = Integer.parseInt(CharacterBundle.getString("mightIndex"));
+		this.speedIndex = Integer.parseInt(CharacterBundle.getString("speedIndex"));
+		
+		this.name = CharacterBundle.getString("name");
+		this.height = Integer.parseInt(CharacterBundle.getString("height"));
+		this.weight = Integer.parseInt(CharacterBundle.getString("weight"));
+		this.age = Integer.parseInt(CharacterBundle.getString("age"));
+		this.hobbies = CharacterBundle.getString("hobbies").split(",");
+		// Initialize the variables to their localized values
 	}
 	
+	
+	/* Basic Getters */
 	public String getName() {
-		return this.CharacterBundle.getString("name");
+		return name;
 	}
 	
 	public int getHeight() {
-		return Integer.parseInt(this.CharacterBundle.getString("height"));
+		return height;
 	}
 	public int getWeight() {
-		return Integer.parseInt(this.CharacterBundle.getString("weight"));
+		return weight;
 	}
 	public int getAge() {
-		return Integer.parseInt(this.CharacterBundle.getString("age"));
+		return age;
 	}
 
 	public String[] getHobbies() {
-		return this.CharacterBundle.getString("hobbies").split(",");
+		return hobbies;
 	}
 	
 	public int getCurrentKnowledge() {
 		return this.knowledge[this.knowledgeIndex];
 	}
 	
-	public void incrementKnowledge(){
-		this.incrementKnowledge(1);
-		
-	}
 	
-	public void decrementKnowledge(){
-		this.decrementKnowledge(1);
-	}
 	
+	/* Increase or Decrease the stat by the number specified, then check to make sure you didn't go up or down passed the edge
+	 * of the stat array.
+	 */
 	public void incrementKnowledge(int numToIncreaseBy){
 		this.knowledgeIndex += numToIncreaseBy;
 		
@@ -105,6 +112,84 @@ public class Character {
 		if (this.knowledgeIndex < 0) {
 			this.knowledgeIndex = 0;
 		}
+	}
+	
+	
+	public void incrementSanity(int numToIncreaseBy){
+		this.sanityIndex += numToIncreaseBy;
+		
+		if (this.sanityIndex > 7) {
+			this.sanityIndex = 7;
+		}
+	}
+	
+	public void decrementSanity(int numToDecreaseBy){
+		this.sanityIndex -= numToDecreaseBy;
+		
+		if (this.sanityIndex < 0) {
+			this.sanityIndex = 0;
+		}
+	}
+	
+	
+	public void incrementSpeed(int numToIncreaseBy){
+		this.speedIndex += numToIncreaseBy;
+		
+		if (this.speedIndex > 7) {
+			this.speedIndex = 7;
+		}
+	}
+	
+	public void decrementSpeed(int numToDecreaseBy){
+		this.speedIndex -= numToDecreaseBy;
+		
+		if (this.speedIndex < 0) {
+			this.speedIndex = 0;
+		}
+	}
+	
+	
+	public void incrementMight(int numToIncreaseBy){
+		this.mightIndex += numToIncreaseBy;
+		
+		if (this.mightIndex > 7) {
+			this.mightIndex = 7;
+		}
+	}
+	
+	public void decrementMight(int numToDecreaseBy){
+		this.mightIndex -= numToDecreaseBy;
+		
+		if (this.mightIndex < 0) {
+			this.mightIndex = 0;
+		}
+	}
+	
+	
+	/* These methods just make it easier to increase or decrease by 1 */ 
+	public void incrementKnowledge(){
+		this.incrementKnowledge(1);
+	}
+	public void decrementKnowledge(){
+		this.decrementKnowledge(1);
+	}
+	public void incrementSanity(){
+		this.incrementSanity(1);	
+	}
+	public void decrementSanity(){
+		this.decrementSanity(1);
+	}
+	public void incrementSpeed(){
+		this.incrementSpeed(1);
+	}
+	public void decrementSpeed(){
+		this.decrementSpeed(1);
+	}
+	public void incrementMight(){
+		this.incrementMight(1);
+	}	
+	public void decrementMight(){
+		this.decrementMight(1);
 	}
 	
 }
