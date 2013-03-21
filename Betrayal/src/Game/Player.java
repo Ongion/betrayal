@@ -1,5 +1,7 @@
 package Game;
 
+import itemCards.ItemCard;
+
 import java.util.ArrayList;
 
 import omenCards.OmenCard;
@@ -28,20 +30,20 @@ public class Player {
 	void addEventCard(EventCard c) {
 		eventHand.add(c);
 	}
-	void addItemCard(ItemCard c){
+	public void addItemCard(ItemCard c){
 		itemHand.add(c);
 	}
-	void addOmenCard(OmenCard c){
+	public void addOmenCard(OmenCard c){
 		omenHand.add(c);
 	}
 	
-	ArrayList<EventCard> getEventHand(){
+	public ArrayList<EventCard> getEventHand(){
 		return this.eventHand;
 	}
-	ArrayList<OmenCard> getOmenHand(){
+	public ArrayList<OmenCard> getOmenHand(){
 		return this.omenHand;
 	}
-	ArrayList<ItemCard> getItemCard() {
+	public ArrayList<ItemCard> getItemHand() {
 		return this.itemHand;
 	}
 	
