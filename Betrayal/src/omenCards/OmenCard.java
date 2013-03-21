@@ -1,6 +1,6 @@
 package omenCards;
 
-public class OmenCard {
+public abstract class OmenCard {
 	protected String name;
 	protected String quote;
 
@@ -38,4 +38,6 @@ public class OmenCard {
 		}
 		return false;
 	}
+
+	public abstract Object whatToDo();
 }

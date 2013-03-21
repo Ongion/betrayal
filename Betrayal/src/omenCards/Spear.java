@@ -7,4 +7,10 @@ public class Spear extends OmenCard {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public Object whatToDo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

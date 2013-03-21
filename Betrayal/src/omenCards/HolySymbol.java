@@ -7,4 +7,10 @@ public class HolySymbol extends OmenCard {
 
 	}
 
+	@Override
+	public Object whatToDo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

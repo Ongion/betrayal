@@ -2,6 +2,12 @@ package test;
 
 import static org.junit.Assert.*;
 
+import itemCards.AngelFeather;
+import itemCards.ItemCard;
+
+import java.util.ArrayList;
+import java.util.Locale;
+
 import omenCards.Bite;
 import omenCards.Book;
 import omenCards.CrystalBall;
@@ -19,8 +25,23 @@ import omenCards.SpiritBoard;
 
 import org.junit.Test;
 
+import rooms.FoyerRoom;
+import rooms.OrganRoomRoom;
+import rooms.Room;
+
+import Game.Game;
+import Game.Player;
+import characters.Character;
+import eventCards.AngryBeing;
+import eventCards.CreepyCrawlies;
+import eventCards.EventCard;
+import eventCards.NightView;
+import eventCards.Rotten;
+
 public class TestOmenCard {
 
+	private Game game;
+	private Character character = new Character(0, new Locale("en"));
 	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
 			"Hazy images appear in the glass.");
 	private OmenCard bookCard = new Book("Book",
@@ -34,7 +55,7 @@ public class TestOmenCard {
 	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
 			"A board with letters and numbers to call the dead");
 	private OmenCard maskCard = new Mask("Mask",
-			"A somber mask to hide your intentions.");
+			"A somber mask to hide your intentions.", character, game);
 	private OmenCard medallionCard = new Medallion("Medallion",
 			"A medallion inscribed with a pentagram.");
 	private OmenCard girlCard = new Girl("Girl",
@@ -47,6 +68,47 @@ public class TestOmenCard {
 			"A symbol of calm in an unsettling world.");
 	private OmenCard dogCard = new Dog("Dog",
 			"COMPANION This mangy dog seems friendly. At least you hope it is.");
+	private Room foyer = new FoyerRoom();
+	private Room organRoom = new OrganRoomRoom();
+	private Player player = new Player(character);
+	private ArrayList<Room> rooms = new ArrayList<Room>();
+	private ArrayList<EventCard> events = new ArrayList<EventCard>();
+	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
+	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
+	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
+	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
+	private String nightViewDes = "You see a vision of a ghostly couple walking the grounds, silently strolling in their wedding best";
+	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes,
+			character);
+	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies",
+			creepyCrawliesDes, character);
+	private EventCard nightView = new NightView("Night View", nightViewDes,
+			character);
+	private EventCard rotten = new Rotten("Rotten", rottenDes, character);
+	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
+
+
+	@Test
+	public void TestGameInit() {
+		// Initalize ArrayLists for rest of tests
+		rooms.add(foyer);
+		rooms.add(organRoom);
+		events.add(angryBeing);
+		events.add(creepyCrawlies);
+		events.add(nightView);
+		events.add(rotten);
+		items.add(angelFeather);
+		omens.add(crystalBallCard);
+		omens.add(bookCard);
+		omens.add(ringCard);
+		players.add(player);
+		players.add(player);
+		
+		game = new Game(null, rooms, events, omens, items, players);
+		assertNotNull(null,game);
+	}
 
 	@Test
 	public void CrystalBallOmenInit() {
@@ -63,6 +125,11 @@ public class TestOmenCard {
 	@Test
 	public void MakeAHauntRollWithCrystalBall() {
 		assertTrue(crystalBallCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForCrystalBall() {
+		assertNotNull(crystalBallCard.whatToDo());
 	}
 
 	@Test
@@ -149,4 +216,5 @@ public class TestOmenCard {
 				dogCard.getQuote());
 
 	}
+
 }

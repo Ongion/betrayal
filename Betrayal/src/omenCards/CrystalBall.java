@@ -7,4 +7,10 @@ public class CrystalBall extends OmenCard {
 	
 	}
 
+	@Override
+	public Object whatToDo() {
+		
+		return 0;
+	}
+
 }
