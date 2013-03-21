@@ -2,6 +2,8 @@ package Game;
 
 import java.util.ArrayList;
 
+import omenCards.OmenCard;
+
 import rooms.Room;
 
 import eventCards.EventCard;
@@ -19,8 +21,8 @@ public class Player {
 	
 	Room location;
 	
-	public Player(Character c){
-		this.character = c;
+	public Player(Character character2){
+		this.character = character2;
 	}
 	
 	void addEventCard(EventCard c) {
@@ -32,4 +34,15 @@ public class Player {
 	void addOmenCard(OmenCard c){
 		omenHand.add(c);
 	}
+	
+	ArrayList<EventCard> getEventHand(){
+		return this.eventHand;
+	}
+	ArrayList<OmenCard> getOmenHand(){
+		return this.omenHand;
+	}
+	ArrayList<ItemCard> getItemCard() {
+		return this.itemHand;
+	}
+	
 }
