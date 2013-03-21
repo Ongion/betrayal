@@ -4,7 +4,7 @@ public class CrystalBall extends OmenCard {
 
 	public CrystalBall(String name, String quote) {
 		super(name, quote);
-		// TODO Auto-generated constructor stub
+	
 	}
 
 }
