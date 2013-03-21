@@ -13,6 +13,10 @@ public class Floor {
 		this.name = floorName;
 		this.floorLayout = new HashMap<FloorLocation, Room>();
 	}
+
+	public FloorName getName() {
+		return this.name;
+	}
 	
 	
 }
