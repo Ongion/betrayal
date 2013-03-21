@@ -2,10 +2,28 @@ package test;
 
 import static org.junit.Assert.*;
 import itemCards.AdrenalineShot;
+import itemCards.AmuletOfAges;
 import itemCards.AngelFeather;
+import itemCards.Armor;
+import itemCards.Axe;
+import itemCards.Bell;
+import itemCards.BloodDagger;
+import itemCards.Bottle;
+import itemCards.Candle;
+import itemCards.DarkDice;
+import itemCards.Dynamite;
+import itemCards.HealingSalve;
+import itemCards.Idol;
 import itemCards.ItemCard;
+import itemCards.LuckyStone;
+import itemCards.MedicalKit;
+import itemCards.MusicBox;
+import itemCards.PickpocketsGloves;
 import itemCards.PuzzleBox;
+import itemCards.RabbitsFoot;
 import itemCards.Revolver;
+import itemCards.SacrificialDagger;
+import itemCards.SmellingSalts;
 
 import org.junit.Test;
 
@@ -133,7 +151,7 @@ public class TestItemCard {
 	
 	@Test
 	public void TestPickpocketInit(){
-		assertEquals("Pickpocket's Glove", pickpocketCard.getName());
+		assertEquals("Pickpocket's Gloves", pickpocketCard.getName());
 		assertEquals("Helping yourself has never seemed so easy.", pickpocketCard.getDescription());
 	}
 	
