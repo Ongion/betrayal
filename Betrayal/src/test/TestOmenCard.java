@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import omenCards.Book;
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
+import omenCards.Ring;
 
 import org.junit.Test;
 
@@ -29,6 +30,8 @@ public class TestOmenCard {
 	@Test 
 	public void RingInit(){
 		card = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+		assertEquals("Ring", card.getName());
+		assertEquals("A battered ring with an incomprehensible inscription.", card.getQuote());
 		
 	}
 }
