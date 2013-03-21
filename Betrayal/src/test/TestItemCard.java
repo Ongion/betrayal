@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+import itemCards.AdrenalineShot;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
@@ -21,6 +22,6 @@ public class TestItemCard {
 	@Test
 	public void TestAdrenalineShotInit(){
 		assertEquals("Adrenaline Shot", adrenalineShotCard.getName());
-		assertEquals("A syringe containing a strange fluorescent liquid", adrenalineShotCard.getDescription());
+		assertEquals("A syringe containing a strange fluorescent liquid.", adrenalineShotCard.getDescription());
 	}
 }
