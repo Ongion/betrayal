@@ -173,15 +173,15 @@ public class TestOmenCard {
 				maskCard.getQuote());
 	}
 	
-	@Test
-	public void TestputOnMask(){
-		assertTrue(maskCard.putOnMask());
-	}
-	
-	@Test
-	public void TestWhatToDoMask(){
-		assertEquals(null,maskCard.whatToDo());
-	}
+//	@Test
+//	public void TestputOnMask(){
+//		assertTrue(maskCard.putOnMask());
+//	}
+//	
+//	@Test
+//	public void TestWhatToDoMask(){
+//		assertEquals(null,maskCard.whatToDo());
+//	}
 
 	@Test
 	public void MedallionInit() {
