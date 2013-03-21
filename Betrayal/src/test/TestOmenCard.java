@@ -54,7 +54,7 @@ public class TestOmenCard {
 			"A weapon pulsing with power.");
 	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
 			"A board with letters and numbers to call the dead");
-	private OmenCard maskCard = new Mask("Mask",
+	private Mask maskCard = new Mask("Mask",
 			"A somber mask to hide your intentions.", character, game);
 	private OmenCard medallionCard = new Medallion("Medallion",
 			"A medallion inscribed with a pentagram.");
@@ -70,7 +70,6 @@ public class TestOmenCard {
 			"COMPANION This mangy dog seems friendly. At least you hope it is.");
 	private Room foyer = new FoyerRoom();
 	private Room organRoom = new OrganRoomRoom();
-	private Player player = new Player(character);
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
@@ -88,6 +87,7 @@ public class TestOmenCard {
 			character);
 	private EventCard rotten = new Rotten("Rotten", rottenDes, character);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
+	private Player player = new Player(character);
 
 
 	@Test
@@ -171,6 +171,11 @@ public class TestOmenCard {
 		assertEquals("Mask", maskCard.getName());
 		assertEquals("A somber mask to hide your intentions.",
 				maskCard.getQuote());
+	}
+	
+	@Test
+	public void whatToDoMask(){
+		assertTrue(maskCard.putOnMask());
 	}
 
 	@Test
