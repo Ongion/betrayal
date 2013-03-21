@@ -1,7 +1,5 @@
 package test;
 
-import static org.junit.Assert.*;
-
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
