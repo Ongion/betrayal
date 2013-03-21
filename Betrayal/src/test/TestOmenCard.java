@@ -34,4 +34,11 @@ public class TestOmenCard {
 		assertEquals("A battered ring with an incomprehensible inscription.", card.getQuote());
 		
 	}
+	
+	@Test
+	public void MadmanInit(){
+		card = new Madman("Madman", "COMPANION A raving, frothing madman");
+		assertEquals("Madman", card.getName());
+		assertEquals("COMPANION A raving, frothing madman", card.getQuote());
+	}
 }
