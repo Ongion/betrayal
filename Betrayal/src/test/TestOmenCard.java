@@ -42,4 +42,11 @@ public class TestOmenCard {
 		assertEquals("Madman", card.getName());
 		assertEquals("COMPANION A raving, frothing madman", card.getQuote());
 	}
+	
+	@Test 
+	public void SpearInit(){
+		card = new Spear("Spear", "A weapon pulsing with power.");
+		assertEquals("Spear", card.getName());
+		assertEquals("A weapon pulsing with power.", card.getQuote());
+	}
 }
