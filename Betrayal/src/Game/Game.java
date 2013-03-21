@@ -22,7 +22,8 @@ public class Game {
 	private ArrayList<Player> players;
 	private int currentPlayer = 0;
 	private int numOmens = 0;
-	
+	private Boolean isHaunt = false;
+
 	public Game(Room[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
 		this.map = map;
 		this.roomDeck = roomDeck;
@@ -31,6 +32,14 @@ public class Game {
 		this.itemDeck = itemDeck;
 		this.players = players;
 		this.numOmens = omenDeck.size();
+	}
+	
+	public Boolean getIsHaunt() {
+		return isHaunt;
+	}
+
+	public void setIsHaunt(Boolean isHaunt) {
+		this.isHaunt = isHaunt;
 	}
 	
 	public Room drawRoom(){
@@ -84,6 +93,54 @@ public class Game {
 	
 	public int numOmensOut(){
 		return this.numOmens - this.omenDeck.size() - this.omenDiscard.size();
+	}
+	
+	public Room[] getMap() {
+		return map;
+	}
+
+	public ArrayList<Room> getRoomDeck() {
+		return roomDeck;
+	}
+
+	public ArrayList<EventCard> getEventDeck() {
+		return eventDeck;
+	}
+
+	public ArrayList<OmenCard> getOmenDeck() {
+		return omenDeck;
+	}
+
+	public ArrayList<ItemCard> getItemDeck() {
+		return itemDeck;
+	}
+
+	public ArrayList<Room> getRoomDiscard() {
+		return roomDiscard;
+	}
+
+	public ArrayList<EventCard> getEventDiscard() {
+		return eventDiscard;
+	}
+
+	public ArrayList<OmenCard> getOmenDiscard() {
+		return omenDiscard;
+	}
+
+	public ArrayList<ItemCard> getItemDiscard() {
+		return itemDiscard;
+	}
+
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public int getNumOmens() {
+		return numOmens;
 	}
 
 }

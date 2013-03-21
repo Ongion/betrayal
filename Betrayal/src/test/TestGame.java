@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -69,8 +70,26 @@ public class TestGame {
 		omens.add(crystalBall);
 		omens.add(book);
 		omens.add(ring);
+		players.add(player);
+		players.add(player);
 		
-		game = new Game(null, rooms, events, omens, items, );
+		game = new Game(null, rooms, events, omens, items, players);
+		assertNotNull(null, game);
+		
+		assertEquals(0, game.getCurrentPlayer());
+		assertEquals(rooms, game.getRoomDeck());
+		assertEquals(events, game.getEventDeck());
+		assertEquals(omens, game.getOmenDeck());
+		assertEquals(items, game.getItemDeck());
+		assertEquals(players, game.getPlayers());
+		assertEquals(new ArrayList<Room>(), game.getRoomDiscard());
+		assertEquals(new ArrayList<EventCard>(), game.getEventDiscard());
+		assertEquals(new ArrayList<OmenCard>(), game.getOmenDiscard());
+		assertEquals(new ArrayList<ItemCard>(), game.getItemDiscard());
+		assertEquals(omens.size(), game.getNumOmens());
+		assertFalse(game.getIsHaunt());
+		assertNull(game.getMap()); //TODO: Change this when rooms are finished
+		
 		
 	}
 	
