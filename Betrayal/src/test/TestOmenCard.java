@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import omenCards.Book;
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
 
@@ -21,5 +22,7 @@ public class TestOmenCard {
 	@Test
 	public void BookInit(){
 		card = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
+		assertEquals("Book", card.getName());
+		assertEquals("A diary or lab notes? Ancient script or modern ravings?", card.getQuote());
 	}
 }
