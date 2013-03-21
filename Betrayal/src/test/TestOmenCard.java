@@ -7,6 +7,7 @@ import omenCards.CrystalBall;
 import omenCards.Madman;
 import omenCards.OmenCard;
 import omenCards.Ring;
+import omenCards.Spear;
 
 import org.junit.Test;
 
