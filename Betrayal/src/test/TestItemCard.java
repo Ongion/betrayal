@@ -58,4 +58,112 @@ public class TestItemCard {
 		assertEquals("Puzzle Box", puzzleBoxCard.getName());
 		assertEquals("There must be a way to open it.", puzzleBoxCard.getDescription());
 	}
+	
+	@Test
+	public void TestRabbitsFootInit(){
+		assertEquals("Rabbit's Foot", rabbitsFootCard.getName());
+		assertEquals("Not so lucky for the rabbit.", rabbitsFootCard.getDescription());
+	}
+	
+	@Test 
+	public void TestMedicalKitInit(){
+		assertEquals("Medical Kit", medicalKitCard.getName());
+		assertEquals("A doctor's bag, depleted in some critical resources.", medicalKitCard.getDescription());
+	}
+	
+	@Test
+	public void TestBottleInit(){
+		assertEquals("Bottle", bottleCard.getName());
+		assertEquals("An opaque vial containing a black liquid.", bottleCard.getDescription());
+	}
+	
+	@Test
+	public void TestLuckyStoneInit(){
+		assertEquals("Lucky Stone", luckyStoneCard.getName());
+		assertEquals("A smooth, ordinary-looking rock. You sense it will bring you some good fortune.", luckyStoneCard.getDescription());
+	}
+	
+	@Test
+	public void TestSacrificialDaggerInit(){
+		assertEquals("Sacrificial Dagger", sacrificialDaggerCard.getName());
+		assertEquals("A twisted shard of iron covered in mysterious symbols and stained with blood.", sacrificialDaggerCard.getDescription());
+	}
+	
+	@Test
+	public void TestMusicBoxInit(){
+		assertEquals("Music Box", musicBoxCard.getName());
+		assertEquals("A hand-crafted antique. It plays a haunting melody that gets stuck in your head.", musicBoxCard.getDescription());
+	}
+	
+	@Test 
+	public void TestBellInit(){
+		assertEquals("Bell", bellCard.getName());
+		assertEquals("A brass bell that makes a resonant clang.", bellCard.getDescription());
+	}
+	
+	@Test
+	public void TestHealingSalveInit(){
+		assertEquals("Healing Salve", healingSalveCard.getName());
+		assertEquals("A sticky paste in a shallow bowl.", healingSalveCard.getDescription());
+	}
+	
+	@Test
+	public void TestArmorInit(){
+		assertEquals("Armor", armorCard.getName());
+		assertEquals("It's just prop armor from a Renaissance fair, but it's still metal.", armorCard.getDescription());
+	}
+	
+	@Test
+	public void TestAmuletOfAgesInit(){
+		assertEquals("Amulet Of The Ages", amuletOfAgesCard.getName());
+		assertEquals("Ancient silver and inlaid gems, inscribed with blessings.", amuletOfAgesCard.getDescription());
+	}
+	
+	@Test
+	public void TestCandleInit(){
+		assertEquals("Candle", candleCard.getName());
+		assertEquals("It makes the shadows move-at least, you hope it's doing that.", candleCard.getDescription());
+	}
+	
+	@Test
+	public void TestDynamiteInit(){
+		assertEquals("Dynamite", dynamiteCard.getName());
+		assertEquals("The fuse isn't lit...yet.", dynamiteCard.getDescription());
+	}
+	
+	@Test
+	public void TestPickpocketInit(){
+		assertEquals("Pickpocket's Glove", pickpocketCard.getName());
+		assertEquals("Helping yourself has never seemed so easy.", pickpocketCard.getDescription());
+	}
+	
+	@Test
+	public void TestAxeInit(){
+		assertEquals("Axe", axeCard.getName());
+		assertEquals("WEAPON Very sharp.", axeCard.getDescription());
+	}
+	
+	@Test
+	public void TestSmellingSaltsInit(){
+		assertEquals("Smelling Salts", smellingSaltsCard.getName());
+		assertEquals("Whew, that's a lungful.", smellingSaltsCard.getDescription());
+	}
+	
+	@Test
+	public void TestDarkDiceInit(){
+		assertEquals("Dark Dice", darkDiceCard.getName());
+		assertEquals("Are you feeling lucky?", darkDiceCard.getDescription());
+	}
+	
+	@Test
+	public void TestBloodDaggerInit(){
+		assertEquals("Blood Dagger", bloodDaggerCard.getName());
+		assertEquals("WEAPON A nasty weapon. Needles and tubes extend from the handle...and plunge right into your veins.", bloodDaggerCard.getDescription());
+	}
+	
+	@Test
+	public void TestIdolInit(){
+		assertEquals("Idol", idolCard.getName());
+		assertEquals("Perhaps it's chosen you for some greater purpose. Like human sacrifice.", idolCard.getDescription());
+	}
 }
