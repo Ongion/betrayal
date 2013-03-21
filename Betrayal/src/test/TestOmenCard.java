@@ -8,6 +8,7 @@ import omenCards.Madman;
 import omenCards.OmenCard;
 import omenCards.Ring;
 import omenCards.Spear;
+import omenCards.SpiritBoard;
 
 import org.junit.Test;
 
