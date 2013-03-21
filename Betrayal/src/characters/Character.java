@@ -92,6 +92,15 @@ public class Character {
 	public int getCurrentKnowledge() {
 		return this.knowledge[this.knowledgeIndex];
 	}
+	public int getCurrentSanity() {
+		return this.sanity[this.sanityIndex];
+	}
+	public int getCurrentSpeed() {
+		return this.speed[this.speedIndex];
+	}
+	public int getCurrentMight() {
+		return this.might[this.mightIndex];
+	}
 	
 	
 	
