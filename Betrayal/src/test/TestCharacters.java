@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import junit.framework.Assert;
 
@@ -14,86 +15,86 @@ import rooms.Room.Exit_Direction;
 import rooms.Room.Room_Orientation;
 
 import characters.Character;
-import characters.FatherRhinehardt;
 
 public class TestCharacters {
 	
+	Character FatherRhinehardt;
+	
+	@Before
+	public void initializeTests(){
+		FatherRhinehardt = new Character(0,new Locale("en"));
+	}
+	
 	@Test
 	public void testInitialization() {
-		Character c = new FatherRhinehardt();
-		Assert.assertNotNull(c);
+		Assert.assertNotNull(FatherRhinehardt);
 	}
 	
 	@Test
-	public void testGetName() {
-		Character c = new FatherRhinehardt();
-		
-		Assert.assertEquals(c.getName(), "Father Rhinehardt");
+	public void testGetName() {		
+		Assert.assertEquals(FatherRhinehardt.getName(), "Father Rhinehardt");
 	}
 	
 	@Test
-	public void testGetAge() {
-		Character c = new FatherRhinehardt();
-		
-		Assert.assertEquals(c.getAge(), 62);
+	public void testGetAge() {		
+		Assert.assertEquals(FatherRhinehardt.getAge(), 62);
 	}
 	
 	@Test
 	public void testGetHeight() {
-		Character c = new FatherRhinehardt();
 		
-		Assert.assertEquals(c.getHeight(), 69);
+		
+		Assert.assertEquals(FatherRhinehardt.getHeight(), 69);
 	}
 	
 	@Test
 	public void testGetWeight() {
-		Character c = new FatherRhinehardt();
 		
-		Assert.assertEquals(c.getWeight(), 185);
+		
+		Assert.assertEquals(FatherRhinehardt.getWeight(), 185);
 	}
 	
 	@Test
 	public void testGetHobbies() {
-		Character c = new FatherRhinehardt();
+		
 		String[] compare = {"Fencing","Gardening"};
 		
-		Assert.assertEquals(c.getHobbies().length, compare.length);
+		Assert.assertEquals(FatherRhinehardt.getHobbies().length, compare.length);
 		for (int i = 0; i < compare.length; i ++){
-			Assert.assertEquals(c.getHobbies()[i], compare[i] );
+			Assert.assertEquals(FatherRhinehardt.getHobbies()[i], compare[i] );
 		}
 		
 	}
 	
 	@Test 
 	public void testIncrementKnowledge() {
-		Character c = new FatherRhinehardt();
 		
-		Assert.assertEquals(c.getCurrentKnowledge(), 4);
-		c.incrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 5);
-		c.incrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 6);
-		c.incrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 6);
-		c.incrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 8);
-		c.incrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 8);
+		
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 4);
+		FatherRhinehardt.incrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 5);
+		FatherRhinehardt.incrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 6);
+		FatherRhinehardt.incrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 6);
+		FatherRhinehardt.incrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 8);
+		FatherRhinehardt.incrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 8);
 	}
 	
 	@Test 
 	public void testDecrementKnowledge() {
-		Character c = new FatherRhinehardt();
 		
-		Assert.assertEquals(c.getCurrentKnowledge(), 4);
-		c.decrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 3);
-		c.decrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 3);
-		c.decrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 1);
-		c.decrementKnowledge();
-		Assert.assertEquals(c.getCurrentKnowledge(), 1);
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 4);
+		FatherRhinehardt.decrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 3);
+		FatherRhinehardt.decrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 3);
+		FatherRhinehardt.decrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 1);
+		FatherRhinehardt.decrementKnowledge();
+		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 1);
 	}
 	
 

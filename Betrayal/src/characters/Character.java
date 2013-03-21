@@ -1,8 +1,11 @@
 package characters;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
-public abstract class Character {
+
+public class Character {
 
 	protected String name;
 	protected String[] hobbies;
@@ -18,6 +21,13 @@ public abstract class Character {
 	protected int sanityIndex;
 	protected int mightIndex;
 	protected int speedIndex;
+	
+	private ResourceBundle CharacterBundle;
+	
+	public Character(int charIndex, Locale l){
+		this.CharacterBundle = ResourceBundle.getBundle("CharacterBundle", l);
+	}
+	
 	
 	
 	public String getName() {
