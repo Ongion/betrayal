@@ -51,4 +51,10 @@ public abstract class Room {
 	public Room_Orientation getOrientation() {
 		return this.orientation;
 	}
+	
+	public void leavingRoom(Character characterLeavingRoom) {
+		// Do nothing by default. Rooms implement this method only if they need it.
+	}
+	
+	
 }
