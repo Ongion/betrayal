@@ -174,8 +174,13 @@ public class TestOmenCard {
 	}
 	
 	@Test
-	public void whatToDoMask(){
+	public void TestputOnMask(){
 		assertTrue(maskCard.putOnMask());
+	}
+	
+	@Test
+	public void TestWhatToDoMask(){
+		assertEquals(null,maskCard.whatToDo());
 	}
 
 	@Test
