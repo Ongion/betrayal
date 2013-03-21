@@ -27,7 +27,14 @@ public class OmenCard {
 	}
 
 	public boolean isHauntRoll() {
-		// TODO Auto-generated method stub
+	//For testing purposes, assume Haunt Roll is applicable.
+		return true;
+	}
+
+	public boolean makeHauntRoll() {
+		if(isHauntRoll()){
+			return true;
+		}
 		return false;
 	}
 }

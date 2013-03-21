@@ -33,7 +33,16 @@ public class TestOmenCard {
 	
 	@Test
 	public void IsHauntRollWithCrystalBall(){
+		card = new CrystalBall("Crystal Ball",
+				"Hazy images appear in the glass.");
 		assertTrue(card.isHauntRoll());
+	}
+	
+	@Test
+	public void MakeAHauntRollWithCrystalBall(){
+		card = new CrystalBall("Crystal Ball",
+				"Hazy images appear in the glass.");
+		assertTrue(card.makeHauntRoll());
 	}
 
 	@Test
