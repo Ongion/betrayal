@@ -11,8 +11,9 @@ public class TestItemCard {
 
 	@Test
 	public void TestAngelFeatherInit() {
-		card = new AngelFeather("Angel Feather", "A perfect feather fluterring in your hand.");
-		fail("Not yet implemented");
+		card = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
+		assertEquals("Angel Feather", card.getName());
+		assertEquals("A perfect feather fluttering in your hand.", card.getDescription());
 	}
 
 }

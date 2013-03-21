@@ -18,4 +18,5 @@ public class TestOmenCard {
 		assertEquals("Hazy images appear in the glass.", card.getQuote());
 	}
 
+	
 }
