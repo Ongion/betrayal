@@ -27,7 +27,8 @@ public class Player {
 		this.character = character2;
 	}
 	
-	void addEventCard(EventCard c) {
+	//Add a card to each hand
+	public void addEventCard(EventCard c) {
 		eventHand.add(c);
 	}
 	public void addItemCard(ItemCard c){
@@ -37,6 +38,7 @@ public class Player {
 		omenHand.add(c);
 	}
 	
+	//Return the players hand
 	public ArrayList<EventCard> getEventHand(){
 		return this.eventHand;
 	}
@@ -46,5 +48,9 @@ public class Player {
 	public ArrayList<ItemCard> getItemHand() {
 		return this.itemHand;
 	}
+	
+	public Character getCharacter() {
+		return this.character;
+	} //Return the character object
 	
 }

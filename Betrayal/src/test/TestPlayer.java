@@ -25,10 +25,12 @@ import eventCards.Rotten;
 public class TestPlayer {
 
 	Player p;
+	Character Father;
 	
 	@Before
 	public void initTests() {
-		p = new Player(new Character(0,new Locale("en")));
+		Father = new Character(0,new Locale("en"));
+		p = new Player(Father);
 	}
 	
 	@Test
@@ -38,7 +40,6 @@ public class TestPlayer {
 	
 	@Test
 	public void testGetCharacter() {
-		Character Father = new Character(0,new Locale("en"));
 		Assert.assertEquals(Father, p.getCharacter());
 	}
 	
