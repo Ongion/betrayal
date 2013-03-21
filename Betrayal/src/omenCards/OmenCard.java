@@ -25,4 +25,9 @@ public class OmenCard {
 	public void setQuote(String quote) {
 		this.quote = quote;
 	}
+
+	public boolean isHauntRoll() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

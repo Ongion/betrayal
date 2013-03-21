@@ -30,6 +30,11 @@ public class TestOmenCard {
 		assertEquals("Crystal Ball", card.getName());
 		assertEquals("Hazy images appear in the glass.", card.getQuote());
 	}
+	
+	@Test
+	public void IsHauntRollWithCrystalBall(){
+		assertTrue(card.isHauntRoll());
+	}
 
 	@Test
 	public void BookInit() {
