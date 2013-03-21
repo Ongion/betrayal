@@ -25,4 +25,17 @@ public class OmenCard {
 	public void setQuote(String quote) {
 		this.quote = quote;
 	}
+
+	public boolean isHauntRoll() {
+	//For testing purposes, assume Haunt Roll is applicable.
+		
+		return true;
+	}
+
+	public boolean makeHauntRoll() {
+		if(isHauntRoll()){
+			return true;
+		}
+		return false;
+	}
 }
