@@ -18,5 +18,8 @@ public class TestOmenCard {
 		assertEquals("Hazy images appear in the glass.", card.getQuote());
 	}
 
-	
+	@Test
+	public void BookInit(){
+		card = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
+	}
 }
