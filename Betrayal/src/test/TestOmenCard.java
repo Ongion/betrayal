@@ -58,4 +58,11 @@ public class TestOmenCard {
 		assertEquals("Spirit Board", card.getName());
 		assertEquals("A board with letters and numbers to call the dead", card.getQuote());
 	}
+	
+	@Test
+	public void MaskInit(){
+		card = new Mask("Mask", "A somber mask to hide your intentions.");
+		assertEquals("Mask", card.getName());
+		assertEquals("A somber mask to hide your intentions.", card.getQuote());
+	}
 }
