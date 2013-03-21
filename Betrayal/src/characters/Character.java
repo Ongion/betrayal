@@ -25,26 +25,57 @@ public class Character {
 	private ResourceBundle CharacterBundle;
 	
 	public Character(int charIndex, Locale l){
-		this.CharacterBundle = ResourceBundle.getBundle("CharacterBundle", l);
+		
+		switch (charIndex){
+			case 0: this.CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l); break;
+		}
+		
+		String[] knowledgeString = this.CharacterBundle.getString("knowledgeArray").split(",");
+		String[] sanityString = this.CharacterBundle.getString("sanityArray").split(",");
+		String[] mightString = this.CharacterBundle.getString("mightArray").split(",");
+		String[] speedString = this.CharacterBundle.getString("speedArray").split(",");
+		//String containing the values for the different arrays
+		
+		this.knowledge = new int[knowledgeString.length];
+		for (int i = 0; i < knowledge.length; i++){
+			this.knowledge[i] = Integer.parseInt(knowledgeString[i]);
+		}
+		this.sanity = new int[sanityString.length];
+		for (int i = 0; i < sanity.length; i++){
+			this.sanity[i] = Integer.parseInt(sanityString[i]);
+		}
+		this.speed = new int[speedString.length];
+		for (int i = 0; i < speed.length; i++){
+			this.speed[i] = Integer.parseInt(speedString[i]);
+		}
+		this.might = new int[mightString.length];
+		for (int i = 0; i < might.length; i++){
+			this.might[i] = Integer.parseInt(mightString[i]);
+		}
+		//Convert the string values to ints
+		
+		this.knowledgeIndex = Integer.parseInt(this.CharacterBundle.getString("knowledgeIndex"));
+		this.sanityIndex = Integer.parseInt(this.CharacterBundle.getString("sanityIndex"));
+		this.mightIndex = Integer.parseInt(this.CharacterBundle.getString("mightIndex"));
+		this.speedIndex = Integer.parseInt(this.CharacterBundle.getString("speedIndex"));
 	}
-	
-	
 	
 	public String getName() {
-		return this.name;
+		return this.CharacterBundle.getString("name");
 	}
+	
 	public int getHeight() {
-		return this.height;
+		return Integer.parseInt(this.CharacterBundle.getString("height"));
 	}
 	public int getWeight() {
-		return this.weight;
+		return Integer.parseInt(this.CharacterBundle.getString("weight"));
 	}
 	public int getAge() {
-		return this.age;
+		return Integer.parseInt(this.CharacterBundle.getString("age"));
 	}
 
 	public String[] getHobbies() {
-		return this.hobbies;
+		return this.CharacterBundle.getString("hobbies").split(",");
 	}
 	
 	public int getCurrentKnowledge() {
@@ -52,14 +83,28 @@ public class Character {
 	}
 	
 	public void incrementKnowledge(){
-		if (this.knowledgeIndex + 1 < this.knowledge.length)
-			this.knowledgeIndex++;
+		this.incrementKnowledge(1);
 		
 	}
 	
 	public void decrementKnowledge(){
-		if (this.knowledgeIndex > 0)
-			this.knowledgeIndex--;
+		this.decrementKnowledge(1);
+	}
+	
+	public void incrementKnowledge(int numToIncreaseBy){
+		this.knowledgeIndex += numToIncreaseBy;
+		
+		if (this.knowledgeIndex > 7) {
+			this.knowledgeIndex = 7;
+		}
+	}
+	
+	public void decrementKnowledge(int numToDecreaseBy){
+		this.knowledgeIndex -= numToDecreaseBy;
+		
+		if (this.knowledgeIndex < 0) {
+			this.knowledgeIndex = 0;
+		}
 	}
 	
 }
