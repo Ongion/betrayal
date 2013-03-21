@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import floors.FloorLocation;
 
-public class testFloorLocation {
+public class TestFloorLocation {
 	
 	private FloorLocation floorLocation1;
 	private FloorLocation floorLocation2;
