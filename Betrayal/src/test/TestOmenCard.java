@@ -50,4 +50,11 @@ public class TestOmenCard {
 		assertEquals("Spear", card.getName());
 		assertEquals("A weapon pulsing with power.", card.getQuote());
 	}
+	
+	@Test
+	public void SpiritBoardInit(){
+		card = new SpiritBoard("Spirit Board", "A board with letters and numbers to call the dead");
+		assertEquals("Spirit Board", card.getName());
+		assertEquals("A board with letters and numbers to call the dead", card.getQuote());
+	}
 }
