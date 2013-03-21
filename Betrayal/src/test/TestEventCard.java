@@ -117,7 +117,7 @@ public class TestEventCard {
 	
 	@Test
 	public void testCreepyCrawliesHappen5OrGreater(){
-		card = new AngryBeing("Angry Being", angryBeingDes, character);
+		card = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes, character);
 		// Test to be removed
 		assertEquals(character, card.getCharacter());
 		card.happen(5);
@@ -142,8 +142,8 @@ public class TestEventCard {
 	}
 	
 	@Test 
-	public void testAngryBeingHappen0(){
-		card = new AngryBeing("Angry Being", angryBeingDes, character);
+	public void testCreepyCrawliesHappen0(){
+		card = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes, character);
 		
 		card.happen(0);
 		assertEquals(3, card.getCharacter().getCurrentKnowledge());
