@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import itemCards.AdrenalineShot;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
+import itemCards.Revolver;
 
 import org.junit.Test;
 
