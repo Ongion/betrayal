@@ -25,4 +25,10 @@ public class TestOmenCard {
 		assertEquals("Book", card.getName());
 		assertEquals("A diary or lab notes? Ancient script or modern ravings?", card.getQuote());
 	}
+	
+	@Test 
+	public void RingInit(){
+		card = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+		
+	}
 }
