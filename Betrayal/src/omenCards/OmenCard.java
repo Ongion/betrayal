@@ -28,6 +28,7 @@ public class OmenCard {
 
 	public boolean isHauntRoll() {
 	//For testing purposes, assume Haunt Roll is applicable.
+		
 		return true;
 	}
 
