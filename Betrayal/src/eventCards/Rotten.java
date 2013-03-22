@@ -1,37 +1,58 @@
 package eventCards;
+import Game.Game;
 import characters.Character;
 
 public class Rotten extends EventCard {
 	// This is only for testing purposes and will be removed
 	private Character character;
+	private Game game;
 	
-	public Rotten(String name, String description, Character person) {
+	public Rotten(String name, String description, Character person, Game game) {
 		super(name, description);
 		this.character = person;
+		this.game = game;
 	}
 
 	@Override
 	public void happen(int rollResult) {
-		// rollResult will be removed. It is only for testing purposes
+		// This is only for testing purposes
 		if (rollResult >= 5){
-			character.incrementKnowledge(); // TODO: Change this to incrementSanity when implemented
+			character.incrementSanity();
 		} else if (rollResult == 1){
-			character.decrementKnowledge(); // TODO: Change this to decrementMight when implemented
-			character.decrementKnowledge(); // TODO: Change this to decrementSpeed
+			character.decrementMight();
+			character.decrementSpeed();
 		} else if (rollResult == 0){
-			character.decrementKnowledge(); // TODO: Change this to decrementMight
-			character.decrementKnowledge(); // TODO: Change this to decrementSpeed
-			character.decrementKnowledge(); // TODO: Change this to decrementSanity
+			character.decrementMight();
+			character.decrementSpeed();
+			character.decrementSanity();
 			character.decrementKnowledge(); 
 		} else{
-			character.decrementKnowledge(); // TODO: Change this to decrementMight
+			character.decrementMight();
 		}
-
 	}
 	
 	@Override
 	public Character getCharacter(){
 		return character;
+	}
+
+	@Override
+	public void happens() {
+		int rollResult = game.rollDie(character.getCurrentSanity());
+		if (rollResult >= 5){
+			character.incrementSanity();
+		} else if (rollResult == 1){
+			character.decrementMight();
+			character.decrementSpeed();
+		} else if (rollResult == 0){
+			character.decrementMight();
+			character.decrementSpeed();
+			character.decrementSanity();
+			character.decrementKnowledge(); 
+		} else{
+			character.decrementMight();
+		}
+		
 	}
 
 }
