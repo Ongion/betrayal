@@ -1,8 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -11,13 +10,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import rooms.EventRoom;
-import rooms.FoyerRoom;
 import rooms.Room;
-import rooms.Room.Room_Orientation;
 import rooms.Room.Room_Direction;
+import rooms.Room.Room_Orientation;
 
 public class TestRooms {
-	Room foyer;
 	Room organRoom;
 	
 	@Rule
@@ -47,11 +44,10 @@ public class TestRooms {
 	}
 	
 	@Test
-	public void testGetRoomOrientation() {
+	public void testGetSetRoomOrientation() {
 		organRoom.setOrientation(Room_Orientation.WEST);
 
 		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
-		assertEquals(Room_Orientation.NORTH, foyer.getOrientation());
 	}
 	
 }

@@ -1,5 +1,6 @@
 package floors;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,10 @@ public class Floor {
 
 	public FloorName getName() {
 		return this.name;
+	}
+	
+	public Collection<Room> getRoomsOnFloor() {
+		return this.floorLayout.values();
 	}
 	
 	public void addRoom(FloorLocation locationOfNewRoom, Room roomToAdd) {

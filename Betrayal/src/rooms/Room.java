@@ -6,9 +6,9 @@ import java.util.Set;
 import floors.Floor.FloorName;
 
 public abstract class Room {
-	protected String name;
+	protected final String name;
 	protected Room_Orientation orientation;
-	protected Set<Room_Direction> doorExits;
+	protected final Set<Room_Direction> doorExits;
 	protected Set<FloorName> floorsAllowedOn;
 	protected Map<Room_Direction, Integer> windows;
 	
@@ -60,10 +60,6 @@ public abstract class Room {
 		result = prime * result + (this.name== null? 0 : name.hashCode());
 		result = prime * result + (this.orientation.ordinal());
 		return result;
-	}
-		
-	public void leavingRoom(Character characterLeavingRoom) {
-		// Do nothing by default. Rooms implement this method only if they need it.
 	}
 	
 	
