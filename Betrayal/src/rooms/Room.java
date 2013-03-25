@@ -56,5 +56,9 @@ public abstract class Room {
 		// Do nothing by default. Rooms implement this method only if they need it.
 	}
 	
+	public void endingTurnInRoom(Character characterEndingTurn) {
+		// Do nothing by default. Rooms implement this method only if they need it.
+	}
+	
 	
 }
