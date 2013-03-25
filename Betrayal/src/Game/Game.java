@@ -1,6 +1,7 @@
 package Game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import rooms.Room;
@@ -43,18 +44,50 @@ public class Game {
 	}
 	
 	public Room drawRoom(){
+		// TODO: Handle when discard is empty too
+		if(this.roomDeck.size() == 0){
+			Collections.shuffle(this.roomDiscard);
+			for (int i = 0; i < this.roomDiscard.size(); i++){
+				this.roomDeck.add(this.roomDiscard.get(i));
+			}
+			this.roomDiscard.clear();
+		}
 		return this.roomDeck.remove(0);
 	}
 	
 	public EventCard drawEvent(){
+		// TODO: Handle when discard is empty too
+		if(this.eventDeck.size() == 0){
+			Collections.shuffle(this.eventDiscard);
+			for (int i = 0; i < this.eventDiscard.size(); i++){
+				this.eventDeck.add(this.eventDiscard.get(i));
+			}
+			this.eventDiscard.clear();
+		}
 		return this.eventDeck.remove(0);
 	}
 	
 	public OmenCard drawOmen(){
+		// TODO: Handle when discard is empty too
+		if(this.omenDeck.size() == 0){
+			Collections.shuffle(this.omenDiscard);
+			for (int i = 0; i < this.omenDiscard.size(); i++){
+				this.omenDeck.add(this.omenDiscard.get(i));
+			}
+			this.omenDiscard.clear();
+		}
 		return this.omenDeck.remove(0);
 	}
 	
 	public ItemCard drawItem(){
+		// TODO: Handle when discard is empty too
+		if(this.itemDeck.size() == 0){
+			Collections.shuffle(this.itemDiscard);
+			for (int i = 0; i < this.itemDiscard.size(); i++){
+				this.itemDeck.add(this.itemDiscard.get(i));
+			}
+			this.itemDiscard.clear();
+		}
 		return this.itemDeck.remove(0);
 	}
 	
@@ -75,7 +108,7 @@ public class Game {
 	}
 	
 	public void nextPlayer(){
-		if(this.currentPlayer < players.size()){
+		if(this.currentPlayer < players.size() - 1){
 			this.currentPlayer ++;
 		} else {
 			this.currentPlayer = 0;
@@ -84,8 +117,16 @@ public class Game {
 	
 	public int rollDie(int numberDie){
 		int sum = 0;
+		int die;
+		if (numberDie > 8){
+			die = 8;
+		}
+		else 
+		{
+			die = numberDie;
+		}
 		Random generator = new Random();
-		for (int i = 0; i < numberDie; i++){
+		for (int i = 0; i < die; i++){
 			sum += generator.nextInt(2);
 		}
 		return sum;

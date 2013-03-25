@@ -30,6 +30,8 @@ public abstract class EventCard {
 	public abstract void happen(int rollResult);
 	// rollResult will be removed. It is only for testing purposes
 	
+	public abstract void happens();
+	
 	public abstract Character getCharacter();
 	// for testing purposes only and will be removed
 	
