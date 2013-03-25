@@ -40,6 +40,7 @@ public class TestFloorLocation {
 	public void testEquals() {
 		assertEquals(new FloorLocation(0,0), floorLocation1);
 		assertEquals(new FloorLocation(5,7), floorLocation2);
+		assertFalse(floorLocation1.equals(new FloorLocation(0,5)));
 	}
 
 }

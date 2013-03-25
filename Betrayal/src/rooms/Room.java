@@ -43,6 +43,14 @@ public abstract class Room {
 		return this.windows;
 	}
 	
+	public void endTurnInRoom(Character characterEndingTurn) {
+		// only rooms that have ending actions implement this 
+	}
+	
+	public void leavingRoom(Character characterLeavingROom) {
+		//only rooms that have room-leaving actions implement this
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
