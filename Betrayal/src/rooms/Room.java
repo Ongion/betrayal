@@ -2,6 +2,7 @@ package rooms;
 
 import java.util.Map;
 import java.util.Set;
+import characters.Character;
 
 import floors.Floor.FloorName;
 
