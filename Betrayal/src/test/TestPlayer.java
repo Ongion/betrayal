@@ -71,7 +71,7 @@ public class TestPlayer {
 	
 	@Test
 	public void testEventHand() {
-		EventCard card = new Rotten(null, null, p.getCharacter());
+		EventCard card = new Rotten(null, null, p.getCharacter(), null);
 		
 		p.addEventCard(card);
 		

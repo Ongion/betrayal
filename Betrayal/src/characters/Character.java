@@ -30,6 +30,17 @@ public class Character {
 		
 		switch (charIndex){
 			case 0: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l); break;
+			case 1: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ProfessorLongfellow", l); break;
+			case 2: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_OxBellows", l); break;
+			case 3: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_DarrinWilliams", l); break;
+			case 4: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MadameZostra", l); break;
+			case 5: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_VivianLopez", l); break;
+			case 6: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ZoeIngstrom", l); break;
+			case 7: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MissyDubourde", l); break;
+			case 8: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_JennyLeClerc", l); break;
+			case 9: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_HeatherGranville", l); break;
+			case 10: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_BrandonJaspers", l); break;
+			case 11: CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_PeterAkimoto", l); break;
 		}
 		
 		String[] knowledgeString = CharacterBundle.getString("knowledgeArray").split(",");
