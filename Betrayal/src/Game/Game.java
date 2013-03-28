@@ -175,9 +175,13 @@ public class Game {
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-
-	public int getCurrentPlayer() {
+	
+	public int getCurrentPlayerIndex(){
 		return currentPlayer;
+	}
+
+	public Player getCurrentPlayer() {
+		return players.get(currentPlayer);
 	}
 
 	public int getNumOmens() {

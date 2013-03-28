@@ -79,13 +79,11 @@ public class TestOmenCard {
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
 	private String nightViewDes = "You see a vision of a ghostly couple walking the grounds, silently strolling in their wedding best";
-	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes,
-			character, game);
+	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes, game);
 	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies",
-			creepyCrawliesDes, character, game);
-	private EventCard nightView = new NightView("Night View", nightViewDes,
-			character, game);
-	private EventCard rotten = new Rotten("Rotten", rottenDes, character, game);
+			creepyCrawliesDes, game);
+	private EventCard nightView = new NightView("Night View", nightViewDes, game);
+	private EventCard rotten = new Rotten("Rotten", rottenDes, game);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
 	private Player player = new Player(character);
 
