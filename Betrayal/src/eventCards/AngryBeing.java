@@ -5,12 +5,10 @@ import characters.Character;
 
 public class AngryBeing extends EventCard {
 	// This is only for testing purposes and will be removed
-	private Character character;
 	private Game game;
 	
-	public AngryBeing(String name, String description, Character person, Game game) {
+	public AngryBeing(String name, String description, Game game) {
 		super(name, description);
-		this.character = person;
 		this.game = game;
 	}
 
@@ -18,30 +16,25 @@ public class AngryBeing extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			character.incrementSpeed();
+			game.getCurrentPlayer().getCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			character.decrementKnowledge(); // TODO: Change this to decrementMental when implemented
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(); // TODO: Change this to decrementMental when implemented
 		} else{
-			character.decrementKnowledge(); // TODO: Change this to decrementMental
-			character.decrementMight(); // TODO: Change this to decrementPhysical
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(); // TODO: Change this to decrementMental
+			game.getCurrentPlayer().getCharacter().decrementMight(); // TODO: Change this to decrementPhysical
 		}
-	}
-		
-	@Override
-	public Character getCharacter(){
-		return character;
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(character.getCurrentSpeed());
+		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSpeed());
 		if (rollResult >= 5){
-			character.incrementSpeed();
+			game.getCurrentPlayer().getCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			character.decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental when implemented
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental when implemented
 		} else{
-			character.decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental
-			character.decrementMight(game.rollDie(1)); // TODO: Change this to decrementPhysical
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental
+			game.getCurrentPlayer().getCharacter().decrementMight(game.rollDie(1)); // TODO: Change this to decrementPhysical
 		}
 	}
 
