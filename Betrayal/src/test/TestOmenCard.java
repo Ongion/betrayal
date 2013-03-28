@@ -23,6 +23,7 @@ import omenCards.Skull;
 import omenCards.Spear;
 import omenCards.SpiritBoard;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import rooms.FoyerRoom;
@@ -88,8 +89,8 @@ public class TestOmenCard {
 	private Player player = new Player(character);
 
 
-	@Test
-	public void TestGameInit() {
+	@Before
+	public void SetUp() {
 		// Initalize ArrayLists for rest of tests
 		rooms.add(foyer);
 		rooms.add(organRoom);
@@ -105,7 +106,7 @@ public class TestOmenCard {
 		players.add(player);
 		
 		game = new Game(null, rooms, events, omens, items, players);
-		assertNotNull(null,game);
+		
 	}
 
 	@Test
@@ -130,6 +131,21 @@ public class TestOmenCard {
 	@Test
 	public void TestWhatToDoForCrystalBall() {
 		assertNotNull(crystalBallCard.whatToDo());
+	}
+	
+	@Test
+	public void IsHauntRollWithBook() {
+		assertTrue(bookCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithBook() {
+		assertTrue(bookCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForBook() {
+		assertNotNull(bookCard.whatToDo());
 	}
 
 	@Test
