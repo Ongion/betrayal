@@ -1,7 +1,6 @@
 package eventCards;
 
 import Game.Game;
-import characters.Character;
 
 public class AngryBeing extends EventCard {
 	// This is only for testing purposes and will be removed
