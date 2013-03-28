@@ -14,6 +14,7 @@ import omenCards.OmenCard;
 import org.junit.Before;
 import org.junit.Test;
 
+import Game.Game;
 import Game.Player;
 
 import characters.Character;
@@ -24,6 +25,7 @@ public class TestPlayer {
 
 	Player p;
 	Character Father;
+	Game game;
 	
 	@Before
 	public void initTests() {
@@ -43,7 +45,7 @@ public class TestPlayer {
 	
 	@Test
 	public void testOmenHand() {
-		OmenCard card = new CrystalBall("test","test 2");
+		OmenCard card = new CrystalBall("test","test 2",game);
 		
 		p.addOmenCard(card);
 		

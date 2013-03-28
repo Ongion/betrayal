@@ -1,13 +1,18 @@
 package omenCards;
 
+import Game.Game;
+
 public abstract class OmenCard {
 	protected String name;
 	protected String quote;
+	protected  Game game;
 
-	protected OmenCard(String name, String quote) {
+	protected OmenCard(String name, String quote,Game game) {
 		this.name = name;
 		this.quote = quote;
+		this.game = game;
 
+		
 	}
 
 	public String getName() {
@@ -29,7 +34,7 @@ public abstract class OmenCard {
 	public boolean isHauntRoll() {
 	//For testing purposes, assume Haunt Roll is applicable.
 		
-		return true;
+		return game.getIsHaunt();
 	}
 
 	public boolean makeHauntRoll() {
@@ -37,6 +42,7 @@ public abstract class OmenCard {
 			return true;
 		}
 		return false;
+		
 	}
 
 	public abstract Object whatToDo();

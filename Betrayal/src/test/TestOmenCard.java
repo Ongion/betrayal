@@ -43,31 +43,31 @@ public class TestOmenCard {
 	private Game game;
 	private Character character = new Character(0, new Locale("en"));
 	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
-			"Hazy images appear in the glass.");
+			"Hazy images appear in the glass.", game);
 	private OmenCard bookCard = new Book("Book",
-			"A diary or lab notes? Ancient script or modern ravings?");
+			"A diary or lab notes? Ancient script or modern ravings?",game);
 	private OmenCard ringCard = new Ring("Ring",
-			"A battered ring with an incomprehensible inscription.");
+			"A battered ring with an incomprehensible inscription.",game);
 	private OmenCard madmanCard = new Ring("Madman",
-			"COMPANION A raving, frothing madman");
+			"COMPANION A raving, frothing madman",game);
 	private OmenCard spearCard = new Spear("Spear",
-			"A weapon pulsing with power.");
+			"A weapon pulsing with power.",game);
 	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
-			"A board with letters and numbers to call the dead");
+			"A board with letters and numbers to call the dead",game);
 	private Mask maskCard = new Mask("Mask",
 			"A somber mask to hide your intentions.", character, game);
 	private OmenCard medallionCard = new Medallion("Medallion",
-			"A medallion inscribed with a pentagram.");
+			"A medallion inscribed with a pentagram.",game);
 	private OmenCard girlCard = new Girl("Girl",
-			"COMPANION A girl.Trapped.Alone.You free her!");
+			"COMPANION A girl.Trapped.Alone.You free her!",game);
 	private OmenCard biteCard = new Bite("Bite",
-			"A growl, the scent of death.Pain.Darkness.Gone.");
+			"A growl, the scent of death.Pain.Darkness.Gone.",game);
 	private OmenCard skullCard = new Skull("Skull",
-			"A skull, cracked and missing teeth.");
+			"A skull, cracked and missing teeth.",game);
 	private OmenCard holySymbolCard = new HolySymbol("Holy Symbol",
-			"A symbol of calm in an unsettling world.");
+			"A symbol of calm in an unsettling world.",game);
 	private OmenCard dogCard = new Dog("Dog",
-			"COMPANION This mangy dog seems friendly. At least you hope it is.");
+			"COMPANION This mangy dog seems friendly. At least you hope it is.",game);
 	private Room foyer = new FoyerRoom();
 	private Room organRoom = new OrganRoomRoom();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
@@ -112,6 +112,8 @@ public class TestOmenCard {
 
 	@Test
 	public void CrystalBallOmenInit() {
+		crystalBallCard.setName("Crystal Ball");
+		crystalBallCard.setQuote("Hazy images appear in the glass.");
 		assertEquals("Crystal Ball", crystalBallCard.getName());
 		assertEquals("Hazy images appear in the glass.",
 				crystalBallCard.getQuote());
@@ -134,6 +136,8 @@ public class TestOmenCard {
 
 	@Test
 	public void BookInit() {
+		bookCard.setName("Book");
+		bookCard.setQuote("A diary or lab notes? Ancient script or modern ravings?");
 		assertEquals("Book", bookCard.getName());
 		assertEquals("A diary or lab notes? Ancient script or modern ravings?",
 				bookCard.getQuote());
@@ -141,6 +145,8 @@ public class TestOmenCard {
 
 	@Test
 	public void RingInit() {
+		ringCard.setName("Ring");
+		ringCard.setQuote("A battered ring with an incomprehensible inscription.");
 		assertEquals("Ring", ringCard.getName());
 		assertEquals("A battered ring with an incomprehensible inscription.",
 				ringCard.getQuote());
@@ -148,6 +154,8 @@ public class TestOmenCard {
 
 	@Test
 	public void MadmanInit() {
+		madmanCard.setName("Madman");
+		madmanCard.setQuote("COMPANION A raving, frothing madman");
 		assertEquals("Madman", madmanCard.getName());
 		assertEquals("COMPANION A raving, frothing madman",
 				madmanCard.getQuote());
@@ -155,12 +163,16 @@ public class TestOmenCard {
 
 	@Test
 	public void SpearInit() {
+		spearCard.setName("Spear");
+		spearCard.setQuote("A weapon pulsing with power.");
 		assertEquals("Spear", spearCard.getName());
 		assertEquals("A weapon pulsing with power.", spearCard.getQuote());
 	}
 
 	@Test
 	public void SpiritBoardInit() {
+		spiritBoardCard.setName("Spirit Board");
+		spiritBoardCard.setQuote("A board with letters and numbers to call the dead");
 		assertEquals("Spirit Board", spiritBoardCard.getName());
 		assertEquals("A board with letters and numbers to call the dead",
 				spiritBoardCard.getQuote());
@@ -168,6 +180,8 @@ public class TestOmenCard {
 
 	@Test
 	public void MaskInit() {
+		maskCard.setName("Mask");
+		maskCard.setQuote("A somber mask to hide your intentions.");
 		assertEquals("Mask", maskCard.getName());
 		assertEquals("A somber mask to hide your intentions.",
 				maskCard.getQuote());
@@ -185,6 +199,8 @@ public class TestOmenCard {
 
 	@Test
 	public void MedallionInit() {
+		medallionCard.setName("Medallion");
+		medallionCard.setQuote("A medallion inscribed with a pentagram.");
 		assertEquals("Medallion", medallionCard.getName());
 		assertEquals("A medallion inscribed with a pentagram.",
 				medallionCard.getQuote());
@@ -192,6 +208,8 @@ public class TestOmenCard {
 
 	@Test
 	public void GirlInit() {
+		girlCard.setName("Girl");
+		girlCard.setQuote("COMPANION A girl.Trapped.Alone.You free her!");
 		assertEquals("Girl", girlCard.getName());
 		assertEquals("COMPANION A girl.Trapped.Alone.You free her!",
 				girlCard.getQuote());
@@ -199,6 +217,8 @@ public class TestOmenCard {
 
 	@Test
 	public void BiteInit() {
+		biteCard.setName("Bite");
+		biteCard.setQuote("A growl, the scent of death.Pain.Darkness.Gone.");
 		assertEquals("Bite", biteCard.getName());
 		assertEquals("A growl, the scent of death.Pain.Darkness.Gone.",
 				biteCard.getQuote());
@@ -206,6 +226,8 @@ public class TestOmenCard {
 
 	@Test
 	public void SkullInit() {
+		skullCard.setName("Skull");
+		skullCard.setQuote("A skull, cracked and missing teeth.");
 		assertEquals("Skull", skullCard.getName());
 		assertEquals("A skull, cracked and missing teeth.",
 				skullCard.getQuote());
@@ -213,6 +235,8 @@ public class TestOmenCard {
 
 	@Test
 	public void HolySymbolInit() {
+		holySymbolCard.setName("Holy Symbol");
+		holySymbolCard.setQuote("A symbol of calm in an unsettling world.");
 		assertEquals("Holy Symbol", holySymbolCard.getName());
 		assertEquals("A symbol of calm in an unsettling world.",
 				holySymbolCard.getQuote());
@@ -220,6 +244,8 @@ public class TestOmenCard {
 
 	@Test
 	public void DogInit() {
+		dogCard.setName("Dog");
+		dogCard.setQuote("COMPANION This mangy dog seems friendly. At least you hope it is.");
 		assertEquals("Dog", dogCard.getName());
 		assertEquals(
 				"COMPANION This mangy dog seems friendly. At least you hope it is.",

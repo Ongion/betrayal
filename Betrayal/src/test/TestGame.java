@@ -42,9 +42,9 @@ public class TestGame {
 	private EventCard nightView = new NightView("Night View", nightViewDes, character, game);
 	private EventCard rotten = new Rotten("Rotten", rottenDes, character, game);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
-	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
-	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.",game);
+	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?",game);
+	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.",game);
 	private Room foyer = new FoyerRoom();
 	private Room organRoom = new OrganRoomRoom();
 	private Player player = new Player(character);
