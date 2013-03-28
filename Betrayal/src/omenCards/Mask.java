@@ -18,34 +18,34 @@ public class Mask extends OmenCard {
 
 	@Override
 	public Object whatToDo() {
+//
+//		boolean canUseMask = false;
+//		int sanityRollNeeded = this.currentCharacter.getCurrentSanity();
+//		int resultOfRoll = this.currentGame.rollDie(sanityRollNeeded);
+//
+//		if (resultOfRoll >= 4) {
+//			canUseMask = true;
+//			putOnMask();
+//			if (putOnMask() == true) {
+//				this.currentCharacter.incrementKnowledge(2);
+//				this.currentCharacter.decrementSanity(2);
+//			} else {
+//				this.currentCharacter.incrementSanity(2);
+//				this.currentCharacter.decrementKnowledge(2);
+//			}
+//		}
+//		if (resultOfRoll >= 0 && resultOfRoll <= 3) {
+//			canUseMask = false;
+//
+//		}
 
-		boolean canUseMask = false;
-		int sanityRollNeeded = this.currentCharacter.getCurrentSanity();
-		int resultOfRoll = this.currentGame.rollDie(sanityRollNeeded);
-
-		if (resultOfRoll >= 4) {
-			canUseMask = true;
-			putOnMask();
-			if (putOnMask() == true) {
-				this.currentCharacter.incrementKnowledge(2);
-				this.currentCharacter.decrementSanity(2);
-			} else {
-				this.currentCharacter.incrementSanity(2);
-				this.currentCharacter.decrementKnowledge(2);
-			}
-		}
-		if (resultOfRoll >= 0 && resultOfRoll <= 3) {
-			canUseMask = false;
-
-		}
-
-		return null;
+		return 0;
 	}
 
-	public boolean putOnMask() {
-
-		return true;
-
-	}
+//	public boolean putOnMask() {
+//
+//		return true;
+//
+//	}
 
 }

@@ -49,7 +49,7 @@ public class TestOmenCard {
 			"A diary or lab notes? Ancient script or modern ravings?",game);
 	private OmenCard ringCard = new Ring("Ring",
 			"A battered ring with an incomprehensible inscription.",game);
-	private OmenCard madmanCard = new Ring("Madman",
+	private OmenCard madmanCard = new Madman("Madman",
 			"COMPANION A raving, frothing madman",game);
 	private OmenCard spearCard = new Spear("Spear",
 			"A weapon pulsing with power.",game);
@@ -109,6 +109,21 @@ public class TestOmenCard {
 		
 	}
 
+	@Test 
+	public void TestIsHauntRollForOmenCard(){
+		OmenCard card = new Book ("Test card", "Just testing",game);
+		assertEquals(game.getIsHaunt(),card.isHauntRoll());
+	}
+	
+	@Test
+	public void TestMakeHauntRollForOmenCard(){
+		OmenCard card = new Book("Test","Just testing",game);
+		assertFalse(card.makeHauntRoll());
+		if(card.isHauntRoll()){
+			assertTrue(card.makeHauntRoll());
+		}
+	}
+	
 	@Test
 	public void CrystalBallOmenInit() {
 		crystalBallCard.setName("Crystal Ball");
@@ -156,6 +171,21 @@ public class TestOmenCard {
 		assertEquals("A diary or lab notes? Ancient script or modern ravings?",
 				bookCard.getQuote());
 	}
+	
+	@Test
+	public void IsHauntRollWithRing() {
+		assertTrue(ringCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithRing() {
+		assertTrue(ringCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForRing() {
+		assertNotNull(ringCard.whatToDo());
+	}
 
 	@Test
 	public void RingInit() {
@@ -167,6 +197,20 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void IsHauntRollWithMadman() {
+		assertTrue(madmanCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithMadman() {
+		assertTrue(madmanCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForMadman() {
+		assertNotNull(madmanCard.whatToDo());
+	}
+	@Test
 	public void MadmanInit() {
 		madmanCard.setName("Madman");
 		madmanCard.setQuote("COMPANION A raving, frothing madman");
@@ -175,6 +219,21 @@ public class TestOmenCard {
 				madmanCard.getQuote());
 	}
 
+	@Test
+	public void IsHauntRollWithSpear() {
+		assertTrue(spearCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithSpear() {
+		assertTrue(spearCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForSpear() {
+		assertNotNull(spearCard.whatToDo());
+	}
+	
 	@Test
 	public void SpearInit() {
 		spearCard.setName("Spear");
@@ -192,6 +251,21 @@ public class TestOmenCard {
 				spiritBoardCard.getQuote());
 	}
 
+	@Test
+	public void IsHauntRollWithMask() {
+		assertTrue(maskCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithMask() {
+		assertTrue(maskCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForMask() {
+		assertNotNull(maskCard.whatToDo());
+	}
+	
 	@Test
 	public void MaskInit() {
 		maskCard.setName("Mask");
@@ -212,6 +286,21 @@ public class TestOmenCard {
 //	}
 
 	@Test
+	public void IsHauntRollWithMedallion() {
+		assertTrue(medallionCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithMedallion() {
+		assertTrue(medallionCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForMedallion() {
+		assertNotNull(medallionCard.whatToDo());
+	}
+	
+	@Test
 	public void MedallionInit() {
 		medallionCard.setName("Medallion");
 		medallionCard.setQuote("A medallion inscribed with a pentagram.");
@@ -220,6 +309,21 @@ public class TestOmenCard {
 				medallionCard.getQuote());
 	}
 
+	@Test
+	public void IsHauntRollWithGirl() {
+		assertTrue(girlCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithGirl() {
+		assertTrue(girlCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForGirl() {
+		assertNotNull(girlCard.whatToDo());
+	}
+	
 	@Test
 	public void GirlInit() {
 		girlCard.setName("Girl");
@@ -230,6 +334,21 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void IsHauntRollWithBite() {
+		assertTrue(biteCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithBite() {
+		assertTrue(biteCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForBite() {
+		assertNotNull(biteCard.whatToDo());
+	}
+	
+	@Test
 	public void BiteInit() {
 		biteCard.setName("Bite");
 		biteCard.setQuote("A growl, the scent of death.Pain.Darkness.Gone.");
@@ -238,6 +357,21 @@ public class TestOmenCard {
 				biteCard.getQuote());
 	}
 
+	@Test
+	public void IsHauntRollWithSkull() {
+		assertTrue(skullCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithSkull() {
+		assertTrue(skullCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForSkull() {
+		assertNotNull(skullCard.whatToDo());
+	}
+	
 	@Test
 	public void SkullInit() {
 		skullCard.setName("Skull");
@@ -248,6 +382,21 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void IsHauntRollWithHolySymbol() {
+		assertTrue(holySymbolCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithHolySymbol() {
+		assertTrue(holySymbolCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForHolySymbol() {
+		assertNotNull(holySymbolCard.whatToDo());
+	}
+	
+	@Test
 	public void HolySymbolInit() {
 		holySymbolCard.setName("Holy Symbol");
 		holySymbolCard.setQuote("A symbol of calm in an unsettling world.");
@@ -255,6 +404,22 @@ public class TestOmenCard {
 		assertEquals("A symbol of calm in an unsettling world.",
 				holySymbolCard.getQuote());
 	}
+	
+	@Test
+	public void IsHauntRollWithDog() {
+		assertTrue(dogCard.isHauntRoll());
+	}
+
+	@Test
+	public void MakeAHauntRollWithDog() {
+		assertTrue(dogCard.makeHauntRoll());
+	}
+
+	@Test
+	public void TestWhatToDoForDog() {
+		assertNotNull(dogCard.whatToDo());
+	}
+	
 
 	@Test
 	public void DogInit() {

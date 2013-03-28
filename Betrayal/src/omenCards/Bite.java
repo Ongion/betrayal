@@ -11,7 +11,7 @@ public class Bite extends OmenCard {
 	@Override
 	public Object whatToDo() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 }
