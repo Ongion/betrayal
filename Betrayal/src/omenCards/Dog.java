@@ -1,9 +1,11 @@
 package omenCards;
 
+import Game.Game;
+
 public class Dog extends OmenCard {
 
-	public Dog(String name, String quote) {
-		super(name, quote);
+	public Dog(String name, String quote, Game game) {
+		super(name, quote, game);
 		
 	}
 

@@ -11,7 +11,7 @@ public class Mask extends OmenCard {
 
 	public Mask(String name, String quote, Character currentCharacter,
 			Game currentGame) {
-		super(name, quote);
+		super(name, quote, currentGame);
 		this.currentCharacter = currentCharacter;
 		this.currentGame = currentGame;
 	}

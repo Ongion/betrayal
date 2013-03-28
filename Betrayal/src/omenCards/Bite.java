@@ -1,9 +1,10 @@
 package omenCards;
+import Game.Game;
 
 public class Bite extends OmenCard {
 
-	public Bite(String name, String quote) {
-		super(name, quote);
+	public Bite(String name, String quote, Game game) {
+		super(name, quote, game);
 		
 	}
 

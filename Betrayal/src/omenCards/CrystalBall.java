@@ -1,9 +1,11 @@
 package omenCards;
 
+import Game.Game;
+
 public class CrystalBall extends OmenCard {
 
-	public CrystalBall(String name, String quote) {
-		super(name, quote);
+	public CrystalBall(String name, String quote, Game game) {
+		super(name, quote, game);
 	
 	}
 
