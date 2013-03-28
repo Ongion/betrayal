@@ -1,7 +1,6 @@
 package eventCards;
 
 import Game.Game;
-import characters.Character;
 
 public class SomethingHidden extends EventCard {
 

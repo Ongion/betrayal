@@ -111,6 +111,19 @@ public class TestEventCard {
 	}
 	
 	@Test
+	public void testEventCardSets(){
+		card = new Rotten("Rotten", rottenDes, game);
+		assertEquals("Rotten", card.getName());
+		assertEquals(rottenDes, card.getDescription());
+		
+		card.setName("Hello");
+		card.setDescription("This is a fake description for testing");
+		
+		assertEquals("Hello", card.getName());
+		assertEquals("This is a fake description for testing", card.getDescription());
+	}
+	
+	@Test
 	public void testRottenHappen5OrGreater(){
 		card = new Rotten("Rotten", rottenDes, game);
 		// Test to be removed
