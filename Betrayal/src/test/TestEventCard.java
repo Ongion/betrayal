@@ -70,9 +70,9 @@ public class TestEventCard {
 	private ItemCard adrenalineShotCard = new AdrenalineShot("Adrenaline Shot", "A syringe containing a strange fluorescent liquid.");
 	private ItemCard revolverCard = new Revolver("Revolver","WEAPON An old, potent-looking weapon.");	
 	private ItemCard puzzleBoxCard = new PuzzleBox("Puzzle Box", "There must be a way to open it.");
-	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
-	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.",game);
+	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?",game);
+	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.",game);
 	private Room foyer = new FoyerRoom();
 	private Room organRoom = new OrganRoomRoom();
 	private Player player = new Player(character);
