@@ -5,7 +5,7 @@ import Game.Game;
 public abstract class OmenCard {
 	protected String name;
 	protected String quote;
-	protected  Game game;
+	protected Game game;
 
 	protected OmenCard(String name, String quote,Game game) {
 		this.name = name;
