@@ -41,8 +41,16 @@ import eventCards.Rotten;
 
 public class TestOmenCard {
 
-	private Game game;
 	private Character character = new Character(0, new Locale("en"));
+	private Player player = new Player(character);
+	
+	private Game game = new Game(null, new ArrayList<Room>(), new ArrayList<EventCard>(), new ArrayList<OmenCard>(), new ArrayList<ItemCard>(), new ArrayList<Player>());
+	
+	private Room foyer = new FoyerRoom();
+	private Room organRoom = new OrganRoomRoom();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
+	
+	
 	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
 			"Hazy images appear in the glass.", game);
 	private OmenCard bookCard = new Book("Book",
@@ -69,13 +77,11 @@ public class TestOmenCard {
 			"A symbol of calm in an unsettling world.",game);
 	private OmenCard dogCard = new Dog("Dog",
 			"COMPANION This mangy dog seems friendly. At least you hope it is.",game);
-	private Room foyer = new FoyerRoom();
-	private Room organRoom = new OrganRoomRoom();
-	private ArrayList<Room> rooms = new ArrayList<Room>();
-	private ArrayList<EventCard> events = new ArrayList<EventCard>();
-	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
-	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
-	private ArrayList<Player> players = new ArrayList<Player>();
+	
+	private ArrayList<EventCard> events;
+	private ArrayList<ItemCard> items;
+	private ArrayList<OmenCard> omens;
+	private ArrayList<Player> players;
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
@@ -86,12 +92,18 @@ public class TestOmenCard {
 	private EventCard nightView = new NightView("Night View", nightViewDes, game);
 	private EventCard rotten = new Rotten("Rotten", rottenDes, game);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
-	private Player player = new Player(character);
+	
 
 
 	@Before
 	public void SetUp() {
 		// Initalize ArrayLists for rest of tests
+		rooms = game.getRoomDeck();
+		items = game.getItemDeck();
+		events = game.getEventDeck();
+		omens = game.getOmenDeck();
+		players = game.getPlayers();
+		
 		rooms.add(foyer);
 		rooms.add(organRoom);
 		events.add(angryBeing);
@@ -105,7 +117,7 @@ public class TestOmenCard {
 		players.add(player);
 		players.add(player);
 		
-		game = new Game(null, rooms, events, omens, items, players);
+		
 		
 	}
 
@@ -119,6 +131,7 @@ public class TestOmenCard {
 	public void TestMakeHauntRollForOmenCard(){
 		OmenCard card = new Book("Test","Just testing",game);
 		assertFalse(card.makeHauntRoll());
+		game.setIsHaunt(true);
 		if(card.isHauntRoll()){
 			assertTrue(card.makeHauntRoll());
 		}
@@ -135,12 +148,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithCrystalBall() {
+		game.setIsHaunt(true);
 		assertTrue(crystalBallCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithCrystalBall() {
+		game.setIsHaunt(true);
 		assertTrue(crystalBallCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -150,12 +167,16 @@ public class TestOmenCard {
 	
 	@Test
 	public void IsHauntRollWithBook() {
+		game.setIsHaunt(true);
 		assertTrue(bookCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithBook() {
+		game.setIsHaunt(true);
 		assertTrue(bookCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -174,12 +195,16 @@ public class TestOmenCard {
 	
 	@Test
 	public void IsHauntRollWithRing() {
+		game.setIsHaunt(true);
 		assertTrue(ringCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithRing() {
+		game.setIsHaunt(true);
 		assertTrue(ringCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -198,12 +223,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithMadman() {
+		game.setIsHaunt(true);
 		assertTrue(madmanCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithMadman() {
+		game.setIsHaunt(true);
 		assertTrue(madmanCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -221,12 +250,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithSpear() {
+		game.setIsHaunt(true);
 		assertTrue(spearCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithSpear() {
+		game.setIsHaunt(true);
 		assertTrue(spearCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -250,15 +283,24 @@ public class TestOmenCard {
 		assertEquals("A board with letters and numbers to call the dead",
 				spiritBoardCard.getQuote());
 	}
+	
+	@Test
+	public void TestWhatToDoForSpiritBoard() {
+		assertNotNull(spiritBoardCard.whatToDo());
+	}
 
 	@Test
 	public void IsHauntRollWithMask() {
+		game.setIsHaunt(true);
 		assertTrue(maskCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithMask() {
+		game.setIsHaunt(true);
 		assertTrue(maskCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -287,12 +329,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithMedallion() {
+		game.setIsHaunt(true);
 		assertTrue(medallionCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithMedallion() {
+		game.setIsHaunt(true);
 		assertTrue(medallionCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -311,12 +357,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithGirl() {
+		game.setIsHaunt(true);
 		assertTrue(girlCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithGirl() {
+		game.setIsHaunt(true);
 		assertTrue(girlCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -335,12 +385,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithBite() {
+		game.setIsHaunt(true);
 		assertTrue(biteCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithBite() {
+		game.setIsHaunt(true);
 		assertTrue(biteCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -359,12 +413,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithSkull() {
+		game.setIsHaunt(true);
 		assertTrue(skullCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithSkull() {
+		game.setIsHaunt(true);
 		assertTrue(skullCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -383,12 +441,16 @@ public class TestOmenCard {
 
 	@Test
 	public void IsHauntRollWithHolySymbol() {
+		game.setIsHaunt(true);
 		assertTrue(holySymbolCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithHolySymbol() {
+		game.setIsHaunt(true);
 		assertTrue(holySymbolCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
@@ -407,12 +469,16 @@ public class TestOmenCard {
 	
 	@Test
 	public void IsHauntRollWithDog() {
+		game.setIsHaunt(true);
 		assertTrue(dogCard.isHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
 	public void MakeAHauntRollWithDog() {
+		game.setIsHaunt(true);
 		assertTrue(dogCard.makeHauntRoll());
+		game.setIsHaunt(false);
 	}
 
 	@Test
