@@ -55,6 +55,12 @@ public class TestPlayer {
 		
 		Assert.assertTrue(oHand.contains(card));
 		
+		p.removeOmenCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
+		
 	}
 	
 	@Test
@@ -69,6 +75,11 @@ public class TestPlayer {
 		
 		Assert.assertTrue(oHand.contains(card));
 		
+		p.removeItemCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
 	}
 	
 	@Test
@@ -82,6 +93,12 @@ public class TestPlayer {
 		Assert.assertEquals(oHand.size(), 1);
 		
 		Assert.assertTrue(oHand.contains(card));
+		
+		p.removeEventCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
 
 	}
 
