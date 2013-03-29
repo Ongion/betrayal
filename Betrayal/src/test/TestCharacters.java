@@ -206,9 +206,9 @@ public class TestCharacters {
 	@Test
 	public void testGetAttributeIndexes() {
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 2);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 4);
 		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 4);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 2);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
@@ -216,9 +216,9 @@ public class TestCharacters {
 		FatherRhinehardt.decrementSpeed();
 		
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 1);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
 		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 3);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
@@ -226,9 +226,9 @@ public class TestCharacters {
 		FatherRhinehardt.decrementSpeed();
 		
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 0);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 2);
 		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 0);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 2);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 0);
 		
 		FatherRhinehardt.incrementKnowledge();
 		FatherRhinehardt.incrementSanity();
@@ -236,9 +236,9 @@ public class TestCharacters {
 		FatherRhinehardt.incrementSpeed();
 		
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 1);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
 		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 3);
+		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
 		
 	}
 	

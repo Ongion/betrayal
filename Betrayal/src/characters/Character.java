@@ -100,6 +100,8 @@ public class Character {
 		return hobbies;
 	}
 	
+	/*  Get Attributes and Attribute Indexes */
+	
 	public int getCurrentKnowledge() {
 		return this.knowledge[this.knowledgeIndex];
 	}
@@ -111,6 +113,19 @@ public class Character {
 	}
 	public int getCurrentMight() {
 		return this.might[this.mightIndex];
+	}
+	
+	public int getCurrentKnowledgeIndex() {
+		return this.knowledgeIndex;
+	}
+	public int getCurrentSanityIndex() {
+		return this.sanityIndex;
+	}
+	public int getCurrentSpeedIndex() {
+		return this.speedIndex;
+	}
+	public int getCurrentMightIndex() {
+		return this.mightIndex;
 	}
 	
 	
@@ -211,5 +226,7 @@ public class Character {
 	public void decrementMight(){
 		this.decrementMight(1);
 	}
+	
+	
 	
 }
