@@ -3,3 +3,9 @@ Betrayal/bin/*
 Betrayal/.clover/*
 Betrayal/.classpath
 Betrayal/.project
+.classpath
+.clover/*
+.project
+Betrayal/.classpath.txt
+Betrayal/.project.txt
+bin/*

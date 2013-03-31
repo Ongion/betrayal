@@ -1,16 +1,13 @@
 package eventCards;
 
 import Game.Game;
-import characters.Character;
 
 public class Funeral extends EventCard {
 	// This is only for testing purposes and will be removed
-		private Character character;
 		private Game game;
 		
-		public Funeral(String name, String description, Character person, Game game) {
+		public Funeral(String name, String description, Game game) {
 			super(name, description);
-			this.character = person;
 			this.game = game;
 		}
 
@@ -18,30 +15,25 @@ public class Funeral extends EventCard {
 		public void happen(int rollResult) {
 			// For testing purposes only
 			if (rollResult >= 4){
-				character.incrementSanity();
+				game.getCurrentPlayer().getCharacter().incrementSanity();
 			} else if (rollResult >= 2 && rollResult <= 3){
-				character.decrementSanity();
+				game.getCurrentPlayer().getCharacter().decrementSanity();
 			} else{
-				character.decrementSanity();
-				character.decrementMight();
+				game.getCurrentPlayer().getCharacter().decrementSanity();
+				game.getCurrentPlayer().getCharacter().decrementMight();
 			}
-		}
-			
-		@Override
-		public Character getCharacter(){
-			return character;
 		}
 
 		@Override
 		public void happens() {
-			int rollResult = game.rollDie(character.getCurrentSanity());
+			int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
 			if (rollResult >= 4){
-				character.incrementSanity();
+				game.getCurrentPlayer().getCharacter().incrementSanity();
 			} else if ((rollResult >= 2) && (rollResult <= 3)){
-				character.decrementSanity();
+				game.getCurrentPlayer().getCharacter().decrementSanity();
 			} else{
-				character.decrementSanity();
-				character.decrementMight();
+				game.getCurrentPlayer().getCharacter().decrementSanity();
+				game.getCurrentPlayer().getCharacter().decrementMight();
 			}
 		}
 

@@ -1,15 +1,12 @@
 package eventCards;
 import Game.Game;
-import characters.Character;
 
 public class Rotten extends EventCard {
 	// This is only for testing purposes and will be removed
-	private Character character;
 	private Game game;
 	
-	public Rotten(String name, String description, Character person, Game game) {
+	public Rotten(String name, String description, Game game) {
 		super(name, description);
-		this.character = person;
 		this.game = game;
 	}
 
@@ -17,40 +14,35 @@ public class Rotten extends EventCard {
 	public void happen(int rollResult) {
 		// This is only for testing purposes
 		if (rollResult >= 5){
-			character.incrementSanity();
+			game.getCurrentPlayer().getCharacter().incrementSanity();
 		} else if (rollResult == 1){
-			character.decrementMight();
-			character.decrementSpeed();
+			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementSpeed();
 		} else if (rollResult == 0){
-			character.decrementMight();
-			character.decrementSpeed();
-			character.decrementSanity();
-			character.decrementKnowledge(); 
+			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementSpeed();
+			game.getCurrentPlayer().getCharacter().decrementSanity();
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(); 
 		} else{
-			character.decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementMight();
 		}
-	}
-	
-	@Override
-	public Character getCharacter(){
-		return character;
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(character.getCurrentSanity());
+		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
 		if (rollResult >= 5){
-			character.incrementSanity();
+			game.getCurrentPlayer().getCharacter().incrementSanity();
 		} else if (rollResult == 1){
-			character.decrementMight();
-			character.decrementSpeed();
+			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementSpeed();
 		} else if (rollResult == 0){
-			character.decrementMight();
-			character.decrementSpeed();
-			character.decrementSanity();
-			character.decrementKnowledge(); 
+			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementSpeed();
+			game.getCurrentPlayer().getCharacter().decrementSanity();
+			game.getCurrentPlayer().getCharacter().decrementKnowledge(); 
 		} else{
-			character.decrementMight();
+			game.getCurrentPlayer().getCharacter().decrementMight();
 		}
 		
 	}

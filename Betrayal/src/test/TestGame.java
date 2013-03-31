@@ -33,21 +33,23 @@ public class TestGame {
 
 	private Game game;
 	private characters.Character character = new characters.Character(0,new Locale("en"));
+	private characters.Character character2 = new characters.Character(1,new Locale("en"));
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
 	private String nightViewDes = "You see a vision of a ghostly couple walking the grounds, silently strolling in their wedding best";
-	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes, character, game);
-	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes, character, game);
-	private EventCard nightView = new NightView("Night View", nightViewDes, character, game);
-	private EventCard rotten = new Rotten("Rotten", rottenDes, character, game);
+	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes, game);
+	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes, game);
+	private EventCard nightView = new NightView("Night View", nightViewDes, game);
+	private EventCard rotten = new Rotten("Rotten", rottenDes, game);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
-	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
-	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.",game);
+	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?",game);
+	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.",game);
 	private Room foyer = new FoyerRoom();
 	private Room organRoom = new OrganRoomRoom();
 	private Player player = new Player(character);
+	private Player player2 = new Player(character2);
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
@@ -68,7 +70,7 @@ public class TestGame {
 		omens.add(book);
 		omens.add(ring);
 		players.add(player);
-		players.add(player);
+		players.add(player2);
 		
 		game = new Game(null, rooms, events, omens, items, players);
 	}
@@ -78,7 +80,7 @@ public class TestGame {
 
 		assertNotNull(null, game);
 		
-		assertEquals(0, game.getCurrentPlayer());
+		assertEquals(0, game.getCurrentPlayerIndex());
 		assertEquals(rooms, game.getRoomDeck());
 		assertEquals(events, game.getEventDeck());
 		assertEquals(omens, game.getOmenDeck());
@@ -202,13 +204,16 @@ public class TestGame {
 	
 	@Test
 	public void testNextPlayer(){
-		assertEquals(0, game.getCurrentPlayer());
+		assertEquals(0, game.getCurrentPlayerIndex());
+		assertEquals(player, game.getCurrentPlayer());
 		game.nextPlayer();
-		assertEquals(1, game.getCurrentPlayer());
+		assertEquals(1, game.getCurrentPlayerIndex());
+		assertEquals(player2, game.getCurrentPlayer());
 		
 		// Test when currentPlayer should reset to zero
 		game.nextPlayer();
-		assertEquals(0, game.getCurrentPlayer());
+		assertEquals(0, game.getCurrentPlayerIndex());
+		assertEquals(player, game.getCurrentPlayer());
 	}
 	
 	@Test

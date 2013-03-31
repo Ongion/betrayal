@@ -14,6 +14,7 @@ import omenCards.OmenCard;
 import org.junit.Before;
 import org.junit.Test;
 
+import Game.Game;
 import Game.Player;
 
 import characters.Character;
@@ -24,6 +25,7 @@ public class TestPlayer {
 
 	Player p;
 	Character Father;
+	Game game;
 	
 	@Before
 	public void initTests() {
@@ -43,7 +45,7 @@ public class TestPlayer {
 	
 	@Test
 	public void testOmenHand() {
-		OmenCard card = new CrystalBall("test","test 2");
+		OmenCard card = new CrystalBall("test","test 2",game);
 		
 		p.addOmenCard(card);
 		
@@ -52,6 +54,12 @@ public class TestPlayer {
 		Assert.assertEquals(oHand.size(), 1);
 		
 		Assert.assertTrue(oHand.contains(card));
+		
+		p.removeOmenCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
 		
 	}
 	
@@ -67,11 +75,16 @@ public class TestPlayer {
 		
 		Assert.assertTrue(oHand.contains(card));
 		
+		p.removeItemCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
 	}
 	
 	@Test
 	public void testEventHand() {
-		EventCard card = new Rotten(null, null, p.getCharacter(), null);
+		EventCard card = new Rotten(null, null, null);
 		
 		p.addEventCard(card);
 		
@@ -80,6 +93,12 @@ public class TestPlayer {
 		Assert.assertEquals(oHand.size(), 1);
 		
 		Assert.assertTrue(oHand.contains(card));
+		
+		p.removeEventCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
 
 	}
 
