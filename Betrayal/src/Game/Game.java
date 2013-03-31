@@ -6,12 +6,13 @@ import java.util.Random;
 
 import rooms.Room;
 import eventCards.EventCard;
+import floors.Floor;
 import omenCards.OmenCard;
 import itemCards.ItemCard;
 
 public class Game {
 	
-	private Room[] map = new Room[3]; 
+	private Floor[] map = new Floor[3]; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;
 	private ArrayList<OmenCard> omenDeck;
@@ -25,7 +26,7 @@ public class Game {
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
 
-	public Game(Room[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
+	public Game(Floor[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
 		this.map = map;
 		this.roomDeck = roomDeck;
 		this.eventDeck = eventDeck;
@@ -136,7 +137,7 @@ public class Game {
 		return this.numOmens - this.omenDeck.size() - this.omenDiscard.size();
 	}
 	
-	public Room[] getMap() {
+	public Floor[] getMap() {
 		return map;
 	}
 

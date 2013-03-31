@@ -27,6 +27,10 @@ public abstract class Room {
 	public String getName() {
 		return this.name;
 	}
+	
+	public void flipCard() {
+		// EventRooms and the like implement this method to get a card and make it happen
+	}
 		
 	public void setOrientation(Room_Orientation newOrientation) {
 		this.orientation = newOrientation;

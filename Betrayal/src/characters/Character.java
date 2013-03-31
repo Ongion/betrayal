@@ -1,7 +1,11 @@
 package characters;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import rooms.Room;
 
 
 
@@ -12,6 +16,7 @@ public class Character {
 	protected int height; //In Inches
 	protected int age;
 	protected int weight; //In pounds
+	protected Set<Room> roomsEndedIn;
 	
 	protected int[] knowledge;
 	protected int[] sanity;
@@ -78,6 +83,7 @@ public class Character {
 		this.age = Integer.parseInt(CharacterBundle.getString("age"));
 		this.hobbies = CharacterBundle.getString("hobbies").split(",");
 		// Initialize the variables to their localized values
+		this.roomsEndedIn = new HashSet<Room>();
 	}
 	
 	
@@ -111,6 +117,9 @@ public class Character {
 	}
 	public int getCurrentMight() {
 		return this.might[this.mightIndex];
+	}
+	public Set<Room> getRoomsEndedIn() {
+		return this.roomsEndedIn;
 	}
 	
 	

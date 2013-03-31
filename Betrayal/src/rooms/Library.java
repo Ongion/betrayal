@@ -11,8 +11,10 @@ public class Library extends EventRoom {
 	
 	@Override
 	public void endTurnInRoom(Character characterEndingTurn) {
-		//TODO Check to see if the character has ended their turn here already
-		characterEndingTurn.incrementKnowledge(1);
+		if (!characterEndingTurn.getRoomsEndedIn().contains(this)) {
+			characterEndingTurn.incrementKnowledge(1);
+			characterEndingTurn.getRoomsEndedIn().add(this);
+		}
 	}
 
 }
