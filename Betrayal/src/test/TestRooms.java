@@ -32,8 +32,13 @@ public class TestRooms {
 		
 		organRoomExits.add(Room_Direction.SOUTH);
 		organRoomExits.add(Room_Direction.WEST);
+		
+		HashSet<FloorName> organRoomFloors = new HashSet<FloorName>();
+		organRoomFloors.add(FloorName.upper);
+		organRoomFloors.add(FloorName.ground);
+		organRoomFloors.add(FloorName.basement);
 				
-		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits);
+		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
 		this.groundFloor.addRoom(new FloorLocation(0,0), organRoom);
 	}
 	

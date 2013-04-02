@@ -17,7 +17,6 @@ public abstract class Room {
 	protected final Set<Room_Direction> doorExits;
 	protected Set<FloorName> floorsAllowedOn;
 	protected Map<Room_Direction, Integer> windows;
-	protected Game game;
 	protected Floor currentFloor;
 	protected FloorLocation currentLocation;
 	
@@ -28,15 +27,15 @@ public abstract class Room {
 	public enum Room_Direction {NORTH, EAST, SOUTH, WEST};  // Room directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
 	
 	
-	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Map<Room_Direction, Integer> windows) {
+	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Set<FloorName> floorsAllowedOn, Map<Room_Direction, Integer> windows) {
 		this.name = name;
 		this.orientation = orientation;
 		this.doorExits = doorExits;
+		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
-		this.game = Game.getInstance();
 		
 		// Add the room to the room deck!
-		this.game.getRoomDeck().add(this);
+		Game.getInstance().addToRoomDeck(this);
 	}
 	
 	public String getName() {
@@ -74,6 +73,9 @@ public abstract class Room {
 	}
 	
 	public void setFloor(Floor floorRoomWillBeOn) {
+		if (!this.floorsAllowedOn.contains(floorRoomWillBeOn.getName())) {
+			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), floorRoomWillBeOn.getName().toString()));
+		}
 		this.currentFloor = floorRoomWillBeOn;
 	}
 	

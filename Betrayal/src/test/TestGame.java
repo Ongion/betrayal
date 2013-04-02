@@ -212,12 +212,12 @@ public class TestGame {
 	public void testNextPlayer(){
 		assertEquals(0, game.getCurrentCharacterIndex());
 		assertEquals(player, game.getCurrentPlayer());
-		game.nextPlayer();
+		game.endCharacterTurn();
 		assertEquals(1, game.getCurrentCharacterIndex());
 		assertEquals(player2, game.getCurrentPlayer());
 		
 		// Test when currentPlayer should reset to zero
-		game.nextPlayer();
+		game.endCharacterTurn();
 		assertEquals(0, game.getCurrentCharacterIndex());
 		assertEquals(player, game.getCurrentPlayer());
 	}

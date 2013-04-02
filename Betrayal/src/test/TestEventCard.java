@@ -1,7 +1,6 @@
 package test;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import itemCards.AdrenalineShot;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
@@ -22,7 +21,6 @@ import org.junit.Test;
 import rooms.Room;
 import Game.Game;
 import Game.Player;
-
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.Debris;
@@ -36,8 +34,6 @@ import eventCards.Skeletons;
 import eventCards.SomethingHidden;
 import eventCards.SomethingSlimy;
 import eventCards.TheVoice;
-
-import characters.Character;
 
 public class TestEventCard {
 
@@ -74,7 +70,6 @@ public class TestEventCard {
 	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?",game);
 	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.",game);
 	private Player player = new Player();
-	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();

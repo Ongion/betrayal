@@ -1,18 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
 import java.util.Locale;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import rooms.Room;
-import rooms.Room.Room_Direction;
-import rooms.Room.Room_Orientation;
 
 import characters.Character;
 

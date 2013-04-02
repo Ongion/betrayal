@@ -6,7 +6,6 @@ import java.util.Map;
 
 import rooms.Room;
 import rooms.Room.Room_Direction;
-import rooms.Room.Room_Orientation;
 
 public class Floor {
 	private Map<FloorLocation, Room> floorLayout;

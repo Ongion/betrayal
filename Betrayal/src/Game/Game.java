@@ -150,7 +150,7 @@ public class Game {
 		this.itemDiscard.add(card);
 	}
 	
-	public void nextPlayer(){
+	public void endCharacterTurn(){
 		if(this.currentCharacter < players.size() - 1){
 			this.currentCharacter ++;
 		} else {
@@ -159,20 +159,15 @@ public class Game {
 	}
 	
 	public int rollDie(int numberDie){
-		int sum = 0;
-		int die;
 		if (numberDie > 8){
-			die = 8;
-		}
-		else 
-		{
-			die = numberDie;
+			numberDie = 8;
 		}
 		Random generator = new Random();
-		for (int i = 0; i < die; i++){
-			sum += generator.nextInt(2);
+		int rollResult = 0;
+		for (int i = 0; i < numberDie; i++){
+			rollResult += generator.nextInt(2);
 		}
-		return sum;
+		return rollResult;
 	}
 	
 	public int numOmensOut(){

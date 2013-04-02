@@ -1,15 +1,8 @@
 package Game;
 
-import itemCards.ItemCard;
-
 import java.util.ArrayList;
 
-import omenCards.OmenCard;
-
 import rooms.Room;
-
-import eventCards.EventCard;
-
 import characters.Character;
 
 public class Player {
