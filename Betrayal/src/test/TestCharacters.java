@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rooms.Room;
-import rooms.Room.Exit_Direction;
+import rooms.Room.Room_Direction;
 import rooms.Room.Room_Orientation;
 
 import characters.Character;

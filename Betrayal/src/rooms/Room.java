@@ -1,64 +1,154 @@
 package rooms;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import Game.Game;
+import characters.Character;
+
+import floors.Floor;
+import floors.Floor.FloorName;
+import floors.FloorLocation;
+
 public abstract class Room {
-	protected String name;
+	protected final String name;
 	protected Room_Orientation orientation;
-	protected HashMap<Exit_Direction, Room> exits;
+	protected final Set<Room_Direction> doorExits;
+	protected Set<FloorName> floorsAllowedOn;
+	protected Map<Room_Direction, Integer> windows;
+	protected Game game;
+	protected Floor currentFloor;
+	protected FloorLocation currentLocation;
+	
+	protected boolean hasSecretStairs = false;
+	protected Room otherEndOfSecretStairs = null;
 	
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Exit_Direction {NORTH, EAST, SOUTH, WEST};  // Room exits are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
+	public enum Room_Direction {NORTH, EAST, SOUTH, WEST};  // Room directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
 	
 	
-	public Room (String name) {
+	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Map<Room_Direction, Integer> windows) {
 		this.name = name;
-		this.orientation = Room_Orientation.NORTH;
-		this.exits = new HashMap<Exit_Direction, Room>();
+		this.orientation = orientation;
+		this.doorExits = doorExits;
+		this.windows = windows;
+		this.game = Game.getInstance();
+		
+		// Add the room to the room deck!
+		this.game.getRoomDeck().add(this);
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public void addRoomExit(Exit_Direction direction, Room goesTo) {
-		if (! this.exits.containsKey(direction)) {
-			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
-		}
-		else {
-			this.exits.put(direction, goesTo);
-		}
+	public void setHasSecretStairs(boolean newHasStairs) {
+		this.hasSecretStairs = newHasStairs;
 	}
 	
-	public Room getRoomFromExit(Exit_Direction direction) {
-		if (! this.exits.containsKey(direction)) {
-			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", this.name, direction.toString()));
-		}
-		else {
-			return this.exits.get(direction);
-		}
+	public boolean getHasSecretStairs() {
+		return this.hasSecretStairs;
 	}
 	
+	public Room getExitThroughSecretStairs() {
+		if (!this.hasSecretStairs) {
+			throw new RuntimeException(String.format("Room %s doesn't have secret stairs!", this.getName()));
+		}
+		return this.otherEndOfSecretStairs;
+	}
+	
+	public void addSecretStairsToRoom(Room roomConnectingTo) {
+		this.setHasSecretStairs(true);
+		this.otherEndOfSecretStairs = roomConnectingTo;
+		roomConnectingTo.addSecretStairsFromRoom(this);
+	}
+	
+	public void addSecretStairsFromRoom(Room roomConnectingFrom) {
+		this.setHasSecretStairs(true);
+		this.otherEndOfSecretStairs = roomConnectingFrom;
+	}
+	
+	public void flipCard() {
+		// EventRooms and the like implement this method to get a card and make it happen
+	}
+	
+	public void setFloor(Floor floorRoomWillBeOn) {
+		this.currentFloor = floorRoomWillBeOn;
+	}
+	
+	public FloorLocation getLocation() {
+		return this.currentLocation;
+	}
+	
+	public void setLocation(FloorLocation locationOfRoom) {
+		this.currentLocation = locationOfRoom;
+	}
+	
+	public Set<FloorLocation> getDoorExitLocations(FloorLocation locationTestingFrom) {
+		Set<FloorLocation> locations = new HashSet<FloorLocation>();
+		for (Room_Direction exitDirection : this.doorExits) {
+			locations.add(locationTestingFrom.getLocationOfRoomAtExit(exitDirection, this.getOrientation()));
+		}
+		return locations;
+	}
+	
+	public Floor getFloor() {
+		return this.currentFloor;
+	}
+		
 	public void setOrientation(Room_Orientation newOrientation) {
 		this.orientation = newOrientation;
 	}
 	
-	public Set<Exit_Direction> getRoomExitDirections() {
-		return this.exits.keySet();
+	public Set<Room_Direction> getDoorExits() {
+		return this.doorExits;
 	}
+	
+	public Set<FloorLocation> getDoorExitLocations() {
+		if (this.getLocation() == null) {
+			throw new RuntimeException("This tile hasn't been added to the board yet, and therefore has no location!");
+		}
+		return this.getDoorExitLocations(this.getLocation());
+	}
+
 	
 	public Room_Orientation getOrientation() {
 		return this.orientation;
 	}
 	
-	public void leavingRoom(Character characterLeavingRoom) {
-		// Do nothing by default. Rooms implement this method only if they need it.
+	public Map<Room_Direction, Integer> getWindows() {
+		return this.windows;
 	}
 	
-	public void endingTurnInRoom(Character characterEndingTurn) {
-		// Do nothing by default. Rooms implement this method only if they need it.
+	public void endTurnInRoom(Character characterEndingTurn) {
+		// only rooms that have ending actions implement this 
 	}
+	
+	public void leavingRoom(Character characterLeavingROom) {
+		//only rooms that have room-leaving actions implement this
+	}
+	
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Room) {
+			Room otherRoom = (Room) other;
+			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()) && this.doorExits.equals(otherRoom.getDoorExits()) && this.windows.equals(otherRoom.getWindows()));
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		int prime = 31;
+		int result = 1;
+		result = prime * result + (this.name== null? 0 : name.hashCode());
+		result = prime * result + (this.orientation.ordinal());
+		return result;
+	}
+
 	
 	
 }

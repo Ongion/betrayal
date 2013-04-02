@@ -30,7 +30,8 @@ public class TestPlayer {
 	@Before
 	public void initTests() {
 		Father = new Character(0,new Locale("en"));
-		p = new Player(Father);
+		p = new Player();
+		p.addCharacter(Father);
 	}
 	
 	@Test
@@ -40,7 +41,7 @@ public class TestPlayer {
 	
 	@Test
 	public void testGetCharacter() {
-		Assert.assertEquals(Father, p.getCharacter());
+		Assert.assertEquals(Father, ptCharacters().get(0));
 	}
 	
 	@Test
@@ -49,7 +50,7 @@ public class TestPlayer {
 		
 		p.addOmenCard(card);
 		
-		ArrayList<OmenCard> oHand = p.getOmenHand();
+		ArrayList<OmenCard> oHand = ptOmenHand();
 		
 		Assert.assertEquals(oHand.size(), 1);
 		

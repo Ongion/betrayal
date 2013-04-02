@@ -6,12 +6,16 @@ import java.util.Random;
 
 import rooms.Room;
 import eventCards.EventCard;
+import floors.Floor;
+import floors.Floor.FloorName;
 import omenCards.OmenCard;
 import itemCards.ItemCard;
 
+import characters.Character;
+
 public class Game {
 	
-	private Room[] map = new Room[3]; 
+	private Floor[] map; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;
 	private ArrayList<OmenCard> omenDeck;
@@ -21,11 +25,48 @@ public class Game {
 	private ArrayList<OmenCard> omenDiscard = new ArrayList<OmenCard>();
 	private ArrayList<ItemCard> itemDiscard = new ArrayList<ItemCard>();
 	private ArrayList<Player> players;
-	private int currentPlayer = 0;
+	private ArrayList<Character> characters;
+	private int currentCharacter;
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
+	
+	private static Game INSTANCE = new Game();
+	
+	private Game() {
+		//Set up map
+		this.map = new Floor[3];
+		this.map[0] = new Floor(FloorName.basement);
+		this.map[1] = new Floor(FloorName.ground);
+		this.map[2] = new Floor(FloorName.upper);
+		
+		//Create arrays for decks
+		this.roomDeck = new ArrayList<Room>();
+		this.eventDeck = new ArrayList<EventCard>();
+		this.omenDeck = new ArrayList<OmenCard>();
+		this.itemDeck = new ArrayList<ItemCard>();
+		
+		//Create arrays for discard piles
+		this.roomDiscard = new ArrayList<Room>();
+		this.eventDiscard = new ArrayList<EventCard>();
+		this.omenDiscard = new ArrayList<OmenCard>();
+		this.itemDiscard = new ArrayList<ItemCard>();
+		
+		//Create array for players
+		this.players = new ArrayList<Player>();
+		this.characters = new ArrayList<Character>();
+		
+		this.currentCharacter = 0;
+	}
 
-	public Game(Room[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
+	public static Game getInstance() {
+		return INSTANCE;
+	}
+	
+	public static void resetGame() {
+		INSTANCE = new Game();
+	}
+	
+	public Game(Floor[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
 		this.map = map;
 		this.roomDeck = roomDeck;
 		this.eventDeck = eventDeck;
@@ -33,6 +74,8 @@ public class Game {
 		this.itemDeck = itemDeck;
 		this.players = players;
 		this.numOmens = omenDeck.size();
+		
+		this.currentCharacter = 0;
 	}
 	
 	public Boolean getIsHaunt() {
@@ -108,10 +151,10 @@ public class Game {
 	}
 	
 	public void nextPlayer(){
-		if(this.currentPlayer < players.size() - 1){
-			this.currentPlayer ++;
+		if(this.currentCharacter < players.size() - 1){
+			this.currentCharacter ++;
 		} else {
-			this.currentPlayer = 0;
+			this.currentCharacter = 0;
 		}
 	}
 	
@@ -136,7 +179,7 @@ public class Game {
 		return this.numOmens - this.omenDeck.size() - this.omenDiscard.size();
 	}
 	
-	public Room[] getMap() {
+	public Floor[] getMap() {
 		return map;
 	}
 
@@ -176,16 +219,65 @@ public class Game {
 		return players;
 	}
 	
-	public int getCurrentPlayerIndex(){
-		return currentPlayer;
+	public int getCurrentCharacterIndex(){
+		return currentCharacter;
 	}
 
-	public Player getCurrentPlayer() {
-		return players.get(currentPlayer);
+	public Character getCurrentCharacter() {
+		return characters.get(currentCharacter);
 	}
 
 	public int getNumOmens() {
 		return numOmens;
+	}
+	
+	public void addAllToRoomDeck(ArrayList<Room> roomsToAdd) {
+		for (Room card : roomsToAdd) {
+			this.addToRoomDeck(card);
+		}
+	}
+	
+	public void addToRoomDeck(Room roomToAdd) {
+		this.roomDeck.add(roomToAdd);		
+	}
+
+	public void addAllToItemDeck(ArrayList<ItemCard> itemCardsToAdd) {
+		for (ItemCard card : itemCardsToAdd) {
+			this.addToItemDeck(card);
+		}
+	}
+	
+	public void addToItemDeck(ItemCard itemCardToAdd) {
+		this.itemDeck.add(itemCardToAdd);		
+	}
+	
+	public void addAllToOmenDeck(ArrayList<OmenCard> omenCardsToAdd) {
+		for (OmenCard card : omenCardsToAdd) {
+			this.addToOmenDeck(card);
+		}
+	}
+	
+	public void addToOmenDeck(OmenCard omenCardToAdd) {
+		this.omenDeck.add(omenCardToAdd);		
+		this.numOmens++;
+	}
+
+	public void addAllToEventDeck(ArrayList<EventCard> eventCardsToAdd) {
+		for (EventCard card : eventCardsToAdd) {
+			this.addToEventDeck(card);
+		}
+	}
+	
+	public void addToEventDeck(EventCard eventCardToAdd) {
+		this.eventDeck.add(eventCardToAdd);		
+	}
+
+	public void addPlayer(Player player) {
+		this.players.add(player);		
+	}
+
+	public void addCharacter(Character character) {
+		this.characters.add(character);
 	}
 
 }

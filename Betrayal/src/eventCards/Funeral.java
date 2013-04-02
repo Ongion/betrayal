@@ -15,25 +15,25 @@ public class Funeral extends EventCard {
 		public void happen(int rollResult) {
 			// For testing purposes only
 			if (rollResult >= 4){
-				game.getCurrentPlayer().getCharacter().incrementSanity();
+				game.getCurrentCharacter().incrementSanity();
 			} else if (rollResult >= 2 && rollResult <= 3){
-				game.getCurrentPlayer().getCharacter().decrementSanity();
+				game.getCurrentCharacter().decrementSanity();
 			} else{
-				game.getCurrentPlayer().getCharacter().decrementSanity();
-				game.getCurrentPlayer().getCharacter().decrementMight();
+				game.getCurrentCharacter().decrementSanity();
+				game.getCurrentCharacter().decrementMight();
 			}
 		}
 
 		@Override
 		public void happens() {
-			int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
+			int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
 			if (rollResult >= 4){
-				game.getCurrentPlayer().getCharacter().incrementSanity();
+				game.getCurrentCharacter().incrementSanity();
 			} else if ((rollResult >= 2) && (rollResult <= 3)){
-				game.getCurrentPlayer().getCharacter().decrementSanity();
+				game.getCurrentCharacter().decrementSanity();
 			} else{
-				game.getCurrentPlayer().getCharacter().decrementSanity();
-				game.getCurrentPlayer().getCharacter().decrementMight();
+				game.getCurrentCharacter().decrementSanity();
+				game.getCurrentCharacter().decrementMight();
 			}
 		}
 

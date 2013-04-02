@@ -15,23 +15,23 @@ public class CreepyCrawlies extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementSanity();
+			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >= 1 && rollResult <= 4){
-			game.getCurrentPlayer().getCharacter().decrementSanity();
+			game.getCurrentCharacter().decrementSanity();
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementSanity(2);
+			game.getCurrentCharacter().decrementSanity(2);
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementSanity();
+			game.getCurrentCharacter().incrementSanity();
 		} else if ((rollResult >= 1) && (rollResult <= 4)){
-			game.getCurrentPlayer().getCharacter().decrementSanity();
+			game.getCurrentCharacter().decrementSanity();
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementSanity(2);
+			game.getCurrentCharacter().decrementSanity(2);
 		}
 	}
 }

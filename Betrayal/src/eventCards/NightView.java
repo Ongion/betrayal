@@ -15,15 +15,15 @@ public class NightView extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge();
+			game.getCurrentCharacter().incrementKnowledge();
 		} 
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentKnowledge());
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge();
+			game.getCurrentCharacter().incrementKnowledge();
 		} 
 		
 	}
