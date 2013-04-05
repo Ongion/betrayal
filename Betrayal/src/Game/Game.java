@@ -2,12 +2,16 @@ package Game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import rooms.Room;
+import rooms.Room.Floor_Name;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Floor.FloorName;
+import floors.FloorLocation;
 import omenCards.OmenCard;
 import itemCards.ItemCard;
 
@@ -15,7 +19,8 @@ import characters.Character;
 
 public class Game {
 	
-	private Floor[] map; 
+	private Floor[] map; // TODO Remove this, only here for old tests.
+	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;
 	private ArrayList<OmenCard> omenDeck;
@@ -34,10 +39,7 @@ public class Game {
 	
 	private Game() {
 		//Set up map
-		this.map = new Floor[3];
-		this.map[0] = new Floor(FloorName.basement);
-		this.map[1] = new Floor(FloorName.ground);
-		this.map[2] = new Floor(FloorName.upper);
+		this.mapRooms = new HashSet<Room>();
 		
 		//Create arrays for decks
 		this.roomDeck = new ArrayList<Room>();
@@ -158,6 +160,11 @@ public class Game {
 		}
 	}
 	
+	public void addRoomToMap(Room roomToBeAdded) {
+		this.mapRooms.add(roomToBeAdded);
+	}
+	
+	
 	public int rollDie(int numberDie){
 		if (numberDie > 8){
 			numberDie = 8;
@@ -275,4 +282,12 @@ public class Game {
 		this.characters.add(character);
 	}
 
+	public Room getRoomAtLocation(Floor_Name floor, FloorLocation coordinates) {
+		for (Room roomChecking : mapRooms) {
+			if (roomChecking.getFloor().equals(floor) && roomChecking.getLocation().equals(coordinates)) {
+				return roomChecking;
+			}
+		}
+		return null;
+	}
 }

@@ -31,7 +31,7 @@ public class Floor {
 		return false;
 	}
 	
-	public Collection<Room> getRoomsOnFloor() {
+	private Collection<Room> getRoomsOnFloor() {
 		return this.floorLayout.values();
 	}
 		

@@ -1,23 +1,20 @@
 package rooms;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
 import characters.Character;
-
 import floors.Floor;
-import floors.Floor.FloorName;
 import floors.FloorLocation;
 
 public abstract class Room {
 	protected final String name;
 	protected Room_Orientation orientation;
 	protected final Set<Room_Direction> doorExits;
-	protected Set<FloorName> floorsAllowedOn;
+	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Room_Direction, Integer> windows;
-	protected Floor currentFloor;
+	protected Floor_Name currentFloor;
 	protected FloorLocation currentLocation;
 	
 	protected boolean hasSecretStairs = false;
@@ -25,9 +22,9 @@ public abstract class Room {
 	
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
 	public enum Room_Direction {NORTH, EAST, SOUTH, WEST};  // Room directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
+	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 	
-	
-	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Set<FloorName> floorsAllowedOn, Map<Room_Direction, Integer> windows) {
+	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Room_Direction, Integer> windows) {
 		this.name = name;
 		this.orientation = orientation;
 		this.doorExits = doorExits;
@@ -72,30 +69,60 @@ public abstract class Room {
 		// EventRooms and the like implement this method to get a card and make it happen
 	}
 	
-	public void setFloor(Floor floorRoomWillBeOn) {
-		if (!this.floorsAllowedOn.contains(floorRoomWillBeOn.getName())) {
-			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), floorRoomWillBeOn.getName().toString()));
-		}
-		this.currentFloor = floorRoomWillBeOn;
-	}
 	
 	public FloorLocation getLocation() {
 		return this.currentLocation;
 	}
 	
-	public void setLocation(FloorLocation locationOfRoom) {
-		this.currentLocation = locationOfRoom;
+	public void setLocation(Floor_Name floorRoomWillBeOn, FloorLocation locationRoomWillBePlaced) {
+		setLocation(floorRoomWillBeOn, locationRoomWillBePlaced, false);
 	}
 	
-	public Set<FloorLocation> getDoorExitLocations(FloorLocation locationTestingFrom) {
-		Set<FloorLocation> locations = new HashSet<FloorLocation>();
-		for (Room_Direction exitDirection : this.doorExits) {
-			locations.add(locationTestingFrom.getLocationOfRoomAtExit(exitDirection, this.getOrientation()));
+	public void setLocation(Floor_Name floorRoomWillBeOn, FloorLocation locationRoomWillBePlaced, boolean allowNoConnectingExits) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
+		if (!this.floorsAllowedOn.contains(floorRoomWillBeOn)) {									   // This will also be needed for placing the first tiles
+			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), floorRoomWillBeOn.toString()));
 		}
-		return locations;
+		Room roomAtLocation = Game.getInstance().getRoomAtLocation(floorRoomWillBeOn, locationRoomWillBePlaced);
+		if (roomAtLocation != null) {
+			throw new IllegalArgumentException(String.format("The %s is already at that location", roomAtLocation.getName()));
+		}
+		Floor_Name oldFloor = this.currentFloor;
+		FloorLocation oldCoordinates = this.currentLocation;
+		
+		this.currentFloor = floorRoomWillBeOn;
+		this.currentLocation = locationRoomWillBePlaced;
+		
+		if (!allowNoConnectingExits && !this.hasAConnectingExit()) {
+			this.currentFloor = oldFloor;
+			this.currentLocation = oldCoordinates;
+			throw new RuntimeException("Room had no connecting exits at the new location");
+		}
+		
+		
 	}
 	
-	public Floor getFloor() {
+	
+//	public Set<FloorLocation> getDoorExitLocations() {
+//	if (this.getLocation() == null) {
+//		throw new RuntimeException("This tile hasn't been added to the board yet, and therefore has no location!");
+//	}
+//	return this.getDoorExitLocations(this.getLocation());
+//}
+
+//	public Set<FloorLocation> getDoorExitLocations(FloorLocation locationTestingFrom) {
+//		Set<FloorLocation> locations = new HashSet<FloorLocation>();
+//		for (Room_Direction exitDirection : this.doorExits) {
+//			locations.add(locationTestingFrom.getLocationOfRoomAtExit(exitDirection, this.getOrientation()));
+//		}
+//		return locations;
+//	}
+	
+	private boolean hasAConnectingExit() {
+		//TODO Implement this method stub
+		return false;
+	}
+
+	public Floor_Name getFloor() {
 		return this.currentFloor;
 	}
 		
@@ -106,14 +133,6 @@ public abstract class Room {
 	public Set<Room_Direction> getDoorExits() {
 		return this.doorExits;
 	}
-	
-	public Set<FloorLocation> getDoorExitLocations() {
-		if (this.getLocation() == null) {
-			throw new RuntimeException("This tile hasn't been added to the board yet, and therefore has no location!");
-		}
-		return this.getDoorExitLocations(this.getLocation());
-	}
-
 	
 	public Room_Orientation getOrientation() {
 		return this.orientation;

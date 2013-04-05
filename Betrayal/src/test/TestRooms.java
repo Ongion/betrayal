@@ -13,8 +13,11 @@ import floors.Floor;
 import floors.Floor.FloorName;
 import floors.FloorLocation;
 
+import Game.Game;
+
 import rooms.EventRoom;
 import rooms.Room;
+import rooms.Room.Floor_Name;
 import rooms.Room.Room_Direction;
 import rooms.Room.Room_Orientation;
 
@@ -27,19 +30,24 @@ public class TestRooms {
 
 	@Before
 	public void setUp() {
+		Game.resetGame();
+		Game game = Game.getInstance();
+		
 		this.groundFloor = new Floor(FloorName.ground);
 		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
 		
 		organRoomExits.add(Room_Direction.SOUTH);
 		organRoomExits.add(Room_Direction.WEST);
 		
-		HashSet<FloorName> organRoomFloors = new HashSet<FloorName>();
-		organRoomFloors.add(FloorName.upper);
-		organRoomFloors.add(FloorName.ground);
-		organRoomFloors.add(FloorName.basement);
+		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
+		organRoomFloors.add(Floor_Name.UPPER);
+		organRoomFloors.add(Floor_Name.GROUND);
+		organRoomFloors.add(Floor_Name.BASEMENT);
 				
 		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
-		this.groundFloor.addRoom(new FloorLocation(0,0), organRoom);
+		organRoom.setLocation(Floor_Name.GROUND, new FloorLocation(0,0), true);
+		Game.getInstance().addRoomToMap(organRoom);
+//		this.groundFloor.addRoom(new FloorLocation(0,0), organRoom);
 	}
 	
 	@Test
@@ -64,7 +72,7 @@ public class TestRooms {
 	
 	@Test
 	public void testGetFloorRoomIsOn() {
-		assertEquals(FloorName.ground, this.organRoom.getFloor().getName());
+		assertEquals(Floor_Name.GROUND, this.organRoom.getFloor());
 	}
 	
 }
