@@ -34,6 +34,8 @@ import eventCards.HangedMen;
 import eventCards.Mirror2;
 import eventCards.NightView;
 import eventCards.Rotten;
+import eventCards.ShriekingWind;
+import eventCards.Silence;
 import eventCards.Skeletons;
 import eventCards.SomethingHidden;
 import eventCards.SomethingSlimy;
@@ -61,6 +63,8 @@ public class TestEventCard {
 	private String hangedMenDes = "A breeze chills the room. Before you, three men hang from frayed ropes. They stare at you with " +
 			"cold, dead eyes. The trio swing silently, then fade into dust that falls to the ground. You start to choke.";
 	private String debrisDes = "Plaster falls from the walls and ceiling.";
+	private String shriekingWindDes = "The wind picks up, a slow crescendo to a screeching howl.";
+	private String silenceDes = "Underground, everything goes silent. Even the sound of breathing is gone.";
 	
 	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes, game);
 	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes, game);
@@ -601,4 +605,182 @@ public class TestEventCard {
 
 	}
 	
+	@Test
+	public void testShriekingWindInit(){
+		card = new ShriekingWind("Shrieking Wind", shriekingWindDes, game);
+		assertEquals("Shrieking Wind", card.getName());
+		assertEquals(shriekingWindDes, card.getDescription());
+	}
+	
+	@Test
+	public void testShriekingWind5orGreater(){
+		card = new ShriekingWind("Shrieking Wind", shriekingWindDes, game);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(5);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(6);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+	}
+	
+	@Test
+	public void testShriekingWind3or4(){
+		card = new ShriekingWind("Shrieking Wind", shriekingWindDes, game);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		game.getCurrentPlayer().addItemCard(game.drawItem());
+		
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(4);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(3);
+		
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+	}
+
+	@Test
+	public void testShriekingWind1or2(){
+		card = new ShriekingWind("Shrieking Wind", shriekingWindDes, game);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		game.getCurrentPlayer().addItemCard(game.drawItem());
+		
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(2);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(1);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+	}
+	
+	@Test
+	public void testShriekingWind0(){
+		card = new ShriekingWind("Shrieking Wind", shriekingWindDes, game);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		game.getCurrentPlayer().addItemCard(game.drawItem());
+		
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(0);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(2, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+		
+		game.getCurrentPlayer().addItemCard(game.drawItem());
+		
+		assertEquals(1, game.getCurrentPlayer().getItemHand().size());
+		
+		card.happen(0);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		assertEquals(1, game.getCurrentPlayer().getCharacter().getCurrentMight());
+		assertEquals(0, game.getCurrentPlayer().getItemHand().size());
+	}
+	
+	@Test
+	public void testSilenceInit(){
+		card = new Silence("Silence", silenceDes, game);
+		assertEquals("Silence", card.getName());
+		assertEquals(silenceDes, card.getDescription());
+	}
+	
+	@Test
+	public void testSilence4orGreater(){
+		card = new Silence("Silence", silenceDes, game);
+		
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(4);
+		
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(5);
+		
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+	}
+	
+	@Test
+	public void testSilence1To3(){
+		card = new Silence("Silence", silenceDes, game);
+		
+		assertEquals(4, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(1);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(2);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(3);
+		
+		assertEquals(1, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+	}
+	
+	@Test
+	public void testSilence0(){
+		card = new Silence("Silence", silenceDes, game);
+		
+		game.getCurrentPlayer().getCharacter().incrementKnowledge();
+		
+		assertEquals(5, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(0);
+		
+		assertEquals(3, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+		
+		card.happen(0);
+		
+		assertEquals(1, game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
+	}
 }
