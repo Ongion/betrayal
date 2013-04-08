@@ -16,8 +16,6 @@ import omenCards.Ring;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
-import rooms.FoyerRoom;
-import rooms.OrganRoomRoom;
 import rooms.Room;
 
 import Game.Game;
@@ -46,10 +44,8 @@ public class TestGame {
 	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.",game);
 	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?",game);
 	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.",game);
-	private Room foyer = new FoyerRoom();
-	private Room organRoom = new OrganRoomRoom();
-	private Player player = new Player(character);
-	private Player player2 = new Player(character2);
+	private Player player = new Player();
+	private Player player2 = new Player();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
@@ -58,9 +54,9 @@ public class TestGame {
 	
 	@Before
 	public void setUp(){
-		// Initalize ArrayLists for rest of tests
-		rooms.add(foyer);
-		rooms.add(organRoom);
+		player.addCharacter(character);
+		player2.addCharacter(character2);
+		
 		events.add(angryBeing);
 		events.add(creepyCrawlies);
 		events.add(nightView);
@@ -69,10 +65,20 @@ public class TestGame {
 		omens.add(crystalBall);
 		omens.add(book);
 		omens.add(ring);
+		player.addCharacter(character);
 		players.add(player);
 		players.add(player2);
 		
-		game = new Game(null, rooms, events, omens, items, players);
+//		game = new Game(null, rooms, events, omens, items, players);
+		Game.resetGame();
+		game = Game.getInstance();
+		game.addAllToEventDeck(events);
+		game.addAllToItemDeck(items);
+		game.addAllToOmenDeck(omens);
+		game.addPlayer(player);
+		game.addPlayer(player2);
+		game.addCharacter(character);
+		game.addCharacter(character2);
 	}
 	
 	@Test
@@ -80,7 +86,7 @@ public class TestGame {
 
 		assertNotNull(null, game);
 		
-		assertEquals(0, game.getCurrentPlayerIndex());
+		assertEquals(0, game.getCurrentCharacterIndex());
 		assertEquals(rooms, game.getRoomDeck());
 		assertEquals(events, game.getEventDeck());
 		assertEquals(omens, game.getOmenDeck());
@@ -204,15 +210,15 @@ public class TestGame {
 	
 	@Test
 	public void testNextPlayer(){
-		assertEquals(0, game.getCurrentPlayerIndex());
+		assertEquals(0, game.getCurrentCharacterIndex());
 		assertEquals(player, game.getCurrentPlayer());
-		game.nextPlayer();
-		assertEquals(1, game.getCurrentPlayerIndex());
+		game.endCharacterTurn();
+		assertEquals(1, game.getCurrentCharacterIndex());
 		assertEquals(player2, game.getCurrentPlayer());
 		
 		// Test when currentPlayer should reset to zero
-		game.nextPlayer();
-		assertEquals(0, game.getCurrentPlayerIndex());
+		game.endCharacterTurn();
+		assertEquals(0, game.getCurrentCharacterIndex());
 		assertEquals(player, game.getCurrentPlayer());
 	}
 	

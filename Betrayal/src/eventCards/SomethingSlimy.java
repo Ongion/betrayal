@@ -16,25 +16,25 @@ public class SomethingSlimy extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 4){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult >= 1 && rollResult <= 3){
-			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentCharacter().decrementMight();
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementMight();
-			game.getCurrentPlayer().getCharacter().decrementSpeed();
+			game.getCurrentCharacter().decrementMight();
+			game.getCurrentCharacter().decrementSpeed();
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
 		if (rollResult >= 4){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult >= 1 && rollResult <= 3){
-			game.getCurrentPlayer().getCharacter().decrementMight();
+			game.getCurrentCharacter().decrementMight();
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementMight();
-			game.getCurrentPlayer().getCharacter().decrementSpeed();
+			game.getCurrentCharacter().decrementMight();
+			game.getCurrentCharacter().decrementSpeed();
 		}
 	}
 

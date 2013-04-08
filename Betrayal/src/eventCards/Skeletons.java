@@ -17,19 +17,19 @@ public class Skeletons extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentPlayer().addItemCard(game.drawItem());
+			game.getCurrentCharacter().addItemCard(game.drawItem());
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementSanity(); //TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementSanity(); //TODO: Change this to decrementMental
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
 		if (rollResult >= 5){
-			game.getCurrentPlayer().addItemCard(game.drawItem());
+			game.getCurrentCharacter().addItemCard(game.drawItem());
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementSanity(game.rollDie(1)); //TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementSanity(game.rollDie(1)); //TODO: Change this to decrementMental
 		}
 	}
 

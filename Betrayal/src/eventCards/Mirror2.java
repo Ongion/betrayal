@@ -15,12 +15,12 @@ public class Mirror2 extends EventCard {
 	@Override
 	public void happen(int rollResult) {
 		// For testing purposes only
-		game.getCurrentPlayer().addItemCard(game.drawItem());
+		game.getCurrentCharacter().addItemCard(game.drawItem());
 	}
 
 	@Override
 	public void happens() {
-		game.getCurrentPlayer().addItemCard(game.drawItem());
+		game.getCurrentCharacter().addItemCard(game.drawItem());
 	}
 
 }

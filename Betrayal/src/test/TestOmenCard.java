@@ -1,7 +1,9 @@
 package test;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
@@ -26,10 +28,7 @@ import omenCards.SpiritBoard;
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.FoyerRoom;
-import rooms.OrganRoomRoom;
 import rooms.Room;
-
 import Game.Game;
 import Game.Player;
 import characters.Character;
@@ -42,12 +41,10 @@ import eventCards.Rotten;
 public class TestOmenCard {
 
 	private Character character = new Character(0, new Locale("en"));
-	private Player player = new Player(character);
+	private Player player = new Player();
 	
 	private Game game = new Game(null, new ArrayList<Room>(), new ArrayList<EventCard>(), new ArrayList<OmenCard>(), new ArrayList<ItemCard>(), new ArrayList<Player>());
 	
-	private Room foyer = new FoyerRoom();
-	private Room organRoom = new OrganRoomRoom();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	
 	
@@ -104,8 +101,6 @@ public class TestOmenCard {
 		omens = game.getOmenDeck();
 		players = game.getPlayers();
 		
-		rooms.add(foyer);
-		rooms.add(organRoom);
 		events.add(angryBeing);
 		events.add(creepyCrawlies);
 		events.add(nightView);

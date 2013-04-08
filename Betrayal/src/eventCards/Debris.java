@@ -17,25 +17,25 @@ public class Debris extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 3 ){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult < 3 && rollResult > 0){
-			game.getCurrentPlayer().getCharacter().decrementMight(); // TODO: Change this to decrement physical damage
+			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrement physical damage
 		} else {
-			game.getCurrentPlayer().getCharacter().decrementMight(2); // TODO: Change this to decrement physical damage
-			game.getCurrentPlayer().addEventCard(this);
+			game.getCurrentCharacter().decrementMight(2); // TODO: Change this to decrement physical damage
+			game.getCurrentCharacter().addEventCard(this);
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
 		if (rollResult >= 3 ){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult < 3 && rollResult > 0){
-			game.getCurrentPlayer().getCharacter().decrementMight(); // TODO: Change this to decrement physical damage
+			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrement physical damage
 		} else {
-			game.getCurrentPlayer().getCharacter().decrementMight(2); // TODO: Change this to decrement physical damage
-			game.getCurrentPlayer().addEventCard(this);
+			game.getCurrentCharacter().decrementMight(2); // TODO: Change this to decrement physical damage
+			game.getCurrentCharacter().addEventCard(this);
 		}
 	}
 

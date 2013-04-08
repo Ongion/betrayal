@@ -1,7 +1,6 @@
 package omenCards;
 
 import Game.Game;
-import Game.Player;
 import characters.Character;
 
 public class Mask extends OmenCard {

@@ -21,17 +21,17 @@ public class HangedMen extends EventCard {
 			if (rollResult < 2 ){
 				greaterThan2 = false;
 				switch (i){
-					case 0: game.getCurrentPlayer().getCharacter().decrementKnowledge(); break;
-					case 1: game.getCurrentPlayer().getCharacter().decrementMight(); break;
-					case 2: game.getCurrentPlayer().getCharacter().decrementSanity(); break; 
-					case 3: game.getCurrentPlayer().getCharacter().decrementSpeed(); break;
+					case 0: game.getCurrentCharacter().decrementKnowledge(); break;
+					case 1: game.getCurrentCharacter().decrementMight(); break;
+					case 2: game.getCurrentCharacter().decrementSanity(); break; 
+					case 3: game.getCurrentCharacter().decrementSpeed(); break;
 				}
 			}
 			i++;
 		}
 		
 		if(greaterThan2){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge(); // TODO: Change this to allow player to choose trait
+			game.getCurrentCharacter().incrementKnowledge(); // TODO: Change this to allow player to choose trait
 		}
 	}
 
@@ -42,25 +42,25 @@ public class HangedMen extends EventCard {
 		while (i < 4){
 			int rollResult;
 			switch (i) {
-				case 0: rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentKnowledge());
-				case 1: rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentMight());
-				case 2: rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSanity());
-				default: rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+				case 0: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentKnowledge());
+				case 1: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentMight());
+				case 2: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
+				default: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
 			}
 			if (rollResult < 2 ){
 				greaterThan2 = false;
 				switch (i){
-					case 0: game.getCurrentPlayer().getCharacter().decrementKnowledge(rollResult);
-					case 1: game.getCurrentPlayer().getCharacter().decrementMight(rollResult);
-					case 2: game.getCurrentPlayer().getCharacter().decrementSanity(rollResult);
-					case 3: game.getCurrentPlayer().getCharacter().decrementSpeed(rollResult);
+					case 0: game.getCurrentCharacter().decrementKnowledge(rollResult);
+					case 1: game.getCurrentCharacter().decrementMight(rollResult);
+					case 2: game.getCurrentCharacter().decrementSanity(rollResult);
+					case 3: game.getCurrentCharacter().decrementSpeed(rollResult);
 				}
 			}
 			i++;
 		}
 		
 		if(greaterThan2){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge(); // TODO: Change this to allow player to choose trait
+			game.getCurrentCharacter().incrementKnowledge(); // TODO: Change this to allow player to choose trait
 		}
 	}
 

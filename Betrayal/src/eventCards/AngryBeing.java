@@ -15,25 +15,25 @@ public class AngryBeing extends EventCard {
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(); // TODO: Change this to decrementMental when implemented
+			game.getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental when implemented
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(); // TODO: Change this to decrementMental
-			game.getCurrentPlayer().getCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+			game.getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentPlayer().getCharacter().getCurrentSpeed());
+		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
 		if (rollResult >= 5){
-			game.getCurrentPlayer().getCharacter().incrementSpeed();
+			game.getCurrentCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental when implemented
+			game.getCurrentCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental when implemented
 		} else{
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental
-			game.getCurrentPlayer().getCharacter().decrementMight(game.rollDie(1)); // TODO: Change this to decrementPhysical
+			game.getCurrentCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementMight(game.rollDie(1)); // TODO: Change this to decrementPhysical
 		}
 	}
 

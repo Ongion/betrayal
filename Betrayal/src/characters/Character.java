@@ -1,7 +1,15 @@
 package characters;
 
+import itemCards.ItemCard;
+
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import Game.Player;
+
+import omenCards.OmenCard;
+import eventCards.EventCard;
 
 
 
@@ -21,6 +29,13 @@ public class Character {
 	protected int sanityIndex;
 	protected int mightIndex;
 	protected int speedIndex;
+	
+	protected ArrayList<EventCard> eventHand = new ArrayList<EventCard>();
+	protected ArrayList<OmenCard> omenHand = new ArrayList<OmenCard>();
+	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
+	
+	protected Player playerControlledBy; 
+
 	
 	
 	
@@ -227,6 +242,42 @@ public class Character {
 		this.decrementMight(1);
 	}
 	
+	//Add a card to each hand
+	public void addEventCard(EventCard c) {
+		eventHand.add(c);
+	}
+	public void addItemCard(ItemCard c){
+		itemHand.add(c);
+	}
+	public void addOmenCard(OmenCard c){
+		omenHand.add(c);
+	}
 	
+	//Add remove the given card from the hand and return if it was succesful or now
+	public boolean removeEventCard(EventCard c) {
+		return eventHand.remove(c);
+	}
+	public boolean removeItemCard(ItemCard c){
+		return itemHand.remove(c);
+	}
+	public boolean removeOmenCard(OmenCard c){
+		return omenHand.remove(c);
+	}
+	
+	//Return the characters hand
+	public ArrayList<EventCard> getEventHand(){
+		return this.eventHand;
+	}
+	public ArrayList<OmenCard> getOmenHand(){
+		return this.omenHand;
+	}
+	public ArrayList<ItemCard> getItemHand() {
+		return this.itemHand;
+	}
+
+	
+	public void setControllingPlayer(Player p) {
+		this.playerControlledBy = p;
+	}
 	
 }
