@@ -23,7 +23,7 @@ import rooms.Room.Room_Orientation;
 
 public class TestRooms {
 	Room organRoom;
-	Floor groundFloor;
+	Room gardens;
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -32,22 +32,32 @@ public class TestRooms {
 	public void setUp() {
 		Game.resetGame();
 		Game game = Game.getInstance();
-		
-		this.groundFloor = new Floor(FloorName.ground);
 		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
+		HashSet<Room_Direction> gardensExits = new HashSet<Room_Direction>();
 		
 		organRoomExits.add(Room_Direction.SOUTH);
 		organRoomExits.add(Room_Direction.WEST);
 		
+		gardensExits.add(Room_Direction.NORTH);
+		gardensExits.add(Room_Direction.SOUTH);
+		
 		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
+		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
+		
 		organRoomFloors.add(Floor_Name.UPPER);
 		organRoomFloors.add(Floor_Name.GROUND);
 		organRoomFloors.add(Floor_Name.BASEMENT);
-				
+		
+		gardensFloors.add(Floor_Name.GROUND);
+		
 		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
-		organRoom.setLocation(Floor_Name.GROUND, new FloorLocation(0,0), true);
-		Game.getInstance().addRoomToMap(organRoom);
-//		this.groundFloor.addRoom(new FloorLocation(0,0), organRoom);
+		gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
+		
+		gardens.setLocation(Floor_Name.GROUND, new FloorLocation(0,0), true);
+		game.addRoomToMap(gardens);
+
+		organRoom.setLocation(Floor_Name.GROUND, new FloorLocation(-1,0));	
+		game.addRoomToMap(organRoom);
 	}
 	
 	@Test
@@ -75,4 +85,10 @@ public class TestRooms {
 		assertEquals(Floor_Name.GROUND, this.organRoom.getFloor());
 	}
 	
+	@Test
+	public void testGetNextdoorRooms() {
+		assertEquals(gardens, organRoom.getRoomFromExit(Room_Direction.SOUTH));
+		assertEquals(organRoom, gardens.getRoomFromExit(Room_Direction.SOUTH));
+	}
+
 }

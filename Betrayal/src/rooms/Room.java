@@ -1,5 +1,6 @@
 package rooms;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public abstract class Room {
 		roomConnectingTo.addSecretStairsFromRoom(this);
 	}
 	
-	public void addSecretStairsFromRoom(Room roomConnectingFrom) {
+	private void addSecretStairsFromRoom(Room roomConnectingFrom) {
 		this.setHasSecretStairs(true);
 		this.otherEndOfSecretStairs = roomConnectingFrom;
 	}
@@ -92,10 +93,10 @@ public abstract class Room {
 		this.currentFloor = floorRoomWillBeOn;
 		this.currentLocation = locationRoomWillBePlaced;
 		
-		if (!allowNoConnectingExits && !this.hasAConnectingExit()) {
+		if (!allowNoConnectingExits && this.getDoorExitMap().isEmpty()) {
 			this.currentFloor = oldFloor;
 			this.currentLocation = oldCoordinates;
-			throw new RuntimeException("Room had no connecting exits at the new location");
+			throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
 		}
 		
 		
@@ -117,9 +118,29 @@ public abstract class Room {
 //		return locations;
 //	}
 	
-	private boolean hasAConnectingExit() {
-		//TODO Implement this method stub
-		return false;
+	public Room getRoomFromExit(Room_Direction exitDirection) {
+		return getDoorExitMap().get(exitDirection);
+	}
+	
+	private HashMap<Room_Direction, Room> getDoorExitMap() {
+		HashMap<Room_Direction, Room> doorExitMap = new HashMap<Room_Direction, Room>();
+		for (Room_Direction exitDirection : this.getDoorExits()) {
+			FloorLocation exitCoordinates = this.currentLocation.getLocationOfRoomAtExit(exitDirection, getOrientation());
+			Room roomAtExit = Game.getInstance().getRoomAtLocation(currentFloor, exitCoordinates);
+			if (roomAtExit != null && roomAtExit.getExitCoordinatesMap().containsValue(currentLocation)) {
+				doorExitMap.put(exitDirection, roomAtExit);
+			}
+		}
+		return doorExitMap;
+	}
+	
+	private HashMap<Room_Direction, FloorLocation> getExitCoordinatesMap() {
+		HashMap<Room_Direction, FloorLocation> exitCoordinatesMap = new HashMap<Room_Direction, FloorLocation>();
+		for (Room_Direction exitDirection : this.getDoorExits()) {
+			FloorLocation exitCoordinates = this.currentLocation.getLocationOfRoomAtExit(exitDirection, getOrientation());
+			exitCoordinatesMap.put(exitDirection, exitCoordinates);
+		}
+		return exitCoordinatesMap;
 	}
 
 	public Floor_Name getFloor() {
