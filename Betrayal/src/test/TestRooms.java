@@ -32,9 +32,6 @@ public class TestRooms {
 	Room masterBedroom;
 	Room bedroom;
 	
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
-
 	@Before
 	public void setUp() {
 		Game.resetGame();
@@ -149,10 +146,11 @@ public class TestRooms {
 		gardens.setPlacement(Room_Orientation.WEST, gardens.getLocation());
 		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
 		
-		exception.expect(RuntimeException.class);
-		exception.expectMessage("New placement invalidates map state!");
-		organRoom.setPlacement(Room_Orientation.SOUTH, organRoom.getLocation());
-		exception = ExpectedException.none();
+		try {
+			organRoom.setPlacement(Room_Orientation.SOUTH, organRoom.getLocation());
+		} catch (RuntimeException e) {
+			assertEquals("New placement invalidates map state!", e.getMessage());
+		}
 		
 		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
 	}
@@ -190,10 +188,17 @@ public class TestRooms {
 		assertEquals(1, bedroom.getExternalWindows());
 		assertEquals(catacombs, servantsQuarters.getRoomFromExit(Relative_Direction.NORTH));
 		
-		exception.expect(RuntimeException.class);
-		exception.expectMessage("The Servant's Quarters is not allowed on the GROUND floor");
-		servantsQuarters.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 0, -1));
-		exception = ExpectedException.none();
+		try {
+			servantsQuarters.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 0, -1));
+		} catch (RuntimeException e) {
+			assertEquals("The Servant's Quarters is not allowed on the GROUND floor", e.getMessage());
+		}
+		
+		try {
+			servantsQuarters.setPlacement(servantsQuarters.getOrientation(), new Location(Floor_Name.BASEMENT, 0, 0));
+		} catch (RuntimeException e) {
+			assertEquals("The Basement Landing is already at that location", e.getMessage());
+		}
 		
 		assertEquals(servantsQuarters.getOrientation(), Room_Orientation.WEST);
 		assertEquals(servantsQuarters.getFloor(), Floor_Name.BASEMENT);

@@ -8,10 +8,6 @@ import characters.Character;
 
 public class CatacombsRoom extends OmenRoom {
 
-	public CatacombsRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
-		super(name, doorExits, floorsAllowedOn, windows);
-	}
-
 	public CatacombsRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}

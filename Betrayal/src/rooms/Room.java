@@ -145,16 +145,7 @@ public abstract class Room {
 	public Floor_Name getFloor() {
 		return this.currentLocation.getFloor();
 	}
-		
-//	public void setOrientation(Room_Orientation newOrientation) {
-//		Room_Orientation oldOrientation = this.orientation;
-//		this.orientation = newOrientation;
-//		if (!Game.getInstance().isMapValid()) {
-//			this.orientation = oldOrientation;
-//			throw new RuntimeException("New orientation invalidates map state!");
-//		}
-//	}
-	
+			
 	public Set<Relative_Direction> getExits() {
 		return this.exits;
 	}
