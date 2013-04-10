@@ -148,12 +148,20 @@ public class TestRooms {
 	public void testGetSetRoomOrientation() {
 		gardens.setPlacement(Room_Orientation.WEST, gardens.getLocation());
 		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
+		
+		exception.expect(RuntimeException.class);
+		exception.expectMessage("New placement invalidates map state!");
+		organRoom.setPlacement(Room_Orientation.SOUTH, organRoom.getLocation());
+		exception = ExpectedException.none();
+		
+		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
 	}
-	
+		
 	@Test
 	public void testGetFloorRoomIsOn() {
 		assertEquals(Floor_Name.GROUND, organRoom.getFloor());
 		assertEquals(Floor_Name.BASEMENT, catacombs.getFloor());
+		assertEquals(Floor_Name.UPPER, masterBedroom.getFloor());
 	}
 	
 	@Test
