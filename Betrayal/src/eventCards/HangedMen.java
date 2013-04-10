@@ -42,10 +42,10 @@ public class HangedMen extends EventCard {
 		while (i < 4){
 			int rollResult;
 			switch (i) {
-				case 0: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentKnowledge());
-				case 1: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentMight());
-				case 2: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
-				default: rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
+				case 0: rollResult = game.rollDice(game.getCurrentCharacter().getCurrentKnowledge());
+				case 1: rollResult = game.rollDice(game.getCurrentCharacter().getCurrentMight());
+				case 2: rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
+				default: rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSpeed());
 			}
 			if (rollResult < 2 ){
 				greaterThan2 = false;

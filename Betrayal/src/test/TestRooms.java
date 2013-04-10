@@ -9,17 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import floors.Floor;
-import floors.Floor.FloorName;
-import floors.FloorLocation;
-
-import Game.Game;
-
 import rooms.EventRoom;
 import rooms.Room;
 import rooms.Room.Floor_Name;
-import rooms.Room.Room_Direction;
+import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
+import Game.Game;
+import floors.Location;
 
 public class TestRooms {
 	Room organRoom;
@@ -32,14 +28,14 @@ public class TestRooms {
 	public void setUp() {
 		Game.resetGame();
 		Game game = Game.getInstance();
-		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
-		HashSet<Room_Direction> gardensExits = new HashSet<Room_Direction>();
+		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
+		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		
-		organRoomExits.add(Room_Direction.SOUTH);
-		organRoomExits.add(Room_Direction.WEST);
+		organRoomExits.add(Relative_Direction.SOUTH);
+		organRoomExits.add(Relative_Direction.WEST);
 		
-		gardensExits.add(Room_Direction.NORTH);
-		gardensExits.add(Room_Direction.SOUTH);
+		gardensExits.add(Relative_Direction.NORTH);
+		gardensExits.add(Relative_Direction.SOUTH);
 		
 		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
@@ -53,10 +49,10 @@ public class TestRooms {
 		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
 		gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
 		
-		gardens.setLocation(Floor_Name.GROUND, new FloorLocation(0,0), true);
+		gardens.setLocation(new Location(Floor_Name.GROUND, 0 , 0), true);
 		game.addRoomToMap(gardens);
 
-		organRoom.setLocation(Floor_Name.GROUND, new FloorLocation(-1,0));	
+		organRoom.setLocation(new Location(Floor_Name.GROUND, -1 , 0));	
 		game.addRoomToMap(organRoom);
 	}
 	
@@ -67,17 +63,17 @@ public class TestRooms {
 	
 	@Test
 	public void testGetRoomExitDirections() {
-		HashSet<Room_Direction> expectedOrganRoomExits = new HashSet<Room_Direction>();
-		expectedOrganRoomExits.add(Room_Direction.SOUTH);
-		expectedOrganRoomExits.add(Room_Direction.WEST);
-		assertEquals(expectedOrganRoomExits, organRoom.getDoorExits());
+		HashSet<Relative_Direction> expectedOrganRoomExits = new HashSet<Relative_Direction>();
+		expectedOrganRoomExits.add(Relative_Direction.SOUTH);
+		expectedOrganRoomExits.add(Relative_Direction.WEST);
+		assertEquals(expectedOrganRoomExits, organRoom.getExits());
 	}
 	
 	@Test
 	public void testGetSetRoomOrientation() {
-		organRoom.setOrientation(Room_Orientation.WEST);
+		organRoom.setOrientation(Room_Orientation.SOUTH);
 
-		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
+		assertEquals(Room_Orientation.SOUTH, organRoom.getOrientation());
 	}
 	
 	@Test
@@ -87,8 +83,8 @@ public class TestRooms {
 	
 	@Test
 	public void testGetNextdoorRooms() {
-		assertEquals(gardens, organRoom.getRoomFromExit(Room_Direction.SOUTH));
-		assertEquals(organRoom, gardens.getRoomFromExit(Room_Direction.SOUTH));
+		assertEquals(gardens, organRoom.getRoomFromExit(Relative_Direction.SOUTH));
+		assertEquals(organRoom, gardens.getRoomFromExit(Relative_Direction.SOUTH));
 	}
 
 }

@@ -11,7 +11,7 @@ import rooms.Room.Floor_Name;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Floor.FloorName;
-import floors.FloorLocation;
+import floors.Location;
 import omenCards.OmenCard;
 import itemCards.ItemCard;
 
@@ -165,13 +165,13 @@ public class Game {
 	}
 	
 	
-	public int rollDie(int numberDie){
-		if (numberDie > 8){
-			numberDie = 8;
+	public int rollDice(int numberDice){
+		if (numberDice > 8){
+			numberDice = 8;
 		}
 		Random generator = new Random();
 		int rollResult = 0;
-		for (int i = 0; i < numberDie; i++){
+		for (int i = 0; i < numberDice; i++){
 			rollResult += generator.nextInt(2);
 		}
 		return rollResult;
@@ -282,9 +282,9 @@ public class Game {
 		this.characters.add(character);
 	}
 
-	public Room getRoomAtLocation(Floor_Name floor, FloorLocation coordinates) {
+	public Room getRoomAtLocation(Location location) {
 		for (Room roomChecking : mapRooms) {
-			if (roomChecking.getFloor().equals(floor) && roomChecking.getLocation().equals(coordinates)) {
+			if (roomChecking.getLocation().equals(location)) {
 				return roomChecking;
 			}
 		}

@@ -24,7 +24,7 @@ public class SomethingHidden extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentKnowledge());
+		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentKnowledge());
 		if (rollResult >= 4){
 			game.getCurrentCharacter().addItemCard(game.drawItem());
 		} else {

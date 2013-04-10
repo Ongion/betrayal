@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rooms.Room;
-import rooms.Room.Room_Direction;
+import rooms.Room.Relative_Direction;
 
 public class Floor {
-	private Map<FloorLocation, Room> floorLayout;
+	private Map<Location, Room> floorLayout;
 	private FloorName name;
 	public enum FloorName {basement, ground, upper};
 	
 	public Floor(FloorName floorName) {
 		this.name = floorName;
-		this.floorLayout = new HashMap<FloorLocation, Room>();
+		this.floorLayout = new HashMap<Location, Room>();
 	}
 	
 
@@ -36,26 +36,19 @@ public class Floor {
 	}
 		
 	
-	public Room getRoomAtLocation(FloorLocation location) {
+	public Room getRoomAtLocation(Location location) {
 		return this.floorLayout.get(location);
 	}
 	
-	public Room getNextdoorRoomFromExit(FloorLocation locationOfStartingRoom, Room_Direction usingExit) {
+	public Room getNextdoorRoomFromExit(Location locationOfStartingRoom, Relative_Direction usingExit) {
 		Room startingRoom = this.floorLayout.get(locationOfStartingRoom);
 		
-		if (!startingRoom.getDoorExits().contains(usingExit)) {
+		if (!startingRoom.getExits().contains(usingExit)) {
 			throw new IllegalArgumentException(String.format("Room '%s' has no exit in direction '%s'", startingRoom.getName(), usingExit.toString()));
 		}
 		
-		FloorLocation locationOfNewRoom = locationOfStartingRoom.getLocationOfRoomAtExit(usingExit, startingRoom.getOrientation());
+		Location locationOfNewRoom = locationOfStartingRoom.getLocationOfRoomAtExit(usingExit, startingRoom.getOrientation());
 		return floorLayout.get(locationOfNewRoom);
 	}
-
-
-	public void addRoom(FloorLocation locationOfRoomToAdd, Room roomToAdd) {
-		this.floorLayout.put(locationOfRoomToAdd, roomToAdd);
-		roomToAdd.setFloor(this);
-		roomToAdd.setLocation(locationOfRoomToAdd);
-	}	
 	
 }

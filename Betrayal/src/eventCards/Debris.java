@@ -28,7 +28,7 @@ public class Debris extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
+		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSpeed());
 		if (rollResult >= 3 ){
 			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult < 3 && rollResult > 0){

@@ -7,126 +7,108 @@ import java.util.Set;
 import Game.Game;
 import characters.Character;
 import floors.Floor;
-import floors.FloorLocation;
+import floors.Location;
 
 public abstract class Room {
 	protected final String name;
 	protected Room_Orientation orientation;
-	protected final Set<Room_Direction> doorExits;
+	protected final Set<Relative_Direction> exits;
 	protected Set<Floor_Name> floorsAllowedOn;
-	protected Map<Room_Direction, Integer> windows;
-	protected Floor_Name currentFloor;
-	protected FloorLocation currentLocation;
+	protected Map<Relative_Direction, Integer> windows;
+	protected Location currentLocation;
 	
-	protected boolean hasSecretStairs = false;
+	
 	protected Room otherEndOfSecretStairs = null;
+	protected Room otherEndOfWallSwitch = null;
 	
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Room_Direction {NORTH, EAST, SOUTH, WEST};  // Room directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a southern exit
+	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 	
-	public Room (String name, Room_Orientation orientation, Set<Room_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Room_Direction, Integer> windows) {
+	public Room (String name, Room_Orientation orientation, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
 		this.name = name;
 		this.orientation = orientation;
-		this.doorExits = doorExits;
+		this.exits = exits;
 		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
 		
 		// Add the room to the room deck!
-		Game.getInstance().addToRoomDeck(this);
+//		Game.getInstance().addToRoomDeck(this);
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public void setHasSecretStairs(boolean newHasStairs) {
-		this.hasSecretStairs = newHasStairs;
-	}
-	
-	public boolean getHasSecretStairs() {
-		return this.hasSecretStairs;
-	}
-	
-	public Room getExitThroughSecretStairs() {
-		if (!this.hasSecretStairs) {
-			throw new RuntimeException(String.format("Room %s doesn't have secret stairs!", this.getName()));
-		}
-		return this.otherEndOfSecretStairs;
-	}
-	
-	public void addSecretStairsToRoom(Room roomConnectingTo) {
-		this.setHasSecretStairs(true);
-		this.otherEndOfSecretStairs = roomConnectingTo;
-		roomConnectingTo.addSecretStairsFromRoom(this);
-	}
-	
-	private void addSecretStairsFromRoom(Room roomConnectingFrom) {
-		this.setHasSecretStairs(true);
-		this.otherEndOfSecretStairs = roomConnectingFrom;
-	}
+//	public void setHasSecretStairs(boolean newHasStairs) {
+//		this.hasSecretStairs = newHasStairs;
+//	}
+//	
+//	public boolean getHasSecretStairs() {
+//		return this.hasSecretStairs;
+//	}
+//	
+//	public Room getExitThroughSecretStairs() {
+//		if (!this.hasSecretStairs) {
+//			throw new RuntimeException(String.format("Room %s doesn't have secret stairs!", this.getName()));
+//		}
+//		return this.otherEndOfSecretStairs;
+//	}
+//	
+//	public void addSecretStairsToRoom(Room roomConnectingTo) {
+//		this.setHasSecretStairs(true);
+//		this.otherEndOfSecretStairs = roomConnectingTo;
+//		roomConnectingTo.addSecretStairsFromRoom(this);
+//	}
+//	
+//	private void addSecretStairsFromRoom(Room roomConnectingFrom) {
+//		this.setHasSecretStairs(true);
+//		this.otherEndOfSecretStairs = roomConnectingFrom;
+//	}
 	
 	public void flipCard() {
 		// EventRooms and the like implement this method to get a card and make it happen
 	}
 	
 	
-	public FloorLocation getLocation() {
+	public Location getLocation() {
 		return this.currentLocation;
 	}
 	
-	public void setLocation(Floor_Name floorRoomWillBeOn, FloorLocation locationRoomWillBePlaced) {
-		setLocation(floorRoomWillBeOn, locationRoomWillBePlaced, false);
+	public void setLocation(Location locationRoomWillBePlaced) {
+		setLocation(locationRoomWillBePlaced, false);
 	}
 	
-	public void setLocation(Floor_Name floorRoomWillBeOn, FloorLocation locationRoomWillBePlaced, boolean allowNoConnectingExits) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
-		if (!this.floorsAllowedOn.contains(floorRoomWillBeOn)) {									   // This will also be needed for placing the first tiles
-			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), floorRoomWillBeOn.toString()));
+	public void setLocation(Location locationRoomWillBePlaced, boolean allowNoConnectingExits) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
+		if (!this.floorsAllowedOn.contains(locationRoomWillBePlaced.getFloor())) {									   // This will also be needed for placing the first tiles
+			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), locationRoomWillBePlaced.getFloor().toString()));
 		}
-		Room roomAtLocation = Game.getInstance().getRoomAtLocation(floorRoomWillBeOn, locationRoomWillBePlaced);
+		Room roomAtLocation = Game.getInstance().getRoomAtLocation(locationRoomWillBePlaced);
 		if (roomAtLocation != null) {
 			throw new IllegalArgumentException(String.format("The %s is already at that location", roomAtLocation.getName()));
 		}
-		Floor_Name oldFloor = this.currentFloor;
-		FloorLocation oldCoordinates = this.currentLocation;
+
+		Location oldLocation = this.currentLocation;
 		
-		this.currentFloor = floorRoomWillBeOn;
 		this.currentLocation = locationRoomWillBePlaced;
 		
 		if (!allowNoConnectingExits && this.getDoorExitMap().isEmpty()) {
-			this.currentFloor = oldFloor;
-			this.currentLocation = oldCoordinates;
+			this.currentLocation = oldLocation;
 			throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
 		}
 		
 		
 	}
-	
-	
-//	public Set<FloorLocation> getDoorExitLocations() {
-//	if (this.getLocation() == null) {
-//		throw new RuntimeException("This tile hasn't been added to the board yet, and therefore has no location!");
-//	}
-//	return this.getDoorExitLocations(this.getLocation());
-//}
-
-//	public Set<FloorLocation> getDoorExitLocations(FloorLocation locationTestingFrom) {
-//		Set<FloorLocation> locations = new HashSet<FloorLocation>();
-//		for (Room_Direction exitDirection : this.doorExits) {
-//			locations.add(locationTestingFrom.getLocationOfRoomAtExit(exitDirection, this.getOrientation()));
-//		}
-//		return locations;
-//	}
-	
-	public Room getRoomFromExit(Room_Direction exitDirection) {
+		
+	public Room getRoomFromExit(Relative_Direction exitDirection) {
 		return getDoorExitMap().get(exitDirection);
 	}
 	
-	private HashMap<Room_Direction, Room> getDoorExitMap() {
-		HashMap<Room_Direction, Room> doorExitMap = new HashMap<Room_Direction, Room>();
-		for (Room_Direction exitDirection : this.getDoorExits()) {
-			FloorLocation exitCoordinates = this.currentLocation.getLocationOfRoomAtExit(exitDirection, getOrientation());
-			Room roomAtExit = Game.getInstance().getRoomAtLocation(currentFloor, exitCoordinates);
+	private HashMap<Relative_Direction, Room> getDoorExitMap() {
+		HashMap<Relative_Direction, Room> doorExitMap = new HashMap<Relative_Direction, Room>();
+		for (Relative_Direction exitDirection : this.getExits()) {
+			Location exitLocation = this.getLocationOfRoomAtExit(exitDirection);
+			Room roomAtExit = Game.getInstance().getRoomAtLocation(exitLocation);
 			if (roomAtExit != null && roomAtExit.getExitCoordinatesMap().containsValue(currentLocation)) {
 				doorExitMap.put(exitDirection, roomAtExit);
 			}
@@ -134,32 +116,37 @@ public abstract class Room {
 		return doorExitMap;
 	}
 	
-	private HashMap<Room_Direction, FloorLocation> getExitCoordinatesMap() {
-		HashMap<Room_Direction, FloorLocation> exitCoordinatesMap = new HashMap<Room_Direction, FloorLocation>();
-		for (Room_Direction exitDirection : this.getDoorExits()) {
-			FloorLocation exitCoordinates = this.currentLocation.getLocationOfRoomAtExit(exitDirection, getOrientation());
+	private HashMap<Relative_Direction, Location> getExitCoordinatesMap() {
+		HashMap<Relative_Direction, Location> exitCoordinatesMap = new HashMap<Relative_Direction, Location>();
+		for (Relative_Direction exitDirection : this.getExits()) {
+			Location exitCoordinates = this.getLocationOfRoomAtExit(exitDirection);
 			exitCoordinatesMap.put(exitDirection, exitCoordinates);
 		}
 		return exitCoordinatesMap;
 	}
 
 	public Floor_Name getFloor() {
-		return this.currentFloor;
+		return this.currentLocation.getFloor();
 	}
 		
 	public void setOrientation(Room_Orientation newOrientation) {
+		Room_Orientation oldOrientation = this.orientation;
 		this.orientation = newOrientation;
+		if (this.getDoorExitMap().isEmpty()) {
+			this.orientation = oldOrientation;
+			throw new RuntimeException("No connecting exits at orientation!");
+		}
 	}
 	
-	public Set<Room_Direction> getDoorExits() {
-		return this.doorExits;
+	public Set<Relative_Direction> getExits() {
+		return this.exits;
 	}
 	
 	public Room_Orientation getOrientation() {
 		return this.orientation;
 	}
 	
-	public Map<Room_Direction, Integer> getWindows() {
+	public Map<Relative_Direction, Integer> getWindows() {
 		return this.windows;
 	}
 	
@@ -167,16 +154,93 @@ public abstract class Room {
 		// only rooms that have ending actions implement this 
 	}
 	
-	public void leavingRoom(Character characterLeavingROom) {
+	public void leavingRoom(Character characterLeavingRoom) {
 		//only rooms that have room-leaving actions implement this
 	}
+	
+	public Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
+		
+		Location locationOfNewRoom = null;
+
+		switch (usingExit) {
+		case NORTH:
+			switch(this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case WEST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			}
+			break;
+		case EAST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			}
+			break;
+		case SOUTH:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			default: //case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			}
+			break;
+		case WEST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			}
+			break;
+		case SECRETSTAIRS:
+			locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
+			break;
+		}
+		return locationOfNewRoom;
+	}
+
 	
 	
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()) && this.doorExits.equals(otherRoom.getDoorExits()) && this.windows.equals(otherRoom.getWindows()));
+			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()) && this.exits.equals(otherRoom.getExits()) && this.windows.equals(otherRoom.getWindows()));
 		} else {
 			return false;
 		}

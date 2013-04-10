@@ -26,14 +26,14 @@ public class AngryBeing extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSpeed());
+		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSpeed());
 		if (rollResult >= 5){
 			game.getCurrentCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			game.getCurrentCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental when implemented
+			game.getCurrentCharacter().decrementKnowledge(game.rollDice(1)); // TODO: Change this to decrementMental when implemented
 		} else{
-			game.getCurrentCharacter().decrementKnowledge(game.rollDie(1)); // TODO: Change this to decrementMental
-			game.getCurrentCharacter().decrementMight(game.rollDie(1)); // TODO: Change this to decrementPhysical
+			game.getCurrentCharacter().decrementKnowledge(game.rollDice(1)); // TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementMight(game.rollDice(1)); // TODO: Change this to decrementPhysical
 		}
 	}
 

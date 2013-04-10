@@ -5,17 +5,17 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import floors.FloorLocation;
+import floors.Location;
 
 public class TestFloorLocation {
 	
-	private FloorLocation floorLocation1;
-	private FloorLocation floorLocation2;
+	private Location floorLocation1;
+	private Location floorLocation2;
 	
 	@Before
 	public void setUp() {
-		floorLocation1 = new FloorLocation(0,0);
-		floorLocation2 = new FloorLocation(5,7);
+		floorLocation1 = new Location(0,0);
+		floorLocation2 = new Location(5,7);
 	}
 
 	@Test
@@ -38,9 +38,9 @@ public class TestFloorLocation {
 	
 	@Test
 	public void testEquals() {
-		assertEquals(new FloorLocation(0,0), floorLocation1);
-		assertEquals(new FloorLocation(5,7), floorLocation2);
-		assertFalse(floorLocation1.equals(new FloorLocation(0,5)));
+		assertEquals(new Location(0,0), floorLocation1);
+		assertEquals(new Location(5,7), floorLocation2);
+		assertFalse(floorLocation1.equals(new Location(0,5)));
 	}
 
 }

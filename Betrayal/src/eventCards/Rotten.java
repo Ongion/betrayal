@@ -30,7 +30,7 @@ public class Rotten extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
+		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
 		if (rollResult >= 5){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult == 1){

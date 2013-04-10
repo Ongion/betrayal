@@ -9,12 +9,12 @@ import org.junit.Test;
 
 import rooms.EventRoom;
 import rooms.Room;
-import rooms.Room.Room_Direction;
+import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 
 import floors.Floor;
 import floors.Floor.FloorName;
-import floors.FloorLocation;
+import floors.Location;
 
 public class TestFloor {
 	
@@ -38,14 +38,14 @@ public class TestFloor {
 	
 	@Test
 	public void testGetNextdoorRooms() {
-		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
-		HashSet<Room_Direction> gardensExits = new HashSet<Room_Direction>();
+		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
+		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		
-		organRoomExits.add(Room_Direction.SOUTH);
-		organRoomExits.add(Room_Direction.WEST);
+		organRoomExits.add(Relative_Direction.SOUTH);
+		organRoomExits.add(Relative_Direction.WEST);
 		
-		gardensExits.add(Room_Direction.NORTH);
-		gardensExits.add(Room_Direction.SOUTH);
+		gardensExits.add(Relative_Direction.NORTH);
+		gardensExits.add(Relative_Direction.SOUTH);
 		
 		HashSet<FloorName> organRoomFloors = new HashSet<FloorName>();
 		HashSet<FloorName> gardensFloors = new HashSet<FloorName>();
@@ -59,22 +59,22 @@ public class TestFloor {
 		Room organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
 		Room gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
 		
-		this.groundFloor.addRoom(new FloorLocation(-1, 0), organRoom);
-		this.groundFloor.addRoom(new FloorLocation(0,0), gardens);
+		this.groundFloor.addRoom(new Location(-1, 0), organRoom);
+		this.groundFloor.addRoom(new Location(0,0), gardens);
 		
-		assertEquals(gardens, this.groundFloor.getNextdoorRoomFromExit(new FloorLocation(-1,0), Room_Direction.SOUTH));
+		assertEquals(gardens, this.groundFloor.getNextdoorRoomFromExit(new Location(-1,0), Relative_Direction.SOUTH));
 	}
 	
 	@Test
 	public void testFloorContainsRoom() {
-		HashSet<Room_Direction> organRoomExits = new HashSet<Room_Direction>();
-		HashSet<Room_Direction> gardensExits = new HashSet<Room_Direction>();
+		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
+		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		
-		organRoomExits.add(Room_Direction.SOUTH);
-		organRoomExits.add(Room_Direction.WEST);
+		organRoomExits.add(Relative_Direction.SOUTH);
+		organRoomExits.add(Relative_Direction.WEST);
 		
-		gardensExits.add(Room_Direction.NORTH);
-		gardensExits.add(Room_Direction.SOUTH);
+		gardensExits.add(Relative_Direction.NORTH);
+		gardensExits.add(Relative_Direction.SOUTH);
 		
 		HashSet<FloorName> organRoomFloors = new HashSet<FloorName>();
 		HashSet<FloorName> gardensFloors = new HashSet<FloorName>();
@@ -88,8 +88,8 @@ public class TestFloor {
 		Room organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
 		Room gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
 		
-		this.groundFloor.addRoom(new FloorLocation(-1, 0), organRoom);
-		this.groundFloor.addRoom(new FloorLocation(0,0), gardens);
+		this.groundFloor.addRoom(new Location(-1, 0), organRoom);
+		this.groundFloor.addRoom(new Location(0,0), gardens);
 
 		assertTrue(this.groundFloor.containsRoomWithName("Organ Room"));
 		assertTrue(this.groundFloor.containsRoomWithName("Garden"));
