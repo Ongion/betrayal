@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -9,8 +10,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import rooms.CatacombsRoom;
 import rooms.EventRoom;
 import rooms.NormalRoom;
+import rooms.OmenRoom;
 import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
@@ -22,6 +25,8 @@ public class TestRooms {
 	Room organRoom;
 	Room gardens;
 	Room basementLanding;
+	Room catacombs;
+	Room diningRoom;
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -36,8 +41,8 @@ public class TestRooms {
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
 		gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
+//		game.addRoomToMap(gardens);
 		gardens.setLocation(new Location(Floor_Name.GROUND, 0 , 0), true);
-		game.addRoomToMap(gardens);
 
 		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
 		organRoomExits.add(Relative_Direction.SOUTH);
@@ -48,7 +53,16 @@ public class TestRooms {
 		organRoomFloors.add(Floor_Name.BASEMENT);
 		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
 		organRoom.setLocation(new Location(Floor_Name.GROUND, -1 , 0));	
-		game.addRoomToMap(organRoom);
+		
+		HashSet<Relative_Direction> diningRoomExits = new HashSet<Relative_Direction>();
+		diningRoomExits.add(Relative_Direction.NORTH);
+		diningRoomExits.add(Relative_Direction.EAST);
+		HashSet<Floor_Name> diningRoomFloors = new HashSet<Floor_Name>();
+		diningRoomFloors.add(Floor_Name.GROUND);
+		HashMap<Relative_Direction, Integer> diningRoomWindows = new HashMap<Relative_Direction, Integer>();
+		diningRoomWindows.put(Relative_Direction.WEST, 2);
+		diningRoom = new OmenRoom("Dining Room", Room_Orientation.NORTH, diningRoomExits, diningRoomFloors, diningRoomWindows);
+		diningRoom.setLocation(new Location(Floor_Name.GROUND, -1, -1));
 
 		HashSet<Relative_Direction> basementLandingExits = new HashSet<Relative_Direction>();
 		basementLandingExits.add(Relative_Direction.NORTH);
@@ -58,6 +72,15 @@ public class TestRooms {
 		HashSet<Floor_Name> basementLandingFloors = new HashSet<Floor_Name>();
 		basementLandingFloors.add(Floor_Name.BASEMENT);
 		basementLanding = new NormalRoom("Basement Landing", Room_Orientation.NORTH, basementLandingExits, basementLandingFloors);
+		basementLanding.setLocation(new Location(Floor_Name.BASEMENT, 0, 0), true);
+		
+		HashSet<Relative_Direction> catacombsExits = new HashSet<Relative_Direction>();
+		catacombsExits.add(Relative_Direction.NORTH);
+		catacombsExits.add(Relative_Direction.SOUTH);
+		HashSet<Floor_Name> catacombsFloors = new HashSet<Floor_Name>();
+		catacombsFloors.add(Floor_Name.BASEMENT);
+		catacombs = new CatacombsRoom("Catacombs", Room_Orientation.EAST, catacombsExits, catacombsFloors);
+		catacombs.setLocation(new Location(Floor_Name.BASEMENT, 1, 0));
 
 		
 	}
@@ -77,20 +100,24 @@ public class TestRooms {
 	
 	@Test
 	public void testGetSetRoomOrientation() {
-		organRoom.setOrientation(Room_Orientation.SOUTH);
+		gardens.setOrientation(Room_Orientation.WEST);
 
-		assertEquals(Room_Orientation.SOUTH, organRoom.getOrientation());
+		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
 	}
 	
 	@Test
 	public void testGetFloorRoomIsOn() {
-		assertEquals(Floor_Name.GROUND, this.organRoom.getFloor());
+		assertEquals(Floor_Name.GROUND, organRoom.getFloor());
+		assertEquals(Floor_Name.BASEMENT, catacombs.getFloor());
 	}
 	
 	@Test
-	public void testGetNextdoorRooms() {
+	public void testGetRoomFromExit() {
 		assertEquals(gardens, organRoom.getRoomFromExit(Relative_Direction.SOUTH));
 		assertEquals(organRoom, gardens.getRoomFromExit(Relative_Direction.SOUTH));
+		
+		assertEquals(catacombs, basementLanding.getRoomFromExit(Relative_Direction.EAST));
+		assertEquals(basementLanding, catacombs.getRoomFromExit(Relative_Direction.SOUTH));
 	}
 
 }

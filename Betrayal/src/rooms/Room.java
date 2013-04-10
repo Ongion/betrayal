@@ -39,6 +39,11 @@ public abstract class Room {
 		return this.name;
 	}
 	
+	public void addSecretStairs(Room roomConnectingTo) {
+		this.exits.add(Relative_Direction.SECRETSTAIRS);
+		this.otherEndOfSecretStairs = roomConnectingTo;
+	}
+	
 //	public void setHasSecretStairs(boolean newHasStairs) {
 //		this.hasSecretStairs = newHasStairs;
 //	}
@@ -86,16 +91,19 @@ public abstract class Room {
 		if (roomAtLocation != null) {
 			throw new IllegalArgumentException(String.format("The %s is already at that location", roomAtLocation.getName()));
 		}
-
+		Game.getInstance().addRoomToMap(this);
 		Location oldLocation = this.currentLocation;
 		
 		this.currentLocation = locationRoomWillBePlaced;
 		
-		if (!allowNoConnectingExits && this.getDoorExitMap().isEmpty()) {
-			this.currentLocation = oldLocation;
-			throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
+		if (!allowNoConnectingExits) {
+			for (Room room : Game.getInstance().getMapRooms()) {
+				if (room.getDoorExitMap().isEmpty()) {
+					this.currentLocation = oldLocation;
+					throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
+				}
+			}
 		}
-		
 		
 	}
 		

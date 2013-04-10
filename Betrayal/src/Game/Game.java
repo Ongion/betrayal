@@ -86,6 +86,10 @@ public class Game {
 		this.isHaunt = isHaunt;
 	}
 	
+	public Set<Room> getMapRooms() {
+		return this.mapRooms;
+	}
+	
 	public Room drawRoom(){
 		// TODO: Handle when discard is empty too
 		if(this.roomDeck.size() == 0){
