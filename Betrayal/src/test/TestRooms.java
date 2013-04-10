@@ -171,6 +171,8 @@ public class TestRooms {
 		
 		assertEquals(catacombs, basementLanding.getRoomFromExit(Relative_Direction.EAST));
 		assertEquals(basementLanding, catacombs.getRoomFromExit(Relative_Direction.SOUTH));
+		
+		assertEquals(null, servantsQuarters.getRoomFromExit(Relative_Direction.NORTH));
 	}
 	
 	@Test
@@ -180,5 +182,22 @@ public class TestRooms {
 		assertEquals(2, masterBedroom.getExternalWindows());
 		assertEquals(0, bedroom.getExternalWindows());
 	}
+
+	
+	@Test
+	public void testMovingRooms() {
+		servantsQuarters.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 2, 0));
+		assertEquals(1, bedroom.getExternalWindows());
+		assertEquals(catacombs, servantsQuarters.getRoomFromExit(Relative_Direction.NORTH));
+		
+		exception.expect(RuntimeException.class);
+		exception.expectMessage("The Servant's Quarters is not allowed on the GROUND floor");
+		servantsQuarters.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 0, -1));
+		exception = ExpectedException.none();
+		
+		assertEquals(servantsQuarters.getOrientation(), Room_Orientation.WEST);
+		assertEquals(servantsQuarters.getFloor(), Floor_Name.BASEMENT);
+	}
+	
 
 }
