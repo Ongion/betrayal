@@ -104,6 +104,30 @@ public class TestRooms {
 		servantsQuartersExits.add(Relative_Direction.SOUTH);
 		servantsQuartersExits.add(Relative_Direction.WEST);
 		HashSet<Floor_Name> servantsQuartersFloors = new HashSet<Floor_Name>();
+		servantsQuartersFloors.add(Floor_Name.UPPER);
+		servantsQuartersFloors.add(Floor_Name.BASEMENT);
+		servantsQuarters = new OmenRoom("Servant's Quarters", servantsQuartersExits, servantsQuartersFloors);
+		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 5));
+		
+		HashSet<Relative_Direction> masterBedroomExits = new HashSet<Relative_Direction>();
+		masterBedroomExits.add(Relative_Direction.NORTH);
+		masterBedroomExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> masterBedroomFloors = new HashSet<Floor_Name>();
+		masterBedroomFloors.add(Floor_Name.UPPER);
+		HashMap<Relative_Direction, Integer> masterBedroomWindows = new HashMap<Relative_Direction, Integer>();
+		masterBedroomWindows.put(Relative_Direction.SOUTH, 2);
+		masterBedroom = new OmenRoom("Master Bedroom", masterBedroomExits, masterBedroomFloors, masterBedroomWindows);
+		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 5, 6));
+		
+		HashSet<Relative_Direction> bedroomExits = new HashSet<Relative_Direction>();
+		bedroomExits.add(Relative_Direction.EAST);
+		bedroomExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> bedroomFloors = new HashSet<Floor_Name>();
+		bedroomFloors.add(Floor_Name.UPPER);
+		HashMap<Relative_Direction, Integer> bedroomWindows = new HashMap<Relative_Direction, Integer>();
+		bedroomWindows.put(Relative_Direction.SOUTH, 1);
+		bedroom = new EventRoom("Bedroom", bedroomExits, bedroomFloors, bedroomWindows);
+		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
 
 	}
 	
@@ -145,6 +169,8 @@ public class TestRooms {
 	public void testGetExternalWindows() {
 		assertEquals(0, gardens.getExternalWindows());
 		assertEquals(2, diningRoom.getExternalWindows());
+		assertEquals(2, masterBedroom.getExternalWindows());
+		assertEquals(0, bedroom.getExternalWindows());
 	}
 
 }
