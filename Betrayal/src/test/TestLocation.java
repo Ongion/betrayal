@@ -9,7 +9,7 @@ import rooms.Room.Floor_Name;
 
 import floors.Location;
 
-public class TestFloorLocation {
+public class TestLocation {
 	
 	private Location floorLocation1;
 	private Location floorLocation2;
