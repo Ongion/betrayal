@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import Game.Game;
-import characters.Character;
-
 public class NormalRoom extends Room{
 	
 	public NormalRoom(String name, Room_Orientation orientation, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {

@@ -1,8 +1,6 @@
 package floors;
 
 import rooms.Room.Floor_Name;
-import rooms.Room.Relative_Direction;
-import rooms.Room.Room_Orientation;
 
 public class Location {
 	private Floor_Name floor;

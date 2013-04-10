@@ -6,7 +6,6 @@ import java.util.Set;
 
 import Game.Game;
 import characters.Character;
-import floors.Floor;
 import floors.Location;
 
 public abstract class Room {

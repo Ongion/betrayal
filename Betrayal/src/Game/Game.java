@@ -1,21 +1,19 @@
 package Game;
 
+import itemCards.ItemCard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import omenCards.OmenCard;
 import rooms.Room;
-import rooms.Room.Floor_Name;
+import characters.Character;
 import eventCards.EventCard;
 import floors.Floor;
-import floors.Floor.FloorName;
 import floors.Location;
-import omenCards.OmenCard;
-import itemCards.ItemCard;
-
-import characters.Character;
 
 public class Game {
 	
