@@ -13,7 +13,7 @@ public class PentagramChamberRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom) { 
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
 		/* 
 		 * When exiting, you must attempt a Knowledge roll of 4+
 		 * If you fail, lose 1 Sanity (but continue moving). 

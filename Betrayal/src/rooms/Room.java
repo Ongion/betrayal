@@ -154,7 +154,7 @@ public abstract class Room {
 		// only rooms that have ending actions implement this 
 	}
 	
-	public void leavingRoom(Character characterLeavingRoom) {
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		//only rooms that have room-leaving actions implement this
 	}
 	
@@ -230,6 +230,8 @@ public abstract class Room {
 		case SECRETSTAIRS:
 			locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
 			break;
+		case WALLSWITCH:
+			locationOfNewRoom = this.otherEndOfWallSwitch.getLocation();
 		}
 		return locationOfNewRoom;
 	}

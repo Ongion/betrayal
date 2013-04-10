@@ -9,6 +9,9 @@ import java.util.ResourceBundle;
 import Game.Player;
 
 import omenCards.OmenCard;
+import rooms.Room;
+import rooms.Room.Relative_Direction;
+import rooms.Room.Room_Orientation;
 import eventCards.EventCard;
 
 
@@ -35,6 +38,9 @@ public class Character {
 	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
 	
 	protected Player playerControlledBy; 
+	
+	protected Room currentRoom;
+	protected Relative_Direction sideOfRoom;
 
 	
 	
@@ -278,6 +284,14 @@ public class Character {
 	
 	public void setControllingPlayer(Player p) {
 		this.playerControlledBy = p;
+	}
+	
+	public void endMovement() {
+		//TODO Implement this. Probably will call a method in Game?
+	}
+	
+	public Relative_Direction getSideOfRoom() {
+		return this.sideOfRoom;
 	}
 	
 }
