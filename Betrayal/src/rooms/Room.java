@@ -112,6 +112,10 @@ public abstract class Room {
 		}
 		
 	}
+	
+	private Room getRoomFromDirection(Relative_Direction directionChecking) {
+		return Game.getInstance().getRoomAtLocation(this.getLocationOfRoomAtExit(directionChecking));
+	}
 		
 	public Room getRoomFromExit(Relative_Direction exitDirection) {
 		return getExitMap().get(exitDirection);
@@ -162,7 +166,9 @@ public abstract class Room {
 	public int getExternalWindows() {
 		int numExternalWindows = 0;
 		for (Relative_Direction direction : this.windows.keySet()) {
-			numExternalWindows += this.windows.get(direction);
+			if (this.getRoomFromDirection(direction) == null) {
+				numExternalWindows += this.windows.get(direction);
+			}
 		}
 		return numExternalWindows;
 	}
