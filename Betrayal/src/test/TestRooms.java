@@ -27,6 +27,10 @@ public class TestRooms {
 	Room basementLanding;
 	Room catacombs;
 	Room diningRoom;
+	Room creakyHallway;
+	Room servantsQuarters;
+	Room masterBedroom;
+	Room bedroom;
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -81,8 +85,26 @@ public class TestRooms {
 		catacombsFloors.add(Floor_Name.BASEMENT);
 		catacombs = new CatacombsRoom("Catacombs", catacombsExits, catacombsFloors);
 		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
-
 		
+		HashSet<Relative_Direction> creakyHallwayExits = new HashSet<Relative_Direction>();
+		creakyHallwayExits.add(Relative_Direction.NORTH);
+		creakyHallwayExits.add(Relative_Direction.EAST);
+		creakyHallwayExits.add(Relative_Direction.SOUTH);
+		creakyHallwayExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> creakyHallwayFloors = new HashSet<Floor_Name>();
+		creakyHallwayFloors.add(Floor_Name.UPPER);
+		creakyHallwayFloors.add(Floor_Name.GROUND);
+		creakyHallwayFloors.add(Floor_Name.BASEMENT);
+		creakyHallway = new NormalRoom("Creaky Hallway", creakyHallwayExits, creakyHallwayFloors);
+		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5), true);
+		
+		HashSet<Relative_Direction> servantsQuartersExits = new HashSet<Relative_Direction>();
+		servantsQuartersExits.add(Relative_Direction.NORTH);
+		servantsQuartersExits.add(Relative_Direction.EAST);
+		servantsQuartersExits.add(Relative_Direction.SOUTH);
+		servantsQuartersExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> servantsQuartersFloors = new HashSet<Floor_Name>();
+
 	}
 	
 	@Test
