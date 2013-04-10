@@ -241,7 +241,7 @@ public abstract class Room {
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()) && this.exits.equals(otherRoom.getExits()) && this.windows.equals(otherRoom.getWindows()));
+			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()));
 		} else {
 			return false;
 		}
