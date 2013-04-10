@@ -118,5 +118,11 @@ public class TestRooms {
 		assertEquals(catacombs, basementLanding.getRoomFromExit(Relative_Direction.EAST));
 		assertEquals(basementLanding, catacombs.getRoomFromExit(Relative_Direction.SOUTH));
 	}
+	
+	@Test
+	public void testGetExternalWindows() {
+		assertEquals(0, gardens.getExternalWindows());
+		assertEquals(2, diningRoom.getExternalWindows());
+	}
 
 }
