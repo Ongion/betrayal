@@ -39,6 +39,10 @@ public abstract class Room {
 		return this.name;
 	}
 	
+	public boolean hasConnection() {
+		return !this.getExitMap().isEmpty();
+	}
+	
 	public void addSecretStairs(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.SECRETSTAIRS);
 		this.otherEndOfSecretStairs = roomConnectingTo;
@@ -83,7 +87,7 @@ public abstract class Room {
 		setLocation(locationRoomWillBePlaced, false);
 	}
 	
-	public void setLocation(Location locationRoomWillBePlaced, boolean allowNoConnectingExits) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
+	public void setLocation(Location locationRoomWillBePlaced, boolean overrideCorrectnessCheck) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
 		if (!this.floorsAllowedOn.contains(locationRoomWillBePlaced.getFloor())) {									   // This will also be needed for placing the first tiles
 			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), locationRoomWillBePlaced.getFloor().toString()));
 		}
@@ -96,31 +100,29 @@ public abstract class Room {
 		
 		this.currentLocation = locationRoomWillBePlaced;
 		
-		if (!allowNoConnectingExits) {
-			for (Room room : Game.getInstance().getMapRooms()) {
-				if (room.getDoorExitMap().isEmpty()) {
-					this.currentLocation = oldLocation;
-					throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
-				}
+		if (!overrideCorrectnessCheck) {
+			if (!Game.getInstance().isMapValid()) {
+				this.currentLocation = oldLocation;
+				throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
 			}
 		}
 		
 	}
 		
 	public Room getRoomFromExit(Relative_Direction exitDirection) {
-		return getDoorExitMap().get(exitDirection);
+		return getExitMap().get(exitDirection);
 	}
 	
-	private HashMap<Relative_Direction, Room> getDoorExitMap() {
-		HashMap<Relative_Direction, Room> doorExitMap = new HashMap<Relative_Direction, Room>();
+	private HashMap<Relative_Direction, Room> getExitMap() {
+		HashMap<Relative_Direction, Room> exitMap = new HashMap<Relative_Direction, Room>();
 		for (Relative_Direction exitDirection : this.getExits()) {
 			Location exitLocation = this.getLocationOfRoomAtExit(exitDirection);
 			Room roomAtExit = Game.getInstance().getRoomAtLocation(exitLocation);
 			if (roomAtExit != null && roomAtExit.getExitCoordinatesMap().containsValue(currentLocation)) {
-				doorExitMap.put(exitDirection, roomAtExit);
+				exitMap.put(exitDirection, roomAtExit);
 			}
 		}
-		return doorExitMap;
+		return exitMap;
 	}
 	
 	private HashMap<Relative_Direction, Location> getExitCoordinatesMap() {
@@ -139,9 +141,9 @@ public abstract class Room {
 	public void setOrientation(Room_Orientation newOrientation) {
 		Room_Orientation oldOrientation = this.orientation;
 		this.orientation = newOrientation;
-		if (this.getDoorExitMap().isEmpty()) {
+		if (!Game.getInstance().isMapValid()) {
 			this.orientation = oldOrientation;
-			throw new RuntimeException("No connecting exits at orientation!");
+			throw new RuntimeException("New orientation invalidates map state!");
 		}
 	}
 	
@@ -165,7 +167,7 @@ public abstract class Room {
 		//only rooms that have room-leaving actions implement this
 	}
 	
-	public Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
+	private Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
 		
 		Location locationOfNewRoom = null;
 
@@ -263,6 +265,7 @@ public abstract class Room {
 		result = prime * result + (this.orientation.ordinal());
 		return result;
 	}
+
 
 	
 	

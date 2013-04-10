@@ -101,7 +101,6 @@ public class TestRooms {
 	@Test
 	public void testGetSetRoomOrientation() {
 		gardens.setOrientation(Room_Orientation.WEST);
-
 		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
 	}
 	
