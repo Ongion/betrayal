@@ -155,8 +155,12 @@ public abstract class Room {
 		return this.orientation;
 	}
 	
-	public Map<Relative_Direction, Integer> getWindows() {
-		return this.windows;
+	public int getExternalWindows() {
+		int numExternalWindows = 0;
+		for (Relative_Direction direction : this.windows.keySet()) {
+			numExternalWindows += this.windows.get(direction);
+		}
+		return numExternalWindows;
 	}
 	
 	public void endTurnInRoom(Character characterEndingTurn) {
