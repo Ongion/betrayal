@@ -8,8 +8,8 @@ import characters.Character;
 
 public class PentagramChamberRoom extends OmenRoom {
 
-	public PentagramChamberRoom(String name, Room_Orientation orientation, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
-		super(name, orientation, doorExits, floorsAllowedOn);
+	public PentagramChamberRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+		super(name, doorExits, floorsAllowedOn);
 	}
 	
 	@Override

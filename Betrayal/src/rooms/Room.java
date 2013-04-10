@@ -24,9 +24,8 @@ public abstract class Room {
 	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 	
-	public Room (String name, Room_Orientation orientation, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
+	public Room (String name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
 		this.name = name;
-		this.orientation = orientation;
 		this.exits = exits;
 		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
@@ -83,27 +82,32 @@ public abstract class Room {
 		return this.currentLocation;
 	}
 	
-	public void setLocation(Location locationRoomWillBePlaced) {
-		setLocation(locationRoomWillBePlaced, false);
+	public void setPlacement(Room_Orientation orientationOfRoom, Location locationRoomWillBePlaced) {
+		setPlacement(orientationOfRoom, locationRoomWillBePlaced, false);
 	}
 	
-	public void setLocation(Location locationRoomWillBePlaced, boolean overrideCorrectnessCheck) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
+	public void setPlacement(Room_Orientation orientationOfRoom, Location locationRoomWillBePlaced, boolean overrideCorrectnessCheck) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
 		if (!this.floorsAllowedOn.contains(locationRoomWillBePlaced.getFloor())) {									   // This will also be needed for placing the first tiles
-			throw new IllegalArgumentException(String.format("The %s is not allowed on the %s floor", this.getName(), locationRoomWillBePlaced.getFloor().toString()));
+			throw new RuntimeException(String.format("The %s is not allowed on the %s floor", this.getName(), locationRoomWillBePlaced.getFloor().toString()));
 		}
-		Room roomAtLocation = Game.getInstance().getRoomAtLocation(locationRoomWillBePlaced);
-		if (roomAtLocation != null) {
-			throw new IllegalArgumentException(String.format("The %s is already at that location", roomAtLocation.getName()));
+		if (!locationRoomWillBePlaced.equals(this.currentLocation)) {
+			Room roomAtLocation = Game.getInstance().getRoomAtLocation(locationRoomWillBePlaced);
+			if (roomAtLocation != null) {
+				throw new RuntimeException(String.format("The %s is already at that location", roomAtLocation.getName()));
+			}
 		}
 		Game.getInstance().addRoomToMap(this);
+		Room_Orientation oldOrientation = this.orientation; 
 		Location oldLocation = this.currentLocation;
 		
+		this.orientation = orientationOfRoom;
 		this.currentLocation = locationRoomWillBePlaced;
 		
 		if (!overrideCorrectnessCheck) {
 			if (!Game.getInstance().isMapValid()) {
 				this.currentLocation = oldLocation;
-				throw new RuntimeException(String.format("The %s had no connecting exits at %s", this.getName(), this.currentLocation.toString()));
+				this.orientation = oldOrientation;
+				throw new RuntimeException(String.format("New placement invalidates map state!", this.getName(), this.currentLocation.toString()));
 			}
 		}
 		
@@ -138,14 +142,14 @@ public abstract class Room {
 		return this.currentLocation.getFloor();
 	}
 		
-	public void setOrientation(Room_Orientation newOrientation) {
-		Room_Orientation oldOrientation = this.orientation;
-		this.orientation = newOrientation;
-		if (!Game.getInstance().isMapValid()) {
-			this.orientation = oldOrientation;
-			throw new RuntimeException("New orientation invalidates map state!");
-		}
-	}
+//	public void setOrientation(Room_Orientation newOrientation) {
+//		Room_Orientation oldOrientation = this.orientation;
+//		this.orientation = newOrientation;
+//		if (!Game.getInstance().isMapValid()) {
+//			this.orientation = oldOrientation;
+//			throw new RuntimeException("New orientation invalidates map state!");
+//		}
+//	}
 	
 	public Set<Relative_Direction> getExits() {
 		return this.exits;
@@ -255,7 +259,7 @@ public abstract class Room {
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.name.equals(otherRoom.getName()) && this.orientation.equals(otherRoom.getOrientation()));
+			return (this.name.equals(otherRoom.getName()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
 		} else {
 			return false;
 		}
@@ -266,7 +270,9 @@ public abstract class Room {
 		int prime = 31;
 		int result = 1;
 		result = prime * result + (this.name== null? 0 : name.hashCode());
-		result = prime * result + (this.orientation.ordinal());
+		result = prime * result + (this.exits.hashCode());
+		result = prime * result + (this.floorsAllowedOn.hashCode());
+		result = prime * result + (this.windows.hashCode());
 		return result;
 	}
 

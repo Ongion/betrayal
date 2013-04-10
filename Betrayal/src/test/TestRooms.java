@@ -40,9 +40,9 @@ public class TestRooms {
 		gardensExits.add(Relative_Direction.SOUTH);
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
-		gardens = new EventRoom("Garden", Room_Orientation.EAST, gardensExits, gardensFloors);
+		gardens = new EventRoom("Garden", gardensExits, gardensFloors);
 //		game.addRoomToMap(gardens);
-		gardens.setLocation(new Location(Floor_Name.GROUND, 0 , 0), true);
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0), true);
 
 		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
 		organRoomExits.add(Relative_Direction.SOUTH);
@@ -51,8 +51,8 @@ public class TestRooms {
 		organRoomFloors.add(Floor_Name.UPPER);
 		organRoomFloors.add(Floor_Name.GROUND);
 		organRoomFloors.add(Floor_Name.BASEMENT);
-		organRoom = new EventRoom("Organ Room", Room_Orientation.WEST, organRoomExits, organRoomFloors);
-		organRoom.setLocation(new Location(Floor_Name.GROUND, -1 , 0));	
+		organRoom = new EventRoom("Organ Room", organRoomExits, organRoomFloors);
+		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
 		
 		HashSet<Relative_Direction> diningRoomExits = new HashSet<Relative_Direction>();
 		diningRoomExits.add(Relative_Direction.NORTH);
@@ -61,8 +61,8 @@ public class TestRooms {
 		diningRoomFloors.add(Floor_Name.GROUND);
 		HashMap<Relative_Direction, Integer> diningRoomWindows = new HashMap<Relative_Direction, Integer>();
 		diningRoomWindows.put(Relative_Direction.WEST, 2);
-		diningRoom = new OmenRoom("Dining Room", Room_Orientation.NORTH, diningRoomExits, diningRoomFloors, diningRoomWindows);
-		diningRoom.setLocation(new Location(Floor_Name.GROUND, -1, -1));
+		diningRoom = new OmenRoom("Dining Room", diningRoomExits, diningRoomFloors, diningRoomWindows);
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
 
 		HashSet<Relative_Direction> basementLandingExits = new HashSet<Relative_Direction>();
 		basementLandingExits.add(Relative_Direction.NORTH);
@@ -71,16 +71,16 @@ public class TestRooms {
 		basementLandingExits.add(Relative_Direction.WEST);
 		HashSet<Floor_Name> basementLandingFloors = new HashSet<Floor_Name>();
 		basementLandingFloors.add(Floor_Name.BASEMENT);
-		basementLanding = new NormalRoom("Basement Landing", Room_Orientation.NORTH, basementLandingExits, basementLandingFloors);
-		basementLanding.setLocation(new Location(Floor_Name.BASEMENT, 0, 0), true);
+		basementLanding = new NormalRoom("Basement Landing", basementLandingExits, basementLandingFloors);
+		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0), true);
 		
 		HashSet<Relative_Direction> catacombsExits = new HashSet<Relative_Direction>();
 		catacombsExits.add(Relative_Direction.NORTH);
 		catacombsExits.add(Relative_Direction.SOUTH);
 		HashSet<Floor_Name> catacombsFloors = new HashSet<Floor_Name>();
 		catacombsFloors.add(Floor_Name.BASEMENT);
-		catacombs = new CatacombsRoom("Catacombs", Room_Orientation.EAST, catacombsExits, catacombsFloors);
-		catacombs.setLocation(new Location(Floor_Name.BASEMENT, 1, 0));
+		catacombs = new CatacombsRoom("Catacombs", catacombsExits, catacombsFloors);
+		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
 
 		
 	}
@@ -100,7 +100,7 @@ public class TestRooms {
 	
 	@Test
 	public void testGetSetRoomOrientation() {
-		gardens.setOrientation(Room_Orientation.WEST);
+		gardens.setPlacement(Room_Orientation.WEST, gardens.getLocation());
 		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
 	}
 	
