@@ -20,7 +20,7 @@ public class AtticRoom extends OmenRoom {
 		 */
 		
 		if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
-			int diceToRoll = characterLeavingRoom.getCurrentSanity();
+			int diceToRoll = characterLeavingRoom.getCurrentSpeed();
 			int TARGET_RESULT = 3;
 			int rollResult = Game.getInstance().rollDice(diceToRoll);
 			System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
