@@ -10,7 +10,7 @@ import java.util.Set;
 
 import omenCards.OmenCard;
 import rooms.Room;
-import characters.Character;
+import characters.Explorer;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Location;
@@ -28,7 +28,7 @@ public class Game {
 	private ArrayList<OmenCard> omenDiscard = new ArrayList<OmenCard>();
 	private ArrayList<ItemCard> itemDiscard = new ArrayList<ItemCard>();
 	private ArrayList<Player> players;
-	private ArrayList<Character> characters;
+	private ArrayList<Explorer> characters;
 	private int currentCharacter;
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
@@ -53,7 +53,7 @@ public class Game {
 		
 		//Create array for players
 		this.players = new ArrayList<Player>();
-		this.characters = new ArrayList<Character>();
+		this.characters = new ArrayList<Explorer>();
 		
 		this.currentCharacter = 0;
 	}
@@ -227,7 +227,7 @@ public class Game {
 		return currentCharacter;
 	}
 
-	public Character getCurrentCharacter() {
+	public Explorer getCurrentCharacter() {
 		return characters.get(currentCharacter);
 	}
 
@@ -280,7 +280,7 @@ public class Game {
 		this.players.add(player);		
 	}
 
-	public void addCharacter(Character character) {
+	public void addCharacter(Explorer character) {
 		this.characters.add(character);
 	}
 

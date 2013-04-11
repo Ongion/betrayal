@@ -14,28 +14,28 @@ import omenCards.OmenCard;
 import org.junit.Before;
 import org.junit.Test;
 
-import characters.Character;
+import characters.Explorer;
 import eventCards.EventCard;
 import eventCards.Rotten;
 
 public class TestCharacters {
 	
-	Character FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
+	Explorer FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
 	
 	@Before
 	public void initializeTests(){
-		FatherRhinehardt = new Character(0,new Locale("en"));
-		c1 = new Character(1,new Locale("en"));
-		c2 = new Character(2,new Locale("en"));
-		c3 = new Character(3,new Locale("en"));
-		c4 = new Character(4,new Locale("en"));
-		c5 = new Character(5,new Locale("en"));
-		c6 = new Character(6,new Locale("en"));
-		c7 = new Character(7,new Locale("en"));
-		c8 = new Character(8,new Locale("en"));
-		c9 = new Character(9,new Locale("en"));
-		c10 = new Character(10,new Locale("en"));
-		c11 = new Character(11,new Locale("en"));
+		FatherRhinehardt = new Explorer(0,new Locale("en"));
+		c1 = new Explorer(1,new Locale("en"));
+		c2 = new Explorer(2,new Locale("en"));
+		c3 = new Explorer(3,new Locale("en"));
+		c4 = new Explorer(4,new Locale("en"));
+		c5 = new Explorer(5,new Locale("en"));
+		c6 = new Explorer(6,new Locale("en"));
+		c7 = new Explorer(7,new Locale("en"));
+		c8 = new Explorer(8,new Locale("en"));
+		c9 = new Explorer(9,new Locale("en"));
+		c10 = new Explorer(10,new Locale("en"));
+		c11 = new Explorer(11,new Locale("en"));
 		
 	}
 	

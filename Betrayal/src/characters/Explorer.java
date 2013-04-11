@@ -14,7 +14,7 @@ import eventCards.EventCard;
 
 
 
-public class Character {
+public class Explorer {
 
 	protected String name;
 	protected String[] hobbies;
@@ -43,7 +43,7 @@ public class Character {
 	
 	
 	
-	public Character(int charIndex, Locale l){
+	public Explorer(int charIndex, Locale l){
 		
 		ResourceBundle CharacterBundle = null;
 		

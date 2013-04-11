@@ -34,8 +34,8 @@ import eventCards.Rotten;
 public class TestGame {
 
 	private Game game;
-	private characters.Character character = new characters.Character(0,new Locale("en"));
-	private characters.Character character2 = new characters.Character(1,new Locale("en"));
+	private characters.Explorer character = new characters.Explorer(0,new Locale("en"));
+	private characters.Explorer character2 = new characters.Explorer(1,new Locale("en"));
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";

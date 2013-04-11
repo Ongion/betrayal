@@ -31,7 +31,7 @@ import org.junit.Test;
 import rooms.Room;
 import Game.Game;
 import Game.Player;
-import characters.Character;
+import characters.Explorer;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
@@ -40,7 +40,7 @@ import eventCards.Rotten;
 
 public class TestOmenCard {
 
-	private Character character = new Character(0, new Locale("en"));
+	private Explorer character = new Explorer(0, new Locale("en"));
 	private Player player = new Player();
 	
 	private Game game;

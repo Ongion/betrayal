@@ -17,19 +17,19 @@ import org.junit.Test;
 import Game.Game;
 import Game.Player;
 
-import characters.Character;
+import characters.Explorer;
 import eventCards.EventCard;
 import eventCards.Rotten;
 
 public class TestPlayer {
 
 	Player p;
-	Character Father;
+	Explorer Father;
 	Game game;
 	
 	@Before
 	public void initTests() {
-		Father = new Character(0,new Locale("en"));
+		Father = new Explorer(0,new Locale("en"));
 		p = new Player();
 		p.addCharacter(Father);
 	}
