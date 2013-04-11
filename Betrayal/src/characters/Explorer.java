@@ -40,7 +40,7 @@ public class Explorer {
 	protected Room currentRoom;
 	protected Relative_Direction sideOfRoom;
 
-	
+	public enum Trait {KNOWLEDGE, SANITY, MIGHT, SPEED};
 	
 	
 	public Explorer(int charIndex, Locale l){
@@ -286,6 +286,18 @@ public class Explorer {
 	
 	public void endMovement() {
 		//TODO Implement this. Probably will call a method in Game?
+	}
+	
+	public void setCurrentRoom(Room room) {
+		this.currentRoom = room;
+	}
+	
+	public Room getCurrentRoom() {
+		return this.currentRoom;
+	}
+	
+	public void setSideOfRoom(Relative_Direction side) {
+		this.sideOfRoom = side;
 	}
 	
 	public Relative_Direction getSideOfRoom() {
