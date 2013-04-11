@@ -4,8 +4,8 @@ import Game.Game;
 
 public class HolySymbol extends OmenCard {
 
-	public HolySymbol(String name, String quote, Game game) {
-		super(name, quote, game);
+	public HolySymbol(String name, String quote) {
+		super(name, quote);
 
 	}
 

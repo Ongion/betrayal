@@ -4,8 +4,8 @@ import Game.Game;
 
 public class Ring extends OmenCard {
 
-	public Ring(String name, String quote, Game game) {
-		super(name, quote,game);
+	public Ring(String name, String quote) {
+		super(name, quote);
 		
 	}
 

@@ -4,8 +4,8 @@ import Game.Game;
 
 public class Girl extends OmenCard {
 
-	public Girl(String name, String quote, Game game) {
-		super(name, quote, game);
+	public Girl(String name, String quote) {
+		super(name, quote);
 		
 	}
 

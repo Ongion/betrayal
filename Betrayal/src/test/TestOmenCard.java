@@ -49,31 +49,31 @@ public class TestOmenCard {
 	
 	
 	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
-			"Hazy images appear in the glass.", game);
+			"Hazy images appear in the glass.");
 	private OmenCard bookCard = new Book("Book",
-			"A diary or lab notes? Ancient script or modern ravings?",game);
+			"A diary or lab notes? Ancient script or modern ravings?");
 	private OmenCard ringCard = new Ring("Ring",
-			"A battered ring with an incomprehensible inscription.",game);
+			"A battered ring with an incomprehensible inscription.");
 	private OmenCard madmanCard = new Madman("Madman",
-			"COMPANION A raving, frothing madman",game);
+			"COMPANION A raving, frothing madman");
 	private OmenCard spearCard = new Spear("Spear",
-			"A weapon pulsing with power.",game);
+			"A weapon pulsing with power.");
 	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
-			"A board with letters and numbers to call the dead",game);
+			"A board with letters and numbers to call the dead");
 	private Mask maskCard = new Mask("Mask",
-			"A somber mask to hide your intentions.", character, game);
+			"A somber mask to hide your intentions.");
 	private OmenCard medallionCard = new Medallion("Medallion",
-			"A medallion inscribed with a pentagram.",game);
+			"A medallion inscribed with a pentagram.");
 	private OmenCard girlCard = new Girl("Girl",
-			"COMPANION A girl.Trapped.Alone.You free her!",game);
+			"COMPANION A girl.Trapped.Alone.You free her!");
 	private OmenCard biteCard = new Bite("Bite",
-			"A growl, the scent of death.Pain.Darkness.Gone.",game);
+			"A growl, the scent of death.Pain.Darkness.Gone.");
 	private OmenCard skullCard = new Skull("Skull",
-			"A skull, cracked and missing teeth.",game);
+			"A skull, cracked and missing teeth.");
 	private OmenCard holySymbolCard = new HolySymbol("Holy Symbol",
-			"A symbol of calm in an unsettling world.",game);
+			"A symbol of calm in an unsettling world.");
 	private OmenCard dogCard = new Dog("Dog",
-			"COMPANION This mangy dog seems friendly. At least you hope it is.",game);
+			"COMPANION This mangy dog seems friendly. At least you hope it is.");
 	
 	private ArrayList<EventCard> events;
 	private ArrayList<ItemCard> items;
@@ -118,13 +118,13 @@ public class TestOmenCard {
 
 	@Test 
 	public void TestIsHauntRollForOmenCard(){
-		OmenCard card = new Book ("Test card", "Just testing",game);
+		OmenCard card = new Book ("Test card", "Just testing");
 		assertEquals(game.getIsHaunt(),card.isHauntRoll());
 	}
 	
 	@Test
 	public void TestMakeHauntRollForOmenCard(){
-		OmenCard card = new Book("Test","Just testing",game);
+		OmenCard card = new Book("Test","Just testing");
 		assertFalse(card.makeHauntRoll());
 		game.setIsHaunt(true);
 		if(card.isHauntRoll()){
