@@ -27,7 +27,7 @@ public class PentagramChamberRoom extends OmenRoom {
 			characterLeavingRoom.decrementSanity(1);
 			System.out.println(String.format("%s lost 1 sanity!", characterLeavingRoom.getName()));
 		} else {
-			System.out.println(String.format("%s avoided danger!", characterLeavingRoom.getName()));
+			System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
 		}
 	}
 

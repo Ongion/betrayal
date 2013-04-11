@@ -285,7 +285,7 @@ public class TestCharacters {
 	
 	@Test
 	public void testEventHand() {
-		EventCard card = new Rotten(null, null, null);
+		EventCard card = new Rotten(null, null);
 		
 		FatherRhinehardt.addEventCard(card);
 		
