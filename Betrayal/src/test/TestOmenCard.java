@@ -43,7 +43,7 @@ public class TestOmenCard {
 	private Character character = new Character(0, new Locale("en"));
 	private Player player = new Player();
 	
-	private Game game = new Game(null, new ArrayList<Room>(), new ArrayList<EventCard>(), new ArrayList<OmenCard>(), new ArrayList<ItemCard>(), new ArrayList<Player>());
+	private Game game;
 	
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	
@@ -75,10 +75,10 @@ public class TestOmenCard {
 	private OmenCard dogCard = new Dog("Dog",
 			"COMPANION This mangy dog seems friendly. At least you hope it is.");
 	
-	private ArrayList<EventCard> events;
-	private ArrayList<ItemCard> items;
-	private ArrayList<OmenCard> omens;
-	private ArrayList<Player> players;
+	private ArrayList<EventCard> events = new ArrayList<EventCard>();
+	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
+	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
@@ -94,12 +94,6 @@ public class TestOmenCard {
 
 	@Before
 	public void SetUp() {
-		// Initalize ArrayLists for rest of tests
-		rooms = game.getRoomDeck();
-		items = game.getItemDeck();
-		events = game.getEventDeck();
-		omens = game.getOmenDeck();
-		players = game.getPlayers();
 		
 		events.add(angryBeing);
 		events.add(creepyCrawlies);
@@ -110,7 +104,13 @@ public class TestOmenCard {
 		omens.add(bookCard);
 		omens.add(ringCard);
 		players.add(player);
-		players.add(player);
+		
+		Game.resetGame();
+		game = Game.getInstance();
+		game.addAllToEventDeck(events);
+		game.addAllToItemDeck(items);
+		game.addAllToOmenDeck(omens);
+		game.addPlayer(player);
 		
 		
 		

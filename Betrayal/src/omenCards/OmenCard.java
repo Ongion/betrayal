@@ -34,11 +34,7 @@ public abstract class OmenCard {
 	}
 
 	public boolean makeHauntRoll() {
-		if(isHauntRoll()){
-			return true;
-		}
-		return false;
-		
+		return isHauntRoll();
 	}
 
 	public abstract Object whatToDo();
