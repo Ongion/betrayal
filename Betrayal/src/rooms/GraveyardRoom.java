@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
-import characters.Character;
+import characters.Explorer;
 
 public class GraveyardRoom extends OmenRoom {
 
@@ -13,7 +13,7 @@ public class GraveyardRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		/* 
 		 * When exiting, you must attempt a Sanity roll of 4+.
 		 * If you fail, you lose 1 Knowledge (but continue moving) 
@@ -21,7 +21,7 @@ public class GraveyardRoom extends OmenRoom {
 		
 		if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
 			int diceToRoll = characterLeavingRoom.getCurrentSanity();
-			int TARGET_RESULT = 3;
+			int TARGET_RESULT = 4;
 			int rollResult = Game.getInstance().rollDice(diceToRoll);
 			System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 			if (Game.getInstance().rollDice(diceToRoll) < TARGET_RESULT) {

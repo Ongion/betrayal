@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
-import characters.Character;
+import characters.Explorer;
 import floors.Location;
 
 public abstract class Room {
@@ -164,11 +164,11 @@ public abstract class Room {
 		return numExternalWindows;
 	}
 	
-	public void endTurnInRoom(Character characterEndingTurn) {
+	public void endTurnInRoom(Explorer characterEndingTurn) {
 		// only rooms that have ending actions implement this 
 	}
 	
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		//only rooms that have room-leaving actions implement this
 	}
 	

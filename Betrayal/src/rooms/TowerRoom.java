@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
-import characters.Character;
+import characters.Explorer;
 
 public class TowerRoom extends EventRoom {
 
@@ -13,7 +13,7 @@ public class TowerRoom extends EventRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		/* 
 		 * When exiting, you must attempt a Might roll of 3+ to cross
 		 * If you fail, you stop moving. 
