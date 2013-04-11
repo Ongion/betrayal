@@ -4,12 +4,11 @@ import Game.Game;
 
 public class HangedMen extends EventCard {
 
-	// This is only for testing purposes and will be removed
 	private Game game;
 	
-	public HangedMen(String name, String description, Game game) {
+	public HangedMen(String name, String description) {
 		super(name, description);
-		this.game = game;
+		this.game = Game.getInstance();
 	}
 
 	@Override

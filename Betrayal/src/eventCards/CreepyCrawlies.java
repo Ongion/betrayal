@@ -3,12 +3,12 @@ package eventCards;
 import Game.Game;
 
 public class CreepyCrawlies extends EventCard {
-	// This is only for testing purposes and will be removed
+
 	private Game game;
 	
-	public CreepyCrawlies(String name, String description, Game game) {
+	public CreepyCrawlies(String name, String description) {
 		super(name, description);
-		this.game = game;
+		this.game = Game.getInstance();
 	}
 
 	@Override

@@ -5,12 +5,11 @@ import Game.Game;
 public class Debris extends EventCard {
 	// TODO: Add methods to handle when card is kept and attempts to break free
 
-	// This is only for testing purposes and will be removed
 	private Game game;
 	
-	public Debris(String name, String description, Game game) {
+	public Debris(String name, String description) {
 		super(name, description);
-		this.game = game;
+		this.game = Game.getInstance();
 	}
 
 	@Override
