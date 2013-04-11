@@ -61,6 +61,7 @@ public class TestEventCard {
 	private String debrisDes = "Plaster falls from the walls and ceiling.";
 	private String shriekingWindDes = "The wind picks up, a slow crescendo to a screeching howl.";
 	private String silenceDes = "Underground, everything goes silent. Even the sound of breathing is gone.";
+	private String phoneCallDes = "A phone rings in the room. You feel complelled to answer it.";
 	
 	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes);
 	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes);
@@ -780,5 +781,68 @@ public class TestEventCard {
 		card.happen(0);
 		
 		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+	}
+	
+	@Test
+	public void testPhoneCallInit(){
+		card = new Silence("Phone Call", phoneCallDes);
+		assertEquals("Phone Call", card.getName());
+		assertEquals(phoneCallDes, card.getDescription());
+	}
+	
+	@Test
+	public void testPhoneCall4(){
+		card = new Silence("Phone Call", phoneCallDes);
+		
+		card.happen(4);
+		
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(4);
+		
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+	}
+	
+	@Test
+	public void testPhoneCall3(){
+		card = new Silence("Phone Call", phoneCallDes);
+		
+		card.happen(3);
+		
+		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+		
+		card.happen(3);
+		
+		assertEquals(6, game.getCurrentCharacter().getCurrentKnowledge());
+		
+	}
+	
+	@Test
+	public void testPhoneCall1or2(){
+		card = new Silence("Phone Call", phoneCallDes);
+		
+		card.happen(1);
+		
+		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		
+		card.happen(2);
+		
+		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		
+		card.happen(2);
+		
+		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		
+	}
+	
+	@Test
+	public void testPhoneCall0(){
+		card = new Silence("Phone Call", phoneCallDes);
+		
+		card.happen(0);
+		
+		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		
 	}
 }
