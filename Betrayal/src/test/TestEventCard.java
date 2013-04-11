@@ -29,6 +29,7 @@ import eventCards.Funeral;
 import eventCards.HangedMen;
 import eventCards.Mirror2;
 import eventCards.NightView;
+import eventCards.PhoneCall;
 import eventCards.Rotten;
 import eventCards.ShriekingWind;
 import eventCards.Silence;
@@ -792,7 +793,7 @@ public class TestEventCard {
 	
 	@Test
 	public void testPhoneCall4(){
-		card = new Silence("Phone Call", phoneCallDes);
+		card = new PhoneCall("Phone Call", phoneCallDes);
 		
 		card.happen(4);
 		
@@ -806,7 +807,7 @@ public class TestEventCard {
 	
 	@Test
 	public void testPhoneCall3(){
-		card = new Silence("Phone Call", phoneCallDes);
+		card = new PhoneCall("Phone Call", phoneCallDes);
 		
 		card.happen(3);
 		
@@ -820,7 +821,7 @@ public class TestEventCard {
 	
 	@Test
 	public void testPhoneCall1or2(){
-		card = new Silence("Phone Call", phoneCallDes);
+		card = new PhoneCall("Phone Call", phoneCallDes);
 		
 		card.happen(1);
 		
@@ -838,7 +839,7 @@ public class TestEventCard {
 	
 	@Test
 	public void testPhoneCall0(){
-		card = new Silence("Phone Call", phoneCallDes);
+		card = new PhoneCall("Phone Call", phoneCallDes);
 		
 		card.happen(0);
 		

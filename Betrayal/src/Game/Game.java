@@ -11,6 +11,7 @@ import java.util.Set;
 import omenCards.OmenCard;
 import rooms.Room;
 import characters.Explorer;
+import characters.Explorer.Trait;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Location;
@@ -175,6 +176,22 @@ public class Game {
 		int rollResult = 0;
 		for (int i = 0; i < numberDice; i++){
 			rollResult += generator.nextInt(2);
+		}
+		return rollResult;
+	}
+	
+	public int typeRoll(Trait trait){
+		int rollResult = 0;
+		Explorer explorer = Game.INSTANCE.getCurrentCharacter();
+		switch (trait){
+			case KNOWLEDGE: 
+				rollResult = rollDice(explorer.getCurrentKnowledge()); break;
+			case SANITY: 
+				rollResult = rollDice(explorer.getCurrentSanity()); break;
+			case SPEED: 
+				rollResult = rollDice(explorer.getCurrentSpeed()); break;
+			case MIGHT:
+				rollResult = rollDice(explorer.getCurrentMight()); break;
 		}
 		return rollResult;
 	}

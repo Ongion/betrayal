@@ -31,6 +31,8 @@ import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
 
+import characters.Explorer.Trait;
+
 public class TestGame {
 
 	private Game game;
@@ -290,6 +292,44 @@ public class TestGame {
 		}
 	}
 	
+	@Test
+	public void testTypeRoll(){
+		// This is a random function so tests multiple times for range for Traits of Father Rhinehardt
+		
+		int sum = 0;
+		
+		// Test Range for Knowledge
+		int i = 0;
+		while (i < 100){
+			sum = game.typeRoll(Trait.KNOWLEDGE);
+			assertTrue((sum <= 8) && (sum >= 0));
+			i++;
+		}
+		
+		// Test Range for Sanity
+		i = 0;
+		while (i < 100){
+			sum = game.typeRoll(Trait.SANITY);
+			assertTrue((sum <= 12) && (sum >= 0));
+			i++;
+		}
+		
+		// Test Range for Speed
+		i = 0;
+		while (i < 100){
+			sum = game.typeRoll(Trait.SPEED);
+			assertTrue(sum <= 6 && sum >= 0);
+			i++;
+		}
+		
+		// Test Range for Might
+		i = 0;
+		while (i < 100){
+			sum = game.typeRoll(Trait.MIGHT);
+			assertTrue(sum <= 4 && sum >= 0);
+			i++;
+		}
+	}
 	@Test
 	public void testNumOmensOut(){
 		assertEquals(0, game.numOmensOut());
