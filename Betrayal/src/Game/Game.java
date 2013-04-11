@@ -1,21 +1,24 @@
 package Game;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-
-import rooms.Room;
-import eventCards.EventCard;
-import floors.Floor;
-import floors.Floor.FloorName;
-import omenCards.OmenCard;
 import itemCards.ItemCard;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+import omenCards.OmenCard;
+import rooms.Room;
 import characters.Character;
+import eventCards.EventCard;
+import floors.Floor;
+import floors.Location;
 
 public class Game {
 	
-	private Floor[] map; 
+	private Floor[] map; // TODO Remove this, only here for old tests.
+	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;
 	private ArrayList<OmenCard> omenDeck;
@@ -34,10 +37,7 @@ public class Game {
 	
 	private Game() {
 		//Set up map
-		this.map = new Floor[3];
-		this.map[0] = new Floor(FloorName.basement);
-		this.map[1] = new Floor(FloorName.ground);
-		this.map[2] = new Floor(FloorName.upper);
+		this.mapRooms = new HashSet<Room>();
 		
 		//Create arrays for decks
 		this.roomDeck = new ArrayList<Room>();
@@ -84,6 +84,10 @@ public class Game {
 
 	public void setIsHaunt(Boolean isHaunt) {
 		this.isHaunt = isHaunt;
+	}
+	
+	public Set<Room> getMapRooms() {
+		return this.mapRooms;
 	}
 	
 	public Room drawRoom(){
@@ -158,13 +162,18 @@ public class Game {
 		}
 	}
 	
-	public int rollDie(int numberDie){
-		if (numberDie > 8){
-			numberDie = 8;
+	public void addRoomToMap(Room roomToBeAdded) {
+		this.mapRooms.add(roomToBeAdded);
+	}
+	
+	
+	public int rollDice(int numberDice){
+		if (numberDice > 8){
+			numberDice = 8;
 		}
 		Random generator = new Random();
 		int rollResult = 0;
-		for (int i = 0; i < numberDie; i++){
+		for (int i = 0; i < numberDice; i++){
 			rollResult += generator.nextInt(2);
 		}
 		return rollResult;
@@ -275,4 +284,21 @@ public class Game {
 		this.characters.add(character);
 	}
 
+	public Room getRoomAtLocation(Location location) {
+		for (Room roomChecking : mapRooms) {
+			if (roomChecking.getLocation().equals(location)) {
+				return roomChecking;
+			}
+		}
+		return null;
+	}
+
+	public boolean isMapValid() {
+		for (Room room : Game.getInstance().getMapRooms()) {
+			if (!room.hasConnection()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

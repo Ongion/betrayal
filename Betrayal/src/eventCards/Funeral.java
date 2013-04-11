@@ -26,7 +26,7 @@ public class Funeral extends EventCard {
 
 		@Override
 		public void happens() {
-			int rollResult = game.rollDie(game.getCurrentCharacter().getCurrentSanity());
+			int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
 			if (rollResult >= 4){
 				game.getCurrentCharacter().incrementSanity();
 			} else if ((rollResult >= 2) && (rollResult <= 3)){

@@ -231,7 +231,7 @@ public class TestGame {
 		// Test Range for one die
 		int i = 0;
 		while (i < 100){
-			sum = game.rollDie(1);
+			sum = game.rollDice(1);
 			assertTrue((sum <= 2) && (sum >= 0));
 			i++;
 		}
@@ -239,7 +239,7 @@ public class TestGame {
 		// Test Range for two die
 		i = 0;
 		while (i < 100){
-			sum = game.rollDie(2);
+			sum = game.rollDice(2);
 			assertTrue((sum <= 4) && (sum >= 0));
 			i++;
 		}
@@ -247,7 +247,7 @@ public class TestGame {
 		// Test Range for eight die
 		i = 0;
 		while (i < 100){
-			sum = game.rollDie(8);
+			sum = game.rollDice(8);
 			assertTrue(sum <= 16 && sum >= 0);
 			i++;
 		}
@@ -255,7 +255,7 @@ public class TestGame {
 		// Test too many die input
 		i = 0;
 		while (i < 100){
-			sum = game.rollDie(9);
+			sum = game.rollDice(9);
 			assertTrue(sum <= 16 && sum >= 0);
 			i++;
 		}
