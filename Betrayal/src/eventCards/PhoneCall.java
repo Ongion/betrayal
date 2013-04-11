@@ -4,39 +4,38 @@ import Game.Game;
 
 public class PhoneCall extends EventCard {
 
-	// This is only for testing purposes and will be removed
 	private Game game;
 	
-	public PhoneCall(String name, String description, Game game) {
+	public PhoneCall(String name, String description) {
 		super(name, description);
-		this.game = game;
+		this.game = Game.getInstance();
 	}
 
 	@Override
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if(rollResult == 4){
-			game.getCurrentPlayer().getCharacter().incrementSanity();
+			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult == 3){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge();
+			game.getCurrentCharacter().incrementKnowledge();
 		} else if (rollResult >= 1 && rollResult <=2){
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(); // TODO: change this to decrementMental
+			game.getCurrentCharacter().decrementKnowledge(); // TODO: change this to decrementMental
 		} else if( rollResult == 0){
-			game.getCurrentPlayer().getCharacter().decrementMight(2); // TODO: change this to decrementPhysical
+			game.getCurrentCharacter().decrementMight(2); // TODO: change this to decrementPhysical
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDie(2);
+		int rollResult = game.rollDice(2);
 		if(rollResult == 4){
-			game.getCurrentPlayer().getCharacter().incrementSanity();
+			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult == 3){
-			game.getCurrentPlayer().getCharacter().incrementKnowledge();
+			game.getCurrentCharacter().incrementKnowledge();
 		} else if (rollResult >= 1 && rollResult <=2){
-			game.getCurrentPlayer().getCharacter().decrementKnowledge(game.rollDie(1)); // TODO: change this to decrementMental
+			game.getCurrentCharacter().decrementKnowledge(game.rollDice(1)); // TODO: change this to decrementMental
 		} else if( rollResult == 0){
-			game.getCurrentPlayer().getCharacter().decrementMight(game.rollDie(2)); // TODO: change this to decrementPhysical
+			game.getCurrentCharacter().decrementMight(game.rollDice(2)); // TODO: change this to decrementPhysical
 		}
 	}
 
