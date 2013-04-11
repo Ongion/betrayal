@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Locale;
 
 import org.junit.Before;
@@ -16,7 +17,10 @@ import omenCards.Ring;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
+import rooms.EventRoom;
 import rooms.Room;
+import rooms.Room.Floor_Name;
+import rooms.Room.Relative_Direction;
 
 import Game.Game;
 import Game.Player;
@@ -51,6 +55,8 @@ public class TestGame {
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private Room foyer;
+	private Room organRoom;
 	
 	@Before
 	public void setUp(){
@@ -69,12 +75,35 @@ public class TestGame {
 		players.add(player);
 		players.add(player2);
 		
-//		game = new Game(null, rooms, events, omens, items, players);
+		// Set up Room Deck
+		HashSet<Relative_Direction> foyerExits = new HashSet<Relative_Direction>();
+		foyerExits.add(Relative_Direction.NORTH);
+		foyerExits.add(Relative_Direction.EAST);
+		foyerExits.add(Relative_Direction.SOUTH);
+		foyerExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> foyerFloors = new HashSet<Floor_Name>();
+		foyerFloors.add(Floor_Name.GROUND);
+		foyer = new EventRoom("Foyer", foyerExits, foyerFloors);
+
+		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
+		organRoomExits.add(Relative_Direction.SOUTH);
+		organRoomExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
+		organRoomFloors.add(Floor_Name.UPPER);
+		organRoomFloors.add(Floor_Name.GROUND);
+		organRoomFloors.add(Floor_Name.BASEMENT);
+		organRoom = new EventRoom("Organ Room", organRoomExits, organRoomFloors);
+		
+		rooms.add(foyer);
+		rooms.add(organRoom);
+
+		
 		Game.resetGame();
 		game = Game.getInstance();
 		game.addAllToEventDeck(events);
 		game.addAllToItemDeck(items);
 		game.addAllToOmenDeck(omens);
+		game.addAllToRoomDeck(rooms);
 		game.addPlayer(player);
 		game.addPlayer(player2);
 		game.addCharacter(character);
@@ -209,17 +238,17 @@ public class TestGame {
 	}
 	
 	@Test
-	public void testNextPlayer(){
+	public void testNexCharacter(){
 		assertEquals(0, game.getCurrentCharacterIndex());
-		assertEquals(player, game.getCurrentPlayer());
+		assertEquals(character, game.getCurrentCharacter());
 		game.endCharacterTurn();
 		assertEquals(1, game.getCurrentCharacterIndex());
-		assertEquals(player2, game.getCurrentPlayer());
+		assertEquals(character2, game.getCurrentCharacter());
 		
 		// Test when currentPlayer should reset to zero
 		game.endCharacterTurn();
 		assertEquals(0, game.getCurrentCharacterIndex());
-		assertEquals(player, game.getCurrentPlayer());
+		assertEquals(character, game.getCurrentCharacter());
 	}
 	
 	@Test
