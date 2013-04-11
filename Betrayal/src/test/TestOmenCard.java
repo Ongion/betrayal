@@ -43,42 +43,42 @@ public class TestOmenCard {
 	private Character character = new Character(0, new Locale("en"));
 	private Player player = new Player();
 	
-	private Game game = new Game(null, new ArrayList<Room>(), new ArrayList<EventCard>(), new ArrayList<OmenCard>(), new ArrayList<ItemCard>(), new ArrayList<Player>());
+	private Game game;
 	
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	
 	
 	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
-			"Hazy images appear in the glass.", game);
+			"Hazy images appear in the glass.");
 	private OmenCard bookCard = new Book("Book",
-			"A diary or lab notes? Ancient script or modern ravings?",game);
+			"A diary or lab notes? Ancient script or modern ravings?");
 	private OmenCard ringCard = new Ring("Ring",
-			"A battered ring with an incomprehensible inscription.",game);
+			"A battered ring with an incomprehensible inscription.");
 	private OmenCard madmanCard = new Madman("Madman",
-			"COMPANION A raving, frothing madman",game);
+			"COMPANION A raving, frothing madman");
 	private OmenCard spearCard = new Spear("Spear",
-			"A weapon pulsing with power.",game);
+			"A weapon pulsing with power.");
 	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
-			"A board with letters and numbers to call the dead",game);
+			"A board with letters and numbers to call the dead");
 	private Mask maskCard = new Mask("Mask",
-			"A somber mask to hide your intentions.", character, game);
+			"A somber mask to hide your intentions.");
 	private OmenCard medallionCard = new Medallion("Medallion",
-			"A medallion inscribed with a pentagram.",game);
+			"A medallion inscribed with a pentagram.");
 	private OmenCard girlCard = new Girl("Girl",
-			"COMPANION A girl.Trapped.Alone.You free her!",game);
+			"COMPANION A girl.Trapped.Alone.You free her!");
 	private OmenCard biteCard = new Bite("Bite",
-			"A growl, the scent of death.Pain.Darkness.Gone.",game);
+			"A growl, the scent of death.Pain.Darkness.Gone.");
 	private OmenCard skullCard = new Skull("Skull",
-			"A skull, cracked and missing teeth.",game);
+			"A skull, cracked and missing teeth.");
 	private OmenCard holySymbolCard = new HolySymbol("Holy Symbol",
-			"A symbol of calm in an unsettling world.",game);
+			"A symbol of calm in an unsettling world.");
 	private OmenCard dogCard = new Dog("Dog",
-			"COMPANION This mangy dog seems friendly. At least you hope it is.",game);
+			"COMPANION This mangy dog seems friendly. At least you hope it is.");
 	
-	private ArrayList<EventCard> events;
-	private ArrayList<ItemCard> items;
-	private ArrayList<OmenCard> omens;
-	private ArrayList<Player> players;
+	private ArrayList<EventCard> events = new ArrayList<EventCard>();
+	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
+	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
@@ -94,12 +94,6 @@ public class TestOmenCard {
 
 	@Before
 	public void SetUp() {
-		// Initalize ArrayLists for rest of tests
-		rooms = game.getRoomDeck();
-		items = game.getItemDeck();
-		events = game.getEventDeck();
-		omens = game.getOmenDeck();
-		players = game.getPlayers();
 		
 		events.add(angryBeing);
 		events.add(creepyCrawlies);
@@ -110,7 +104,13 @@ public class TestOmenCard {
 		omens.add(bookCard);
 		omens.add(ringCard);
 		players.add(player);
-		players.add(player);
+		
+		Game.resetGame();
+		game = Game.getInstance();
+		game.addAllToEventDeck(events);
+		game.addAllToItemDeck(items);
+		game.addAllToOmenDeck(omens);
+		game.addPlayer(player);
 		
 		
 		
@@ -118,13 +118,13 @@ public class TestOmenCard {
 
 	@Test 
 	public void TestIsHauntRollForOmenCard(){
-		OmenCard card = new Book ("Test card", "Just testing",game);
+		OmenCard card = new Book ("Test card", "Just testing");
 		assertEquals(game.getIsHaunt(),card.isHauntRoll());
 	}
 	
 	@Test
 	public void TestMakeHauntRollForOmenCard(){
-		OmenCard card = new Book("Test","Just testing",game);
+		OmenCard card = new Book("Test","Just testing");
 		assertFalse(card.makeHauntRoll());
 		game.setIsHaunt(true);
 		if(card.isHauntRoll()){

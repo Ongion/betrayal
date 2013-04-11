@@ -1,13 +1,22 @@
 package test;
 
+import itemCards.AngelFeather;
+import itemCards.ItemCard;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 import junit.framework.Assert;
+
+import omenCards.CrystalBall;
+import omenCards.OmenCard;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import characters.Character;
+import eventCards.EventCard;
+import eventCards.Rotten;
 
 public class TestCharacters {
 	
@@ -234,6 +243,66 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
 		
 	}
+	
+	@Test
+	public void testOmenHand() {
+		OmenCard card = new CrystalBall("test","test 2");
+		
+		FatherRhinehardt.addOmenCard(card);
+		
+		ArrayList<OmenCard> oHand = FatherRhinehardt.getOmenHand();
+		
+		Assert.assertEquals(oHand.size(), 1);
+		
+		Assert.assertTrue(oHand.contains(card));
+		
+		FatherRhinehardt.removeOmenCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
+		
+	}
+	
+	@Test
+	public void testItemHand() {
+		ItemCard card = new AngelFeather(null, null);
+		
+		FatherRhinehardt.addItemCard(card);
+		
+		ArrayList<ItemCard> oHand = FatherRhinehardt.getItemHand();
+		
+		Assert.assertEquals(oHand.size(), 1);
+		
+		Assert.assertTrue(oHand.contains(card));
+		
+		FatherRhinehardt.removeItemCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
+	}
+	
+	@Test
+	public void testEventHand() {
+		EventCard card = new Rotten(null, null, null);
+		
+		FatherRhinehardt.addEventCard(card);
+		
+		ArrayList<EventCard> oHand = FatherRhinehardt.getEventHand();
+		
+		Assert.assertEquals(oHand.size(), 1);
+		
+		Assert.assertTrue(oHand.contains(card));
+		
+		FatherRhinehardt.removeEventCard(card);
+		
+		Assert.assertEquals(oHand.size(), 0);
+		
+		Assert.assertFalse(oHand.contains(card));
+
+	}
+
 	
 
 }

@@ -5,14 +5,10 @@ import Game.Game;
 public abstract class OmenCard {
 	protected String name;
 	protected String quote;
-	protected Game game;
 
-	protected OmenCard(String name, String quote,Game game) {
+	protected OmenCard(String name, String quote) {
 		this.name = name;
 		this.quote = quote;
-		this.game = game;
-
-		
 	}
 
 	public String getName() {
@@ -34,15 +30,11 @@ public abstract class OmenCard {
 	public boolean isHauntRoll() {
 	//For testing purposes, assume Haunt Roll is applicable.
 		
-		return game.getIsHaunt();
+		return Game.getInstance().getIsHaunt();
 	}
 
 	public boolean makeHauntRoll() {
-		if(isHauntRoll()){
-			return true;
-		}
-		return false;
-		
+		return isHauntRoll();
 	}
 
 	public abstract Object whatToDo();

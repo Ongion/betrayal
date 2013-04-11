@@ -4,9 +4,8 @@ import Game.Game;
 
 public class SpiritBoard extends OmenCard {
 
-	public SpiritBoard(String name, String quote, Game game) {
-		super(name, quote, game);
-		
+	public SpiritBoard(String name, String quote) {
+		super(name, quote);
 	}
 
 	@Override
