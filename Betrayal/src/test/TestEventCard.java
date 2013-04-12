@@ -23,6 +23,7 @@ import Game.Player;
 import eventCards.AngryBeing;
 import eventCards.BloodyVision;
 import eventCards.BurningMan;
+import eventCards.ClosetDoor;
 import eventCards.CreepyCrawlies;
 import eventCards.Debris;
 import eventCards.EventCard;
@@ -87,6 +88,7 @@ public class TestEventCard {
 	private String theLostOneDes = "A woman wearing a Civil War dress beckons to you. You fall into a trance.";
 	private String burningManDes = "A man on fire runs through the room. His skin bubbles and cracks, " +
 			"falling away from him and leaving a fiery skull that clatters to the ground, bounces, rolls, and disappears.";
+	private String closetDoorDes = "That closet door is open... just a crack. Ther must be something inside.";
 	
 	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes);
 	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes);
@@ -1183,6 +1185,39 @@ public class TestEventCard {
 	}
 	
 	@Test
+	public void testMistsFromTheWalls4OrGreater(){
+		card = new MistsFromTheWalls("Mists From The Walls", mistsFromTheWallsDes);
+		
+		card.happen(4);
+		assertEquals(character, game.getCurrentCharacter());
+		
+		card.happen(5);
+		assertEquals(character, game.getCurrentCharacter());
+	}
+	
+	@Test
+	public void testMistsFromTheWalls1To3(){
+		card = new MistsFromTheWalls("Mists From The Walls", mistsFromTheWallsDes);
+		
+		card.happen(1);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(2);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(3);
+		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+	}
+	
+	@Test
+	public void testMistsFromTheWalls0(){
+		card = new MistsFromTheWalls("Mists From The Walls", mistsFromTheWallsDes);
+		
+		card.happen(0);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+	}
+	
+	@Test
 	public void testBloodyVisionInit(){
 		card = new BloodyVision("Bloody Vision", bloodyVisionDes);
 		assertEquals("Bloody Vision", card.getName());
@@ -1190,15 +1225,128 @@ public class TestEventCard {
 	}
 	
 	@Test
+	public void testBloddyVision4OrGreater(){
+		card = new BloodyVision("Bloody Vision", bloodyVisionDes);
+		
+		card.happen(4);
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(5);
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+	}
+	
+	@Test
+	public void testBloddyVision2Or3(){
+		card = new BloodyVision("Bloody Vision", bloodyVisionDes);
+		
+		card.happen(2);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(3);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		
+	}
+	
+	@Test
+	public void testBloodyVision1Or0(){
+		card = new BloodyVision("Bloody Vision", bloodyVisionDes);
+		// For now do nothing because the need methods are not yet implemented for attack
+		
+	}
+	
+	@Test
 	public void testTheLostOneInit(){
 		card = new TheLostOne("The Lost One", theLostOneDes);
 		assertEquals("The Lost One", card.getName());
 		assertEquals(theLostOneDes, card.getDescription());
-	}
+	}// Only test for now. Don't have methods to develop further yet
+	
 	@Test
 	public void testBurningManInit(){
 		card = new BurningMan("Burning Man", burningManDes);
 		assertEquals("Burning Man", card.getName());
 		assertEquals(burningManDes, card.getDescription());
 	}
+	
+	@Test
+	public void testBurningMan4OrGreater(){
+		card = new BurningMan("Burning Man", burningManDes);
+		
+		card.happen(4);
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+		card.happen(5);
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+	}
+	
+	@Test
+	public void testBurningMan2Or3(){
+		card = new BurningMan("Burning Man", burningManDes);
+		// Needs to test that location is in the EntranceHall but this doesn't exist yet
+	}
+
+	@Test
+	public void testBurningMan1Or0(){
+		card = new BurningMan("Burning Man", burningManDes);
+		
+		card.happen(1);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		
+		card.happen(0);
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+	}
+	
+	@Test
+	public void testClosetDoorInit(){
+		card = new ClosetDoor("Closet Door", closetDoorDes);
+		assertEquals("Closet Door", card.getName());
+		assertEquals(closetDoorDes, card.getDescription());
+	}
+	
+	@Test
+	public void testClosetDoor4(){
+		card = new ClosetDoor("Closet Door", closetDoorDes);
+		
+		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		
+		card.happen(4);
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
+	}
+	
+	@Test
+	public void testClosetDoor2Or3(){
+		card = new ClosetDoor("Closet Door", closetDoorDes);
+		
+		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		
+		card.happen(2);
+		assertEquals(1, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(angryBeing, game.getCurrentCharacter().getEventHand().get(0));
+		
+		card.happen(3);
+		assertEquals(2, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(creepyCrawlies, game.getCurrentCharacter().getEventHand().get(1));
+	}
+	
+	@Test
+	public void testClosetDoor1Or0(){
+		// Eventually needs to test for removal of Closet Token
+		card = new ClosetDoor("Closet Door", closetDoorDes);
+		
+		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		
+		card.happen(0);
+		assertEquals(1, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(angryBeing, game.getCurrentCharacter().getEventHand().get(0));
+		
+		card.happen(1);
+		assertEquals(2, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(creepyCrawlies, game.getCurrentCharacter().getEventHand().get(1));
+	}
+	
+	
 }
