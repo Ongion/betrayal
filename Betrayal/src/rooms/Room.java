@@ -81,13 +81,9 @@ public abstract class Room {
 	public Location getLocation() {
 		return this.currentLocation;
 	}
-	
-	public void setPlacement(Room_Orientation orientationOfRoom, Location locationRoomWillBePlaced) {
-		setPlacement(orientationOfRoom, locationRoomWillBePlaced, false);
-	}
-	
-	public void setPlacement(Room_Orientation orientationOfRoom, Location locationRoomWillBePlaced, boolean overrideCorrectnessCheck) { // Certain cards can force you to place a tile in a place that may not be otherwise accessible (Wall Switch)
-		if (!this.floorsAllowedOn.contains(locationRoomWillBePlaced.getFloor())) {									   // This will also be needed for placing the first tiles
+		
+	public void setPlacement(Room_Orientation orientationOfRoom, Location locationRoomWillBePlaced) { 
+		if (!this.floorsAllowedOn.contains(locationRoomWillBePlaced.getFloor())) {									   
 			throw new RuntimeException(String.format("The %s is not allowed on the %s floor", this.getName(), locationRoomWillBePlaced.getFloor().toString()));
 		}
 		if (!locationRoomWillBePlaced.equals(this.currentLocation)) {
@@ -97,20 +93,9 @@ public abstract class Room {
 			}
 		}
 		Game.getInstance().addRoomToMap(this);
-		Room_Orientation oldOrientation = this.orientation; 
-		Location oldLocation = this.currentLocation;
 		
 		this.orientation = orientationOfRoom;
-		this.currentLocation = locationRoomWillBePlaced;
-		
-		if (!overrideCorrectnessCheck) {
-			if (!Game.getInstance().isMapValid()) {
-				this.currentLocation = oldLocation;
-				this.orientation = oldOrientation;
-				throw new RuntimeException(String.format("New placement invalidates map state!", this.getName(), this.currentLocation.toString()));
-			}
-		}
-		
+		this.currentLocation = locationRoomWillBePlaced;		
 	}
 	
 	private Room getRoomFromDirection(Relative_Direction directionChecking) {

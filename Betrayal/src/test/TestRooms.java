@@ -58,7 +58,7 @@ public class TestRooms {
 		gardensFloors.add(Floor_Name.GROUND);
 		gardens = new EventRoom("Garden", gardensExits, gardensFloors);
 //		game.addRoomToMap(gardens);
-		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0), true);
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
 		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
 		organRoomExits.add(Relative_Direction.SOUTH);
@@ -88,7 +88,7 @@ public class TestRooms {
 		HashSet<Floor_Name> basementLandingFloors = new HashSet<Floor_Name>();
 		basementLandingFloors.add(Floor_Name.BASEMENT);
 		basementLanding = new NormalRoom("Basement Landing", basementLandingExits, basementLandingFloors);
-		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0), true);
+		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
 		
 		HashSet<Relative_Direction> catacombsExits = new HashSet<Relative_Direction>();
 		catacombsExits.add(Relative_Direction.NORTH);
@@ -135,7 +135,7 @@ public class TestRooms {
 		creakyHallwayFloors.add(Floor_Name.GROUND);
 		creakyHallwayFloors.add(Floor_Name.BASEMENT);
 		creakyHallway = new NormalRoom("Creaky Hallway", creakyHallwayExits, creakyHallwayFloors);
-		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5), true);
+		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5));
 		
 		HashSet<Relative_Direction> servantsQuartersExits = new HashSet<Relative_Direction>();
 		servantsQuartersExits.add(Relative_Direction.NORTH);
@@ -187,14 +187,6 @@ public class TestRooms {
 	public void testGetSetRoomOrientation() {
 		gardens.setPlacement(Room_Orientation.WEST, gardens.getLocation());
 		assertEquals(Room_Orientation.WEST, gardens.getOrientation());
-		
-		try {
-			organRoom.setPlacement(Room_Orientation.SOUTH, organRoom.getLocation());
-		} catch (RuntimeException e) {
-			assertEquals("New placement invalidates map state!", e.getMessage());
-		}
-		
-		assertEquals(Room_Orientation.WEST, organRoom.getOrientation());
 	}
 		
 	@Test

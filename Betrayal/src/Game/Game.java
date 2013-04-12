@@ -310,13 +310,4 @@ public class Game {
 		}
 		return null;
 	}
-
-	public boolean isMapValid() {
-		for (Room room : Game.getInstance().getMapRooms()) {
-			if (!room.hasConnection()) {
-				return false;
-			}
-		}
-		return true;
-	}
 }
