@@ -471,7 +471,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForHolySymbol() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
+		assertEquals(holySymbolCard.whatToDo(character), character.getCurrentSanity());
 	}
 	
 	@Test
