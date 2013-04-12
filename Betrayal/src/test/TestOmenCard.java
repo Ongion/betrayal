@@ -188,12 +188,15 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForBook() {
+		game.getInstance();
 		Player player = new Player();
 		Explorer character = new Explorer(0, new Locale("en"));
 		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		
 		assertNotNull(bookCard.whatToDo());
-		assertEquals(bookCard.whatToDo(),character.getCurrentKnowledge());
+		assertEquals(bookCard.whatToDo(character,game),character.getCurrentKnowledge());
 		
 	}
 
