@@ -6,6 +6,7 @@ import java.util.Set;
 import rooms.Room.Relative_Direction;
 import Game.Game;
 import characters.Explorer;
+import characters.Character;
 
 public class ChasmRoom extends NormalRoom {
 
@@ -14,7 +15,7 @@ public class ChasmRoom extends NormalRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		/* 
 		 * When exiting, you must attempt a Speed roll of 3+ to cross
 		 * If you fail, you stop moving. 

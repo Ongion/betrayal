@@ -5,6 +5,7 @@ import java.util.Set;
 import Game.Game;
 
 import characters.Explorer;
+import characters.Character;
 
 public class JunkRoomRoom extends OmenRoom {
 
@@ -13,7 +14,7 @@ public class JunkRoomRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
 		/* 
 		 * When exiting, you must attempt a Might roll of 3+
 		 * If you fail, lose 1 Speed (but continue moving). 

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import Game.Game;
 import characters.Explorer;
+import characters.Character;
 
 public class GraveyardRoom extends OmenRoom {
 
@@ -13,7 +14,7 @@ public class GraveyardRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		/* 
 		 * When exiting, you must attempt a Sanity roll of 4+.
 		 * If you fail, you lose 1 Knowledge (but continue moving) 

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import Game.Game;
 import characters.Explorer;
+import characters.Character;
 import floors.Location;
 
 public abstract class Room {
@@ -149,12 +150,16 @@ public abstract class Room {
 		return numExternalWindows;
 	}
 	
-	public void endTurnInRoom(Explorer characterEndingTurn) {
+	public void endTurnInRoom(Character characterEndingTurn) {
 		// only rooms that have ending actions implement this 
 	}
 	
-	public void leavingRoom(Explorer characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		//only rooms that have room-leaving actions implement this
+	}
+	
+	public void enterRoom(Character characterEnteringRoom) {
+		// only rooms like the coal chute implement this
 	}
 	
 	private Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
