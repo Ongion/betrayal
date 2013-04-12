@@ -18,8 +18,10 @@ public class Girl extends OmenCard {
 
 	@Override
 	public int whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(game.getIsHaunt()==true){
+			character.incrementSanity(1);
+			character.incrementKnowledge(1);
+		}
+		return character.getCurrentKnowledge();
 	}
-
 }

@@ -394,7 +394,7 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(girlCard.whatToDo());
-		assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledgeIndex()+1);
+		assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledge());
 	}
 	
 	@Test
