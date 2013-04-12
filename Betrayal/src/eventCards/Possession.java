@@ -2,11 +2,11 @@ package eventCards;
 
 import Game.Game;
 
-public class Spider extends EventCard {
+public class Possession extends EventCard {
 
 	private Game game;
 	
-	public Spider(String name, String description) {
+	public Possession(String name, String description) {
 		super(name, description);
 		this.game = Game.getInstance();
 	}
