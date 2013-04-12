@@ -160,10 +160,18 @@ public class TestOmenCard {
 		assertNotNull(crystalBallCard.whatToDo());
 		if(game.getIsHaunt()==true){
 			crystalBallCard.makeKnowledgeRoll();
-		
 		}
 	}
 	
+	public void TestMakeKnowledgeRollForCrystalBall(){
+			
+		}
+		
+		
+	
+	
+	
+
 	@Test
 	public void IsHauntRollWithBook() {
 		game.setIsHaunt(true);
@@ -180,7 +188,13 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForBook() {
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		
 		assertNotNull(bookCard.whatToDo());
+		assertEquals(bookCard.whatToDo(),character.getCurrentKnowledge());
+		
 	}
 
 	@Test
