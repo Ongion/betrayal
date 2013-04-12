@@ -1,7 +1,15 @@
 package eventCards;
 
-public class BloodyVision extends EventCard {
+import Game.Game;
 
+public class BloodyVision extends EventCard {
+	
+	private Game game;
+	
+	public BloodyVision(String name, String description) {
+		super(name, description);
+		this.game = Game.getInstance();
+	}
 	@Override
 	public void happen(int rollResult) {
 		// TODO Auto-generated method stub
