@@ -24,7 +24,7 @@ public class TowerRoom extends EventRoom {
 			int TARGET_RESULT = 3;
 			int rollResult = Game.getInstance().rollDice(diceToRoll);
 			System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-			if (Game.getInstance().rollDice(diceToRoll) < TARGET_RESULT) {
+			if (rollResult < TARGET_RESULT) {
 				characterLeavingRoom.endMovement();
 				System.out.println(String.format("%s had to stop moving.", characterLeavingRoom.getName()));
 			} else {

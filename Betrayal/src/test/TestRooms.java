@@ -2,9 +2,12 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,6 +26,11 @@ import rooms.Room.Room_Orientation;
 import Game.Game;
 import floors.Location;
 import characters.Explorer;
+import characters.Explorer.Explorers;
+
+import org.jmock.Mockery;
+import org.jmock.Expectations;
+import org.jmock.lib.legacy.ClassImposteriser;
 
 public class TestRooms {
 	Room organRoom;
@@ -223,5 +231,63 @@ public class TestRooms {
 		assertEquals(servantsQuarters.getOrientation(), Room_Orientation.WEST);
 		assertEquals(servantsQuarters.getFloor(), Floor_Name.BASEMENT);
 	}
+	
+	@Test
+	public void testLeavingPentagramChamberFailingRoll() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			assertEquals(mockGame, Game.getInstance());
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(3); will(returnValue(3));
+			}});
+			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			zoeIngstrom.setCurrentRoom(pentagramChamber);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(5, zoeIngstrom.getCurrentSanity());
+			pentagramChamber.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
+			assertEquals(4, zoeIngstrom.getCurrentSanity());
+			mocks.assertIsSatisfied();
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testLeavingPentagramChamberSucceedingRoll() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			final int zoesKnowledge = zoeIngstrom.getCurrentKnowledge();
+			assertEquals(mockGame, Game.getInstance());
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(zoesKnowledge); will(returnValue(5));
+			}});
+			zoeIngstrom.setCurrentRoom(pentagramChamber);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(5, zoeIngstrom.getCurrentSanity());
+			pentagramChamber.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
+			assertEquals(5, zoeIngstrom.getCurrentSanity());
+			mocks.assertIsSatisfied();
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 
 }

@@ -24,7 +24,7 @@ public class GraveyardRoom extends OmenRoom {
 			int TARGET_RESULT = 4;
 			int rollResult = Game.getInstance().rollDice(diceToRoll);
 			System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-			if (Game.getInstance().rollDice(diceToRoll) < TARGET_RESULT) {
+			if (rollResult < TARGET_RESULT) {
 				characterLeavingRoom.decrementKnowledge(1);
 				System.out.println(String.format("%s lost 1 Knowledge!", characterLeavingRoom.getName()));
 			} else {
