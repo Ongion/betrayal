@@ -1,6 +1,7 @@
 package eventCards;
 
-import characters.Explorer.Trait;
+import characters.Character.Trait;
+import characters.Explorer;
 import Game.Game;
 
 public class Possession extends EventCard {
@@ -14,8 +15,9 @@ public class Possession extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
+		Explorer currentExplorer = (Explorer) game.getCurrentCharacter();
 		if(rollResult >= 4){
-			game.getCurrentCharacter().incrementKnowledge(); // TODO: Change this to allow user to choose trait
+			currentExplorer.incrementKnowledge(); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first
 			boolean decremented = false;
 			for (Trait trait : Trait.values()) {
@@ -24,26 +26,26 @@ public class Possession extends EventCard {
 				}
 				switch(trait){
 				case KNOWLEDGE: 
-					if(game.getCurrentCharacter().getCurrentKnowledgeIndex() != 0){
-						game.getCurrentCharacter().decrementKnowledge(game.getCurrentCharacter().getCurrentKnowledgeIndex());
+					if(currentExplorer.getCurrentKnowledgeIndex() != 0){
+						currentExplorer.decrementKnowledge(currentExplorer.getCurrentKnowledgeIndex());
 						decremented = true;
 					}
 					break;
 				case SANITY: 
-					if(game.getCurrentCharacter().getCurrentSanityIndex() != 0){
-						game.getCurrentCharacter().decrementSanity(game.getCurrentCharacter().getCurrentSanityIndex());
+					if(currentExplorer.getCurrentSanityIndex() != 0){
+						currentExplorer.decrementSanity(currentExplorer.getCurrentSanityIndex());
 						decremented = true;
 					}
 					break;
 				case MIGHT: 
-					if(game.getCurrentCharacter().getCurrentMightIndex() != 0){
-						game.getCurrentCharacter().decrementMight(game.getCurrentCharacter().getCurrentMightIndex());
+					if(currentExplorer.getCurrentMightIndex() != 0){
+						currentExplorer.decrementMight(currentExplorer.getCurrentMightIndex());
 						decremented = true;
 					}
 					break;
 				case SPEED: 
-					if(game.getCurrentCharacter().getCurrentSpeedIndex() != 0){
-						game.getCurrentCharacter().decrementSpeed(game.getCurrentCharacter().getCurrentSpeedIndex());
+					if(currentExplorer.getCurrentSpeedIndex() != 0){
+						currentExplorer.decrementSpeed(currentExplorer.getCurrentSpeedIndex());
 						decremented = true;
 					}
 					break;
@@ -55,9 +57,10 @@ public class Possession extends EventCard {
 
 	@Override
 	public void happens() {
+		Explorer currentExplorer = (Explorer) game.getCurrentCharacter();
 		int rollResult = game.typeRoll(Trait.KNOWLEDGE); // TODO: Change this to allow user to chose
 		if(rollResult >= 4){
-			game.getCurrentCharacter().incrementKnowledge(); // TODO: Change this to allow user to choose trait
+			currentExplorer.incrementKnowledge(); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first
 			boolean decremented = false;
 			for (Trait trait : Trait.values()) {
@@ -66,26 +69,26 @@ public class Possession extends EventCard {
 				}
 				switch(trait){
 				case KNOWLEDGE: 
-					if(game.getCurrentCharacter().getCurrentKnowledgeIndex() != 0){
-						game.getCurrentCharacter().decrementKnowledge(game.getCurrentCharacter().getCurrentKnowledgeIndex());
+					if(currentExplorer.getCurrentKnowledgeIndex() != 0){
+						currentExplorer.decrementKnowledge(currentExplorer.getCurrentKnowledgeIndex());
 						decremented = true;
 					}
 					break;
 				case SANITY: 
-					if(game.getCurrentCharacter().getCurrentSanityIndex() != 0){
-						game.getCurrentCharacter().decrementSanity(game.getCurrentCharacter().getCurrentSanityIndex());
+					if(currentExplorer.getCurrentSanityIndex() != 0){
+						currentExplorer.decrementSanity(currentExplorer.getCurrentSanityIndex());
 						decremented = true;
 					}
 					break;
 				case MIGHT: 
-					if(game.getCurrentCharacter().getCurrentMightIndex() != 0){
-						game.getCurrentCharacter().decrementMight(game.getCurrentCharacter().getCurrentMightIndex());
+					if(currentExplorer.getCurrentMightIndex() != 0){
+						currentExplorer.decrementMight(currentExplorer.getCurrentMightIndex());
 						decremented = true;
 					}
 					break;
 				case SPEED: 
-					if(game.getCurrentCharacter().getCurrentSpeedIndex() != 0){
-						game.getCurrentCharacter().decrementSpeed(game.getCurrentCharacter().getCurrentSpeedIndex());
+					if(currentExplorer.getCurrentSpeedIndex() != 0){
+						currentExplorer.decrementSpeed(currentExplorer.getCurrentSpeedIndex());
 						decremented = true;
 					}
 					break;

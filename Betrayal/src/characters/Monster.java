@@ -20,16 +20,16 @@ public class Monster extends Character {
 		}
 	}
 	
-	public int getSanity(){
+	public int getCurrentSanity(){
 		return this.sanity;
 	}
-	public int getKnowledge(){
+	public int getCurrentKnowledge(){
 		return this.knowledge;
 	}
-	public int getSpeed(){
+	public int getCurrentSpeed(){
 		return this.speed;
 	}
-	public int getMight(){
+	public int getCurrentMight(){
 		return this.might;
 	}
 }

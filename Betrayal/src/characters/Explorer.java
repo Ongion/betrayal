@@ -49,40 +49,40 @@ public class Explorer extends Character {
 
 		switch (charEnum) {
 			case FatherRhinehardt:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-FatherRhinehardt", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l);
 				break;
 			case ProfessorLongfellow:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-ProfessorLongfellow", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ProfessorLongfellow", l);
 				break;
 			case OxBellows:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-OxBellows", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_OxBellows", l);
 				break;
 			case DarrinWilliams:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-DarrinWilliams", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_DarrinWilliams", l);
 				break;
 			case MadameZostra:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-MadameZostra", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MadameZostra", l);
 				break;
 			case VivianLopez:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-VivianLopez", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_VivianLopez", l);
 				break;
 			case ZoeIngstrom:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-ZoeIngstrom", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ZoeIngstrom", l);
 				break;
 			case MissyDubourde:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-MissyDubourde", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MissyDubourde", l);
 				break;
 			case JennyLeClerc:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-JennyLeClerc", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_JennyLeClerc", l);
 				break;
 			case HeatherGranville:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-HeatherGranville", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_HeatherGranville", l);
 				break;
 			case BrandonJaspers:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-BrandonJaspers", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_BrandonJaspers", l);
 				break;
 			case PeterAkimoto:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-PeterAkimoto", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_PeterAkimoto", l);
 				break;
 		}
 

@@ -310,10 +310,10 @@ public class TestCharacters {
 	public void TestMonsterInit(){
 		Monster m = new Monster(Monsters.Temp_Monster1);
 		
-		Assert.assertEquals(m.getMight(), 1);
-		Assert.assertEquals(m.getSpeed(), 1);
-		Assert.assertEquals(m.getSanity(), 1);
-		Assert.assertEquals(m.getKnowledge(), 1);
+		Assert.assertEquals(m.getCurrentMight(), 1);
+		Assert.assertEquals(m.getCurrentSpeed(), 1);
+		Assert.assertEquals(m.getCurrentSanity(), 1);
+		Assert.assertEquals(m.getCurrentKnowledge(), 1);
 	}
 	
 

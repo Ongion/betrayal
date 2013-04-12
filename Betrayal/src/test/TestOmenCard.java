@@ -38,6 +38,8 @@ import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
+import characters.Character;
+
 
 public class TestOmenCard {
 
@@ -191,7 +193,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForBook() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -256,7 +258,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForMadman() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -397,7 +399,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForGirl() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -488,7 +490,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForHolySymbol() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);

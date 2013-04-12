@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Explorer.Trait;
+import characters.Character.Trait;
 import Game.Game;
 
 public class LockedSafe extends EventCard {

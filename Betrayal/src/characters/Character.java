@@ -93,4 +93,77 @@ public abstract class Character {
 	public Relative_Direction getSideOfRoom() {
 		return this.sideOfRoom;
 	}
+	
+	public abstract int getCurrentSanity();
+	public abstract int getCurrentKnowledge();
+	public abstract int getCurrentMight();
+	public abstract int getCurrentSpeed();
+
+	public void incrementKnowledge() {
+		// Only implemented by Explorers
+	}
+
+	public void incrementSanity() {
+		// Only implemented by Explorers
+	}
+
+	public void incrementMight() {
+		// Only implemented by Explorers
+	}
+
+	public void incrementSpeed() {
+		// Only implemented by Explorers
+	}
+	
+	public void decrementKnowledge() {
+		// Only implemented by Explorers
+	}
+
+	public void decrementSanity() {
+		// Only implemented by Explorers
+	}
+
+	public void decrementMight() {
+		// Only implemented by Explorers
+	}
+
+	public void decrementSpeed(int amount) {
+		// Only implemented by Explorers
+	}
+	
+	public void decrementKnowledge(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void decrementSanity(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void decrementMight(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void decrementSpeed() {
+		// Only implemented by Explorers
+	}
+	
+	public void incrementKnowledge(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void incrementSanity(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void incrementMight(int amount) {
+		// Only implemented by Explorers
+	}
+
+	public void incrementSpeed(int amount) {
+		// Only implemented by Explorers
+	}
+
+
+
+	
 }
