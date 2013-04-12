@@ -32,6 +32,7 @@ import rooms.Room;
 import Game.Game;
 import Game.Player;
 import characters.Explorer;
+import characters.Explorer.Explorers;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
@@ -40,7 +41,7 @@ import eventCards.Rotten;
 
 public class TestOmenCard {
 
-	private Explorer character = new Explorer(0, new Locale("en"));
+	private Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 	private Player player = new Player();
 	
 	private Game game;

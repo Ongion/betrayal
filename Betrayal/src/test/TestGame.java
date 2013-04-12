@@ -31,13 +31,14 @@ import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
 
-import characters.Explorer.Trait;
+import characters.Explorer.Explorers;
+import characters.Character.Trait;
 
 public class TestGame {
 
 	private Game game;
-	private characters.Explorer character = new characters.Explorer(0,new Locale("en"));
-	private characters.Explorer character2 = new characters.Explorer(1,new Locale("en"));
+	private characters.Explorer character = new characters.Explorer(Explorers.FatherRhinehardt,new Locale("en"));
+	private characters.Explorer character2 = new characters.Explorer(Explorers.OxBellows,new Locale("en"));
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
