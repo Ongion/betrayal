@@ -478,7 +478,7 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
-		assertEquals(holySymbolCard.whatToDo(character), character.getCurrentSanity());
+		assertEquals(holySymbolCard.whatToDo(character, game), character.getCurrentSanity());
 	}
 	
 	@Test
