@@ -11,15 +11,18 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import rooms.CatacombsRoom;
+import rooms.ChasmRoom;
 import rooms.EventRoom;
 import rooms.NormalRoom;
 import rooms.OmenRoom;
+import rooms.PentagramChamberRoom;
 import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import Game.Game;
 import floors.Location;
+import characters.Explorer;
 
 public class TestRooms {
 	Room organRoom;
@@ -31,11 +34,13 @@ public class TestRooms {
 	Room servantsQuarters;
 	Room masterBedroom;
 	Room bedroom;
+	Room chasm;
+	Room pentagramChamber;
+	Explorer zoeIngstrom;
 	
 	@Before
 	public void setUp() {
 		Game.resetGame();
-		Game game = Game.getInstance();
 		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		gardensExits.add(Relative_Direction.NORTH);
 		gardensExits.add(Relative_Direction.SOUTH);
@@ -82,6 +87,21 @@ public class TestRooms {
 		catacombsFloors.add(Floor_Name.BASEMENT);
 		catacombs = new CatacombsRoom("Catacombs", catacombsExits, catacombsFloors);
 		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
+		
+		HashSet<Relative_Direction> chasmExits = new HashSet<Relative_Direction>();
+		chasmExits.add(Relative_Direction.EAST);
+		chasmExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> chasmFloors = new HashSet<Floor_Name>();
+		chasmFloors.add(Floor_Name.BASEMENT);
+		chasm = new ChasmRoom("Chasm", chasmExits, chasmFloors);
+		chasm.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 0, 1));
+		
+		HashSet<Relative_Direction> pentagramChamberExits = new HashSet<Relative_Direction>();
+		pentagramChamberExits.add(Relative_Direction.EAST);
+		HashSet<Floor_Name> pentagramChamberFloors = new HashSet<Floor_Name>();
+		pentagramChamberFloors.add(Floor_Name.BASEMENT);
+		pentagramChamber = new PentagramChamberRoom("Pentagram Chamber", pentagramChamberExits, pentagramChamberFloors);
+		pentagramChamber.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, -1, 0));
 		
 		HashSet<Relative_Direction> creakyHallwayExits = new HashSet<Relative_Direction>();
 		creakyHallwayExits.add(Relative_Direction.NORTH);
@@ -203,6 +223,5 @@ public class TestRooms {
 		assertEquals(servantsQuarters.getOrientation(), Room_Orientation.WEST);
 		assertEquals(servantsQuarters.getFloor(), Floor_Name.BASEMENT);
 	}
-	
 
 }

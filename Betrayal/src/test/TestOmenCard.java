@@ -158,6 +158,10 @@ public class TestOmenCard {
 	@Test
 	public void TestWhatToDoForCrystalBall() {
 		assertNotNull(crystalBallCard.whatToDo());
+		if(game.getIsHaunt()==true){
+			crystalBallCard.makeKnowledgeRoll();
+		
+		}
 	}
 	
 	@Test

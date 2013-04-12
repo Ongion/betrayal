@@ -38,4 +38,9 @@ public abstract class OmenCard {
 	}
 
 	public abstract Object whatToDo();
+
+	public void makeKnowledgeRoll() {
+		// TODO Auto-generated method stub
+		
+	}
 }
