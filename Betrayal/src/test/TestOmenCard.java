@@ -253,7 +253,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForMadman() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(madmanCard.whatToDo());
+		assertEquals(madmanCard.whatToDo(character, game), character.getCurrentMight());
 	}
 	@Test
 	public void MadmanInit() {
