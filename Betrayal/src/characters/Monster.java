@@ -19,4 +19,17 @@ public class Monster extends Character {
 				break;
 		}
 	}
+	
+	public int getSanity(){
+		return this.sanity;
+	}
+	public int getKnowledge(){
+		return this.knowledge;
+	}
+	public int getSpeed(){
+		return this.speed;
+	}
+	public int getMight(){
+		return this.might;
+	}
 }
