@@ -387,7 +387,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForGirl() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(girlCard.whatToDo());
+		assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledgeIndex()+1);
 	}
 	
 	@Test
