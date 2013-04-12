@@ -16,6 +16,7 @@ import org.junit.rules.ExpectedException;
 import rooms.CatacombsRoom;
 import rooms.ChasmRoom;
 import rooms.EventRoom;
+import rooms.JunkRoomRoom;
 import rooms.NormalRoom;
 import rooms.OmenRoom;
 import rooms.PentagramChamberRoom;
@@ -44,6 +45,7 @@ public class TestRooms {
 	Room bedroom;
 	Room chasm;
 	Room pentagramChamber;
+	Room junkRoom;
 	Explorer zoeIngstrom;
 	
 	@Before
@@ -110,6 +112,18 @@ public class TestRooms {
 		pentagramChamberFloors.add(Floor_Name.BASEMENT);
 		pentagramChamber = new PentagramChamberRoom("Pentagram Chamber", pentagramChamberExits, pentagramChamberFloors);
 		pentagramChamber.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, -1, 0));
+		
+		HashSet<Relative_Direction> junkRoomExits = new HashSet<Relative_Direction>();
+		junkRoomExits.add(Relative_Direction.NORTH);
+		junkRoomExits.add(Relative_Direction.EAST);
+		junkRoomExits.add(Relative_Direction.SOUTH);
+		junkRoomExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> junkRoomFloors = new HashSet<Floor_Name>();
+		junkRoomFloors.add(Floor_Name.UPPER);
+		junkRoomFloors.add(Floor_Name.GROUND);
+		junkRoomFloors.add(Floor_Name.BASEMENT);
+		junkRoom = new JunkRoomRoom("Junk Room", junkRoomExits, junkRoomFloors);
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, -1));
 		
 		HashSet<Relative_Direction> creakyHallwayExits = new HashSet<Relative_Direction>();
 		creakyHallwayExits.add(Relative_Direction.NORTH);
@@ -242,7 +256,6 @@ public class TestRooms {
 			Field instanceField = Game.class.getDeclaredField("INSTANCE");
 			instanceField.setAccessible(true);
 			instanceField.set(null, mockGame);
-			assertEquals(mockGame, Game.getInstance());
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(3); will(returnValue(3));
@@ -272,7 +285,6 @@ public class TestRooms {
 			instanceField.set(null, mockGame);
 			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
 			final int zoesKnowledge = zoeIngstrom.getCurrentKnowledge();
-			assertEquals(mockGame, Game.getInstance());
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(zoesKnowledge); will(returnValue(5));
@@ -288,6 +300,64 @@ public class TestRooms {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void testLeavingJunkRoomFailingRoll() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			final int traitScore = zoeIngstrom.getCurrentMight();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore); will(returnValue(2));
+			}});
+			zoeIngstrom.setCurrentRoom(junkRoom);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
+			assertEquals(2, zoeIngstrom.getCurrentSpeedIndex());
+			mocks.assertIsSatisfied();
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testLeavingJunkRoomSucceedingRoll() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			final int traitScore = zoeIngstrom.getCurrentMight();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore); will(returnValue(3));
+			}});
+			zoeIngstrom.setCurrentRoom(junkRoom);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
+			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			mocks.assertIsSatisfied();
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+
 
 
 }
