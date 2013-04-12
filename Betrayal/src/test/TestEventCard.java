@@ -1002,16 +1002,16 @@ public class TestEventCard {
 		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
 		
 		card.happen(1);
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
 		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
 		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
 		
 		card.happen(2);
 		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
 		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
 		
 		card.happen(3);
 		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
@@ -1029,7 +1029,7 @@ public class TestEventCard {
 	}
 	
 	@Test
-	public void testLockedSafe4OrGreater(){
+	public void testLockedSafe5OrGreater(){
 		card = new LockedSafe("Locked Safe", lockedSafeDes);
 		
 		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
@@ -1095,7 +1095,7 @@ public class TestEventCard {
 	}
 
 	@Test
-	public void testLockedSafe3OrGreater(){
+	public void testTheBeckoning3OrGreater(){
 		card = new TheBeckoning("The Beckoning", theBeckoningDes);
 		
 		card.happen(3);
@@ -1107,7 +1107,7 @@ public class TestEventCard {
 	}
 
 	@Test
-	public void testLockedSafe0To2Damage(){
+	public void testTheBeckoning0To2Damage(){
 		card = new TheBeckoning("The Beckoning", theBeckoningDes);
 		
 		game.getCurrentCharacter().incrementSpeed();
@@ -1251,7 +1251,7 @@ public class TestEventCard {
 	@Test
 	public void testBloodyVision1Or0(){
 		card = new BloodyVision("Bloody Vision", bloodyVisionDes);
-		// For now do nothing because the need methods are not yet implemented for attack
+		// For now do nothing because the need methods that are not yet implemented for attack
 		
 	}
 	
