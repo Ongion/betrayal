@@ -1,5 +1,6 @@
 package omenCards;
 
+import characters.Explorer;
 import Game.Game;
 
 public class Girl extends OmenCard {
@@ -15,4 +16,12 @@ public class Girl extends OmenCard {
 		return 0;
 	}
 
+	@Override
+	public int whatToDo(Explorer character, Game game) {
+		if(game.getIsHaunt()==true){
+			character.incrementSanity(1);
+			character.incrementKnowledge(1);
+		}
+		return character.getCurrentKnowledge();
+	}
 }

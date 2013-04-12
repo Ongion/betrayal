@@ -18,6 +18,7 @@ import Game.Game;
 import Game.Player;
 
 import characters.Explorer;
+import characters.Explorer.Explorers;
 import eventCards.EventCard;
 import eventCards.Rotten;
 
@@ -29,7 +30,7 @@ public class TestPlayer {
 	
 	@Before
 	public void initTests() {
-		Father = new Explorer(0,new Locale("en"));
+		Father = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
 		p = new Player();
 		p.addCharacter(Father);
 	}

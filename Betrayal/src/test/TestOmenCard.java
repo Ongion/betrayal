@@ -32,6 +32,7 @@ import rooms.Room;
 import Game.Game;
 import Game.Player;
 import characters.Explorer;
+import characters.Explorer.Explorers;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
@@ -40,7 +41,7 @@ import eventCards.Rotten;
 
 public class TestOmenCard {
 
-	private Explorer character = new Explorer(0, new Locale("en"));
+	private Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 	private Player player = new Player();
 	
 	private Game game;
@@ -160,10 +161,18 @@ public class TestOmenCard {
 		assertNotNull(crystalBallCard.whatToDo());
 		if(game.getIsHaunt()==true){
 			crystalBallCard.makeKnowledgeRoll();
-		
 		}
 	}
 	
+	public void TestMakeKnowledgeRollForCrystalBall(){
+			
+		}
+		
+		
+	
+	
+	
+
 	@Test
 	public void IsHauntRollWithBook() {
 		game.setIsHaunt(true);
@@ -180,7 +189,16 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForBook() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		
 		assertNotNull(bookCard.whatToDo());
+		assertEquals(bookCard.whatToDo(character,game),character.getCurrentKnowledge());
+		
 	}
 
 	@Test
@@ -236,7 +254,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForMadman() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(madmanCard.whatToDo());
+		assertEquals(madmanCard.whatToDo(character, game), character.getCurrentMight());
 	}
 	@Test
 	public void MadmanInit() {
@@ -370,7 +395,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForGirl() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(girlCard.whatToDo());
+		assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledge());
 	}
 	
 	@Test
@@ -454,7 +486,14 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForHolySymbol() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(0, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
+		assertEquals(holySymbolCard.whatToDo(character, game), character.getCurrentSanity());
 	}
 	
 	@Test
