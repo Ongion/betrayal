@@ -21,6 +21,7 @@ public class Girl extends OmenCard {
 		if(game.getIsHaunt()==true){
 			character.incrementSanity(1);
 			character.incrementKnowledge(1);
+			
 		}
 		return character.getCurrentKnowledge();
 	}

@@ -1,5 +1,6 @@
 package omenCards;
 
+import characters.Explorer;
 import Game.Game;
 
 public class Medallion extends OmenCard {
@@ -11,6 +12,12 @@ public class Medallion extends OmenCard {
 
 	@Override
 	public Object whatToDo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int whatToDo(Explorer character, Game game) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

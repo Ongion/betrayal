@@ -1,5 +1,6 @@
 package omenCards;
 
+import characters.Explorer;
 import Game.Game;
 
 public class CrystalBall extends OmenCard {
@@ -12,6 +13,12 @@ public class CrystalBall extends OmenCard {
 	@Override
 	public Object whatToDo() {
 		
+		return 0;
+	}
+
+	@Override
+	public int whatToDo(Explorer character, Game game) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
