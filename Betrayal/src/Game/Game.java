@@ -5,6 +5,7 @@ import itemCards.ItemCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import floors.Location;
 
 public class Game {
 	
+	private Locale locale = new Locale("en");
 	private Floor[] map; // TODO Remove this, only here for old tests.
 	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
@@ -37,7 +39,7 @@ public class Game {
 	
 	private static Game INSTANCE = new Game();
 	
-	private Game() {
+	private Game() {		
 		//Set up map
 		this.mapRooms = new HashSet<Room>();
 		
@@ -309,5 +311,9 @@ public class Game {
 			}
 		}
 		return null;
+	}
+	
+	public Locale getLocale() {
+		return this.locale;
 	}
 }

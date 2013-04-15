@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import rooms.CatacombsRoom;
 import rooms.ChasmRoom;
@@ -25,15 +26,13 @@ import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import Game.Game;
-import floors.Location;
+import characters.Character.Character_Name;
 import characters.Explorer;
-import characters.Explorer.Explorers;
-
-import org.jmock.Mockery;
-import org.jmock.Expectations;
-import org.jmock.lib.legacy.ClassImposteriser;
+import characters.ExplorerFactory;
+import floors.Location;
 
 public class TestRooms {
+	ExplorerFactory explorers;
 	Room organRoom;
 	Room gardens;
 	Room basementLanding;
@@ -167,6 +166,8 @@ public class TestRooms {
 		bedroomWindows.put(Relative_Direction.SOUTH, 1);
 		bedroom = new EventRoom("Bedroom", bedroomExits, bedroomFloors, bedroomWindows);
 		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
+		
+		explorers = new ExplorerFactory();
 
 	}
 	
@@ -251,8 +252,9 @@ public class TestRooms {
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(3); will(returnValue(3));
+				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 			}});
-			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
 			zoeIngstrom.setCurrentRoom(pentagramChamber);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
 			assertEquals(5, zoeIngstrom.getCurrentSanity());
@@ -275,11 +277,12 @@ public class TestRooms {
 			Field instanceField = Game.class.getDeclaredField("INSTANCE");
 			instanceField.setAccessible(true);
 			instanceField.set(null, mockGame);
-			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
 			final int zoesKnowledge = zoeIngstrom.getCurrentKnowledge();
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(zoesKnowledge); will(returnValue(5));
+				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 			}});
 			zoeIngstrom.setCurrentRoom(pentagramChamber);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
@@ -303,11 +306,12 @@ public class TestRooms {
 			Field instanceField = Game.class.getDeclaredField("INSTANCE");
 			instanceField.setAccessible(true);
 			instanceField.set(null, mockGame);
-			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
 			final int traitScore = zoeIngstrom.getCurrentMight();
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(traitScore); will(returnValue(2));
+				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
@@ -331,11 +335,12 @@ public class TestRooms {
 			Field instanceField = Game.class.getDeclaredField("INSTANCE");
 			instanceField.setAccessible(true);
 			instanceField.set(null, mockGame);
-			zoeIngstrom = new Explorer(Explorers.ZoeIngstrom, new Locale("en"));
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
 			final int traitScore = zoeIngstrom.getCurrentMight();
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(traitScore); will(returnValue(3));
+				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);

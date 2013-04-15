@@ -15,7 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import characters.Explorer;
-import characters.Explorer.Explorers;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 import characters.Monster;
 import characters.Monster.Monsters;
 import eventCards.EventCard;
@@ -27,18 +28,19 @@ public class TestCharacters {
 	
 	@Before
 	public void initializeTests(){
-		FatherRhinehardt = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
-		c1 = new Explorer(Explorers.ProfessorLongfellow,new Locale("en"));
-		c2 = new Explorer(Explorers.OxBellows,new Locale("en"));
-		c3 = new Explorer(Explorers.DarrinWilliams,new Locale("en"));
-		c4 = new Explorer(Explorers.MadameZostra,new Locale("en"));
-		c5 = new Explorer(Explorers.VivianLopez,new Locale("en"));
-		c6 = new Explorer(Explorers.ZoeIngstrom,new Locale("en"));
-		c7 = new Explorer(Explorers.MissyDubourde,new Locale("en"));
-		c8 = new Explorer(Explorers.JennyLeClerc,new Locale("en"));
-		c9 = new Explorer(Explorers.HeatherGranville,new Locale("en"));
-		c10 = new Explorer(Explorers.BrandonJaspers,new Locale("en"));
-		c11 = new Explorer(Explorers.PeterAkimoto,new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		FatherRhinehardt = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		c1 = explorers.getExplorer(Character_Name.ProfessorLongfellow);
+		c2 = explorers.getExplorer(Character_Name.OxBellows);
+		c3 = explorers.getExplorer(Character_Name.DarrinWilliams);
+		c4 = explorers.getExplorer(Character_Name.MadameZostra);
+		c5 = explorers.getExplorer(Character_Name.VivianLopez);
+		c6 = explorers.getExplorer(Character_Name.ZoeIngstrom);
+		c7 = explorers.getExplorer(Character_Name.MissyDubourde);
+		c8 = explorers.getExplorer(Character_Name.JennyLeClerc);
+		c9 = explorers.getExplorer(Character_Name.HeatherGranville);
+		c10 = explorers.getExplorer(Character_Name.BrandonJaspers);
+		c11 = explorers.getExplorer(Character_Name.PeterAkimoto);
 		
 	}
 	

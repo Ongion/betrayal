@@ -3,15 +3,32 @@ package characters;
 import itemCards.ItemCard;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import omenCards.OmenCard;
 import eventCards.EventCard;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
+import Game.Game;
 import Game.Player;
 
 public abstract class Character {
-	protected String name;
+	public enum Character_Name{
+		FatherRhinehardt,
+		ProfessorLongfellow,
+		OxBellows,
+		DarrinWilliams,
+		MadameZostra,
+		VivianLopez,
+		ZoeIngstrom,
+		MissyDubourde,
+		JennyLeClerc,
+		HeatherGranville,
+		BrandonJaspers,
+		PeterAkimoto,
+	}
+	
+	protected Character_Name name;
 
 	protected Player playerControlledBy;
 
@@ -25,9 +42,13 @@ public abstract class Character {
 	protected ArrayList<EventCard> eventHand = new ArrayList<EventCard>();
 	protected ArrayList<OmenCard> omenHand = new ArrayList<OmenCard>();
 	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
+	
+	public Character(Character_Name name) {
+		this.name = name;
+	}
 
 	public String getName() {
-		return name;
+		return ResourceBundle.getBundle("characters.CharacterBundle_"+this.name.toString(), Game.getInstance().getLocale()).getString("name");
 	}
 
 	// Add a card to each hand

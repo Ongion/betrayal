@@ -1,26 +1,15 @@
 package test;
 
-import itemCards.AngelFeather;
-import itemCards.ItemCard;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
 import junit.framework.Assert;
-
-import omenCards.CrystalBall;
-import omenCards.OmenCard;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import Game.Game;
 import Game.Player;
-
+import characters.Character.Character_Name;
 import characters.Explorer;
-import characters.Explorer.Explorers;
-import eventCards.EventCard;
-import eventCards.Rotten;
+import characters.ExplorerFactory;
 
 public class TestPlayer {
 
@@ -30,7 +19,8 @@ public class TestPlayer {
 	
 	@Before
 	public void initTests() {
-		Father = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		Father =explorers.getExplorer(Character_Name.FatherRhinehardt);
 		p = new Player();
 		p.addCharacter(Father);
 	}
