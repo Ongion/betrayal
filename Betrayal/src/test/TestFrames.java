@@ -4,17 +4,26 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import popUps.FrameComponent;
 import popUps.GameFrame;
 
 public class TestFrames {
 
+	private int width = 200;
+	private int height = 100; 
+	
 	@Test
-	public void test() {
-		int width = 200;
-		int height = 100;
-		
-		GameFrame testFrame = new GameFrame(200,100);
+	public void TestGameFrameInit() {
+		GameFrame testFrame = new GameFrame(width,height);
+	}
+	
+	@Test
+	public void TestGameFrameAddComponent(){
+		GameFrame testFrame = new GameFrame(width,height);
+		FrameComponent component = new FrameComponent();
+		testFrame.add(component);
 		
 	}
+	
 
 }
