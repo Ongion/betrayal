@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.ArrayList;
+
 import characters.Explorer;
 import Game.Game;
 
@@ -28,7 +30,13 @@ public class Girl extends OmenCard {
 
 	@Override
 	public void isLost(Explorer character) {
-		// TODO Auto-generated method stub
+		
+		ArrayList omenHand = character.getOmenHand();
+		
+		if(!omenHand.contains(this)){
+			character.decrementKnowledge();
+			character.decrementSanity();
+		}
 		
 	}
 }

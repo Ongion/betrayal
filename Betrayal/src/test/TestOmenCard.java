@@ -221,7 +221,7 @@ public class TestOmenCard {
 		int expectedKnowledge = character.getCurrentKnowledgeIndex() - 2;
 		bookCard.isLost(character);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
-		assertEquals(expectedKnowledge, knowledgeAfter);
+		assertEquals(knowledgeAfter,expectedKnowledge);
 		
 	}
 	
@@ -312,6 +312,27 @@ public class TestOmenCard {
 		assertEquals(sanityAfter, expectedSanity);
 		
 		
+	}
+	
+	@Test
+	public void TestMadmanIsLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(madmanCard);
+		
+		character.removeOmenCard(madmanCard); //For testing purposes the card is removed here.
+		
+		int expectedMight = character.getCurrentMightIndex() - 2;
+		int expectedSanity = character.getCurrentSanityIndex() + 1;
+		madmanCard.isLost(character);
+		int mightAfter = character.getCurrentMight();
+		int sanityAfter = character.getCurrentSanity();
+		assertEquals(mightAfter, expectedMight);
+		assertEquals(sanityAfter,expectedSanity);
 	}
 	
 	@Test
@@ -494,8 +515,6 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		character.addOmenCard(girlCard);
-		
-		
 		
 		int expectedKnowledge = character.getCurrentKnowledgeIndex();
 		int expectedSanity = character.getCurrentSanityIndex();
