@@ -701,9 +701,63 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForDog() {
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		
 		assertNotNull(dogCard.whatToDo());
+		int expectedMight = character.getCurrentMightIndex() + 1;
+		int expectedSanity = character.getCurrentSanityIndex() + 1;
+		dogCard.whatToDo(character, game);
+		int mightAfter = character.getCurrentMightIndex();
+		int sanityAfter = character.getCurrentSanityIndex();
+		assertEquals(sanityAfter, expectedSanity);
+		assertEquals(mightAfter, expectedMight);
 	}
 	
+	
+	@Test
+	public void TestDogIsLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(dogCard);
+		
+		character.removeOmenCard(dogCard); //For testing purposes it is removed here.
+		
+		int expectedMight = character.getCurrentMightIndex() - 1;
+		int expectedSanity = character.getCurrentSanityIndex() - 1;
+		dogCard.isLost(character);
+		int mightAfter = character.getCurrentMightIndex();
+		int sanityAfter = character.getCurrentSanityIndex();
+		assertEquals(mightAfter, expectedMight);
+		assertEquals(sanityAfter, expectedSanity);
+	}
+	
+	@Test
+	public void TestDogIsNotLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(dogCard);
+		
+		int expectedMight = character.getCurrentMightIndex();
+		int expectedSanity = character.getCurrentSanityIndex();
+		dogCard.isLost(character);
+		int mightAfter = character.getCurrentMightIndex();
+		int sanityAfter = character.getCurrentSanityIndex();
+		assertEquals(mightAfter, expectedMight);
+		assertEquals(sanityAfter, expectedSanity);
+	}
 
 	@Test
 	public void DogInit() {
