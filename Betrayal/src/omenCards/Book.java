@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.ArrayList;
+
 import characters.Explorer;
 import Game.Game;
 
@@ -25,8 +27,14 @@ public  class Book extends OmenCard {
 		}
 		
 	}
+		
 
-	
+	@Override
+	public boolean isLost(Explorer character) {
+		ArrayList omenHand = character.getOmenHand();
+		
+		return false;
+	}
 	
 
 
