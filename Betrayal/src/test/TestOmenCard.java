@@ -465,6 +465,48 @@ public class TestOmenCard {
 	}
 	
 	@Test
+	public void TestGirlIsLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(girlCard);
+		
+		character.removeOmenCard(girlCard); //For testing purposes the card is removed here.
+		
+		int expectedKnowledge = character.getCurrentKnowledgeIndex() - 1;
+		int expectedSanity = character.getCurrentSanityIndex() - 1;
+		girlCard.isLost(character);
+		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		int sanityAfter = character.getCurrentSanity();
+		assertEquals(knowledgeAfter, expectedKnowledge);
+		assertEquals(sanityAfter,expectedSanity);
+	}
+	
+	@Test
+	public void TestGirlIsNotLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(girlCard);
+		
+		
+		
+		int expectedKnowledge = character.getCurrentKnowledgeIndex();
+		int expectedSanity = character.getCurrentSanityIndex();
+		girlCard.isLost(character);
+		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		int sanityAfter = character.getCurrentSanity();
+		assertEquals(knowledgeAfter, expectedKnowledge);
+		assertEquals(sanityAfter,expectedSanity);
+	}
+	
+	@Test
 	public void GirlInit() {
 		girlCard.setName("Girl");
 		girlCard.setQuote("COMPANION A girl.Trapped.Alone.You free her!");

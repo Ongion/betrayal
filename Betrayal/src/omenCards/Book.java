@@ -7,7 +7,6 @@ import Game.Game;
 
 public  class Book extends OmenCard {
 
-	//private Game game;
 	
 	public Book(String name, String quote) {
 		super(name, quote);
