@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CharacterMovement {
+public class TestCharacterMovement {
 
 	@Test
 	public void test() {
