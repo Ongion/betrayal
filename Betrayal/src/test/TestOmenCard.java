@@ -193,7 +193,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForBook() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -201,10 +201,10 @@ public class TestOmenCard {
 		
 		
 		assertNotNull(bookCard.whatToDo());
-		System.out.println("Knowledge before: " + character.getCurrentKnowledge());
+		int expectedKnowledge = character.getCurrentKnowledge();
 		bookCard.whatToDo(character,game);
-		System.out.println("Knowledge after: " + character.getCurrentKnowledge());
-		assertEquals(character.getCurrentKnowledge(), character.getCurrentKnowledge() + 2);
+		int knowledgeAfter = character.getCurrentKnowledge();
+		assertEquals(knowledgeAfter, expectedKnowledge);
 		
 	}
 
@@ -263,17 +263,20 @@ public class TestOmenCard {
 	public void TestWhatToDoForMadman() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 	
 		assertNotNull(madmanCard.whatToDo());
-		System.out.println("Might before execution: " + character.getCurrentMight());
+		
+		int expectedMight = character.getCurrentMight() + 2;
+		int expectedSanity = character.getCurrentSanity() - 1;
 		madmanCard.whatToDo(character, game);
-		System.out.println("Might after execution: " + character.getCurrentMight());
-		assertEquals( character.getCurrentMight(), (character.getCurrentMight() + 2));
-		//assertEquals(madmanCard.whatToDo(character, game), character.getCurrentSanity());
+		int mightAfter = character.getCurrentMight();
+		int sanityAfter = character.getCurrentSanity();
+		assertEquals( mightAfter, expectedMight);
+		assertEquals(sanityAfter, expectedSanity);
 	}
 	@Test
 	public void MadmanInit() {
@@ -409,12 +412,20 @@ public class TestOmenCard {
 	public void TestWhatToDoForGirl() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(girlCard.whatToDo());
-		//assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledge());
+		
+		int expectedSanity = character.getCurrentSanity() + 1;
+		int expectedKnowledge = character.getCurrentKnowledge() + 1;
+		girlCard.whatToDo(character, game);
+		int sanityAfter = character.getCurrentSanity();
+		int knowledgeAfter = character.getCurrentKnowledge();
+		
+		assertEquals(sanityAfter, expectedSanity);
+		assertEquals(knowledgeAfter, expectedKnowledge);
 	}
 	
 	@Test
@@ -500,12 +511,18 @@ public class TestOmenCard {
 	public void TestWhatToDoForHolySymbol() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
-		//assertEquals(holySymbolCard.whatToDo(character, game), character.getCurrentSanity());
+		
+		System.out.println("This is the current Sanity: " + character.getCurrentSanity());
+		int expectedSanity = character.getCurrentSanity() + 2;
+		holySymbolCard.whatToDo(character, game);
+		System.out.println("this is the sanity after: " + character.getCurrentSanity());
+		int sanityAfter = character.getCurrentSanity();
+		assertEquals(sanityAfter, expectedSanity);
 	}
 	
 	@Test

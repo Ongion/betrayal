@@ -1,5 +1,6 @@
 package omenCards;
 
+import characters.Character;
 import characters.Explorer;
 import Game.Game;
 

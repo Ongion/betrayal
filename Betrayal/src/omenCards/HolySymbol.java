@@ -19,7 +19,7 @@ public class HolySymbol extends OmenCard {
 	@Override
 	public void whatToDo(Explorer character, Game game) {
 		if(!game.getIsHaunt()==true){
-			character.decrementSanity(2);
+			character.incrementSanity(2);
 		}
 		
 	}
