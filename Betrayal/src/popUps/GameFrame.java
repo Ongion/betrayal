@@ -12,6 +12,10 @@ public class GameFrame extends JFrame {
 		this.height = windowHeight;
 		
 	}
+
+	public GameFrame() {
+		
+	}
 	
 
 		

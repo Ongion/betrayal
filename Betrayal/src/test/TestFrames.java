@@ -25,5 +25,13 @@ public class TestFrames {
 		
 	}
 	
+	@Test 
+	public void TestSetSizeMethod(){
+		GameFrame testFrame = new GameFrame();
+		testFrame.setSize(width, height);
+		assertEquals(this.width, width);
+		assertEquals(this.height, height);
+	}
+	
 
 }
