@@ -199,7 +199,7 @@ public class TestOmenCard {
 		game.addCharacter(character);
 		
 		assertNotNull(bookCard.whatToDo());
-		int expectedKnowledge = character.getCurrentKnowledgeIndex();
+		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
 		bookCard.whatToDo(character,game);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);

@@ -22,7 +22,7 @@ public  class Book extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		if(game.getIsHaunt()==true){
+		if(!game.getIsHaunt()){
 			character.incrementKnowledge(2);
 		}
 		
@@ -30,10 +30,14 @@ public  class Book extends OmenCard {
 		
 
 	@Override
-	public boolean isLost(Explorer character) {
+	public void isLost(Explorer character) {
 		ArrayList omenHand = character.getOmenHand();
+		if(!omenHand.contains(this)){
+			character.decrementKnowledge(2);
+			
+		}
 		
-		return false;
+		
 	}
 	
 

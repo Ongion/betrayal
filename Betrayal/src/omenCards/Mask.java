@@ -43,6 +43,12 @@ public class Mask extends OmenCard {
 		
 	}
 
+	@Override
+	public void isLost(Explorer character) {
+		// TODO Auto-generated method stub
+		
+	}
+
 //	public boolean putOnMask() {
 //
 //		return true;

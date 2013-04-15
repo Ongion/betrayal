@@ -25,4 +25,10 @@ public class Girl extends OmenCard {
 		}
 		
 	}
+
+	@Override
+	public void isLost(Explorer character) {
+		// TODO Auto-generated method stub
+		
+	}
 }

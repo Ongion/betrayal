@@ -43,7 +43,7 @@ public abstract class OmenCard {
 	
 	public abstract void whatToDo(Explorer character, Game game);
 	
-	public abstract boolean isLost(Explorer character);
+	public abstract void isLost(Explorer character);
 
 	public void makeKnowledgeRoll() {
 		// TODO Auto-generated method stub

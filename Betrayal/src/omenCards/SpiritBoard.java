@@ -21,4 +21,10 @@ public class SpiritBoard extends OmenCard {
 		
 	}
 
+	@Override
+	public void isLost(Explorer character) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
