@@ -15,6 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import characters.Explorer;
+import characters.Explorer.Explorers;
+import characters.Monster;
+import characters.Monster.Monsters;
 import eventCards.EventCard;
 import eventCards.Rotten;
 
@@ -24,18 +27,18 @@ public class TestCharacters {
 	
 	@Before
 	public void initializeTests(){
-		FatherRhinehardt = new Explorer(0,new Locale("en"));
-		c1 = new Explorer(1,new Locale("en"));
-		c2 = new Explorer(2,new Locale("en"));
-		c3 = new Explorer(3,new Locale("en"));
-		c4 = new Explorer(4,new Locale("en"));
-		c5 = new Explorer(5,new Locale("en"));
-		c6 = new Explorer(6,new Locale("en"));
-		c7 = new Explorer(7,new Locale("en"));
-		c8 = new Explorer(8,new Locale("en"));
-		c9 = new Explorer(9,new Locale("en"));
-		c10 = new Explorer(10,new Locale("en"));
-		c11 = new Explorer(11,new Locale("en"));
+		FatherRhinehardt = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
+		c1 = new Explorer(Explorers.ProfessorLongfellow,new Locale("en"));
+		c2 = new Explorer(Explorers.OxBellows,new Locale("en"));
+		c3 = new Explorer(Explorers.DarrinWilliams,new Locale("en"));
+		c4 = new Explorer(Explorers.MadameZostra,new Locale("en"));
+		c5 = new Explorer(Explorers.VivianLopez,new Locale("en"));
+		c6 = new Explorer(Explorers.ZoeIngstrom,new Locale("en"));
+		c7 = new Explorer(Explorers.MissyDubourde,new Locale("en"));
+		c8 = new Explorer(Explorers.JennyLeClerc,new Locale("en"));
+		c9 = new Explorer(Explorers.HeatherGranville,new Locale("en"));
+		c10 = new Explorer(Explorers.BrandonJaspers,new Locale("en"));
+		c11 = new Explorer(Explorers.PeterAkimoto,new Locale("en"));
 		
 	}
 	
@@ -303,6 +306,15 @@ public class TestCharacters {
 
 	}
 
+	@Test
+	public void TestMonsterInit(){
+		Monster m = new Monster(Monsters.Temp_Monster1);
+		
+		Assert.assertEquals(m.getCurrentMight(), 1);
+		Assert.assertEquals(m.getCurrentSpeed(), 1);
+		Assert.assertEquals(m.getCurrentSanity(), 1);
+		Assert.assertEquals(m.getCurrentKnowledge(), 1);
+	}
 	
 
 }

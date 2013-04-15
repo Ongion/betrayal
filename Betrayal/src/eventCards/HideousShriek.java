@@ -1,5 +1,6 @@
 package eventCards;
 
+import characters.Character.Trait;
 import Game.Game;
 
 public class HideousShriek extends EventCard {
@@ -13,14 +14,22 @@ public class HideousShriek extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
-		// TODO Auto-generated method stub
+		if (rollResult >= 1 && rollResult <= 3){
+			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
+		} else if(rollResult == 0){
+			game.getCurrentCharacter().decrementSanity(2); // TODO: Change this to decrementMental
+		}
 
 	}
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
-
+		int rollResult = game.typeRoll(Trait.SANITY);
+		if (rollResult >= 1 && rollResult <= 3){
+			game.getCurrentCharacter().decrementSanity(game.rollDice(1)); // TODO: Change this to decrementMental
+		} else if(rollResult == 0){
+			game.getCurrentCharacter().decrementSanity(game.rollDice(2)); // TODO: Change this to decrementMental
+		}
 	}
 
 }

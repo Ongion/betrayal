@@ -32,15 +32,18 @@ import rooms.Room;
 import Game.Game;
 import Game.Player;
 import characters.Explorer;
+import characters.Explorer.Explorers;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
+import characters.Character;
+
 
 public class TestOmenCard {
 
-	private Explorer character = new Explorer(0, new Locale("en"));
+	private Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 	private Player player = new Player();
 	
 	private Game game;
@@ -190,7 +193,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForBook() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -260,7 +263,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForMadman() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -406,7 +409,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForGirl() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -497,7 +500,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForHolySymbol() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(0, new Locale("en"));
+		Character character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);

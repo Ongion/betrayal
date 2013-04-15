@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
+import characters.Character;
 import characters.Explorer;
 import eventCards.EventCard;
 
@@ -21,7 +22,7 @@ public class EventRoom extends Room{
 	@Override
 	public void flipCard() {
 		EventCard cardRecieved = Game.getInstance().drawEvent();
-		Explorer currentCharacter = Game.getInstance().getCurrentCharacter();
+		Character currentCharacter = Game.getInstance().getCurrentCharacter();
 		currentCharacter.addEventCard(cardRecieved);
 	}
 

@@ -13,14 +13,34 @@ public class Footsteps extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
-		// TODO Auto-generated method stub
+		if(rollResult == 4){
+			game.getCurrentCharacter().incrementMight(); // TODO: Increment closest explorer as well
+		} else if (rollResult == 3){
+			game.getCurrentCharacter().incrementMight(); // TODO: Decrement closest explorer's Sanity
+		} else if (rollResult == 2){
+			game.getCurrentCharacter().decrementSanity();
+		} else if (rollResult == 1){
+			game.getCurrentCharacter().decrementSpeed();
+		} else {
+			game.getCurrentCharacter().decrementSanity(); // TODO: do this for each character but allow to choose trait
+		}
 
 	}
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
-
+		int rollResult = game.rollDice(1); // TODO: Change this so if in Chapel player rolls 2 die
+		if(rollResult == 4){
+			game.getCurrentCharacter().incrementMight(); // TODO: Increment closest explorer as well
+		} else if (rollResult == 3){
+			game.getCurrentCharacter().incrementMight(); // TODO: Decrement closest explorer's Sanity
+		} else if (rollResult == 2){
+			game.getCurrentCharacter().decrementSanity();
+		} else if (rollResult == 1){
+			game.getCurrentCharacter().decrementSpeed();
+		} else {
+			game.getCurrentCharacter().decrementSanity(); // TODO: do this for each character but allow to choose trait
+		}
 	}
 
 }

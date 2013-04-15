@@ -13,14 +13,26 @@ public class Spider extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
-		// TODO Auto-generated method stub
+		if(rollResult >= 4){
+			game.getCurrentCharacter().incrementSpeed(); // TODO: changes this to allow the user to choose either sooeed or sanity
+		} else if (rollResult >= 1 && rollResult <=3){
+			game.getCurrentCharacter().decrementSpeed(); // TODO: change this to decrementPhysical
+		} else if(rollResult == 0){
+			game.getCurrentCharacter().decrementSpeed(2); // TODO: change this to decrementPhysical
+		}
 
 	}
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
-
+		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSpeed()); // TODO: change to allow user to choose either speed or sanity
+		if(rollResult >= 4){
+			game.getCurrentCharacter().incrementSpeed(); // TODO: changes this to allow the user to choose either speed or sanity
+		} else if (rollResult >= 1 && rollResult <=3){
+			game.getCurrentCharacter().decrementSpeed(game.rollDice(1)); // TODO: change this to decrementPhysical
+		} else if( rollResult == 0){
+			game.getCurrentCharacter().decrementSpeed(game.rollDice(2)); // TODO: change this to decrementPhysical
+		}
 	}
 
 }

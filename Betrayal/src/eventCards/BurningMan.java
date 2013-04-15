@@ -1,5 +1,6 @@
 package eventCards;
 
+import characters.Character.Trait;
 import Game.Game;
 
 public class BurningMan extends EventCard {
@@ -12,13 +13,28 @@ public class BurningMan extends EventCard {
 	}
 	@Override
 	public void happen(int rollResult) {
-		// TODO Auto-generated method stub
+		if(rollResult >= 4){
+			game.getCurrentCharacter().incrementSanity();
+		} else if (rollResult >=2 && rollResult <= 3){
+			// TODO: put explorer in the entrance hall
+		} else {
+			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+		}
 
 	}
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
+		int rollResult = game.typeRoll(Trait.SANITY);
+		if(rollResult >= 4){
+			game.getCurrentCharacter().incrementSanity();
+		} else if (rollResult >=2 && rollResult <= 3){
+			// TODO: put explorer in the entrance hall
+		} else {
+			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
+			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+		}
 
 	}
 

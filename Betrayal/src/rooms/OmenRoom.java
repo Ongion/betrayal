@@ -6,6 +6,7 @@ import java.util.Set;
 
 import omenCards.OmenCard;
 import Game.Game;
+import characters.Character;
 import characters.Explorer;
 
 public class OmenRoom extends Room{
@@ -22,7 +23,7 @@ public class OmenRoom extends Room{
 	public void flipCard() {
 		Game game = Game.getInstance();
 		OmenCard cardRecieved = game.drawOmen();
-		Explorer currentCharacter = game.getCurrentCharacter();
+		Character currentCharacter = game.getCurrentCharacter();
 		currentCharacter.addOmenCard(cardRecieved);
 	}
 

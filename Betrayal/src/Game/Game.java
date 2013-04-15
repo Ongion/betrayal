@@ -10,8 +10,9 @@ import java.util.Set;
 
 import omenCards.OmenCard;
 import rooms.Room;
+import characters.Character;
 import characters.Explorer;
-import characters.Explorer.Trait;
+import characters.Character.Trait;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Location;
@@ -29,7 +30,7 @@ public class Game {
 	private ArrayList<OmenCard> omenDiscard = new ArrayList<OmenCard>();
 	private ArrayList<ItemCard> itemDiscard = new ArrayList<ItemCard>();
 	private ArrayList<Player> players;
-	private ArrayList<Explorer> characters;
+	private ArrayList<Character> characters;
 	private int currentCharacter;
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
@@ -54,7 +55,7 @@ public class Game {
 		
 		//Create array for players
 		this.players = new ArrayList<Player>();
-		this.characters = new ArrayList<Explorer>();
+		this.characters = new ArrayList<Character>();
 		
 		this.currentCharacter = 0;
 	}
@@ -182,7 +183,7 @@ public class Game {
 	
 	public int typeRoll(Trait trait){
 		int rollResult = 0;
-		Explorer explorer = Game.INSTANCE.getCurrentCharacter();
+		Character explorer = Game.INSTANCE.getCurrentCharacter();
 		switch (trait){
 			case KNOWLEDGE: 
 				rollResult = rollDice(explorer.getCurrentKnowledge()); break;
@@ -244,7 +245,7 @@ public class Game {
 		return currentCharacter;
 	}
 
-	public Explorer getCurrentCharacter() {
+	public Character getCurrentCharacter() {
 		return characters.get(currentCharacter);
 	}
 
@@ -297,7 +298,7 @@ public class Game {
 		this.players.add(player);		
 	}
 
-	public void addCharacter(Explorer character) {
+	public void addCharacter(Character character) {
 		this.characters.add(character);
 	}
 
