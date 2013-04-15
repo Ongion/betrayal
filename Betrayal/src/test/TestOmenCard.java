@@ -641,6 +641,42 @@ public class TestOmenCard {
 	}
 	
 	@Test
+	public void TestHolySymbolIstLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(holySymbolCard);
+		
+		character.removeOmenCard(holySymbolCard);//For testing purposes, card will be taken away here.
+		
+		int expectedSanity = character.getCurrentSanityIndex() - 2;
+		holySymbolCard.isLost(character);
+		int sanityAfter = character.getCurrentSanityIndex();
+		assertEquals(sanityAfter,expectedSanity);
+		
+	}
+	
+	@Test
+	public void TestHolySymbolIsNotLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(holySymbolCard);
+		
+		int expectedSanity = character.getCurrentSanityIndex();
+		holySymbolCard.isLost(character);
+		int sanityAfter = character.getCurrentSanityIndex();
+		assertEquals(sanityAfter,expectedSanity);
+		
+	}
+	
+	@Test
 	public void HolySymbolInit() {
 		holySymbolCard.setName("Holy Symbol");
 		holySymbolCard.setQuote("A symbol of calm in an unsettling world.");
