@@ -6,7 +6,6 @@ import java.util.Set;
 
 import Game.Game;
 import characters.Character;
-import characters.Explorer;
 import eventCards.EventCard;
 
 public class EventRoom extends Room{

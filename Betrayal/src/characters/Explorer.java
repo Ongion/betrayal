@@ -1,16 +1,7 @@
 package characters;
 
-import itemCards.ItemCard;
-
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import omenCards.OmenCard;
-import rooms.Room;
-import rooms.Room.Relative_Direction;
-import Game.Player;
-import eventCards.EventCard;
 
 public class Explorer extends Character {
 
