@@ -17,12 +17,13 @@ public class Madman extends OmenCard {
 	}
 
 	@Override
-	public int whatToDo(Explorer character, Game game) {
-		if(game.getIsHaunt()==true){
+	public void whatToDo(Explorer character, Game game) {
+		if(!game.getIsHaunt()){
+			System.out.println("Hey I made it through the if!");
 			character.incrementMight(2);
 			character.decrementSanity(1);
 		}
-		return character.getCurrentMight();
+	
 	}
 
 }

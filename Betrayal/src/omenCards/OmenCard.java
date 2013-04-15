@@ -40,7 +40,7 @@ public abstract class OmenCard {
 
 	public abstract Object whatToDo();
 	
-	public abstract int whatToDo(Explorer character, Game game);
+	public abstract void whatToDo(Explorer character, Game game);
 
 	public void makeKnowledgeRoll() {
 		// TODO Auto-generated method stub

@@ -195,8 +195,13 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		
+		
+		
 		assertNotNull(bookCard.whatToDo());
-		assertEquals(bookCard.whatToDo(character,game),character.getCurrentKnowledge());
+		System.out.println("Knowledge before: " + character.getCurrentKnowledge());
+		bookCard.whatToDo(character,game);
+		System.out.println("Knowledge after: " + character.getCurrentKnowledge());
+		assertEquals(character.getCurrentKnowledge(), character.getCurrentKnowledge() + 2);
 		
 	}
 
@@ -259,8 +264,13 @@ public class TestOmenCard {
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
+	
 		assertNotNull(madmanCard.whatToDo());
-		assertEquals(madmanCard.whatToDo(character, game), character.getCurrentMight());
+		System.out.println("Might before execution: " + character.getCurrentMight());
+		madmanCard.whatToDo(character, game);
+		System.out.println("Might after execution: " + character.getCurrentMight());
+		assertEquals( character.getCurrentMight(), (character.getCurrentMight() + 2));
+		//assertEquals(madmanCard.whatToDo(character, game), character.getCurrentSanity());
 	}
 	@Test
 	public void MadmanInit() {
@@ -401,7 +411,7 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(girlCard.whatToDo());
-		assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledge());
+		//assertEquals(girlCard.whatToDo(character, game), character.getCurrentKnowledge());
 	}
 	
 	@Test
@@ -492,7 +502,7 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
-		assertEquals(holySymbolCard.whatToDo(character, game), character.getCurrentSanity());
+		//assertEquals(holySymbolCard.whatToDo(character, game), character.getCurrentSanity());
 	}
 	
 	@Test

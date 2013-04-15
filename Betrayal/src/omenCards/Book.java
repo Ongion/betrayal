@@ -19,11 +19,11 @@ public  class Book extends OmenCard {
 	}
 
 	@Override
-	public int whatToDo(Explorer character, Game game) {
+	public void whatToDo(Explorer character, Game game) {
 		if(game.getIsHaunt()==true){
 			character.incrementKnowledge(2);
 		}
-		return character.getCurrentKnowledge();
+		
 	}
 
 	

@@ -17,9 +17,9 @@ public class Ring extends OmenCard {
 	}
 
 	@Override
-	public int whatToDo(Explorer character, Game game) {
+	public void whatToDo(Explorer character, Game game) {
 		// TODO Auto-generated method stub
-		return 0;
+		
 	}
 
 }
