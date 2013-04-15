@@ -198,14 +198,16 @@ public class TestOmenCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 		
-		
-		
 		assertNotNull(bookCard.whatToDo());
 		int expectedKnowledge = character.getCurrentKnowledgeIndex();
 		bookCard.whatToDo(character,game);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
-		
+	}
+	
+	@Test
+	public void TestBookIsLost(){
+		bookCard.bookIsLost();
 	}
 
 	@Test
