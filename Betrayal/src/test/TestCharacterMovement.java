@@ -43,7 +43,7 @@ public class TestCharacterMovement {
 	
 	@Before
 	public void init() {
-		
+		Game.resetGame();
 		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		gardensExits.add(Relative_Direction.NORTH);
 		gardensExits.add(Relative_Direction.SOUTH);
@@ -85,6 +85,37 @@ public class TestCharacterMovement {
 		
 		c.setCurrentRoom(organRoom);
 		Assert.assertEquals(organRoom,c.getCurrentRoom());
+	}
+	
+	@Test
+	public void testSettingAndGettingCharacterCurrentRoomSide(){
+		//Test all directions
+		c.setCurrentRoom(gardens);
+		c.setSideOfRoom(Relative_Direction.NORTH);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.NORTH);
+		
+		c.setSideOfRoom(Relative_Direction.EAST);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.EAST);
+		
+		c.setSideOfRoom(Relative_Direction.WEST);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.WEST);
+		
+		c.setSideOfRoom(Relative_Direction.SOUTH);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.SOUTH);
+		
+		//Test a different room to make sure that room wasn't a fluke
+		c.setCurrentRoom(diningRoom);
+		c.setSideOfRoom(Relative_Direction.NORTH);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.NORTH);
+		
+		c.setSideOfRoom(Relative_Direction.EAST);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.EAST);
+		
+		c.setSideOfRoom(Relative_Direction.WEST);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.WEST);
+		
+		c.setSideOfRoom(Relative_Direction.SOUTH);
+		Assert.assertEquals(c.getSideOfRoom(), Relative_Direction.SOUTH);
 	}
 
 }
