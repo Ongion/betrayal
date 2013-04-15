@@ -224,6 +224,22 @@ public class TestOmenCard {
 		assertEquals(expectedKnowledge, knowledgeAfter);
 		
 	}
+	
+	@Test
+	public void TestBookIsNotLost(){
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		character.addOmenCard(bookCard);
+		
+		int expectedKnowledge = character.getCurrentKnowledgeIndex();
+		bookCard.isLost(character);
+		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		assertEquals(expectedKnowledge, knowledgeAfter);
+	}
 
 	@Test
 	public void BookInit() {
