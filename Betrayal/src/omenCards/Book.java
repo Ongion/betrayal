@@ -1,11 +1,12 @@
 package omenCards;
 
+import java.util.ArrayList;
+
 import characters.Explorer;
 import Game.Game;
 
 public  class Book extends OmenCard {
 
-	//private Game game;
 	
 	public Book(String name, String quote) {
 		super(name, quote);
@@ -19,14 +20,24 @@ public  class Book extends OmenCard {
 	}
 
 	@Override
-	public int whatToDo(Explorer character, Game game) {
-		if(game.getIsHaunt()==true){
+	public void whatToDo(Explorer character, Game game) {
+		if(!game.getIsHaunt()){
 			character.incrementKnowledge(2);
 		}
-		return character.getCurrentKnowledge();
+		
 	}
+		
 
-	
+	@Override
+	public void isLost(Explorer character) {
+		ArrayList omenHand = character.getOmenHand();
+		if(!omenHand.contains(this)){
+			character.decrementKnowledge(2);
+			
+		}
+		
+		
+	}
 	
 
 

@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.ArrayList;
+
 import characters.Explorer;
 import Game.Game;
 
@@ -17,11 +19,20 @@ public class HolySymbol extends OmenCard {
 	}
 
 	@Override
-	public int whatToDo(Explorer character, Game game) {
-		if(game.getIsHaunt()==true){
+	public void whatToDo(Explorer character, Game game) {
+		if(!game.getIsHaunt()==true){
+			character.incrementSanity(2);
+		}
+		
+	}
+
+	@Override
+	public void isLost(Explorer character) {
+		ArrayList omenHand = character.getOmenHand();
+		if(!omenHand.contains(this)){
 			character.decrementSanity(2);
 		}
-		return character.getCurrentSanity();
+		
 	}
 
 }
