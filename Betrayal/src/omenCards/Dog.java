@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.ArrayList;
+
 import characters.Explorer;
 import Game.Game;
 
@@ -18,13 +20,20 @@ public class Dog extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
+		if(!game.getIsHaunt()){
+			character.incrementMight();
+			character.incrementSanity();
+		}
 	
 	}
 
 	@Override
 	public void isLost(Explorer character) {
-		// TODO Auto-generated method stub
+		ArrayList omenHand = character.getOmenHand();
+		if(!omenHand.contains(this)){
+			character.decrementMight();
+			character.decrementSanity();
+		}
 		
 	}
 
