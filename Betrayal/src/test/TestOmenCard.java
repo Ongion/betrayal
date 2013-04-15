@@ -329,11 +329,31 @@ public class TestOmenCard {
 		int expectedMight = character.getCurrentMightIndex() - 2;
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
 		madmanCard.isLost(character);
-		int mightAfter = character.getCurrentMight();
-		int sanityAfter = character.getCurrentSanity();
+		int mightAfter = character.getCurrentMightIndex();
+		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(mightAfter, expectedMight);
 		assertEquals(sanityAfter,expectedSanity);
 	}
+	
+	@Test
+	public void TestMadmanIsNotLost(){
+			game.getInstance();
+			Player player = new Player();
+			Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+			player.addCharacter(character);
+			game.addPlayer(player);
+			game.addCharacter(character);
+			character.addOmenCard(madmanCard);
+			
+			int expectedMight = character.getCurrentMightIndex();
+			int expectedSanity = character.getCurrentSanityIndex();
+			madmanCard.isLost(character);
+			int mightAfter = character.getCurrentMightIndex();
+			int sanityAfter = character.getCurrentSanityIndex();
+			assertEquals(mightAfter, expectedMight);
+			assertEquals(sanityAfter,expectedSanity);
+		}
+	
 	
 	@Test
 	public void MadmanInit() {
@@ -501,7 +521,7 @@ public class TestOmenCard {
 		int expectedSanity = character.getCurrentSanityIndex() - 1;
 		girlCard.isLost(character);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
-		int sanityAfter = character.getCurrentSanity();
+		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
 		assertEquals(sanityAfter,expectedSanity);
 	}
@@ -520,7 +540,7 @@ public class TestOmenCard {
 		int expectedSanity = character.getCurrentSanityIndex();
 		girlCard.isLost(character);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
-		int sanityAfter = character.getCurrentSanity();
+		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
 		assertEquals(sanityAfter,expectedSanity);
 	}
@@ -614,10 +634,8 @@ public class TestOmenCard {
 		game.addCharacter(character);
 		assertNotNull(holySymbolCard.whatToDo());
 		
-		System.out.println("This is the current Sanity: " + character.getCurrentSanity());
 		int expectedSanity = character.getCurrentSanityIndex() + 2;
 		holySymbolCard.whatToDo(character, game);
-		System.out.println("this is the sanity after: " + character.getCurrentSanity());
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(sanityAfter, expectedSanity);
 	}
