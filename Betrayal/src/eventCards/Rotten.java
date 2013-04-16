@@ -1,4 +1,5 @@
 package eventCards;
+import characters.Character.Trait;
 import Game.Game;
 
 public class Rotten extends EventCard {
@@ -30,7 +31,7 @@ public class Rotten extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
+		int rollResult = game.typeRoll(Trait.SANITY);
 		if (rollResult >= 5){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult == 1){

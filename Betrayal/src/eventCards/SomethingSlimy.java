@@ -1,5 +1,6 @@
 package eventCards;
 
+import characters.Character.Trait;
 import Game.Game;
 
 public class SomethingSlimy extends EventCard {
@@ -26,7 +27,7 @@ public class SomethingSlimy extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
+		int rollResult = game.typeRoll(Trait.SANITY);
 		if (rollResult >= 4){
 			game.getCurrentCharacter().incrementSpeed();
 		} else if (rollResult >= 1 && rollResult <= 3){

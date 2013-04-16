@@ -31,4 +31,8 @@ public abstract class EventCard {
 	
 	public abstract void happens();
 	
+	public void beginningOfTurn(){
+		// Only implemented in cards that are added to character hands
+	}
+	
 }
