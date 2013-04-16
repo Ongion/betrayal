@@ -1,16 +1,7 @@
 package characters;
 
-import itemCards.ItemCard;
-
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import omenCards.OmenCard;
-import rooms.Room;
-import rooms.Room.Relative_Direction;
-import Game.Player;
-import eventCards.EventCard;
 
 public class Explorer extends Character {
 
@@ -49,40 +40,40 @@ public class Explorer extends Character {
 
 		switch (charEnum) {
 			case FatherRhinehardt:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_FatherRhinehardt", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-FatherRhinehardt", l);
 				break;
 			case ProfessorLongfellow:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ProfessorLongfellow", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-ProfessorLongfellow", l);
 				break;
 			case OxBellows:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_OxBellows", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-OxBellows", l);
 				break;
 			case DarrinWilliams:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_DarrinWilliams", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-DarrinWilliams", l);
 				break;
 			case MadameZostra:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MadameZostra", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-MadameZostra", l);
 				break;
 			case VivianLopez:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_VivianLopez", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-VivianLopez", l);
 				break;
 			case ZoeIngstrom:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_ZoeIngstrom", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-ZoeIngstrom", l);
 				break;
 			case MissyDubourde:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_MissyDubourde", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-MissyDubourde", l);
 				break;
 			case JennyLeClerc:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_JennyLeClerc", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-JennyLeClerc", l);
 				break;
 			case HeatherGranville:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_HeatherGranville", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-HeatherGranville", l);
 				break;
 			case BrandonJaspers:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_BrandonJaspers", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-BrandonJaspers", l);
 				break;
 			case PeterAkimoto:
-				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle_PeterAkimoto", l);
+				CharacterBundle = ResourceBundle.getBundle("characters.CharacterBundle-PeterAkimoto", l);
 				break;
 		}
 

@@ -1,5 +1,6 @@
 package omenCards;
 
+import characters.Character;
 import characters.Explorer;
 import Game.Game;
 
@@ -40,7 +41,9 @@ public abstract class OmenCard {
 
 	public abstract Object whatToDo();
 	
-	public abstract int whatToDo(Explorer character, Game game);
+	public abstract void whatToDo(Explorer character, Game game);
+	
+	public abstract void isLost(Explorer character);
 
 	public void makeKnowledgeRoll() {
 		// TODO Auto-generated method stub

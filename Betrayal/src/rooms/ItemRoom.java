@@ -8,7 +8,6 @@ import java.util.Set;
 
 import Game.Game;
 import characters.Character;
-import characters.Explorer;
 
 public class ItemRoom extends Room{
 	
