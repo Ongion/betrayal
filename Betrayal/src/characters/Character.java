@@ -99,6 +99,11 @@ public abstract class Character {
 	public abstract int getCurrentMight();
 	public abstract int getCurrentSpeed();
 
+	
+	/* I don't like having the methods below here be part of character.
+	 * They really only exist in explorer but I understand that a lot of test will break
+	 * if I delete them so I'll leave them for now.
+	 */
 	public void incrementKnowledge() {
 		// Only implemented by Explorers
 	}

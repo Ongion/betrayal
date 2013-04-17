@@ -38,7 +38,6 @@ import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
-import characters.Character;
 
 
 public class TestOmenCard {

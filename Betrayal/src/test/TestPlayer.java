@@ -1,15 +1,8 @@
 package test;
 
-import itemCards.AngelFeather;
-import itemCards.ItemCard;
-
-import java.util.ArrayList;
 import java.util.Locale;
 
 import junit.framework.Assert;
-
-import omenCards.CrystalBall;
-import omenCards.OmenCard;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +12,6 @@ import Game.Player;
 
 import characters.Explorer;
 import characters.Explorer.Explorers;
-import eventCards.EventCard;
-import eventCards.Rotten;
 
 public class TestPlayer {
 

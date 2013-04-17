@@ -9,10 +9,7 @@ import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import rooms.CatacombsRoom;
 import rooms.ChasmRoom;
 import rooms.EventRoom;

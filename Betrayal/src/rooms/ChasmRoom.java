@@ -1,9 +1,7 @@
 package rooms;
 
-import java.util.Map;
 import java.util.Set;
 
-import rooms.Room.Relative_Direction;
 import Game.Game;
 import characters.Explorer;
 import characters.Character;
