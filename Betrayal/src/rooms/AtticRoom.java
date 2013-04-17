@@ -1,6 +1,5 @@
 package rooms;
 
-import java.util.Map;
 import java.util.Set;
 
 import Game.Game;

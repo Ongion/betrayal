@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import rooms.CatacombsRoom;
 import rooms.ChasmRoom;
 import rooms.EventRoom;
