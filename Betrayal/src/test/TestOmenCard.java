@@ -189,6 +189,7 @@ public class TestOmenCard {
 			int sanityBefore = character.getCurrentSanityIndex() -1;
 			crystalBallCard.whatToDo(character, mockGame);
 			int sanityAfter = character.getCurrentSanityIndex();
+			assertEquals(sanityAfter, sanityBefore);
 			
 		mocks.assertIsSatisfied();
 		} catch (Exception e) {
@@ -198,7 +199,33 @@ public class TestOmenCard {
 	}
 	
 		
-	
+	@Test
+	public void TestKnowledgeRollIsZeroForCrystalBall(){
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));		
+			}});
+			
+			int sanityBefore = character.getCurrentSanityIndex() -2;
+			crystalBallCard.whatToDo(character, mockGame);
+			int sanityAfter = character.getCurrentSanityIndex();
+			assertEquals(sanityAfter, sanityBefore);
+			
+		mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 	
 	
 
