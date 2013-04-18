@@ -43,7 +43,12 @@ public class Mask extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
+		
+		game.rollDice(character.getCurrentSanity());
+		if(isMaskOn){
+			character.incrementKnowledge(2);
+			character.decrementSanity(2);
+		}
 		
 	}
 
@@ -53,10 +58,7 @@ public class Mask extends OmenCard {
 		
 	}
 
-	public void makeSanityRoll() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 
 

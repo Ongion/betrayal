@@ -439,7 +439,7 @@ public class TestOmenCard {
 	}
 	
 	@Test
-	public void TestMaskDiceRoll() {
+	public void TestMaskDiceRollGreaterThan4() {
 		Mockery mocks = new Mockery() {{
 	        setImposteriser(ClassImposteriser.INSTANCE);
 	    }};
@@ -452,18 +452,17 @@ public class TestOmenCard {
 			final int fRSanity = character.getCurrentSanity();
 			
 			mocks.checking(new Expectations() {{
-				oneOf(mockGame).rollDice(fRSanity); will(returnValue(5));
-				int expectedSanity = character.getCurrentSanityIndex() - 2;
-				int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
-				maskCard.isMaskOn = true;
-				maskCard.makeSanityRoll();
-				int sanityAfter = character.getCurrentSanityIndex();
-				int knowledgeAfter = character.getCurrentKnowledgeIndex();
-				assertEquals(sanityAfter, expectedSanity);
-				assertEquals(knowledgeAfter, expectedKnowledge);
-				
-				
+				oneOf(mockGame).rollDice(fRSanity); will(returnValue(5));		
 			}});
+			int expectedSanity = character.getCurrentSanityIndex() - 2;
+			int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
+			maskCard.isMaskOn = true;
+			maskCard.whatToDo(character,mockGame);
+			int sanityAfter = character.getCurrentSanityIndex();
+			int knowledgeAfter = character.getCurrentKnowledgeIndex();
+			assertEquals(sanityAfter, expectedSanity);
+			assertEquals(knowledgeAfter, expectedKnowledge);
+
 			
 			
 		mocks.assertIsSatisfied();
