@@ -183,10 +183,10 @@ public class TestOmenCard {
 			
 			final int fRKnowledge = character.getCurrentKnowledge();
 			mocks.checking(new Expectations() {{
-				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));		
+				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(3));		
 			}});
 			
-			int sanityBefore = character.getCurrentSanityIndex() -1;
+			int sanityBefore = character.getCurrentSanityIndex()-1;
 			crystalBallCard.whatToDo(character, mockGame);
 			int sanityAfter = character.getCurrentSanityIndex();
 			assertEquals(sanityAfter, sanityBefore);
@@ -212,7 +212,7 @@ public class TestOmenCard {
 			
 			final int fRKnowledge = character.getCurrentKnowledge();
 			mocks.checking(new Expectations() {{
-				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));		
+				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(0));		
 			}});
 			
 			int sanityBefore = character.getCurrentSanityIndex() -2;

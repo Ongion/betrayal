@@ -24,6 +24,9 @@ public class CrystalBall extends OmenCard {
 		if(rollResult < 4 && rollResult > 0){
 			character.decrementSanity();
 		}
+		if(rollResult == 0){
+			character.decrementSanity(2);
+		}
 		
 		
 	}
