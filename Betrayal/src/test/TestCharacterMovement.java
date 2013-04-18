@@ -19,6 +19,7 @@ import Game.Game;
 import floors.Location;
 
 import rooms.EventRoom;
+import rooms.JunkRoomRoom;
 import rooms.OmenRoom;
 import rooms.Room;
 import rooms.Room.Floor_Name;
@@ -38,6 +39,7 @@ public class TestCharacterMovement {
 	Room bedroom;
 	Room chasm;
 	Room pentagramChamber;
+	Room junkRoom;
 	
 	Character c;
 	
@@ -71,6 +73,18 @@ public class TestCharacterMovement {
 		diningRoomWindows.put(Relative_Direction.WEST, 2);
 		diningRoom = new OmenRoom("Dining Room", diningRoomExits, diningRoomFloors, diningRoomWindows);
 		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
+		
+		HashSet<Relative_Direction> junkRoomExits = new HashSet<Relative_Direction>();
+		junkRoomExits.add(Relative_Direction.NORTH);
+		junkRoomExits.add(Relative_Direction.EAST);
+		junkRoomExits.add(Relative_Direction.SOUTH);
+		junkRoomExits.add(Relative_Direction.WEST);
+		HashSet<Floor_Name> junkRoomFloors = new HashSet<Floor_Name>();
+		junkRoomFloors.add(Floor_Name.UPPER);
+		junkRoomFloors.add(Floor_Name.GROUND);
+		junkRoomFloors.add(Floor_Name.BASEMENT);
+		junkRoom = new JunkRoomRoom("Junk Room", junkRoomExits, junkRoomFloors);
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, -1));
 
 		c = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 	}
@@ -139,11 +153,45 @@ public class TestCharacterMovement {
 		Room nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.WEST);
 		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), nextRoomToMoveTo);
+		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST), c.getSideOfRoom());
 		
 		//Now move back!
 		nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.EAST);
 		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(nextRoomToMoveTo, c.getCurrentRoom());
+		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST), c.getSideOfRoom());
+	}
+	
+	@Test
+	public void TestMovingAPlayerToMultipleRoomsByCharacterFunctions() {
+		c.setCurrentRoom(gardens);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertEquals(c.getCurrentRoom(), organRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertEquals(c.getCurrentRoom(), gardens);
+		
+		//Completed the full loop. Now go backwards!
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertEquals(c.getCurrentRoom(), organRoom);
+		
+		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertEquals(c.getCurrentRoom(), gardens);
+		
+	
 	}
 
 }
