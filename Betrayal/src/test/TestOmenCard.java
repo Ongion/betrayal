@@ -171,7 +171,7 @@ public class TestOmenCard {
 	}
 	
 	@Test
-	public void TestKnowledgeRollGreaterThan4ForCrystalBallWithItemShuffle(){
+	public void TestKnowledgeRollLessThan4ForCrystalBall(){
 		Mockery mocks = new Mockery() {{
 	        setImposteriser(ClassImposteriser.INSTANCE);
 	    }};
@@ -182,14 +182,13 @@ public class TestOmenCard {
 			instanceField.set(null, mockGame);
 			
 			final int fRKnowledge = character.getCurrentKnowledge();
-			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));		
 			}});
-			ArrayList eventDeckBefore = mockGame.getEventDeck();
-			maskCard.whatToDo(character, mockGame);
-			ArrayList eventDeckAfter = mockGame.getEventDeck();
-			assertFalse(eventDeckAfter.equals(eventDeckBefore));
+			
+			int sanityBefore = character.getCurrentSanityIndex() -1;
+			crystalBallCard.whatToDo(character, mockGame);
+			int sanityAfter = character.getCurrentSanityIndex();
 			
 		mocks.assertIsSatisfied();
 		} catch (Exception e) {

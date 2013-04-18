@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.Collections;
+
 import characters.Explorer;
 import Game.Game;
 
@@ -18,7 +20,11 @@ public class CrystalBall extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
+		int rollResult = game.rollDice(character.getCurrentKnowledge());
+		if(rollResult < 4 && rollResult > 0){
+			character.decrementSanity();
+		}
+		
 		
 	}
 
