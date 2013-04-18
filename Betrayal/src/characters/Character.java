@@ -38,6 +38,8 @@ public abstract class Character {
 	public enum Trait {
 		KNOWLEDGE, SANITY, MIGHT, SPEED
 	};
+	
+	private ICharacterType type;
 
 	protected ArrayList<EventCard> eventHand = new ArrayList<EventCard>();
 	protected ArrayList<OmenCard> omenHand = new ArrayList<OmenCard>();
