@@ -49,6 +49,10 @@ public class Mask extends OmenCard {
 			character.incrementKnowledge(2);
 			character.decrementSanity(2);
 		}
+		if(!isMaskOn){
+			character.decrementKnowledge(2);
+			character.incrementSanity(2);
+		}
 		
 	}
 
