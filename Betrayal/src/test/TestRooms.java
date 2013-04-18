@@ -256,7 +256,7 @@ public class TestRooms {
 			pentagramChamber.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
 			assertEquals(4, zoeIngstrom.getCurrentSanity());
 			mocks.assertIsSatisfied();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
@@ -284,7 +284,7 @@ public class TestRooms {
 			pentagramChamber.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
 			assertEquals(5, zoeIngstrom.getCurrentSanity());
 			mocks.assertIsSatisfied();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
@@ -312,7 +312,7 @@ public class TestRooms {
 			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
 			assertEquals(2, zoeIngstrom.getCurrentSpeedIndex());
 			mocks.assertIsSatisfied();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
@@ -340,7 +340,7 @@ public class TestRooms {
 			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
 			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
 			mocks.assertIsSatisfied();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
