@@ -463,7 +463,14 @@ public class TestOmenCard {
 			assertEquals(sanityAfter, expectedSanity);
 			assertEquals(knowledgeAfter, expectedKnowledge);
 
-			
+			int expectedSanity2 = character.getCurrentSanityIndex() + 2;
+			int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 2;
+			maskCard.isMaskOn = false;
+			maskCard.whatToDo(character,mockGame);
+			int sanityAfter2 = character.getCurrentSanityIndex();
+			int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
+			assertEquals(sanityAfter2, expectedSanity2);
+			assertEquals(knowledgeAfter2, expectedKnowledge2);
 			
 		mocks.assertIsSatisfied();
 		} catch (Exception e) {
@@ -471,6 +478,8 @@ public class TestOmenCard {
 			Assert.fail();
 		}
 	}
+	
+	
 	
 	@Test
 	public void IsHauntRollWithMedallion() {
