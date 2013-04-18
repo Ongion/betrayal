@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -25,10 +26,14 @@ import omenCards.Skull;
 import omenCards.Spear;
 import omenCards.SpiritBoard;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
 import org.junit.Test;
 
 import rooms.Room;
+import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
 import characters.Explorer;
@@ -432,15 +437,26 @@ public class TestOmenCard {
 				maskCard.getQuote());
 	}
 	
-//	@Test
-//	public void TestputOnMask(){
-//		assertTrue(maskCard.putOnMask());
-//	}
-//	
-//	@Test
-//	public void TestWhatToDoMask(){
-//		assertEquals(null,maskCard.whatToDo());
-//	}
+	@Test
+	public void TestMaskDiceRoll() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			final int fRKnowledge = character.getCurrentKnowledge();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));
+			}});
+			
+			
+		mocks.assertIsSatisfied();
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 
 	@Test
 	public void IsHauntRollWithMedallion() {
