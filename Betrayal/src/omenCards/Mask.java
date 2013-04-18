@@ -6,6 +6,10 @@ import characters.Explorer;
 public class Mask extends OmenCard {
 
 
+	
+
+	protected boolean isMaskOn;
+
 	public Mask(String name, String quote) {
 		super(name, quote);
 	}
@@ -49,10 +53,11 @@ public class Mask extends OmenCard {
 		
 	}
 
-//	public boolean putOnMask() {
-//
-//		return true;
-//
-//	}
+	public void makeSanityRoll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }

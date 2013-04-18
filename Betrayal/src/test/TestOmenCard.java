@@ -29,6 +29,7 @@ import omenCards.SpiritBoard;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -448,16 +449,22 @@ public class TestOmenCard {
 			instanceField.setAccessible(true);
 			instanceField.set(null, mockGame);
 			
-			final int fRKnowledge = character.getCurrentKnowledge();
+			final int fRSanity = character.getCurrentSanity();
 			
 			mocks.checking(new Expectations() {{
-				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));
+				oneOf(mockGame).rollDice(fRSanity); will(returnValue(5));
+				maskCard.makeSanityRoll();
+				
 			}});
 			
 			
 		mocks.assertIsSatisfied();
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
 	@Test
 	public void IsHauntRollWithMedallion() {
 		game.setIsHaunt(true);
