@@ -456,6 +456,7 @@ public class TestOmenCard {
 			}});
 			int expectedSanity = character.getCurrentSanityIndex() - 2;
 			int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
+		
 			maskCard.isMaskOn = true;
 			maskCard.whatToDo(character,mockGame);
 			int sanityAfter = character.getCurrentSanityIndex();
@@ -488,12 +489,46 @@ public class TestOmenCard {
 			}});
 			int expectedSanity2 = character.getCurrentSanityIndex() + 2;
 			int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 2;
+	
 			maskCard.isMaskOn = false;
 			maskCard.whatToDo(character,mockGame);
 			int sanityAfter2 = character.getCurrentSanityIndex();
 			int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter2, expectedSanity2);
 			assertEquals(knowledgeAfter2, expectedKnowledge2);
+			
+		mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestMaskDiceRollLessThan4(){
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			final int fRSanity = character.getCurrentSanity();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(fRSanity); will(returnValue(1));		
+			}});
+			
+			
+			int expectedSanity = character.getCurrentSanityIndex();
+			int expectedKnowledge = character.getCurrentKnowledgeIndex();
+			maskCard.whatToDo(character, mockGame);
+			int sanityAfter = character.getCurrentSanityIndex();
+			int knowledgeAfter = character.getCurrentKnowledgeIndex();
+			assertEquals(sanityAfter, expectedSanity);
+			assertEquals(knowledgeAfter, expectedKnowledge);
 			
 		mocks.assertIsSatisfied();
 		} catch (Exception e) {
