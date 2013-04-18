@@ -8,7 +8,7 @@ public class Mask extends OmenCard {
 
 	
 
-	protected boolean isMaskOn;
+	public boolean isMaskOn;
 
 	public Mask(String name, String quote) {
 		super(name, quote);
