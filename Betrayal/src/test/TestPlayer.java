@@ -1,5 +1,7 @@
 package test;
 
+import java.util.Locale;
+
 import junit.framework.Assert;
 
 import org.junit.Before;

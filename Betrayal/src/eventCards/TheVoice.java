@@ -1,5 +1,6 @@
 package eventCards;
 
+import characters.Character.Trait;
 import Game.Game;
 
 public class TheVoice extends EventCard {
@@ -21,7 +22,7 @@ public class TheVoice extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentKnowledge());
+		int rollResult = game.typeRoll(Trait.KNOWLEDGE);
 		if (rollResult >= 4){
 			game.getCurrentCharacter().addItemCard(game.drawItem());
 		} 

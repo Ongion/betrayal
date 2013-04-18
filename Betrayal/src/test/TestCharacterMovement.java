@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import characters.Character;
 import characters.Explorer;
-import characters.Explorer.Explorers;
 
 import Game.Game;
 import floors.Location;
@@ -50,7 +49,7 @@ public class TestCharacterMovement {
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
 		gardens = new EventRoom("Garden", gardensExits, gardensFloors);
-		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0), true);
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
 		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
 		organRoomExits.add(Relative_Direction.SOUTH);
