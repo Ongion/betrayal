@@ -38,17 +38,9 @@ public abstract class OmenCard {
 	public boolean makeHauntRoll() {
 		return isHauntRoll();
 	}
-
-	public abstract Object whatToDo();
 	
 	public abstract void whatToDo(Explorer character, Game game);
 	
-	public abstract void isLost(Explorer character);
-
-	public void makeKnowledgeRoll() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	}
