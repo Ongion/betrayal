@@ -33,5 +33,10 @@ public class TestFrames {
 		assertEquals(this.height, height);
 	}
 	
+	@Test
+	public void TestMenuFrame(){
+		GameFrame menu = new GameFrame();
+		menu.displayMenu();
+	}
 
 }

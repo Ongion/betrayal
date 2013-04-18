@@ -6,6 +6,10 @@ import characters.Explorer;
 public class Mask extends OmenCard {
 
 
+	
+
+	public boolean isMaskOn;
+
 	public Mask(String name, String quote) {
 		super(name, quote);
 	}
@@ -39,7 +43,12 @@ public class Mask extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
+		
+		game.rollDice(character.getCurrentSanity());
+		if(isMaskOn){
+			character.incrementKnowledge(2);
+			character.decrementSanity(2);
+		}
 		
 	}
 
@@ -49,10 +58,8 @@ public class Mask extends OmenCard {
 		
 	}
 
-//	public boolean putOnMask() {
-//
-//		return true;
-//
-//	}
+
+
+
 
 }

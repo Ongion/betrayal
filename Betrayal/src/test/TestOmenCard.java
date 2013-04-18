@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -25,10 +26,15 @@ import omenCards.Skull;
 import omenCards.Spear;
 import omenCards.SpiritBoard;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import rooms.Room;
+import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
 import characters.Explorer;
@@ -432,16 +438,40 @@ public class TestOmenCard {
 				maskCard.getQuote());
 	}
 	
-//	@Test
-//	public void TestputOnMask(){
-//		assertTrue(maskCard.putOnMask());
-//	}
-//	
-//	@Test
-//	public void TestWhatToDoMask(){
-//		assertEquals(null,maskCard.whatToDo());
-//	}
+	@Test
+	public void TestMaskDiceRollGreaterThan4() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			final int fRSanity = character.getCurrentSanity();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(fRSanity); will(returnValue(5));		
+			}});
+			int expectedSanity = character.getCurrentSanityIndex() - 2;
+			int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
+			maskCard.isMaskOn = true;
+			maskCard.whatToDo(character,mockGame);
+			int sanityAfter = character.getCurrentSanityIndex();
+			int knowledgeAfter = character.getCurrentKnowledgeIndex();
+			assertEquals(sanityAfter, expectedSanity);
+			assertEquals(knowledgeAfter, expectedKnowledge);
 
+			
+			
+		mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
 	@Test
 	public void IsHauntRollWithMedallion() {
 		game.setIsHaunt(true);
