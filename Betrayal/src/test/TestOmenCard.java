@@ -9,6 +9,7 @@ import itemCards.ItemCard;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 import omenCards.Bite;
@@ -44,6 +45,7 @@ import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
+
 
 
 public class TestOmenCard {
@@ -166,15 +168,36 @@ public class TestOmenCard {
 	@Test
 	public void TestWhatToDoForCrystalBall() {
 		assertNotNull(crystalBallCard.whatToDo());
-		if(game.getIsHaunt()==true){
-			crystalBallCard.makeKnowledgeRoll();
+	}
+	
+	@Test
+	public void TestKnowledgeRollGreaterThan4ForCrystalBallWithItemShuffle(){
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			final int fRKnowledge = character.getCurrentKnowledge();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(fRKnowledge); will(returnValue(5));		
+			}});
+			ArrayList eventDeckBefore = mockGame.getEventDeck();
+			maskCard.whatToDo(character, mockGame);
+			ArrayList eventDeckAfter = mockGame.getEventDeck();
+			assertFalse(eventDeckAfter.equals(eventDeckBefore));
+			
+		mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
 		}
 	}
 	
-	public void TestMakeKnowledgeRollForCrystalBall(){
-			
-		}
-		
 		
 	
 	
