@@ -108,50 +108,54 @@ public abstract class Room {
 	}
 
 	public Room getRoomFromExitAbsoluteDirection(Relative_Direction exitDirection){
+		return getExitMap().get(this.convertAbsoluteDirectionToRoomRelativeDirection(exitDirection));
+	}
+	
+	public Relative_Direction convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction dir){
 		switch (this.orientation){
 			case NORTH:
-				return getRoomFromExit(exitDirection);
+				return dir;
 			case SOUTH:
-				switch (exitDirection){
+				switch (dir){
 					case NORTH:
-						return getRoomFromExit(Relative_Direction.SOUTH);
+						return Relative_Direction.SOUTH;
 					case SOUTH:
-						return getRoomFromExit(Relative_Direction.NORTH);
+						return Relative_Direction.NORTH;
 					case EAST:
-						return getRoomFromExit(Relative_Direction.WEST);
+						return Relative_Direction.WEST;
 					case WEST:
-						return getRoomFromExit(Relative_Direction.EAST);
+						return Relative_Direction.EAST;
 					default:
-						return getRoomFromExit(exitDirection);
-						//Things that aren't actually directions but are in the direction enum anyways, even though they shouldn't be
+						return dir;
+						//Things that aren't actually directions but are in the direction enum anyways
 				}
 			case EAST:
-				switch (exitDirection){
+				switch (dir){
 					case NORTH:
-						return getRoomFromExit(Relative_Direction.WEST);
+						return Relative_Direction.WEST;
 					case SOUTH:
-						return getRoomFromExit(Relative_Direction.EAST);
+						return Relative_Direction.EAST;
 					case EAST:
-						return getRoomFromExit(Relative_Direction.NORTH);
+						return Relative_Direction.NORTH;
 					case WEST:
-						return getRoomFromExit(Relative_Direction.SOUTH);
+						return Relative_Direction.SOUTH;
 					default:
-						return getRoomFromExit(exitDirection);
-						//Things that aren't actually directions but are in the direction enum anyways, even though they shouldn't be
+						return dir;
+						//Things that aren't actually directions but are in the direction enum anyways
  
 				}
 			case WEST:
-				switch (exitDirection){
+				switch (dir){
 					case NORTH:
-						return getRoomFromExit(Relative_Direction.EAST);
+						return Relative_Direction.EAST;
 					case SOUTH:
-						return getRoomFromExit(Relative_Direction.WEST);
+						return Relative_Direction.WEST;
 					case EAST:
-						return getRoomFromExit(Relative_Direction.SOUTH);
+						return Relative_Direction.SOUTH;
 					case WEST:
-						return getRoomFromExit(Relative_Direction.NORTH);
+						return Relative_Direction.NORTH;
 					default:
-						return getRoomFromExit(exitDirection);
+						return dir;
 						//Things that aren't actually directions but are in the direction enum anyways, even though they shouldn't be
  
 				}
