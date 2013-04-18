@@ -12,7 +12,7 @@ import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
 
-public abstract class Character {
+public class Character {
 	public enum Character_Name{
 		FatherRhinehardt,
 		ProfessorLongfellow,
@@ -40,17 +40,48 @@ public abstract class Character {
 	};
 	
 	private ICharacterType type;
+	private IStats stats;
 
 	protected ArrayList<EventCard> eventHand = new ArrayList<EventCard>();
 	protected ArrayList<OmenCard> omenHand = new ArrayList<OmenCard>();
 	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
 	
-	public Character(Character_Name name) {
+	public Character(Character_Name name, ICharacterType type, IStats stats) {
 		this.name = name;
+		this.type = type;
+		this.stats = stats;
 	}
 
 	public String getName() {
 		return ResourceBundle.getBundle("characters.CharacterBundle_"+this.name.toString(), Game.getInstance().getLocale()).getString("name");
+	}
+	
+	public ICharacterType getType() {
+		return this.type;
+	}
+	
+	public IStats getStats() {
+		return this.stats;
+	}
+	
+	public void setType(ICharacterType newType) {
+		this.type = newType;
+	}
+	
+	public int getAge() {
+		return stats.getAge();
+	}
+	
+	public int getHeight() {
+		return stats.getHeight();
+	}
+	
+	public int getWeight() {
+		return stats.getWeight();
+	}
+	
+	public String[] getHobbies() {
+		return stats.getHobbies();
 	}
 
 	// Add a card to each hand
@@ -117,78 +148,84 @@ public abstract class Character {
 		return this.sideOfRoom;
 	}
 	
-	public abstract int getCurrentSanity();
-	public abstract int getCurrentKnowledge();
-	public abstract int getCurrentMight();
-	public abstract int getCurrentSpeed();
-
+	public int getCurrentKnowledge() {
+		return stats.getCurrentKnowledge();
+	}
 	
-	/* I don't like having the methods below here be part of character.
-	 * They really only exist in explorer but I understand that a lot of test will break
-	 * if I delete them so I'll leave them for now.
-	 */
+	public int getCurrentSanity() {
+		return stats.getCurrentSanity();
+	}
+	
+	public int getCurrentMight() {
+		return stats.getCurrentMight();
+	}
+	
+	public int getCurrentSpeed() {
+		return stats.getCurrentSpeed();
+	}
+	
 	public void incrementKnowledge() {
-		// Only implemented by Explorers
+		incrementKnowledge(1);
 	}
 
 	public void incrementSanity() {
-		// Only implemented by Explorers
+		incrementSanity(1);
 	}
 
 	public void incrementMight() {
-		// Only implemented by Explorers
+		incrementMight(1);
 	}
 
 	public void incrementSpeed() {
-		// Only implemented by Explorers
+		incrementSpeed(1);
 	}
 	
 	public void decrementKnowledge() {
-		// Only implemented by Explorers
+		decrementKnowledge(1);
 	}
 
 	public void decrementSanity() {
-		// Only implemented by Explorers
+		decrementSanity(1);
 	}
 
 	public void decrementMight() {
-		// Only implemented by Explorers
+		decrementMight(1);
 	}
 
 	public void decrementSpeed(int amount) {
-		// Only implemented by Explorers
+		stats.decrementSpeed(amount);
 	}
 	
 	public void decrementKnowledge(int amount) {
-		// Only implemented by Explorers
+		stats.decrementKnowledge(amount);
 	}
 
 	public void decrementSanity(int amount) {
-		// Only implemented by Explorers
+		stats.decrementSanity(amount);
 	}
 
 	public void decrementMight(int amount) {
-		// Only implemented by Explorers
+		stats.decrementMight(amount);
 	}
 
 	public void decrementSpeed() {
-		// Only implemented by Explorers
+		decrementSpeed(1);
 	}
 	
 	public void incrementKnowledge(int amount) {
-		// Only implemented by Explorers
+		stats.incrementKnowledge(amount);
 	}
 
 	public void incrementSanity(int amount) {
-		// Only implemented by Explorers
+		stats.incrementSanity(amount);
 	}
 
 	public void incrementMight(int amount) {
-		// Only implemented by Explorers
+		stats.incrementMight(amount);
 	}
 
 	public void incrementSpeed(int amount) {
-		// Only implemented by Explorers
+		stats.incrementSpeed(amount);
 	}
 
 

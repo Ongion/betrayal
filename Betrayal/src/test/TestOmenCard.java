@@ -31,7 +31,7 @@ import org.junit.Test;
 import rooms.Room;
 import Game.Game;
 import Game.Player;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.ExplorerFactory;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
@@ -45,7 +45,7 @@ import characters.Character.Character_Name;
 public class TestOmenCard {
 
 	private ExplorerFactory explorers = new ExplorerFactory();
-	private Explorer character;
+	private ExplorerType character;
 	private Player player = new Player();
 	
 	private Game game;
@@ -195,7 +195,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForBook() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(ExplorerName.FatherRhinehardt, new Locale("en"));
+		Character character = new ExplorerType(ExplorerName.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -212,7 +212,7 @@ public class TestOmenCard {
 	
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -231,7 +231,7 @@ public class TestOmenCard {
 	public void TestBookIsNotLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -319,7 +319,7 @@ public class TestOmenCard {
 	public void TestMadmanIsLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -340,7 +340,7 @@ public class TestOmenCard {
 	public void TestMadmanIsNotLost(){
 			game.getInstance();
 			Player player = new Player();
-			Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+			ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 			player.addCharacter(character);
 			game.addPlayer(player);
 			game.addCharacter(character);
@@ -490,7 +490,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForGirl() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(ExplorerName.FatherRhinehardt, new Locale("en"));
+		Character character = new ExplorerType(ExplorerName.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -510,7 +510,7 @@ public class TestOmenCard {
 	public void TestGirlIsLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -531,7 +531,7 @@ public class TestOmenCard {
 	public void TestGirlIsNotLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -629,7 +629,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForHolySymbol() {
 		game.getInstance();
 		Player player = new Player();
-		Character character = new Explorer(ExplorerName.FatherRhinehardt, new Locale("en"));
+		Character character = new ExplorerType(ExplorerName.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -645,7 +645,7 @@ public class TestOmenCard {
 	public void TestHolySymbolIstLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -664,7 +664,7 @@ public class TestOmenCard {
 	public void TestHolySymbolIsNotLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -704,7 +704,7 @@ public class TestOmenCard {
 	public void TestWhatToDoForDog() {
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -724,7 +724,7 @@ public class TestOmenCard {
 	public void TestDogIsLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -745,7 +745,7 @@ public class TestOmenCard {
 	public void TestDogIsNotLost(){
 		game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);

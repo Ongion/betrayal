@@ -1,7 +1,7 @@
 package omenCards;
 
 import Game.Game;
-import characters.Explorer;
+import characters.ExplorerType;
 
 public class Mask extends OmenCard {
 
@@ -38,13 +38,13 @@ public class Mask extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character, Game game) {
+	public void whatToDo(ExplorerType character, Game game) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void isLost(Explorer character) {
+	public void isLost(ExplorerType character) {
 		// TODO Auto-generated method stub
 		
 	}

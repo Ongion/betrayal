@@ -14,17 +14,19 @@ import omenCards.OmenCard;
 import org.junit.Before;
 import org.junit.Test;
 
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.Monster;
 import characters.Monster.Monsters;
 import eventCards.EventCard;
 import eventCards.Rotten;
+import characters.Character;
+import characters.HumanStats;
 
 public class TestCharacters {
 	
-	Explorer FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
+	Character FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
 	
 	@Before
 	public void initializeTests(){
@@ -212,40 +214,40 @@ public class TestCharacters {
 	
 	@Test
 	public void testGetAttributeIndexes() {
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 4);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 4);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 2);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
 		FatherRhinehardt.decrementMight();
 		FatherRhinehardt.decrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 1);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
 		FatherRhinehardt.decrementMight();
 		FatherRhinehardt.decrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 0);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 0);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 0);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 0);
 		
 		FatherRhinehardt.incrementKnowledge();
 		FatherRhinehardt.incrementSanity();
 		FatherRhinehardt.incrementMight();
 		FatherRhinehardt.incrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 1);
 		
 	}
 	

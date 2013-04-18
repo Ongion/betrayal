@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character;
 import floors.Location;
 

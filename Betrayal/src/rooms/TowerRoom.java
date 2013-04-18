@@ -3,7 +3,7 @@ package rooms;
 import java.util.Set;
 
 import Game.Game;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character;
 
 public class TowerRoom extends EventRoom {

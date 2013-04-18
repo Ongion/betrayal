@@ -2,7 +2,7 @@ package omenCards;
 
 import java.util.ArrayList;
 
-import characters.Explorer;
+import characters.ExplorerType;
 import Game.Game;
 
 public class Dog extends OmenCard {
@@ -19,7 +19,7 @@ public class Dog extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character, Game game) {
+	public void whatToDo(ExplorerType character, Game game) {
 		if(!game.getIsHaunt()){
 			character.incrementMight();
 			character.incrementSanity();
@@ -28,7 +28,7 @@ public class Dog extends OmenCard {
 	}
 
 	@Override
-	public void isLost(Explorer character) {
+	public void isLost(ExplorerType character) {
 		ArrayList omenHand = character.getOmenHand();
 		if(!omenHand.contains(this)){
 			character.decrementMight();

@@ -26,9 +26,11 @@ import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import Game.Game;
 import characters.Character.Character_Name;
-import characters.Explorer;
+import characters.ExplorerType;
+import characters.Character;
 import characters.ExplorerFactory;
 import floors.Location;
+import characters.HumanStats;
 
 public class TestRooms {
 	ExplorerFactory explorers;
@@ -44,7 +46,7 @@ public class TestRooms {
 	Room chasm;
 	Room pentagramChamber;
 	Room junkRoom;
-	Explorer zoeIngstrom;
+	Character zoeIngstrom;
 	
 	@Before
 	public void setUp() {
@@ -314,9 +316,9 @@ public class TestRooms {
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
-			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
 			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
-			assertEquals(2, zoeIngstrom.getCurrentSpeedIndex());
+			assertEquals(2, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -343,9 +345,9 @@ public class TestRooms {
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
-			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
 			junkRoom.leavingRoom(zoeIngstrom, Relative_Direction.EAST);
-			assertEquals(3, zoeIngstrom.getCurrentSpeedIndex());
+			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
 			e.printStackTrace();

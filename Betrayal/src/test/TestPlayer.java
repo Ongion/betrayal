@@ -10,19 +10,20 @@ import org.junit.Test;
 import Game.Game;
 import Game.Player;
 import characters.Character.Character_Name;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.ExplorerFactory;
+import characters.Character;
 
 public class TestPlayer {
 
 	Player p;
-	Explorer Father;
+	Character Father;
 	Game game;
 	
 	@Before
 	public void initTests() {
 		ExplorerFactory explorers = new ExplorerFactory();
-		Father =explorers.getExplorer(Character_Name.FatherRhinehardt);
+		Father = explorers.getExplorer(Character_Name.FatherRhinehardt);
 		p = new Player();
 		p.addCharacter(Father);
 	}

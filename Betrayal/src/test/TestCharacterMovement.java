@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import characters.Character;
-import characters.Explorer;
+import characters.ExplorerType;
 
 import Game.Game;
 import floors.Location;
@@ -71,7 +71,7 @@ public class TestCharacterMovement {
 		diningRoom = new OmenRoom("Dining Room", diningRoomExits, diningRoomFloors, diningRoomWindows);
 		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
 
-		c = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
+		c = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
 	}
 	
 	@Test

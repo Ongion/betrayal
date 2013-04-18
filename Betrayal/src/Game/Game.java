@@ -12,7 +12,7 @@ import java.util.Set;
 import omenCards.OmenCard;
 import rooms.Room;
 import characters.Character;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character.Trait;
 import eventCards.EventCard;
 import floors.Floor;

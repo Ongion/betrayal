@@ -34,13 +34,14 @@ import eventCards.Rotten;
 import characters.Character.Character_Name;
 import characters.Character.Trait;
 import characters.ExplorerFactory;
+import characters.Character;
 
 public class TestGame {
 
 	private Game game;
 	private ExplorerFactory explorers = new ExplorerFactory();
-	private characters.Explorer character;
-	private characters.Explorer character2;
+	private Character character;
+	private Character character2;
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
