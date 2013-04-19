@@ -140,6 +140,19 @@ public class Game {
 		return this.itemDeck.remove(0);
 	}
 	
+	public Room peekRoom() {
+		return roomDeck.get(0);
+	}
+	public ItemCard peekItem() {
+		return itemDeck.get(0);
+	}
+	public OmenCard peekOmen() {
+		return omenDeck.get(0);
+	}
+	public EventCard peekEvent() {
+		return eventDeck.get(0);
+	}
+	
 	public void discardRoom(Room room){
 		this.roomDiscard.add(room);
 	}

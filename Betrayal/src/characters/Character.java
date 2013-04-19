@@ -17,6 +17,7 @@ public abstract class Character {
 
 	protected Room currentRoom;
 	protected Relative_Direction sideOfRoom;
+	//Side of room is stored relative to the room
 
 	public enum Trait {
 		KNOWLEDGE, SANITY, MIGHT, SPEED
@@ -92,6 +93,31 @@ public abstract class Character {
 
 	public Relative_Direction getSideOfRoom() {
 		return this.sideOfRoom;
+	}
+	
+	public boolean moveInAbsoluteDirection(Relative_Direction dir) {
+		Room next = this.currentRoom.getRoomFromExitAbsoluteDirection(dir);
+		if (next == null){
+			return false;
+		}
+		this.currentRoom = next;
+		switch (dir){
+			case NORTH:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
+				break;
+			case SOUTH:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
+				break;
+			case EAST:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
+				break;
+			case WEST:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
+				break;
+			default:
+				this.sideOfRoom = dir;
+		}
+		return true;
 	}
 	
 	public abstract int getCurrentSanity();
