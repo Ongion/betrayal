@@ -225,6 +225,72 @@ public class TestOmenCard {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void TestKnowledgeRollIsGreaterThan4ForCrystallBallEvent(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(5));
+				}
+			});
+
+			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
+			crystalBallCard.whatToDo(character, mockGame);
+			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
+			assertFalse(eventStackAfter.equals(eventStackBefore));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestKnowledgeRollIsGreaterThan4ForCrystallBallItem(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(5));
+				}
+			});
+
+			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
+			crystalBallCard.whatToDo(character, mockGame);
+			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
+			assertFalse(itemStackAfter.equals(itemStackBefore));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	@Test
 	public void IsHauntRollWithBook() {
