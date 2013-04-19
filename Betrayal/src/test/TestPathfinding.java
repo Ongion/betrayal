@@ -208,17 +208,98 @@ public class TestPathfinding {
 	}
 	
 	@Test
-	public void testPathfindingTwoCharacterFourRoomsNotFullExits(){
-		HashSet<Relative_Direction> north = new HashSet<Relative_Direction>();
-		north.add(Relative_Direction.NORTH);
-		HashSet<Relative_Direction> south = new HashSet<Relative_Direction>();
-		north.add(Relative_Direction.SOUTH);
-		HashSet<Relative_Direction> east = new HashSet<Relative_Direction>();
-		north.add(Relative_Direction.EAST);
-		HashSet<Relative_Direction> west = new HashSet<Relative_Direction>();
-		north.add(Relative_Direction.WEST);
+	public void testPathfindingTwoCharacterEightRoomsNotFullExits(){
+		Room r1, r2, r3, r4, r5, r6;
+		HashSet<Relative_Direction> r1Exits = new HashSet<Relative_Direction>();
+		r1Exits.add(Relative_Direction.NORTH);
+		r1Exits.add(Relative_Direction.SOUTH);
+		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
+		gardensFloors.add(Floor_Name.GROUND);
+		r1 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
 		
+		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
+		r2Exits.add(Relative_Direction.NORTH);
+		r2Exits.add(Relative_Direction.EAST);
+		r2 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
+		
+		r3 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
+		
+		r4 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
+		
+		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
+		r5Exits.add(Relative_Direction.NORTH);
+		r5 = new EventRoom("Garden", r5Exits, gardensFloors);
+		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
+		
+		r6 = new EventRoom("Garden", r1Exits, gardensFloors);
+		gardensFloors.add(Floor_Name.BASEMENT);
+		r6.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 100 , 100));
+		
+		c1.setCurrentRoom(r1);
+		c2.setCurrentRoom(r5);
+		c3.setCurrentRoom(r6); //Isn't on the same floor so won't be used for pathfinding. But will break my short circuit so adding it.
+		
+		Game.getInstance().addCharacter(c1);
+		Game.getInstance().addCharacter(c2);
+		Game.getInstance().addCharacter(c3);
+		
+		Assert.assertEquals(c2, c1.getNearestCharacter());
+		Assert.assertEquals(c1, c2.getNearestCharacter());
 	}
 
+	@Test
+	public void testMovingThroughMyTestRooms(){
+		//This shoudln't be needed but I want to make sure you can get from r1 to r5
+		//Cause Pathfinding is failing and I don't know why
+		Game.resetGame();
+		Room r1, r2, r3, r4, r5, r6;
+		HashSet<Relative_Direction> r1Exits = new HashSet<Relative_Direction>();
+		r1Exits.add(Relative_Direction.NORTH);
+		r1Exits.add(Relative_Direction.SOUTH);
+		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
+		gardensFloors.add(Floor_Name.GROUND);
+		r1 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
+		
+		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
+		r2Exits.add(Relative_Direction.NORTH);
+		r2Exits.add(Relative_Direction.EAST);
+		r2 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
+		
+		r3 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
+		
+		r4 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
+		
+		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
+		r5Exits.add(Relative_Direction.NORTH);
+		r5 = new EventRoom("Garden", r5Exits, gardensFloors);
+		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 1));
+		
+		r6 = new EventRoom("Garden", r1Exits, gardensFloors);
+		gardensFloors.add(Floor_Name.BASEMENT);
+		r6.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 100 , 100));
+		
+		c1.setCurrentRoom(r1);
+		System.out.println(r2.getExits());
+		System.out.println(r2.getOrientation());
+		System.out.println(r2.getLocation().getFloorLocationToNorth());
+		System.out.println(r2.getRoomFromExit(Relative_Direction.EAST));
+		//I know I really shouldn't be print lining but it worked because I found the bug!
+		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.WEST));
+		
+		System.out.println(c1.getCurrentRoom().getLocation());
+		Assert.assertEquals(r5, c1.getCurrentRoom());
+		
+	}
 
 }

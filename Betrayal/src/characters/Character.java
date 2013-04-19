@@ -217,7 +217,7 @@ public abstract class Character {
 			openList.add(n);
 		}
 		
-		while (!closedList.contains(new PathfindingNode(this.getCurrentRoom()))){
+		while (!closedList.contains(new PathfindingNode(this.getCurrentRoom())) && openList.size() > 0){
 			PathfindingNode lowest = getLowestCostNodeTo(openList,this.getCurrentRoom());
 			
 			Set<Relative_Direction> exits = lowest.getRoom().getExits();
@@ -231,7 +231,7 @@ public abstract class Character {
 			for (Room r : adjacentRooms){
 				if (r != null){
 					PathfindingNode newNode = new PathfindingNode(r,lowest,lowest.getGCost()+1);
-					if (!closedList.contains(newNode) && !closedList.contains(newNode)){
+					if (!closedList.contains(newNode) && !openList.contains(newNode)){
 						openList.add(newNode);
 					}
 				}
@@ -241,6 +241,10 @@ public abstract class Character {
 			
 			openList.remove(lowest);
 			closedList.add(lowest);
+		}
+		
+		if (openList.isEmpty()){
+			return null;
 		}
 		
 		PathfindingNode last = null;
