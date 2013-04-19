@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import omenCards.OmenCard;
 import eventCards.EventCard;
+import floors.Location;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Player;
@@ -210,7 +211,28 @@ public abstract class Character {
 			return characters.get(0);
 		}
 		
+		ArrayList<PathfindingNode> openList = new ArrayList<PathfindingNode>();
+		ArrayList<PathfindingNode> closedList = new ArrayList<PathfindingNode>();
+		
+		for (Character c: characters){
+			PathfindingNode n = new PathfindingNode(c.getCurrentRoom());
+		}
+		
+		while (!closedList.contains(this.getCurrentRoom())){
+			PathfindingNode lowest = 
+		}
+		
+		
 		return null;
+	}
+	
+	private PathfindingNode getLowestCostTo(ArrayList<PathfindingNode> openList, Room r){
+		int lowestScore = openList.get(0).getScoreToRoom(r);
+		PathfindingNode lowestNode = openList.get(0);
+		
+		for(PathfindingNode n: openList){
+			
+		}
 	}
 
 
@@ -230,6 +252,14 @@ public abstract class Character {
 			this.gCost = gCost;
 		}
 		
+		public int getScoreToRoom(Room r){
+			Location l = r.getLocation();
+			Location cur = room.getLocation();
+			int xDif = Math.abs(cur.getX() - l.getX());
+			int yDif = Math.abs(cur.getY()- l.getY());
+			
+			return xDif + yDif + gCost;
+		}
 		
 		
 	}
