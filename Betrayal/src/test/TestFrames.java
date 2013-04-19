@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import popUps.FrameComponent;
 import popUps.GameFrame;
+import popUps.TraitPopup;
 
 public class TestFrames {
 
@@ -37,6 +38,15 @@ public class TestFrames {
 	public void TestMenuFrame(){
 		GameFrame menu = new GameFrame();
 		menu.displayMenu();
+	}
+	
+	@Test
+	public void TestTraitPopups(){
+		TraitPopup win = new TraitPopup();
+		win.displayChooseMentalPopup();
+		win.displayChoosePhysicalPopup();
+		win.displayChooseRollTypePopup();
+		
 	}
 
 }

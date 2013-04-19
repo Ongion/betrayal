@@ -34,8 +34,13 @@ public class Game {
 	private int currentCharacter;
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
+	private Trait traitForAction = null;
 	
 	private static Game INSTANCE = new Game();
+	
+	public enum Deck {
+		ROOM, EVENT, ITEM, OMEN
+	};
 	
 	private Game() {
 		//Set up map
@@ -58,6 +63,14 @@ public class Game {
 		this.characters = new ArrayList<Character>();
 		
 		this.currentCharacter = 0;
+	}
+	
+	public Trait getTraitForAction(){
+		return this.traitForAction;
+	}
+	
+	public void setTraitForAction(Trait trait){
+		this.traitForAction = trait;
 	}
 
 	public static Game getInstance() {
