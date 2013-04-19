@@ -225,6 +225,72 @@ public class TestOmenCard {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void TestKnowledgeRollIsGreaterThan4ForCrystallBallEvent(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(5));
+				}
+			});
+			crystalBallCard.itemOrEvent = 1;
+			ArrayList<EventCard> eventStackBefore = game.getEventDeck();
+			crystalBallCard.whatToDo(character, mockGame);
+			ArrayList<EventCard> eventStackAfter = game.getEventDeck();
+			assertFalse(eventStackAfter.equals(eventStackBefore));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestKnowledgeRollIsGreaterThan4ForCrystallBallItem(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(5));
+				}
+			});
+			crystalBallCard.itemOrEvent = 0;
+			ArrayList<ItemCard> itemStackBefore =game.getItemDeck();
+			crystalBallCard.whatToDo(character, mockGame);
+			ArrayList<ItemCard> itemStackAfter = game.getItemDeck();
+			assertFalse(itemStackAfter.equals(itemStackBefore));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	@Test
 	public void IsHauntRollWithBook() {
@@ -714,6 +780,74 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void TestWhatToDoBiteWin() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRMight = character.getCurrentMight();
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRMight);
+					will(returnValue(5));
+				}
+			});
+			int expectedMight = character.getCurrentMightIndex();
+
+			biteCard.whatToDo(character, mockGame);
+			int mightAfter = character.getCurrentMightIndex();
+			assertEquals(mightAfter, expectedMight);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoBiteLose() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRMight = character.getCurrentMight();
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRMight);
+					will(returnValue(3));
+				}
+			});
+			int expectedMight = character.getCurrentMightIndex() - 1;
+
+			biteCard.whatToDo(character, mockGame);
+			int mightAfter = character.getCurrentMightIndex();
+			assertEquals(mightAfter, expectedMight);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
 	public void IsHauntRollWithSkull() {
 		game.setIsHaunt(true);
 		assertTrue(skullCard.isHauntRoll());
@@ -837,7 +971,8 @@ public class TestOmenCard {
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
-
+		
+		dogCard.hasToken = true;
 		int expectedMight = character.getCurrentMightIndex() + 1;
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
 		dogCard.whatToDo(character, game);
@@ -860,7 +995,7 @@ public class TestOmenCard {
 
 		character.removeOmenCard(dogCard); // For testing purposes it is removed
 											// here.
-
+		dogCard.hasToken = false;
 		int expectedMight = character.getCurrentMightIndex() - 1;
 		int expectedSanity = character.getCurrentSanityIndex() - 1;
 		((Dog) dogCard).isLost(character);

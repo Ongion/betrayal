@@ -291,6 +291,7 @@ public class TestPathfinding {
 		System.out.println(r2.getOrientation());
 		System.out.println(r2.getLocation().getFloorLocationToNorth());
 		System.out.println(r2.getRoomFromExit(Relative_Direction.EAST));
+		System.out.println(r2.getRoomFromExitAbsoluteDirection(Relative_Direction.NORTH));
 		//I know I really shouldn't be print lining but it worked because I found the bug!
 		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.NORTH));

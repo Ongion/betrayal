@@ -286,7 +286,6 @@ public abstract class Character {
 	}
 
 
-
 	private class PathfindingNode{
 		PathfindingNode parent = null;
 		int gCost = 0;
@@ -332,4 +331,5 @@ public abstract class Character {
 		}
 		
 	}
+
 }
