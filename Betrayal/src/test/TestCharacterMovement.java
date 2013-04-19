@@ -46,12 +46,20 @@ public class TestCharacterMovement {
 	@Before
 	public void init() {
 		Game.resetGame();
+		
+		HashSet<Relative_Direction> allDirectionExits = new HashSet<Relative_Direction>();
+		allDirectionExits.add(Relative_Direction.NORTH);
+		allDirectionExits.add(Relative_Direction.SOUTH);
+		allDirectionExits.add(Relative_Direction.EAST);
+		allDirectionExits.add(Relative_Direction.WEST);
+		
 		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
 		gardensExits.add(Relative_Direction.NORTH);
 		gardensExits.add(Relative_Direction.SOUTH);
+		
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
-		gardens = new EventRoom("Garden", gardensExits, gardensFloors);
+		gardens = new EventRoom("Garden", allDirectionExits, gardensFloors);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
 		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
@@ -61,7 +69,7 @@ public class TestCharacterMovement {
 		organRoomFloors.add(Floor_Name.UPPER);
 		organRoomFloors.add(Floor_Name.GROUND);
 		organRoomFloors.add(Floor_Name.BASEMENT);
-		organRoom = new EventRoom("Organ Room", organRoomExits, organRoomFloors);
+		organRoom = new EventRoom("Organ Room", allDirectionExits, organRoomFloors);
 		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
 		
 		HashSet<Relative_Direction> diningRoomExits = new HashSet<Relative_Direction>();
@@ -71,8 +79,8 @@ public class TestCharacterMovement {
 		diningRoomFloors.add(Floor_Name.GROUND);
 		HashMap<Relative_Direction, Integer> diningRoomWindows = new HashMap<Relative_Direction, Integer>();
 		diningRoomWindows.put(Relative_Direction.WEST, 2);
-		diningRoom = new OmenRoom("Dining Room", diningRoomExits, diningRoomFloors, diningRoomWindows);
-		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
+		diningRoom = new OmenRoom("Dining Room", allDirectionExits, diningRoomFloors, diningRoomWindows);
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, 1));
 		
 		HashSet<Relative_Direction> junkRoomExits = new HashSet<Relative_Direction>();
 		junkRoomExits.add(Relative_Direction.NORTH);
@@ -83,8 +91,8 @@ public class TestCharacterMovement {
 		junkRoomFloors.add(Floor_Name.UPPER);
 		junkRoomFloors.add(Floor_Name.GROUND);
 		junkRoomFloors.add(Floor_Name.BASEMENT);
-		junkRoom = new JunkRoomRoom("Junk Room", junkRoomExits, junkRoomFloors);
-		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, -1));
+		junkRoom = new JunkRoomRoom("Junk Room", allDirectionExits, junkRoomFloors);
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
 
 		c = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
 	}
