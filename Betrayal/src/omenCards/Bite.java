@@ -12,8 +12,10 @@ public class Bite extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
-		// TODO Auto-generated method stub
+		if (game.rollDice(character.getCurrentMight()) < 4) {
+			character.decrementMight();
 
+		}
 	}
 
 }

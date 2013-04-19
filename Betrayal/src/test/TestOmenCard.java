@@ -737,7 +737,7 @@ public class TestOmenCard {
 			int expectedMight = character.getCurrentMightIndex();
 
 			biteCard.whatToDo(character, mockGame);
-			int mightAfter = character.getCurrentSanityIndex();
+			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
 			mocks.assertIsSatisfied();
@@ -771,7 +771,7 @@ public class TestOmenCard {
 			int expectedMight = character.getCurrentMightIndex() - 1;
 
 			biteCard.whatToDo(character, mockGame);
-			int mightAfter = character.getCurrentSanityIndex();
+			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
 			mocks.assertIsSatisfied();
