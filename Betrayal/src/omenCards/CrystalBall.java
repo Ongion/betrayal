@@ -20,7 +20,14 @@ public class CrystalBall extends OmenCard {
 		}
 		if (rollResult == 0) {
 			character.decrementSanity(2);
-
+		}
+		if(rollResult > 4){
+			if(itemOrEvent == 1){
+				Collections.shuffle(game.getEventDeck());
+			}
+			if(itemOrEvent == 0){
+				Collections.shuffle(game.getItemDeck());
+			}
 		}
 
 	}

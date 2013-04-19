@@ -7,6 +7,7 @@ import Game.Game;
 public abstract class OmenCard {
 	protected String name;
 	protected String quote;
+	public int itemOrEvent;
 
 	protected OmenCard(String name, String quote) {
 		this.name = name;
