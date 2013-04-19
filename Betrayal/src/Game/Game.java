@@ -261,6 +261,10 @@ public class Game {
 	public Character getCurrentCharacter() {
 		return characters.get(currentCharacter);
 	}
+	
+	public ArrayList<Character> getCharacters(){
+		return characters;
+	}
 
 	public int getNumOmens() {
 		return numOmens;

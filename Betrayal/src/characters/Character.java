@@ -9,6 +9,7 @@ import eventCards.EventCard;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Player;
+import Game.Game;
 
 public abstract class Character {
 	protected String name;
@@ -193,8 +194,43 @@ public abstract class Character {
 	public void incrementSpeed(int amount) {
 		// Only implemented by Explorers
 	}
-
-
-
 	
+	
+	
+	
+	
+
+	public Character getNearestCharacter(){
+		ArrayList<Character> characters = new ArrayList<Character>();
+		characters.addAll(Game.getInstance().getCharacters());
+		
+		characters.remove(this);
+		
+		if (characters.size() == 1){
+			return characters.get(0);
+		}
+		
+		return null;
+	}
+
+
+
+	private class PathfindingNode{
+		PathfindingNode parent = null;
+		int gCost = 0;
+		Room room;
+		
+		public PathfindingNode(Room room){
+			this.room = room;
+		}
+		
+		public PathfindingNode(Room room, PathfindingNode parent, int gCost){
+			this.room = room;
+			this.parent = parent;
+			this.gCost = gCost;
+		}
+		
+		
+		
+	}
 }
