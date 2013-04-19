@@ -262,6 +262,7 @@ public abstract class Character {
 			}
 		}
 		
+		//This return should never happen
 		return null;
 	}
 	
