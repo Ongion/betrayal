@@ -247,9 +247,9 @@ public class TestOmenCard {
 				}
 			});
 			crystalBallCard.itemOrEvent = 1;
-			ArrayList<EventCard> eventStackBefore = game.getEventDeck();
+			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
 			crystalBallCard.whatToDo(character, mockGame);
-			ArrayList<EventCard> eventStackAfter = game.getEventDeck();
+			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
 			assertFalse(eventStackAfter.equals(eventStackBefore));
 
 			mocks.assertIsSatisfied();
@@ -279,10 +279,10 @@ public class TestOmenCard {
 					will(returnValue(5));
 				}
 			});
-			crystalBallCard.itemOrEvent = 0;
-			ArrayList<ItemCard> itemStackBefore =game.getItemDeck();
+			crystalBallCard. itemOrEvent = 0;
+			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
 			crystalBallCard.whatToDo(character, mockGame);
-			ArrayList<ItemCard> itemStackAfter = game.getItemDeck();
+			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
 			assertFalse(itemStackAfter.equals(itemStackBefore));
 
 			mocks.assertIsSatisfied();
@@ -971,8 +971,7 @@ public class TestOmenCard {
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
-		
-		dogCard.hasToken = true;
+
 		int expectedMight = character.getCurrentMightIndex() + 1;
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
 		dogCard.whatToDo(character, game);
@@ -995,7 +994,7 @@ public class TestOmenCard {
 
 		character.removeOmenCard(dogCard); // For testing purposes it is removed
 											// here.
-		dogCard.hasToken = false;
+
 		int expectedMight = character.getCurrentMightIndex() - 1;
 		int expectedSanity = character.getCurrentSanityIndex() - 1;
 		((Dog) dogCard).isLost(character);

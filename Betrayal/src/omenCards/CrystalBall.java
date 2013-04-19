@@ -7,6 +7,8 @@ import Game.Game;
 
 public class CrystalBall extends OmenCard {
 
+	private int itemOrEvent;
+
 	public CrystalBall(String name, String quote) {
 		super(name, quote);
 
@@ -21,11 +23,11 @@ public class CrystalBall extends OmenCard {
 		if (rollResult == 0) {
 			character.decrementSanity(2);
 		}
-		if(rollResult > 4){
-			if(itemOrEvent == 1){
+		if (rollResult > 4) {
+			if (itemOrEvent == 1) {
 				Collections.shuffle(game.getEventDeck());
 			}
-			if(itemOrEvent == 0){
+			if (itemOrEvent == 0) {
 				Collections.shuffle(game.getItemDeck());
 			}
 		}

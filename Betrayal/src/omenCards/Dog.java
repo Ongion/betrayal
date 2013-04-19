@@ -6,6 +6,7 @@ import characters.Explorer;
 import Game.Game;
 
 public class Dog extends OmenCard {
+	private boolean hasToken;
 
 	public Dog(String name, String quote) {
 		super(name, quote);
@@ -14,6 +15,7 @@ public class Dog extends OmenCard {
 
 	@Override
 	public void whatToDo(Explorer character, Game game) {
+	
 		if (!game.getIsHaunt()) {
 			character.incrementMight();
 			character.incrementSanity();
@@ -22,8 +24,9 @@ public class Dog extends OmenCard {
 	}
 
 	public void isLost(Explorer character) {
-		ArrayList omenHand = character.getOmenHand();
+		ArrayList<OmenCard> omenHand = character.getOmenHand();
 		if (!omenHand.contains(this)) {
+			
 			character.decrementMight();
 			character.decrementSanity();
 		}
