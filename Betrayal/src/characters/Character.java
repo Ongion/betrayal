@@ -199,9 +199,6 @@ public abstract class Character {
 	
 	
 	
-	
-	
-
 	public Character getNearestCharacter(){
 		ArrayList<Character> characters = new ArrayList<Character>();
 		characters.addAll(Game.getInstance().getCharacters());
@@ -220,7 +217,7 @@ public abstract class Character {
 			openList.add(n);
 		}
 		
-		while (!closedList.contains(this.getCurrentRoom())){
+		while (!closedList.contains(new PathfindingNode(this.getCurrentRoom()))){
 			PathfindingNode lowest = getLowestCostNodeTo(openList,this.getCurrentRoom());
 			
 			Set<Relative_Direction> exits = lowest.getRoom().getExits();
@@ -244,12 +241,11 @@ public abstract class Character {
 			
 			openList.remove(lowest);
 			closedList.add(lowest);
-			
 		}
 		
 		PathfindingNode last = null;
 		for (PathfindingNode n : closedList){
-			if (n.getRoom().equals(this)){
+			if (n.getRoom().equals(this.getCurrentRoom())){
 				last = n;
 				break;
 			}
@@ -318,8 +314,12 @@ public abstract class Character {
 			return this.gCost;
 		}
 		
-		public boolean equals(PathfindingNode n){
-			return this.room.equals(n.getRoom());
+		public boolean equals(Object obj){
+			if (obj instanceof PathfindingNode){
+				PathfindingNode n = ((PathfindingNode) obj);
+				return this.room.equals(n.getRoom());
+			}
+			return false;
 		}
 		
 		public PathfindingNode getParent() {

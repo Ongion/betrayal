@@ -106,12 +106,8 @@ public class TestPathfinding {
 		
 		Character nearest = c1.getNearestCharacter();
 		
-		System.out.println(nearest);
-		
-		Assert.assertEquals(c2, nearest);
-		//The only other character is the nearest one!
-		Assert.assertEquals(c1,c2.getNearestCharacter());
-		//Also works in reverse
+		Assert.assertEquals(c3, nearest);
+
 	}
 
 }
