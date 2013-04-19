@@ -1,6 +1,6 @@
 package characters;
 
-public class Monster extends Character {
+public class MonsterType implements ICharacterType {
 
 	protected int knowledge;
 	protected int sanity;
@@ -9,7 +9,7 @@ public class Monster extends Character {
 	
 	public enum Monsters { Temp_Monster1 };
 	
-	public Monster(Monsters m){
+	public MonsterType(Monsters m){
 		switch (m){
 			case Temp_Monster1:
 				knowledge = 1;

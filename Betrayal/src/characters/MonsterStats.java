@@ -1,6 +1,12 @@
 package characters;
 
 public class MonsterStats implements IStats {
+	private int sanity;
+	private int knowledge;
+	private int might;
+	private int speed;
+	
+	private Character characterStatsBelongTo;
 
 	public MonsterStats() {
 		// TODO Auto-generated constructor stub
@@ -8,98 +14,86 @@ public class MonsterStats implements IStats {
 
 	@Override
 	public int getCurrentSanity() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.sanity;
 	}
 
 	@Override
 	public int getCurrentKnowledge() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.knowledge;
 	}
 
 	@Override
 	public int getCurrentMight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.might;
 	}
 
 	@Override
 	public int getCurrentSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.speed;
 	}
 
 	@Override
 	public void incrementKnowledge(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.
 	}
 
 	@Override
 	public void incrementSanity(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void incrementMight(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void incrementSpeed(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void decrementSanity(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void decrementKnowledge(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void decrementMight(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public void decrementSpeed(int amount) {
-		// TODO Auto-generated method stub
-		
+		// Monster stats don't change.		
 	}
 
 	@Override
 	public int getAge() {
-		// TODO Auto-generated method stub
-		return 0;
+		// Monsters don't have age.
+		return -1;
 	}
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		// Monsters don't have height.
+		return -1;
 	}
 
 	@Override
 	public int getWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		// Monsters don't have weight.
+		return -1;
 	}
 
 	@Override
 	public String[] getHobbies() {
-		// TODO Auto-generated method stub
-		return null;
+		// Monsters don't have hobbies.
+		return new String[0];
 	}
 
 }

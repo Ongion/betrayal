@@ -17,8 +17,8 @@ import org.junit.Test;
 import characters.ExplorerType;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import characters.Monster;
-import characters.Monster.Monsters;
+import characters.MonsterType;
+import characters.MonsterType.Monsters;
 import eventCards.EventCard;
 import eventCards.Rotten;
 import characters.Character;
@@ -312,7 +312,7 @@ public class TestCharacters {
 
 	@Test
 	public void TestMonsterInit(){
-		Monster m = new Monster(Monsters.Temp_Monster1);
+		MonsterType m = new MonsterType(Monsters.Temp_Monster1);
 		
 		Assert.assertEquals(m.getCurrentMight(), 1);
 		Assert.assertEquals(m.getCurrentSpeed(), 1);
