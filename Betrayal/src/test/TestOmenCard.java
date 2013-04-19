@@ -714,6 +714,42 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void TestWhatToDoBiteWin(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRMight = character.getCurrentMight();
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRMight);
+					will(returnValue(5));
+				}
+			});
+			int expectedMight = character.getCurrentMightIndex();
+			
+
+			
+			biteCard.whatToDo(character, mockGame);
+			int mightAfter = character.getCurrentSanityIndex();
+			assertEquals(mightAfter, expectedMight);
+			
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	@Test
 	public void IsHauntRollWithSkull() {
 		game.setIsHaunt(true);
 		assertTrue(skullCard.isHauntRoll());
