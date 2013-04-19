@@ -108,7 +108,7 @@ public abstract class Room {
 	}
 
 	public Room getRoomFromExitAbsoluteDirection(Relative_Direction exitDirection){
-		return getExitMap().get(this.convertAbsoluteDirectionToRoomRelativeDirection(exitDirection));
+		return this.getRoomFromExit(this.convertAbsoluteDirectionToRoomRelativeDirection(exitDirection));
 	}
 	
 	public Relative_Direction convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction dir){

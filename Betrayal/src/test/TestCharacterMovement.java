@@ -161,12 +161,14 @@ public class TestCharacterMovement {
 		Room nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.WEST);
 		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), nextRoomToMoveTo);
+		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST), c.getSideOfRoom());
 		
 		//Now move back!
 		nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.EAST);
 		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(nextRoomToMoveTo, c.getCurrentRoom());
+		Assert.assertEquals(c.getCurrentRoom(), gardens);
 		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST), c.getSideOfRoom());
 	}
 	
