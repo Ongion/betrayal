@@ -3,6 +3,7 @@ package characters;
 import itemCards.ItemCard;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import omenCards.OmenCard;
 import eventCards.EventCard;
@@ -216,23 +217,71 @@ public abstract class Character {
 		
 		for (Character c: characters){
 			PathfindingNode n = new PathfindingNode(c.getCurrentRoom());
+			openList.add(n);
 		}
 		
 		while (!closedList.contains(this.getCurrentRoom())){
-			PathfindingNode lowest = 
+			PathfindingNode lowest = getLowestCostNodeTo(openList,this.getCurrentRoom());
+			
+			Set<Relative_Direction> exits = lowest.getRoom().getExits();
+			
+			ArrayList<Room> adjacentRooms = new ArrayList<Room>();
+			
+			for (Relative_Direction dir : exits){
+				adjacentRooms.add(lowest.getRoom().getRoomFromExit(dir));
+			}
+			
+			for (Room r : adjacentRooms){
+				if (r != null){
+					PathfindingNode newNode = new PathfindingNode(r,lowest,lowest.getGCost()+1);
+					if (!closedList.contains(newNode) && !closedList.contains(newNode)){
+						openList.add(newNode);
+					}
+				}
+				
+				
+			}
+			
+			openList.remove(lowest);
+			closedList.add(lowest);
+			
 		}
 		
+		PathfindingNode last = null;
+		for (PathfindingNode n : closedList){
+			if (n.getRoom().equals(this)){
+				last = n;
+				break;
+			}
+		}
+		
+		while (last.getParent() != null){
+			last = last.getParent();
+		}
+		
+		
+		for (Character c :characters){
+			if (c.getCurrentRoom().equals(last.getRoom())){
+				return c;
+			}
+		}
 		
 		return null;
 	}
 	
-	private PathfindingNode getLowestCostTo(ArrayList<PathfindingNode> openList, Room r){
+	private PathfindingNode getLowestCostNodeTo(ArrayList<PathfindingNode> openList, Room r){
 		int lowestScore = openList.get(0).getScoreToRoom(r);
 		PathfindingNode lowestNode = openList.get(0);
 		
 		for(PathfindingNode n: openList){
-			
+			int score = n.getScoreToRoom(r); 
+			if (score < lowestScore){
+				lowestScore = score;
+				lowestNode = n;
+			}
 		}
+		
+		return lowestNode;
 	}
 
 
@@ -261,6 +310,21 @@ public abstract class Character {
 			return xDif + yDif + gCost;
 		}
 		
+		public Room getRoom(){
+			return this.room;
+		}
+		
+		public int getGCost(){
+			return this.gCost;
+		}
+		
+		public boolean equals(PathfindingNode n){
+			return this.room.equals(n.getRoom());
+		}
+		
+		public PathfindingNode getParent() {
+			return this.parent;
+		}
 		
 	}
 }
