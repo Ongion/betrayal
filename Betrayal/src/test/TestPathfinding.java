@@ -24,10 +24,8 @@ import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import Game.Game;
 import characters.Character;
-import characters.Explorer;
 import characters.ExplorerFactory;
 import characters.Character.Character_Name;
-import characters.Explorer.Explorers;
 import floors.Location;
 
 public class TestPathfinding {
