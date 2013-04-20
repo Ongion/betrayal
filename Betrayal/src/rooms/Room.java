@@ -100,6 +100,7 @@ public abstract class Room {
 	}
 
 	private Room getRoomFromDirection(Relative_Direction directionChecking) {
+		/* Returns the room in the given direction, regardless of door connections */
 		return Game.getInstance().getRoomAtLocation(this.getLocationOfRoomAtExit(directionChecking));
 	}
 
@@ -212,13 +213,34 @@ public abstract class Room {
 		// only rooms that have ending actions implement this 
 	}
 
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
-		//only rooms that have room-leaving actions implement this
+	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+		Room nextRoom = this.getRoomFromExitAbsoluteDirection(exitAttemptingToLeaveBy);
+		characterLeavingRoom.enterRoomGoingInAbsoluteDirection(nextRoom, exitAttemptingToLeaveBy);
 	}
 
-	public void enterRoom(Character characterEnteringRoom) {
-		// only rooms like the coal chute implement this
+	public void enterRoomGoingInAbsoluteDirection(Character characterEnteringRoom, Relative_Direction directionMovingWhenEnteringRoom) {
+		Relative_Direction sideOfRoomCharacterIsOn;
+		switch (directionMovingWhenEnteringRoom){
+		case NORTH:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
+			break;
+		case SOUTH:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
+			break;
+		case EAST:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
+			break;
+		case WEST:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
+			break;
+		default:
+			sideOfRoomCharacterIsOn = directionMovingWhenEnteringRoom;
+			break;
+		}
+		characterEnteringRoom.setSideOfRoom(sideOfRoomCharacterIsOn);
+
 	}
+
 
 	private Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
 

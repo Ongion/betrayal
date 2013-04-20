@@ -54,10 +54,13 @@ public class Character {
 		this.name = name;
 		this.type = type;
 		this.stats = stats;
+		
+		type.setCharacter(this);
+		stats.setCharacter(this);
 	}
 
 	public String getName() {
-		return ResourceBundle.getBundle("characters.CharacterBundle_"+this.name.toString(), Game.getInstance().getLocale()).getString("name");
+		return ResourceBundle.getBundle("characters.CharacterBundle-"+this.name.toString(), Game.getInstance().getLocale()).getString("name");
 	}
 	
 	public ICharacterType getType() {
@@ -167,31 +170,36 @@ public class Character {
 	public int getCurrentSpeed() {
 		return stats.getCurrentSpeed();
 	}
-
 	
-	public boolean moveInAbsoluteDirection(Relative_Direction dir) {
-		Room next = this.currentRoom.getRoomFromExitAbsoluteDirection(dir);
-		if (next == null){
-			return false;
-		}
-		this.currentRoom = next;
-		switch (dir){
-			case NORTH:
-				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
-				break;
-			case SOUTH:
-				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
-				break;
-			case EAST:
-				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
-				break;
-			case WEST:
-				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
-				break;
-			default:
-				this.sideOfRoom = dir;
-		}
+	public void enterRoomGoingInAbsoluteDirection(Room nextRoom, Relative_Direction directionMovingWhenEnteringRoom) {
+		type.enterRoomGoingInAbsoluteDirection(nextRoom, directionMovingWhenEnteringRoom);
+	}
+	
+	public boolean attemptMoveInAbsoluteDirection(Relative_Direction dir) {
+		currentRoom.leaveRoomInAbsoluteDirection(this, dir);
 		return true;
+//		Room next = this.currentRoom.getRoomFromExitAbsoluteDirection(dir);
+//		if (next == null){
+//			return false;
+//		}
+//		this.currentRoom = next;
+//		switch (dir){
+//			case NORTH:
+//				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
+//				break;
+//			case SOUTH:
+//				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
+//				break;
+//			case EAST:
+//				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
+//				break;
+//			case WEST:
+//				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
+//				break;
+//			default:
+//				this.sideOfRoom = dir;
+//		}
+//		return true;
 	}
 		
 	public void incrementKnowledge() {

@@ -13,7 +13,7 @@ public class GraveyardRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		/* 
 		 * When exiting, you must attempt a Sanity roll of 4+.
 		 * If you fail, you lose 1 Knowledge (but continue moving) 

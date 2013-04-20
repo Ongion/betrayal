@@ -21,4 +21,5 @@ public interface IStats {
 	public int getWeight();
 	
 	public String[] getHobbies();
+	public void setCharacter(Character character);
 }

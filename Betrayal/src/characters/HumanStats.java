@@ -1,7 +1,12 @@
 package characters;
 
+import java.util.ResourceBundle;
+
+import Game.Game;
+import characters.Character;
+
 public class HumanStats implements IStats {
-	private String[] hobbies;
+	private Character characterStatsBelongTo;
 	private int height; // In Inches
 	private int age;
 	private int weight; // In pounds
@@ -40,7 +45,7 @@ public class HumanStats implements IStats {
 	}
 	
 	public String[] getHobbies() {
-		return this.hobbies;
+		return ResourceBundle.getBundle("characters.CharacterBundle-"+this.characterStatsBelongTo.name.toString(), Game.getInstance().getLocale()).getString("hobbies").split(",");
 	}
 	
 	public int getHeight() {
@@ -170,6 +175,11 @@ public class HumanStats implements IStats {
 	
 	public int getDefaultSpeed() {
 		return this.defaultSpeed;
+	}
+
+	@Override
+	public void setCharacter(Character character) {
+		this.characterStatsBelongTo = character;
 	}
 	
 }
