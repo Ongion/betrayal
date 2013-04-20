@@ -12,7 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import characters.Character;
+import characters.ExplorerFactory;
 import characters.ExplorerType;
+import characters.Character.Character_Name;
 
 import Game.Game;
 import floors.Location;
@@ -93,8 +95,8 @@ public class TestCharacterMovement {
 		junkRoom = new JunkRoomRoom("Junk Room", allDirectionExits, junkRoomFloors);
 		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
 
-		c = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
-	}
+		c = new ExplorerFactory().getExplorer(Character_Name.FatherRhinehardt);
+		}
 	
 	@Test
 	public void testSettingAndGettingCharacterCurrentRoom(){

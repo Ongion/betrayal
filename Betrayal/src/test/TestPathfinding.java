@@ -25,6 +25,8 @@ import rooms.Room.Room_Orientation;
 import Game.Game;
 import characters.Character;
 import characters.Explorer;
+import characters.ExplorerFactory;
+import characters.Character.Character_Name;
 import characters.Explorer.Explorers;
 import floors.Location;
 
@@ -44,7 +46,7 @@ public class TestPathfinding {
 	Room chasm;
 	Room pentagramChamber;
 	Room junkRoom;
-	Explorer zoeIngstrom;
+	Character zoeIngstrom;
 	
 	@Before
 	public void setUp() {
@@ -166,11 +168,12 @@ public class TestPathfinding {
 		bedroom = new EventRoom("Bedroom", bedroomExits, bedroomFloors, bedroomWindows);
 		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
 
-		c1 = new Explorer(Explorers.BrandonJaspers, new Locale("en"));
-		c2 = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
-		c3 = new Explorer(Explorers.DarrinWilliams, new Locale("en"));
-		c4 = new Explorer(Explorers.HeatherGranville, new Locale("en"));
-		c5 = new Explorer(Explorers.JennyLeClerc, new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		c1 = explorers.getExplorer(Character_Name.BrandonJaspers);
+		c2 = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		c3 = explorers.getExplorer(Character_Name.DarrinWilliams);
+		c4 = explorers.getExplorer(Character_Name.HeatherGranville);
+		c5 = explorers.getExplorer(Character_Name.JennyLeClerc);
 	}
 	
 	@Test
