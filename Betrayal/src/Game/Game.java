@@ -36,10 +36,15 @@ public class Game {
 	private int currentCharacter;
 	private int numOmens = 0;
 	private Boolean isHaunt = false;
+	private Trait traitForAction = null;
 	
 	private static Game INSTANCE = new Game();
 	
-	private Game() {		
+	public enum Deck {
+		ROOM, EVENT, ITEM, OMEN
+	};
+	
+	private Game() {
 		//Set up map
 		this.mapRooms = new HashSet<Room>();
 		
@@ -60,6 +65,14 @@ public class Game {
 		this.characters = new ArrayList<Character>();
 		
 		this.currentCharacter = 0;
+	}
+	
+	public Trait getTraitForAction(){
+		return this.traitForAction;
+	}
+	
+	public void setTraitForAction(Trait trait){
+		this.traitForAction = trait;
 	}
 
 	public static Game getInstance() {
@@ -140,6 +153,19 @@ public class Game {
 			this.itemDiscard.clear();
 		}
 		return this.itemDeck.remove(0);
+	}
+	
+	public Room peekRoom() {
+		return roomDeck.get(0);
+	}
+	public ItemCard peekItem() {
+		return itemDeck.get(0);
+	}
+	public OmenCard peekOmen() {
+		return omenDeck.get(0);
+	}
+	public EventCard peekEvent() {
+		return eventDeck.get(0);
 	}
 	
 	public void discardRoom(Room room){
@@ -249,6 +275,10 @@ public class Game {
 
 	public Character getCurrentCharacter() {
 		return characters.get(currentCharacter);
+	}
+	
+	public ArrayList<Character> getCharacters(){
+		return characters;
 	}
 
 	public int getNumOmens() {

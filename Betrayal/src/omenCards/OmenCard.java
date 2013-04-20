@@ -7,6 +7,8 @@ import Game.Game;
 public abstract class OmenCard {
 	protected String name;
 	protected String quote;
+	public int itemOrEvent;
+	public boolean hasToken;
 
 	protected OmenCard(String name, String quote) {
 		this.name = name;
@@ -38,17 +40,7 @@ public abstract class OmenCard {
 	public boolean makeHauntRoll() {
 		return isHauntRoll();
 	}
-
-	public abstract Object whatToDo();
 	
-	public abstract void whatToDo(ExplorerType character, Game game);
-	
-	public abstract void isLost(ExplorerType character);
-
-	public void makeKnowledgeRoll() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public abstract void whatToDo(Character character, Game game);
 	
 	}

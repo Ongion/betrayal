@@ -1,30 +1,23 @@
 package omenCards;
+
 import characters.ExplorerType;
+import characters.Character;
 import Game.Game;
 
 public class Bite extends OmenCard {
 
 	public Bite(String name, String quote) {
 		super(name, quote);
-		
+
 	}
 
 	@Override
-	public Object whatToDo() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void whatToDo(ExplorerType character, Game game) {
-		// TODO Auto-generated method stub
 		
-	}
+	public void whatToDo(Character character, Game game) {
+		if (game.rollDice(character.getCurrentMight()) < 4) {
+			character.decrementMight();
 
-	@Override
-	public void isLost(ExplorerType character) {
-		// TODO Auto-generated method stub
-		
+		}
 	}
 
 }

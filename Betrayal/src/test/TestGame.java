@@ -139,6 +139,13 @@ public class TestGame {
 	}
 	
 	@Test
+	public void testGetAndSetTraitForAction(){
+		assertEquals(null, game.getTraitForAction());
+		game.setTraitForAction(Trait.KNOWLEDGE);
+		assertEquals(Trait.KNOWLEDGE, game.getTraitForAction());
+	}
+	
+	@Test
 	public void testGetAndSetIsHaunt(){
 		assertFalse(game.getIsHaunt());
 		game.setIsHaunt(true);
