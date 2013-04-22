@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import quicktime.std.comp.Component;
-
 public class GameFrame extends JFrame implements ActionListener {
 
 	private int width;
