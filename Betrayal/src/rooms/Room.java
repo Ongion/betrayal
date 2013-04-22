@@ -337,7 +337,6 @@ public abstract class Room {
 		int prime = 31;
 		int result = 1;
 		result = prime * result + (this.name== null? 0 : name.hashCode());
-		result = prime * result + (this.exits.hashCode());
 		result = prime * result + (this.floorsAllowedOn.hashCode());
 		result = prime * result + (this.windows.hashCode());
 		return result;
