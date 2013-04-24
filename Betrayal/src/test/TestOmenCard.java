@@ -243,13 +243,13 @@ public class TestOmenCard {
 			mocks.checking(new Expectations() {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
-					will(returnValue(5));
+					will(returnValue(6));
 				}
 			});
-			crystalBallCard.itemOrEvent = 1;
-			ArrayList<EventCard> eventStackBefore = Game.getInstance().getEventDeck();
+			crystalBallCard.itemOrEvent = 0;
+			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
 			crystalBallCard.whatToDo(character);
-			ArrayList<EventCard> eventStackAfter = Game.getInstance().getEventDeck();
+			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
 			assertFalse(eventStackAfter.equals(eventStackBefore));
 
 			mocks.assertIsSatisfied();
@@ -279,7 +279,7 @@ public class TestOmenCard {
 					will(returnValue(5));
 				}
 			});
-			crystalBallCard. itemOrEvent = 0;
+			crystalBallCard. itemOrEvent = 1;
 			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
 			crystalBallCard.whatToDo(character);
 			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
