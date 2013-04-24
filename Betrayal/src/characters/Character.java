@@ -39,9 +39,6 @@ public class Character {
 	protected Relative_Direction sideOfRoom;
 	//Side of room is stored relative to the room
 
-	public enum Trait {
-		KNOWLEDGE, SANITY, MIGHT, SPEED
-	};
 	
 	private ICharacterType type;
 	private IStats stats;
@@ -153,6 +150,10 @@ public class Character {
 
 	public Relative_Direction getSideOfRoom() {
 		return this.sideOfRoom;
+	}
+	
+	public int getTraitRoll(Trait traitBeingRolledFor) {
+		return this.type.getTraitRoll(traitBeingRolledFor);
 	}
 	
 	public int getCurrentKnowledge() {
@@ -401,4 +402,26 @@ public class Character {
 		
 	}
 
+	public int getTrait(Trait traitGetting) {
+		int traitAmount = 0;
+		switch(traitGetting) {
+		case KNOWLEDGE:
+			traitAmount = getCurrentKnowledge();
+			break;
+		case MIGHT:
+			traitAmount = getCurrentMight();
+			break;
+		case SANITY:
+			traitAmount = getCurrentSanity();
+			break;
+		case SPEED:
+			traitAmount = getCurrentSpeed();
+			break;
+		default:
+			// How did you get here?
+			break;
+		}
+		return traitAmount;
+
+	}
 }

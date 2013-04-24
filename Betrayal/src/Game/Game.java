@@ -13,7 +13,7 @@ import omenCards.OmenCard;
 import rooms.Room;
 import characters.Character;
 import characters.ExplorerType;
-import characters.Character.Trait;
+import characters.Trait;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Location;
@@ -345,5 +345,16 @@ public class Game {
 	
 	public Locale getLocale() {
 		return this.locale;
+	}
+
+	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS IN THE DECK
+	public Room getRoomByName(String nameOfRoomWanted) {
+		for (Room roomChecking : mapRooms) {
+			if (roomChecking.getName().equals(nameOfRoomWanted)) {
+				return roomChecking;
+			}
+		}
+		// We should never actually get here.
+		return null;
 	}
 }

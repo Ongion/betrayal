@@ -18,7 +18,6 @@ import characters.ExplorerType;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.MonsterType;
-import characters.MonsterType.Monsters;
 import eventCards.EventCard;
 import eventCards.Rotten;
 import characters.Character;
@@ -312,12 +311,6 @@ public class TestCharacters {
 
 	@Test
 	public void TestMonsterInit(){
-		MonsterType m = new MonsterType(Monsters.Temp_Monster1);
-		
-		Assert.assertEquals(m.getCurrentMight(), 1);
-		Assert.assertEquals(m.getCurrentSpeed(), 1);
-		Assert.assertEquals(m.getCurrentSanity(), 1);
-		Assert.assertEquals(m.getCurrentKnowledge(), 1);
 	}
 	
 

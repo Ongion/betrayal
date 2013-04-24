@@ -1,13 +1,13 @@
 package characters;
 
+import characters.Character;
+
 public class MonsterStats implements IStats {
 	private int sanity;
 	private int knowledge;
 	private int might;
 	private int speed;
 	
-	private Character characterStatsBelongTo;
-
 	public MonsterStats() {
 		// TODO Auto-generated constructor stub
 	}
@@ -94,6 +94,11 @@ public class MonsterStats implements IStats {
 	public String[] getHobbies() {
 		// Monsters don't have hobbies.
 		return new String[0];
+	}
+
+	@Override
+	public void setCharacter(Character character) {
+		// Monsters don't need this bidirectional connection
 	}
 
 }

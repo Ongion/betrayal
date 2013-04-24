@@ -7,6 +7,7 @@ import java.util.Set;
 import Game.Game;
 import characters.ExplorerType;
 import characters.Character;
+import characters.Trait;
 import floors.Location;
 
 public abstract class Room {
@@ -16,6 +17,7 @@ public abstract class Room {
 	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
+	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
 
 
 	protected Room otherEndOfSecretStairs = null;
@@ -46,6 +48,14 @@ public abstract class Room {
 	public void addSecretStairs(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.SECRETSTAIRS);
 		this.otherEndOfSecretStairs = roomConnectingTo;
+	}
+	
+	public void addTraitRollModifyingTile(TraitRollModifyingTile tileToBeAdded) {
+		this.traitRollModifyingTilesInRoom.add(tileToBeAdded);
+	}
+	
+	public void removeTraitRollModifyingTile(TraitRollModifyingTile tileToBeRemoved) {
+		this.traitRollModifyingTilesInRoom.remove(tileToBeRemoved);
 	}
 
 	//	public void setHasSecretStairs(boolean newHasStairs) {
@@ -342,7 +352,24 @@ public abstract class Room {
 		return result;
 	}
 
-
-
-
+	public int getRoomTraitRollModifier() {
+		int modifier = 0;
+		for (TraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
+			switch(tile) {
+			case BLESSING:
+				modifier++;
+				break;
+			case DRIP:
+				modifier--;
+				break;
+			case SMOKE:
+				modifier--;
+				break;
+			default:
+				// How did you get here?
+				break;
+			}
+		}
+		return modifier;
+	}
 }

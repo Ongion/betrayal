@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import characters.ExplorerType;
 import characters.HumanStats;
 import Game.Game;

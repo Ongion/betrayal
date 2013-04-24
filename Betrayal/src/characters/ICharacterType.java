@@ -10,4 +10,6 @@ public interface ICharacterType {
 
 	void setCharacter(Character character);
 
+	int getTraitRoll(Trait traitBeingRolledFor);
+
 }

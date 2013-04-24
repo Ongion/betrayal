@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class BloodyVision extends EventCard {
@@ -26,7 +26,7 @@ public class BloodyVision extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.SANITY);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.SANITY);
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >= 2 && rollResult <= 3){

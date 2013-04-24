@@ -1,35 +1,31 @@
 package characters;
 
-public class MonsterType implements ICharacterType {
+import rooms.Room;
+import rooms.Room.Relative_Direction;
+import characters.Character;;
 
-	protected int knowledge;
-	protected int sanity;
-	protected int might;
-	protected int speed;
+public class MonsterType implements ICharacterType {
+	private Character characterTypeBelongsTo;
 	
-	public enum Monsters { Temp_Monster1 };
+	public MonsterType(){}
 	
-	public MonsterType(Monsters m){
-		switch (m){
-			case Temp_Monster1:
-				knowledge = 1;
-				sanity = 1;
-				might = 1;
-				speed = 1;
-				break;
-		}
+
+	@Override
+	public void enterRoomGoingInAbsoluteDirection(Room nextRoom, Relative_Direction directionMovingWhenEnteringRoom) {
+		this.characterTypeBelongsTo.setCurrentRoom(nextRoom);
+		
+		nextRoom.enterRoomGoingInAbsoluteDirection(this.characterTypeBelongsTo, directionMovingWhenEnteringRoom);
+		
 	}
-	
-	public int getCurrentSanity(){
-		return this.sanity;
+
+	@Override
+	public void setCharacter(Character character) {
+		this.characterTypeBelongsTo = character;
 	}
-	public int getCurrentKnowledge(){
-		return this.knowledge;
-	}
-	public int getCurrentSpeed(){
-		return this.speed;
-	}
-	public int getCurrentMight(){
-		return this.might;
+
+
+	@Override
+	public int getTraitRoll(Trait traitBeingRolledFor) {
+		return this.characterTypeBelongsTo.getTrait(traitBeingRolledFor);
 	}
 }

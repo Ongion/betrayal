@@ -25,5 +25,10 @@ public class ExplorerType implements ICharacterType {
 		this.characterTypeBelongsTo = character;		
 	}
 
+	@Override
+	public int getTraitRoll(Trait traitBeingRolledFor) {
+		return this.characterTypeBelongsTo.getTrait(traitBeingRolledFor) + this.characterTypeBelongsTo.currentRoom.getRoomTraitRollModifier();
+	}
+
 
 }

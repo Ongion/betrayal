@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class LockedSafe extends EventCard {
@@ -29,7 +29,7 @@ public class LockedSafe extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.KNOWLEDGE);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.KNOWLEDGE);
 		if(rollResult >= 5){
 			game.getCurrentCharacter().addItemCard(game.drawItem());
 			game.getCurrentCharacter().addItemCard(game.drawItem());

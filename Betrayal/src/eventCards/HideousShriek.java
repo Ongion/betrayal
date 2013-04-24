@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class HideousShriek extends EventCard {
@@ -24,7 +24,7 @@ public class HideousShriek extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.SANITY);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.SANITY);
 		if (rollResult >= 1 && rollResult <= 3){
 			game.getCurrentCharacter().decrementSanity(game.rollDice(1)); // TODO: Change this to decrementMental
 		} else if(rollResult == 0){
