@@ -10,7 +10,7 @@ public class SpiritBoard extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character, Game game) {
+	public void whatToDo(Explorer character) {
 		// TODO Auto-generated method stub
 
 	}
