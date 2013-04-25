@@ -8,7 +8,7 @@ import characters.Character;
 
 import rooms.Room;
 import rooms.Room.Relative_Direction;
-import floors.Location;
+import rooms.Location;
 
 public class PathFinding {
 	

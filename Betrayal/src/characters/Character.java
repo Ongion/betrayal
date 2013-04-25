@@ -9,7 +9,7 @@ import java.util.Set;
 import omenCards.OmenCard;
 import pathFinding.PathFinding;
 import eventCards.EventCard;
-import floors.Location;
+import rooms.Location;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
