@@ -21,9 +21,11 @@ import rooms.NormalRoom;
 import rooms.OmenRoom;
 import rooms.PentagramChamberRoom;
 import rooms.Room;
+import rooms.RoomName;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
+import rooms.RoomFactory;
 import Game.Game;
 import characters.Character.Character_Name;
 import characters.ExplorerType;
@@ -51,33 +53,15 @@ public class TestRooms {
 	@Before
 	public void setUp() {
 		Game.resetGame();
-		HashSet<Relative_Direction> gardensExits = new HashSet<Relative_Direction>();
-		gardensExits.add(Relative_Direction.NORTH);
-		gardensExits.add(Relative_Direction.SOUTH);
-		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
-		gardensFloors.add(Floor_Name.GROUND);
-		gardens = new EventRoom("Garden", gardensExits, gardensFloors);
+		RoomFactory rooms = new RoomFactory();
+		gardens = rooms.makeRoom(RoomName.GARDEN);
 //		game.addRoomToMap(gardens);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
-		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
-		organRoomExits.add(Relative_Direction.SOUTH);
-		organRoomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
-		organRoomFloors.add(Floor_Name.UPPER);
-		organRoomFloors.add(Floor_Name.GROUND);
-		organRoomFloors.add(Floor_Name.BASEMENT);
-		organRoom = new EventRoom("Organ Room", organRoomExits, organRoomFloors);
+		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
 		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
 		
-		HashSet<Relative_Direction> diningRoomExits = new HashSet<Relative_Direction>();
-		diningRoomExits.add(Relative_Direction.NORTH);
-		diningRoomExits.add(Relative_Direction.EAST);
-		HashSet<Floor_Name> diningRoomFloors = new HashSet<Floor_Name>();
-		diningRoomFloors.add(Floor_Name.GROUND);
-		HashMap<Relative_Direction, Integer> diningRoomWindows = new HashMap<Relative_Direction, Integer>();
-		diningRoomWindows.put(Relative_Direction.WEST, 2);
-		diningRoom = new OmenRoom("Dining Room", diningRoomExits, diningRoomFloors, diningRoomWindows);
+		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
 		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
 
 		HashSet<Relative_Direction> basementLandingExits = new HashSet<Relative_Direction>();
