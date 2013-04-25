@@ -14,7 +14,7 @@ public class Dog extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		Game game = Game.getInstance();
 	
 		if (!game.getIsHaunt()) {

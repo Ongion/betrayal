@@ -32,7 +32,7 @@ import eventCards.NightView;
 import eventCards.Rotten;
 
 import characters.Character.Character_Name;
-import characters.Character.Trait;
+import characters.Trait;
 import characters.ExplorerFactory;
 import characters.Character;
 

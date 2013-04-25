@@ -13,7 +13,7 @@ public class Mask extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		Game game = Game.getInstance();
 		int rollResult = game.rollDice(character.getCurrentSanity());
 		if (rollResult >= 4) {

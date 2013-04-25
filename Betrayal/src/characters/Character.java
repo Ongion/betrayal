@@ -298,4 +298,29 @@ public class Character {
 		return traitAmount;
 
 	}
+	
+	public boolean moveInAbsoluteDirection(Relative_Direction dir) {
+		Room next = this.currentRoom.getRoomFromExitAbsoluteDirection(dir);
+		if (next == null){
+			return false;
+		}
+		this.currentRoom = next;
+		switch (dir){
+			case NORTH:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
+				break;
+			case SOUTH:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
+				break;
+			case EAST:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
+				break;
+			case WEST:
+				this.sideOfRoom = this.currentRoom.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
+				break;
+			default:
+				this.sideOfRoom = dir;
+		}
+		return true;
+	}
 }

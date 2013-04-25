@@ -13,7 +13,7 @@ public class Girl extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		Game game = Game.getInstance();
 		if (!game.getIsHaunt() == true) {
 			character.incrementSanity(1);

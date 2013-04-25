@@ -12,7 +12,7 @@ public class Ring extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		// TODO Auto-generated method stub
 	}
 
