@@ -17,7 +17,6 @@ public class BurningMan extends EventCard {
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
 			game.getCurrentCharacter().setCurrentRoom(game.getRoomByName("Entrance Hall"));
-			// TODO: put explorer in the entrance hall
 		} else {
 			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
 			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
@@ -31,7 +30,7 @@ public class BurningMan extends EventCard {
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
-			// TODO: put explorer in the entrance hall
+			game.getCurrentCharacter().setCurrentRoom(game.getRoomByName("Entrance Hall"));
 		} else {
 			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
 			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
