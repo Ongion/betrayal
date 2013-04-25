@@ -1,4 +1,4 @@
-package floors;
+package rooms;
 
 import rooms.Room.Floor_Name;
 

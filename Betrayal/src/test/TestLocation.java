@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import rooms.Room.Floor_Name;
 
-import floors.Location;
+import rooms.Location;
 
 public class TestLocation {
 	

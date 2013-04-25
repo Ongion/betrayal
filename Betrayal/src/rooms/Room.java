@@ -10,7 +10,7 @@ import Game.Game;
 import characters.ExplorerType;
 import characters.Character;
 import characters.Trait;
-import floors.Location;
+import rooms.Location;
 
 public abstract class Room {
 	protected final String name;

@@ -19,7 +19,7 @@ import Game.Game;
 import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import floors.Location;
+import rooms.Location;
 
 public class TestCharacterMovement {
 

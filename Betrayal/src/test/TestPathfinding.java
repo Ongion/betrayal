@@ -26,7 +26,7 @@ import Game.Game;
 import characters.Character;
 import characters.ExplorerFactory;
 import characters.Character.Character_Name;
-import floors.Location;
+import rooms.Location;
 
 public class TestPathfinding {
 	

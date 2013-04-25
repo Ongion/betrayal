@@ -15,13 +15,11 @@ import characters.Character;
 import characters.ExplorerType;
 import characters.Trait;
 import eventCards.EventCard;
-import floors.Floor;
-import floors.Location;
+import rooms.Location;
 
 public class Game {
 	
 	private Locale locale = new Locale("en");
-	private Floor[] map; // TODO Remove this, only here for old tests.
 	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;
@@ -83,8 +81,7 @@ public class Game {
 		INSTANCE = new Game();
 	}
 	
-	public Game(Floor[] map, ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
-		this.map = map;
+	public Game(ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
 		this.roomDeck = roomDeck;
 		this.eventDeck = eventDeck;
 		this.omenDeck = omenDeck;
@@ -229,9 +226,6 @@ public class Game {
 		return this.numOmens - this.omenDeck.size() - this.omenDiscard.size();
 	}
 	
-	public Floor[] getMap() {
-		return map;
-	}
 
 	public ArrayList<Room> getRoomDeck() {
 		return roomDeck;

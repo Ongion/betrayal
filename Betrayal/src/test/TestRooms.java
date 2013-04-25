@@ -31,7 +31,7 @@ import characters.Character.Character_Name;
 import characters.ExplorerType;
 import characters.Character;
 import characters.ExplorerFactory;
-import floors.Location;
+import rooms.Location;
 import characters.HumanStats;
 
 public class TestRooms {

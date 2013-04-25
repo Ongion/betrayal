@@ -135,7 +135,6 @@ public class TestGame {
 		assertEquals(new ArrayList<ItemCard>(), game.getItemDiscard());
 		assertEquals(omens.size(), game.getNumOmens());
 		assertFalse(game.getIsHaunt());
-		assertNull(game.getMap()); //TODO: Change this when rooms are finished		
 	}
 	
 	@Test
