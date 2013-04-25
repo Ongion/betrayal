@@ -201,10 +201,10 @@ public class TestItemCard {
 		
 		amuletOfAgesCard.whatToDo(character);
 		
-		int mightAfter = character.getCurrentMightIndex();
-		int speedAfter = character.getCurrentSpeedIndex();
-		int knowledgeAfter = character.getCurrentKnowledgeIndex();
-		int sanityAfter = character.getCurrentSanityIndex();
+		int mightAfter = ((HumanStats) (character.getStats())).getCurrentMightIndex();
+		int speedAfter = ((HumanStats) (character.getStats())).getCurrentSpeedIndex();
+		int knowledgeAfter = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
+		int sanityAfter = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
 		
 		amuletOfAgesCard.isLost = false;
 		
