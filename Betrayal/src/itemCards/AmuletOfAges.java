@@ -1,6 +1,6 @@
 package itemCards;
 
-import characters.Explorer;
+import characters.Character;
 
 public class AmuletOfAges extends ItemCard {
 	
@@ -12,7 +12,7 @@ public class AmuletOfAges extends ItemCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		if(!isLost){
 			character.incrementKnowledge();
 			character.incrementMight();

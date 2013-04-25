@@ -1,6 +1,6 @@
 package itemCards;
 
-import characters.Explorer;
+import characters.Character;
 
 public class BloodDagger extends ItemCard {
 
@@ -11,7 +11,7 @@ public class BloodDagger extends ItemCard {
 
 	@Override
 	public
-	void whatToDo(Explorer character) {
+	void whatToDo(Character character) {
 		// TODO Auto-generated method stub
 		
 	}

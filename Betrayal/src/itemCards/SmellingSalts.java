@@ -1,6 +1,6 @@
 package itemCards;
 
-import characters.Explorer;
+import characters.Character;
 
 public class SmellingSalts extends ItemCard {
 
@@ -11,7 +11,7 @@ public class SmellingSalts extends ItemCard {
 
 	@Override
 	public
-	void whatToDo(Explorer character) {
+	void whatToDo(Character character) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,6 +1,6 @@
 package itemCards;
 
-import characters.Explorer;
+import characters.Character;
 
 public class AdrenalineShot extends ItemCard {
 
@@ -10,8 +10,7 @@ public class AdrenalineShot extends ItemCard {
 	}
 
 	@Override
-	public
-	void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		// TODO Auto-generated method stub
 		
 	}
