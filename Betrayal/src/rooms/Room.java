@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import actions.IAction;
+
 import Game.Game;
 import characters.ExplorerType;
 import characters.Character;
@@ -19,6 +21,7 @@ public abstract class Room {
 	protected Location currentLocation;
 	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
 	protected Set<ActionAddingTile> actionAddingTilesInRoom;
+	protected Set<IAction> roomActions;
 
 
 	protected Room otherEndOfSecretStairs = null;
@@ -47,6 +50,14 @@ public abstract class Room {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public Set<IAction> getRoomActions() {
+		return this.roomActions;
+	}
+	
+	public void addRoomAction(IAction actionToAddToRoom) {
+		this.roomActions.add(actionToAddToRoom);
 	}
 
 	public boolean hasConnection() {
