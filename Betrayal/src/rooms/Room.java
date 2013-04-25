@@ -18,13 +18,21 @@ public abstract class Room {
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
 	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
+	protected Set<ActionAddingTile> actionAddingTilesInRoom;
 
 
 	protected Room otherEndOfSecretStairs = null;
 	protected Room otherEndOfWallSwitch = null;
+	protected Room belowCollapsedRoom = null;
+	protected Room otherEndOfSecretPassage = null;
+	
+	protected Relative_Direction sideOfSecretStairs;
+	protected Relative_Direction sideOfWallSwitch;
+	protected Relative_Direction sideBelowCollapsedRoom;
+	protected Relative_Direction sideOfSecretPassage;
 
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
+	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH, UP, DOWN, SECRETPASSAGE};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 
 	public Room (String name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
@@ -48,6 +56,14 @@ public abstract class Room {
 	public void addSecretStairs(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.SECRETSTAIRS);
 		this.otherEndOfSecretStairs = roomConnectingTo;
+	}
+	
+	public void addActionAddingTile(ActionAddingTile tileToBeAdded) {
+		this.actionAddingTilesInRoom.add(tileToBeAdded);
+	}
+	
+	public void removeActionAddingTile(ActionAddingTile tileToBeRemoved) {
+		this.actionAddingTilesInRoom.remove(tileToBeRemoved);
 	}
 	
 	public void addTraitRollModifyingTile(TraitRollModifyingTile tileToBeAdded) {
@@ -363,7 +379,7 @@ public abstract class Room {
 				modifier--;
 				break;
 			case SMOKE:
-				modifier--;
+				modifier -= 2;
 				break;
 			default:
 				// How did you get here?
