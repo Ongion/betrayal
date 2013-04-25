@@ -279,7 +279,7 @@ public class TestOmenCard {
 					will(returnValue(5));
 				}
 			});
-			crystalBallCard. itemOrEvent = 1;
+			crystalBallCard.itemOrEvent = 1;
 			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
 			crystalBallCard.whatToDo(character);
 			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();

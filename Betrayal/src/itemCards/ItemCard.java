@@ -1,8 +1,13 @@
 package itemCards;
 
-public class ItemCard {
+import characters.Explorer;
+
+public abstract class ItemCard {
 	protected String name;
 	protected String description;
+	public boolean isLost;
+	
+
 	
 	public ItemCard(String name, String description){
 		this.name = name;
@@ -24,5 +29,7 @@ public class ItemCard {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public abstract void whatToDo(Explorer character);
 
 }
