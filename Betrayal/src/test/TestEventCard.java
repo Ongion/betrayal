@@ -18,7 +18,8 @@ import omenCards.Ring;
 import org.junit.Before;
 import org.junit.Test;
 
-import characters.Explorer.Explorers;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 
 import Game.Game;
 import Game.Player;
@@ -54,7 +55,8 @@ public class TestEventCard {
 
 	private EventCard card;
 	private Game game;
-	private characters.Character character = new characters.Explorer(Explorers.FatherRhinehardt,new Locale("en"));
+	private ExplorerFactory explorers = new ExplorerFactory();
+	private characters.Character character;
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
@@ -122,6 +124,7 @@ public class TestEventCard {
 		omens.add(crystalBall);
 		omens.add(book);
 		omens.add(ring);
+		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
 		player.addCharacter(character);
 		players.add(player);
 		players.add(player);

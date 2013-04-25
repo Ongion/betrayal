@@ -4,7 +4,7 @@ import java.util.Set;
 
 import Game.Game;
 
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character;
 
 public class PentagramChamberRoom extends OmenRoom {
@@ -14,7 +14,7 @@ public class PentagramChamberRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
+	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
 		/* 
 		 * When exiting, you must attempt a Knowledge roll of 4+
 		 * If you fail, lose 1 Sanity (but continue moving). 
@@ -25,11 +25,13 @@ public class PentagramChamberRoom extends OmenRoom {
 		int rollResult = Game.getInstance().rollDice(diceToRoll);
 		System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 		if (rollResult < TARGET_RESULT) {
-			characterLeavingRoom.decrementSanity(1);
+			characterLeavingRoom.decrementSanity(1); //TODO Characters may choose to stay in the room, instead of losing stats
 			System.out.println(String.format("%s lost 1 sanity!", characterLeavingRoom.getName()));
 		} else {
 			System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
 		}
+		super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
+
 	}
 
 

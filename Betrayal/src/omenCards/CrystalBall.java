@@ -1,8 +1,8 @@
 package omenCards;
 
+import characters.ExplorerType;
 import java.util.Collections;
-
-import characters.Explorer;
+import characters.Character;
 import Game.Game;
 
 public class CrystalBall extends OmenCard {
@@ -15,7 +15,8 @@ public class CrystalBall extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character, Game game) {
+	public void whatToDo(Explorer character) {
+		Game game = Game.getInstance();
 		int rollResult = game.rollDice(character.getCurrentKnowledge());
 		if (rollResult < 4 && rollResult > 0) {
 			character.decrementSanity();
@@ -31,7 +32,6 @@ public class CrystalBall extends OmenCard {
 				Collections.shuffle(game.getItemDeck());
 			}
 		}
-
 	}
 
 }

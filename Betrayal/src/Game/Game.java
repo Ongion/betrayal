@@ -5,20 +5,22 @@ import itemCards.ItemCard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
 import omenCards.OmenCard;
 import rooms.Room;
 import characters.Character;
-import characters.Explorer;
-import characters.Character.Trait;
+import characters.ExplorerType;
+import characters.Trait;
 import eventCards.EventCard;
 import floors.Floor;
 import floors.Location;
 
 public class Game {
 	
+	private Locale locale = new Locale("en");
 	private Floor[] map; // TODO Remove this, only here for old tests.
 	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
@@ -338,6 +340,21 @@ public class Game {
 				return roomChecking;
 			}
 		}
+		return null;
+	}
+	
+	public Locale getLocale() {
+		return this.locale;
+	}
+
+	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS IN THE DECK
+	public Room getRoomByName(String nameOfRoomWanted) {
+		for (Room roomChecking : mapRooms) {
+			if (roomChecking.getName().equals(nameOfRoomWanted)) {
+				return roomChecking;
+			}
+		}
+		// We should never actually get here.
 		return null;
 	}
 }

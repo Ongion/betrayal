@@ -1,22 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import characters.Character;
-import characters.Explorer;
-import characters.Explorer.Explorers;
-
-import Game.Game;
-import floors.Location;
 
 import rooms.EventRoom;
 import rooms.JunkRoomRoom;
@@ -25,6 +15,11 @@ import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
+import Game.Game;
+import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
+import floors.Location;
 
 public class TestCharacterMovement {
 
@@ -94,8 +89,8 @@ public class TestCharacterMovement {
 		junkRoom = new JunkRoomRoom("Junk Room", allDirectionExits, junkRoomFloors);
 		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
 
-		c = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
-	}
+		c = new ExplorerFactory().getExplorer(Character_Name.FatherRhinehardt);
+		}
 	
 	@Test
 	public void testSettingAndGettingCharacterCurrentRoom(){
@@ -159,14 +154,14 @@ public class TestCharacterMovement {
 	public void TestMovingAPlayerToAnAdjacentRoomByCharacterFunctions() {
 		c.setCurrentRoom(gardens);
 		Room nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.WEST);
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), nextRoomToMoveTo);
 		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST), c.getSideOfRoom());
 		
 		//Now move back!
 		nextRoomToMoveTo = c.getCurrentRoom().getRoomFromExitAbsoluteDirection(Relative_Direction.EAST);
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(nextRoomToMoveTo, c.getCurrentRoom());
 		Assert.assertEquals(c.getCurrentRoom(), gardens);
 		Assert.assertEquals(c.getCurrentRoom().convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST), c.getSideOfRoom());
@@ -176,29 +171,29 @@ public class TestCharacterMovement {
 	public void TestMovingAPlayerToMultipleRoomsByCharacterFunctions() {
 		c.setCurrentRoom(gardens);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
 		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
 		Assert.assertEquals(c.getCurrentRoom(), gardens);
 		
 		//Completed the full loop. Now go backwards!
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
 		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.WEST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
 		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		
-		Assert.assertTrue(c.moveInAbsoluteDirection(Relative_Direction.EAST));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(c.getCurrentRoom(), gardens);
 		
 	

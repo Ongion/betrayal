@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class TheVoice extends EventCard {

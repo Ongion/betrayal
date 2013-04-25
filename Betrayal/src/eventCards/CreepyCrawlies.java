@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class CreepyCrawlies extends EventCard {
@@ -26,7 +26,7 @@ public class CreepyCrawlies extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.SANITY);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.SANITY);
 		if (rollResult >= 5){
 			game.getCurrentCharacter().incrementSanity();
 		} else if ((rollResult >= 1) && (rollResult <= 4)){

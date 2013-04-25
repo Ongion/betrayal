@@ -38,18 +38,22 @@ import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
-import characters.Explorer;
-import characters.Explorer.Explorers;
+import characters.ExplorerType;
+import characters.ExplorerFactory;
+import characters.Character;
+import characters.HumanStats;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
+import characters.Character;
+import characters.Character.Character_Name;
 
 public class TestOmenCard {
 
-	private Explorer character = new Explorer(Explorers.FatherRhinehardt,
-			new Locale("en"));
+	private ExplorerFactory explorers = new ExplorerFactory();
+	private Character character;
 	private Player player = new Player();
 
 	private Game game;
@@ -101,7 +105,7 @@ public class TestOmenCard {
 
 	@Before
 	public void SetUp() {
-
+		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
 		events.add(angryBeing);
 		events.add(creepyCrawlies);
 		events.add(nightView);
@@ -182,7 +186,7 @@ public class TestOmenCard {
 			});
 
 			int sanityBefore = character.getCurrentSanityIndex() - 1;
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			assertEquals(sanityAfter, sanityBefore);
 
@@ -215,7 +219,7 @@ public class TestOmenCard {
 			});
 
 			int sanityBefore = character.getCurrentSanityIndex() - 2;
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			assertEquals(sanityAfter, sanityBefore);
 
@@ -243,12 +247,12 @@ public class TestOmenCard {
 			mocks.checking(new Expectations() {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
-					will(returnValue(5));
+					will(returnValue(6));
 				}
 			});
-			crystalBallCard.itemOrEvent = 1;
+			crystalBallCard.itemOrEvent = 0;
 			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
 			assertFalse(eventStackAfter.equals(eventStackBefore));
 
@@ -279,9 +283,9 @@ public class TestOmenCard {
 					will(returnValue(5));
 				}
 			});
-			crystalBallCard. itemOrEvent = 0;
+			crystalBallCard. itemOrEvent = 1;
 			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
 			assertFalse(itemStackAfter.equals(itemStackBefore));
 
@@ -317,7 +321,7 @@ public class TestOmenCard {
 		game.addCharacter(character);
 
 		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
-		bookCard.whatToDo(character, game);
+		bookCard.whatToDo(character);
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
 	}
@@ -325,39 +329,25 @@ public class TestOmenCard {
 	@Test
 	public void TestBookIsLost() {
 
-		game.getInstance();
-		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt,
-				new Locale("en"));
-		player.addCharacter(character);
-		game.addPlayer(player);
-		game.addCharacter(character);
 		character.addOmenCard(bookCard);
 
 		character.removeOmenCard(bookCard);// For testing purposes, card will be
 											// taken away here.
 
-		int expectedKnowledge = character.getCurrentKnowledgeIndex() - 2;
+		int expectedKnowledge = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex() - 2;
 		((Book) bookCard).isLost(character);
-		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		int knowledgeAfter = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
 
 	}
 
 	@Test
 	public void TestBookIsNotLost() {
-		game.getInstance();
-		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt,
-				new Locale("en"));
-		player.addCharacter(character);
-		game.addPlayer(player);
-		game.addCharacter(character);
 		character.addOmenCard(bookCard);
 
-		int expectedKnowledge = character.getCurrentKnowledgeIndex();
+		int expectedKnowledge = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex();
 		((Book) bookCard).isLost(character);
-		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		int knowledgeAfter = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex();
 		assertEquals(expectedKnowledge, knowledgeAfter);
 	}
 
@@ -411,15 +401,24 @@ public class TestOmenCard {
 	public void TestWhatToDoForMadman() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+//		Character character = new Explorer(ExplorerName.FatherRhinehardt, new Locale("en"));
+//		player.addCharacter(character);
+//		game.addPlayer(player);
+//		game.addCharacter(character);
+		assertNotNull(madmanCard.whatToDo());
+		
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 
+>>>>>>> master
 		int expectedMight = character.getCurrentMightIndex() + 2;
 		int expectedSanity = character.getCurrentSanityIndex() - 1;
-		madmanCard.whatToDo(character, game);
+		madmanCard.whatToDo(character);
 		int mightAfter = character.getCurrentMightIndex();
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(mightAfter, expectedMight);
@@ -431,8 +430,12 @@ public class TestOmenCard {
 	public void TestMadmanIsLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -451,6 +454,27 @@ public class TestOmenCard {
 	}
 
 	@Test
+<<<<<<< HEAD
+	public void TestMadmanIsNotLost(){
+			game.getInstance();
+			Player player = new Player();
+			ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+			player.addCharacter(character);
+			game.addPlayer(player);
+			game.addCharacter(character);
+			character.addOmenCard(madmanCard);
+			
+			int expectedMight = character.getCurrentMightIndex();
+			int expectedSanity = character.getCurrentSanityIndex();
+			madmanCard.isLost(character);
+			int mightAfter = character.getCurrentMightIndex();
+			int sanityAfter = character.getCurrentSanityIndex();
+			assertEquals(mightAfter, expectedMight);
+			assertEquals(sanityAfter,expectedSanity);
+		}
+	
+	
+=======
 	public void TestMadmanIsNotLost() {
 		game.getInstance();
 		Player player = new Player();
@@ -470,6 +494,7 @@ public class TestOmenCard {
 		assertEquals(sanityAfter, expectedSanity);
 	}
 
+>>>>>>> master
 	@Test
 	public void MadmanInit() {
 		madmanCard.setName("Madman");
@@ -559,7 +584,7 @@ public class TestOmenCard {
 			int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
 
 			maskCard.isMaskOn = true;
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			int knowledgeAfter = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter, expectedSanity);
@@ -597,7 +622,7 @@ public class TestOmenCard {
 			int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 2;
 
 			maskCard.isMaskOn = false;
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter2 = character.getCurrentSanityIndex();
 			int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter2, expectedSanity2);
@@ -634,7 +659,7 @@ public class TestOmenCard {
 
 			int expectedSanity = character.getCurrentSanityIndex();
 			int expectedKnowledge = character.getCurrentKnowledgeIndex();
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			int knowledgeAfter = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter, expectedSanity);
@@ -688,15 +713,19 @@ public class TestOmenCard {
 	public void TestWhatToDoForGirl() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		Character character = new ExplorerType(ExplorerName.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
 		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 1;
-		girlCard.whatToDo(character, game);
+		girlCard.whatToDo(character);
 		int sanityAfter = character.getCurrentSanityIndex();
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 
@@ -708,8 +737,12 @@ public class TestOmenCard {
 	public void TestGirlIsLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -731,8 +764,12 @@ public class TestOmenCard {
 	public void TestGirlIsNotLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -802,7 +839,7 @@ public class TestOmenCard {
 			});
 			int expectedMight = character.getCurrentMightIndex();
 
-			biteCard.whatToDo(character, mockGame);
+			biteCard.whatToDo(character);
 			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
@@ -836,7 +873,7 @@ public class TestOmenCard {
 			});
 			int expectedMight = character.getCurrentMightIndex() - 1;
 
-			biteCard.whatToDo(character, mockGame);
+			biteCard.whatToDo(character);
 			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
@@ -888,14 +925,18 @@ public class TestOmenCard {
 	public void TestWhatToDoForHolySymbol() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		Character character = new ExplorerType(ExplorerName.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 
 		int expectedSanity = character.getCurrentSanityIndex() + 2;
-		holySymbolCard.whatToDo(character, game);
+		holySymbolCard.whatToDo(character);
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(sanityAfter, expectedSanity);
 	}
@@ -904,8 +945,12 @@ public class TestOmenCard {
 	public void TestHolySymbolIstLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -925,8 +970,12 @@ public class TestOmenCard {
 	public void TestHolySymbolIsNotLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -966,15 +1015,19 @@ public class TestOmenCard {
 	public void TestWhatToDoForDog() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 
 		int expectedMight = character.getCurrentMightIndex() + 1;
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
-		dogCard.whatToDo(character, game);
+		dogCard.whatToDo(character);
 		int mightAfter = character.getCurrentMightIndex();
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(sanityAfter, expectedSanity);
@@ -985,8 +1038,12 @@ public class TestOmenCard {
 	public void TestDogIsLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -1008,8 +1065,12 @@ public class TestOmenCard {
 	public void TestDogIsNotLost() {
 		game.getInstance();
 		Player player = new Player();
+<<<<<<< HEAD
+		ExplorerType character = new ExplorerType(Explorers.FatherRhinehardt, new Locale("en"));
+=======
 		Explorer character = new Explorer(Explorers.FatherRhinehardt,
 				new Locale("en"));
+>>>>>>> master
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
@@ -1034,5 +1095,6 @@ public class TestOmenCard {
 				dogCard.getQuote());
 
 	}
+
 
 }

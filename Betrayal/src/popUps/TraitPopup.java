@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 import Game.Game;
 
-import characters.Character.Trait;
+import characters.Trait;
 
 public class TraitPopup extends JFrame implements ActionListener {
 	

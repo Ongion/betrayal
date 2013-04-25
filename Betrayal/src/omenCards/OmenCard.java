@@ -1,7 +1,7 @@
 package omenCards;
 
 import characters.Character;
-import characters.Explorer;
+import characters.ExplorerType;
 import Game.Game;
 
 public abstract class OmenCard {
@@ -41,7 +41,7 @@ public abstract class OmenCard {
 		return isHauntRoll();
 	}
 	
-	public abstract void whatToDo(Explorer character, Game game);
+	public abstract void whatToDo(Explorer character);
 	
 
 	

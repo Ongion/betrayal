@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 import Game.Game;
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character;
+import characters.Trait;
 import floors.Location;
 
 public abstract class Room {
@@ -16,6 +17,7 @@ public abstract class Room {
 	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
+	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
 
 
 	protected Room otherEndOfSecretStairs = null;
@@ -46,6 +48,14 @@ public abstract class Room {
 	public void addSecretStairs(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.SECRETSTAIRS);
 		this.otherEndOfSecretStairs = roomConnectingTo;
+	}
+	
+	public void addTraitRollModifyingTile(TraitRollModifyingTile tileToBeAdded) {
+		this.traitRollModifyingTilesInRoom.add(tileToBeAdded);
+	}
+	
+	public void removeTraitRollModifyingTile(TraitRollModifyingTile tileToBeRemoved) {
+		this.traitRollModifyingTilesInRoom.remove(tileToBeRemoved);
 	}
 
 	//	public void setHasSecretStairs(boolean newHasStairs) {
@@ -100,6 +110,7 @@ public abstract class Room {
 	}
 
 	private Room getRoomFromDirection(Relative_Direction directionChecking) {
+		/* Returns the room in the given direction, regardless of door connections */
 		return Game.getInstance().getRoomAtLocation(this.getLocationOfRoomAtExit(directionChecking));
 	}
 
@@ -212,13 +223,34 @@ public abstract class Room {
 		// only rooms that have ending actions implement this 
 	}
 
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
-		//only rooms that have room-leaving actions implement this
+	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+		Room nextRoom = this.getRoomFromExitAbsoluteDirection(exitAttemptingToLeaveBy);
+		characterLeavingRoom.enterRoomGoingInAbsoluteDirection(nextRoom, exitAttemptingToLeaveBy);
 	}
 
-	public void enterRoom(Character characterEnteringRoom) {
-		// only rooms like the coal chute implement this
+	public void enterRoomGoingInAbsoluteDirection(Character characterEnteringRoom, Relative_Direction directionMovingWhenEnteringRoom) {
+		Relative_Direction sideOfRoomCharacterIsOn;
+		switch (directionMovingWhenEnteringRoom){
+		case NORTH:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH);
+			break;
+		case SOUTH:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH);
+			break;
+		case EAST:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.WEST);
+			break;
+		case WEST:
+			sideOfRoomCharacterIsOn = this.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST);
+			break;
+		default:
+			sideOfRoomCharacterIsOn = directionMovingWhenEnteringRoom;
+			break;
+		}
+		characterEnteringRoom.setSideOfRoom(sideOfRoomCharacterIsOn);
+
 	}
+
 
 	private Location getLocationOfRoomAtExit(Relative_Direction usingExit) {
 
@@ -315,13 +347,29 @@ public abstract class Room {
 		int prime = 31;
 		int result = 1;
 		result = prime * result + (this.name== null? 0 : name.hashCode());
-		result = prime * result + (this.exits.hashCode());
 		result = prime * result + (this.floorsAllowedOn.hashCode());
 		result = prime * result + (this.windows.hashCode());
 		return result;
 	}
 
-
-
-
+	public int getRoomTraitRollModifier() {
+		int modifier = 0;
+		for (TraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
+			switch(tile) {
+			case BLESSING:
+				modifier++;
+				break;
+			case DRIP:
+				modifier--;
+				break;
+			case SMOKE:
+				modifier--;
+				break;
+			default:
+				// How did you get here?
+				break;
+			}
+		}
+		return modifier;
+	}
 }

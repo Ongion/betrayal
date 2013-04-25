@@ -24,8 +24,8 @@ import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import Game.Game;
 import characters.Character;
-import characters.Explorer;
-import characters.Explorer.Explorers;
+import characters.ExplorerFactory;
+import characters.Character.Character_Name;
 import floors.Location;
 
 public class TestPathfinding {
@@ -44,7 +44,7 @@ public class TestPathfinding {
 	Room chasm;
 	Room pentagramChamber;
 	Room junkRoom;
-	Explorer zoeIngstrom;
+	Character zoeIngstrom;
 	
 	@Before
 	public void setUp() {
@@ -166,11 +166,12 @@ public class TestPathfinding {
 		bedroom = new EventRoom("Bedroom", bedroomExits, bedroomFloors, bedroomWindows);
 		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
 
-		c1 = new Explorer(Explorers.BrandonJaspers, new Locale("en"));
-		c2 = new Explorer(Explorers.FatherRhinehardt, new Locale("en"));
-		c3 = new Explorer(Explorers.DarrinWilliams, new Locale("en"));
-		c4 = new Explorer(Explorers.HeatherGranville, new Locale("en"));
-		c5 = new Explorer(Explorers.JennyLeClerc, new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		c1 = explorers.getExplorer(Character_Name.BrandonJaspers);
+		c2 = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		c3 = explorers.getExplorer(Character_Name.DarrinWilliams);
+		c4 = explorers.getExplorer(Character_Name.HeatherGranville);
+		c5 = explorers.getExplorer(Character_Name.JennyLeClerc);
 	}
 	
 	@Test
@@ -209,6 +210,7 @@ public class TestPathfinding {
 	
 	@Test
 	public void testPathfindingTwoCharacterEightRoomsNotFullExits(){
+		Game.resetGame();
 		Room r1, r2, r3, r4, r5, r6;
 		HashSet<Relative_Direction> r1Exits = new HashSet<Relative_Direction>();
 		r1Exits.add(Relative_Direction.NORTH);
@@ -221,21 +223,21 @@ public class TestPathfinding {
 		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
 		r2Exits.add(Relative_Direction.NORTH);
 		r2Exits.add(Relative_Direction.EAST);
-		r2 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r2 = new EventRoom("Garden2", r2Exits, gardensFloors);
 		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
 		
-		r3 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r3 = new EventRoom("Garden3", r2Exits, gardensFloors);
 		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
 		
-		r4 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r4 = new EventRoom("Garden4", r1Exits, gardensFloors);
 		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
 		
 		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
 		r5Exits.add(Relative_Direction.NORTH);
-		r5 = new EventRoom("Garden", r5Exits, gardensFloors);
-		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
+		r5 = new EventRoom("Garden5", r5Exits, gardensFloors);
+		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 1));
 		
-		r6 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r6 = new EventRoom("Garden6", r1Exits, gardensFloors);
 		gardensFloors.add(Floor_Name.BASEMENT);
 		r6.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 100 , 100));
 		
@@ -268,31 +270,26 @@ public class TestPathfinding {
 		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
 		r2Exits.add(Relative_Direction.NORTH);
 		r2Exits.add(Relative_Direction.EAST);
-		r2 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r2 = new EventRoom("Garden2", r2Exits, gardensFloors);
 		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
 		
-		r3 = new EventRoom("Garden", r2Exits, gardensFloors);
+		r3 = new EventRoom("Garden3", r2Exits, gardensFloors);
 		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
 		
-		r4 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r4 = new EventRoom("Garden4", r1Exits, gardensFloors);
 		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
 		
 		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
 		r5Exits.add(Relative_Direction.NORTH);
-		r5 = new EventRoom("Garden", r5Exits, gardensFloors);
+		r5 = new EventRoom("Garden5", r5Exits, gardensFloors);
 		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 1));
 		
-		r6 = new EventRoom("Garden", r1Exits, gardensFloors);
+		r6 = new EventRoom("Garden6", r1Exits, gardensFloors);
 		gardensFloors.add(Floor_Name.BASEMENT);
 		r6.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 100 , 100));
 		
 		c1.setCurrentRoom(r1);
-		System.out.println(r2.getExits());
-		System.out.println(r2.getOrientation());
-		System.out.println(r2.getLocation().getFloorLocationToNorth());
-		System.out.println(r2.getRoomFromExit(Relative_Direction.EAST));
-		System.out.println(r2.getRoomFromExitAbsoluteDirection(Relative_Direction.NORTH));
-		//I know I really shouldn't be print lining but it worked because I found the bug!
+		
 		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.NORTH));
 		Assert.assertTrue(c1.moveInAbsoluteDirection(Relative_Direction.WEST));
