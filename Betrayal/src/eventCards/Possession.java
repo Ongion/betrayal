@@ -1,7 +1,8 @@
 package eventCards;
 
-import characters.Character.Trait;
-import characters.Explorer;
+import characters.Trait;
+import characters.ExplorerType;
+import characters.HumanStats;
 import Game.Game;
 
 public class Possession extends EventCard {
@@ -15,9 +16,9 @@ public class Possession extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
-		Explorer currentExplorer = (Explorer) game.getCurrentCharacter();
+		HumanStats currentExplorer = (HumanStats) game.getCurrentCharacter().getStats();
 		if(rollResult >= 4){
-			currentExplorer.incrementKnowledge(); // TODO: Change this to allow user to choose trait
+			currentExplorer.incrementKnowledge(1); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first
 			boolean decremented = false;
 			for (Trait trait : Trait.values()) {
@@ -57,10 +58,10 @@ public class Possession extends EventCard {
 
 	@Override
 	public void happens() {
-		Explorer currentExplorer = (Explorer) game.getCurrentCharacter();
+		HumanStats currentExplorer = (HumanStats) game.getCurrentCharacter().getStats();
 		int rollResult = game.typeRoll(Trait.KNOWLEDGE); // TODO: Change this to allow user to chose
 		if(rollResult >= 4){
-			currentExplorer.incrementKnowledge(); // TODO: Change this to allow user to choose trait
+			currentExplorer.incrementKnowledge(1); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first
 			boolean decremented = false;
 			for (Trait trait : Trait.values()) {

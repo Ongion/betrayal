@@ -1,6 +1,7 @@
 package omenCards;
 
-import characters.Explorer;
+import characters.ExplorerType;
+import characters.Character;
 import Game.Game;
 
 public class Spear extends OmenCard {
@@ -10,9 +11,8 @@ public class Spear extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		// TODO Auto-generated method stub
 
 	}
-
 }

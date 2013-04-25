@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class NightView extends EventCard {
@@ -22,7 +22,7 @@ public class NightView extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.KNOWLEDGE);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.KNOWLEDGE);
 		if (rollResult >= 5){
 			game.getCurrentCharacter().incrementKnowledge();
 		} 

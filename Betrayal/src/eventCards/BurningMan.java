@@ -1,6 +1,6 @@
 package eventCards;
 
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class BurningMan extends EventCard {
@@ -16,6 +16,7 @@ public class BurningMan extends EventCard {
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
+			game.getCurrentCharacter().setCurrentRoom(game.getRoomByName("Entrance Hall"));
 			// TODO: put explorer in the entrance hall
 		} else {
 			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
@@ -26,7 +27,7 @@ public class BurningMan extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.SANITY);
+		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.SANITY);
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import Game.Game;
 
-import characters.Explorer;
+import characters.ExplorerType;
 import characters.Character;
 
 public class JunkRoomRoom extends OmenRoom {
@@ -14,7 +14,7 @@ public class JunkRoomRoom extends OmenRoom {
 	}
 	
 	@Override
-	public void leavingRoom(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
+	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) { 
 		/* 
 		 * When exiting, you must attempt a Might roll of 3+
 		 * If you fail, lose 1 Speed (but continue moving). 
@@ -25,11 +25,12 @@ public class JunkRoomRoom extends OmenRoom {
 		int rollResult = Game.getInstance().rollDice(diceToRoll);
 		System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 		if (rollResult < TARGET_RESULT) {
-			characterLeavingRoom.decrementSpeed(1);
+			characterLeavingRoom.decrementSpeed(1); //TODO Characters may choose to stay in the room, instead of losing stats
 			System.out.println(String.format("%s lost 1 speed!", characterLeavingRoom.getName()));
 		} else {
 			System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
 		}
+		super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 	}
 
 

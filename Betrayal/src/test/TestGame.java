@@ -31,14 +31,17 @@ import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
 
-import characters.Explorer.Explorers;
-import characters.Character.Trait;
+import characters.Character.Character_Name;
+import characters.Trait;
+import characters.ExplorerFactory;
+import characters.Character;
 
 public class TestGame {
 
 	private Game game;
-	private characters.Explorer character = new characters.Explorer(Explorers.FatherRhinehardt,new Locale("en"));
-	private characters.Explorer character2 = new characters.Explorer(Explorers.OxBellows,new Locale("en"));
+	private ExplorerFactory explorers = new ExplorerFactory();
+	private Character character;
+	private Character character2;
 	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
 	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
 	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
@@ -63,6 +66,8 @@ public class TestGame {
 	
 	@Before
 	public void setUp(){
+		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		character2 = explorers.getExplorer(Character_Name.OxBellows);
 		player.addCharacter(character);
 		player2.addCharacter(character2);
 		

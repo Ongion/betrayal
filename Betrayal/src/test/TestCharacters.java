@@ -14,31 +14,34 @@ import omenCards.OmenCard;
 import org.junit.Before;
 import org.junit.Test;
 
-import characters.Explorer;
-import characters.Explorer.Explorers;
-import characters.Monster;
-import characters.Monster.Monsters;
+import characters.ExplorerType;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
+import characters.MonsterType;
 import eventCards.EventCard;
 import eventCards.Rotten;
+import characters.Character;
+import characters.HumanStats;
 
 public class TestCharacters {
 	
-	Explorer FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
+	Character FatherRhinehardt, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
 	
 	@Before
 	public void initializeTests(){
-		FatherRhinehardt = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
-		c1 = new Explorer(Explorers.ProfessorLongfellow,new Locale("en"));
-		c2 = new Explorer(Explorers.OxBellows,new Locale("en"));
-		c3 = new Explorer(Explorers.DarrinWilliams,new Locale("en"));
-		c4 = new Explorer(Explorers.MadameZostra,new Locale("en"));
-		c5 = new Explorer(Explorers.VivianLopez,new Locale("en"));
-		c6 = new Explorer(Explorers.ZoeIngstrom,new Locale("en"));
-		c7 = new Explorer(Explorers.MissyDubourde,new Locale("en"));
-		c8 = new Explorer(Explorers.JennyLeClerc,new Locale("en"));
-		c9 = new Explorer(Explorers.HeatherGranville,new Locale("en"));
-		c10 = new Explorer(Explorers.BrandonJaspers,new Locale("en"));
-		c11 = new Explorer(Explorers.PeterAkimoto,new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		FatherRhinehardt = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		c1 = explorers.getExplorer(Character_Name.ProfessorLongfellow);
+		c2 = explorers.getExplorer(Character_Name.OxBellows);
+		c3 = explorers.getExplorer(Character_Name.DarrinWilliams);
+		c4 = explorers.getExplorer(Character_Name.MadameZostra);
+		c5 = explorers.getExplorer(Character_Name.VivianLopez);
+		c6 = explorers.getExplorer(Character_Name.ZoeIngstrom);
+		c7 = explorers.getExplorer(Character_Name.MissyDubourde);
+		c8 = explorers.getExplorer(Character_Name.JennyLeClerc);
+		c9 = explorers.getExplorer(Character_Name.HeatherGranville);
+		c10 = explorers.getExplorer(Character_Name.BrandonJaspers);
+		c11 = explorers.getExplorer(Character_Name.PeterAkimoto);
 		
 	}
 	
@@ -210,40 +213,40 @@ public class TestCharacters {
 	
 	@Test
 	public void testGetAttributeIndexes() {
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 4);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 4);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 2);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
 		FatherRhinehardt.decrementMight();
 		FatherRhinehardt.decrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 1);
 		
 		FatherRhinehardt.decrementKnowledge();
 		FatherRhinehardt.decrementSanity();
 		FatherRhinehardt.decrementMight();
 		FatherRhinehardt.decrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 0);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 0);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 0);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 0);
 		
 		FatherRhinehardt.incrementKnowledge();
 		FatherRhinehardt.incrementSanity();
 		FatherRhinehardt.incrementMight();
 		FatherRhinehardt.incrementSpeed();
 		
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledgeIndex(), 2);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanityIndex(), 3);
-		Assert.assertEquals(FatherRhinehardt.getCurrentMightIndex(), 1);
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeedIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentKnowledgeIndex(), 2);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSanityIndex(), 3);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentMightIndex(), 1);
+		Assert.assertEquals(((HumanStats) FatherRhinehardt.getStats()).getCurrentSpeedIndex(), 1);
 		
 	}
 	
@@ -308,12 +311,6 @@ public class TestCharacters {
 
 	@Test
 	public void TestMonsterInit(){
-		Monster m = new Monster(Monsters.Temp_Monster1);
-		
-		Assert.assertEquals(m.getCurrentMight(), 1);
-		Assert.assertEquals(m.getCurrentSpeed(), 1);
-		Assert.assertEquals(m.getCurrentSanity(), 1);
-		Assert.assertEquals(m.getCurrentKnowledge(), 1);
 	}
 	
 

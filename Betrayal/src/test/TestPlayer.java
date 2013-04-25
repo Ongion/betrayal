@@ -9,19 +9,21 @@ import org.junit.Test;
 
 import Game.Game;
 import Game.Player;
-
-import characters.Explorer;
-import characters.Explorer.Explorers;
+import characters.Character.Character_Name;
+import characters.ExplorerType;
+import characters.ExplorerFactory;
+import characters.Character;
 
 public class TestPlayer {
 
 	Player p;
-	Explorer Father;
+	Character Father;
 	Game game;
 	
 	@Before
 	public void initTests() {
-		Father = new Explorer(Explorers.FatherRhinehardt,new Locale("en"));
+		ExplorerFactory explorers = new ExplorerFactory();
+		Father = explorers.getExplorer(Character_Name.FatherRhinehardt);
 		p = new Player();
 		p.addCharacter(Father);
 	}

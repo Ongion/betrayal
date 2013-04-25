@@ -1,6 +1,7 @@
 package omenCards;
 
-import characters.Explorer;
+import characters.ExplorerType;
+import characters.Character;
 import Game.Game;
 
 public class Ring extends OmenCard {
@@ -11,9 +12,8 @@ public class Ring extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

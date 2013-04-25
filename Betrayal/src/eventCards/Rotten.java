@@ -1,5 +1,5 @@
 package eventCards;
-import characters.Character.Trait;
+import characters.Trait;
 import Game.Game;
 
 public class Rotten extends EventCard {

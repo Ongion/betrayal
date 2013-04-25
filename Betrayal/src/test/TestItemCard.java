@@ -36,8 +36,10 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import characters.Explorer;
-import characters.Explorer.Explorers;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
+import characters.Character;
+import characters.HumanStats;
 
 import Game.Game;
 import Game.Player;
@@ -186,23 +188,23 @@ public class TestItemCard {
 	public void TestAmuletOfAgesWhatToDo(){
 		Game game = Game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt,
-				new Locale("en"));
+		ExplorerFactory expFac = new ExplorerFactory();
+		Character character = expFac.getExplorer(Character_Name.FatherRhinehardt);
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 		
-		int expectedMight = character.getCurrentMightIndex() + 1;
-		int expectedSpeed = character.getCurrentSpeedIndex() + 1;
-		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 1;
-		int expectedSanity = character.getCurrentSanityIndex() + 1;
+		int expectedMight = ((HumanStats) (character.getStats())).getCurrentMightIndex() + 1;
+		int expectedSpeed = ((HumanStats) (character.getStats())).getCurrentSpeedIndex() + 1;
+		int expectedKnowledge = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex() + 1;
+		int expectedSanity = ((HumanStats) (character.getStats())).getCurrentSanityIndex() + 1;
 		
 		amuletOfAgesCard.whatToDo(character);
 		
-		int mightAfter = character.getCurrentMightIndex();
-		int speedAfter = character.getCurrentSpeedIndex();
-		int knowledgeAfter = character.getCurrentKnowledgeIndex();
-		int sanityAfter = character.getCurrentSanityIndex();
+		int mightAfter = ((HumanStats) (character.getStats())).getCurrentMightIndex();
+		int speedAfter = ((HumanStats) (character.getStats())).getCurrentSpeedIndex();
+		int knowledgeAfter = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
+		int sanityAfter = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
 		
 		
 		

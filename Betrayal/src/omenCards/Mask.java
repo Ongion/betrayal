@@ -1,7 +1,8 @@
 package omenCards;
 
 import Game.Game;
-import characters.Explorer;
+import characters.Character;
+import characters.ExplorerType;
 
 public class Mask extends OmenCard {
 
@@ -12,7 +13,7 @@ public class Mask extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Explorer character) {
+	public void whatToDo(Character character) {
 		Game game = Game.getInstance();
 		int rollResult = game.rollDice(character.getCurrentSanity());
 		if (rollResult >= 4) {
@@ -26,7 +27,6 @@ public class Mask extends OmenCard {
 			}
 
 		}
-
 	}
 
 }
