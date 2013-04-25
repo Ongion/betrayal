@@ -206,12 +206,24 @@ public class TestItemCard {
 		int knowledgeAfter = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
 		int sanityAfter = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
 		
-		amuletOfAgesCard.isLost = false;
+		
 		
 		assertEquals(expectedMight, mightAfter);
 		assertEquals(expectedSpeed, speedAfter);
 		assertEquals(expectedKnowledge, knowledgeAfter);
 		assertEquals(expectedSanity, sanityAfter);
+		
+	}
+	
+	@Test
+	public void TestAmuletCardWhatToDoIfLost(){
+		Game game = Game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt,
+				new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
 		
 		amuletOfAgesCard.isLost = true;
 		
