@@ -1,6 +1,11 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import itemCards.AdrenalineShot;
 import itemCards.AmuletOfAges;
 import itemCards.AngelFeather;
@@ -25,7 +30,18 @@ import itemCards.Revolver;
 import itemCards.SacrificialDagger;
 import itemCards.SmellingSalts;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Assert;
 import org.junit.Test;
+
+import characters.Explorer;
+import characters.Explorer.Explorers;
+
+import Game.Game;
+import Game.Player;
+import eventCards.EventCard;
 
 public class TestItemCard {
 	private ItemCard angelFeatherCard = new AngelFeather("Angel Feather",
@@ -165,6 +181,56 @@ public class TestItemCard {
 		assertEquals("Amulet Of The Ages", amuletOfAgesCard.getName());
 		assertEquals("Ancient silver and inlaid gems, inscribed with blessings.", amuletOfAgesCard.getDescription());
 	}
+	
+	@Test
+	public void TestAmuletOfAgesWhatToDo(){
+		Game game = Game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt,
+				new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+		
+		int expectedMight = character.getCurrentMightIndex() + 1;
+		int expectedSpeed = character.getCurrentSpeedIndex() + 1;
+		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 1;
+		int expectedSanity = character.getCurrentSanityIndex() + 1;
+		
+		amuletOfAgesCard.whatToDo(character);
+		
+		int mightAfter = character.getCurrentMightIndex();
+		int speedAfter = character.getCurrentSpeedIndex();
+		int knowledgeAfter = character.getCurrentKnowledgeIndex();
+		int sanityAfter = character.getCurrentSanityIndex();
+		
+		amuletOfAgesCard.isLost = false;
+		
+		assertEquals(expectedMight, mightAfter);
+		assertEquals(expectedSpeed, speedAfter);
+		assertEquals(expectedKnowledge, knowledgeAfter);
+		assertEquals(expectedSanity, sanityAfter);
+		
+		amuletOfAgesCard.isLost = true;
+		
+		int expectedMight2 = character.getCurrentMightIndex() - 3;
+		int expectedSpeed2 = character.getCurrentSpeedIndex() - 3;
+		int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 3;
+		int expectedSanity2 = character.getCurrentSanityIndex() - 3;
+		
+		amuletOfAgesCard.whatToDo(character);
+		
+		int mightAfter2 = character.getCurrentMightIndex();
+		int speedAfter2 = character.getCurrentSpeedIndex();
+		int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
+		int sanityAfter2 = character.getCurrentSanityIndex();
+		
+		assertEquals(expectedMight2, mightAfter2);
+		assertEquals(expectedSpeed2, speedAfter2);
+		assertEquals(expectedKnowledge2, knowledgeAfter2);
+		assertEquals(expectedSanity2, sanityAfter2);
+	}
+	
 	
 	@Test
 	public void TestCandleInit(){

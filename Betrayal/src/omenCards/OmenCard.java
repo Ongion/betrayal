@@ -41,6 +41,8 @@ public abstract class OmenCard {
 		return isHauntRoll();
 	}
 	
-	public abstract void whatToDo(Character character, Game game);
+	public abstract void whatToDo(Explorer character);
+	
+
 	
 	}

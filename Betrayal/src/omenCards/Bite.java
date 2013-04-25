@@ -12,8 +12,8 @@ public class Bite extends OmenCard {
 	}
 
 	@Override
-		
-	public void whatToDo(Character character, Game game) {
+	public void whatToDo(Explorer character) {
+		Game game = Game.getInstance();
 		if (game.rollDice(character.getCurrentMight()) < 4) {
 			character.decrementMight();
 

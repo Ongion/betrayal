@@ -15,7 +15,8 @@ public class CrystalBall extends OmenCard {
 	}
 
 	@Override
-	public void whatToDo(Character character, Game game) {
+	public void whatToDo(Explorer character) {
+		Game game = Game.getInstance();
 		int rollResult = game.rollDice(character.getCurrentKnowledge());
 		if (rollResult < 4 && rollResult > 0) {
 			character.decrementSanity();

@@ -185,9 +185,9 @@ public class TestOmenCard {
 				}
 			});
 
-			int sanityBefore = ((HumanStats) character.getStats()).getCurrentSanityIndex() - 1;
-			crystalBallCard.whatToDo(character, mockGame);
-			int sanityAfter = ((HumanStats) character.getStats()).getCurrentSanityIndex();
+			int sanityBefore = character.getCurrentSanityIndex() - 1;
+			crystalBallCard.whatToDo(character);
+			int sanityAfter = character.getCurrentSanityIndex();
 			assertEquals(sanityAfter, sanityBefore);
 
 			mocks.assertIsSatisfied();
@@ -218,9 +218,9 @@ public class TestOmenCard {
 				}
 			});
 
-			int sanityBefore = ((HumanStats) character.getStats()).getCurrentSanityIndex() - 2;
-			crystalBallCard.whatToDo(character, mockGame);
-			int sanityAfter = ((HumanStats) character.getStats()).getCurrentSanityIndex();
+			int sanityBefore = character.getCurrentSanityIndex() - 2;
+			crystalBallCard.whatToDo(character);
+			int sanityAfter = character.getCurrentSanityIndex();
 			assertEquals(sanityAfter, sanityBefore);
 
 			mocks.assertIsSatisfied();
@@ -247,12 +247,12 @@ public class TestOmenCard {
 			mocks.checking(new Expectations() {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
-					will(returnValue(5));
+					will(returnValue(6));
 				}
 			});
-			crystalBallCard.itemOrEvent = 1;
+			crystalBallCard.itemOrEvent = 0;
 			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
 			assertFalse(eventStackAfter.equals(eventStackBefore));
 
@@ -283,9 +283,9 @@ public class TestOmenCard {
 					will(returnValue(5));
 				}
 			});
-			crystalBallCard. itemOrEvent = 0;
+			crystalBallCard. itemOrEvent = 1;
 			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
-			crystalBallCard.whatToDo(character, mockGame);
+			crystalBallCard.whatToDo(character);
 			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
 			assertFalse(itemStackAfter.equals(itemStackBefore));
 
@@ -312,9 +312,17 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForBook() {
-		int expectedKnowledge = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex() + 2;
-		bookCard.whatToDo(character, game);
-		int knowledgeAfter = ((HumanStats) character.getStats()).getCurrentKnowledgeIndex();
+		game.getInstance();
+		Player player = new Player();
+		Explorer character = new Explorer(Explorers.FatherRhinehardt,
+				new Locale("en"));
+		player.addCharacter(character);
+		game.addPlayer(player);
+		game.addCharacter(character);
+
+		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
+		bookCard.whatToDo(character);
+		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 		assertEquals(knowledgeAfter, expectedKnowledge);
 	}
 
@@ -410,7 +418,7 @@ public class TestOmenCard {
 >>>>>>> master
 		int expectedMight = character.getCurrentMightIndex() + 2;
 		int expectedSanity = character.getCurrentSanityIndex() - 1;
-		madmanCard.whatToDo(character, game);
+		madmanCard.whatToDo(character);
 		int mightAfter = character.getCurrentMightIndex();
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(mightAfter, expectedMight);
@@ -576,7 +584,7 @@ public class TestOmenCard {
 			int expectedKnowledge = character.getCurrentKnowledgeIndex() + 2;
 
 			maskCard.isMaskOn = true;
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			int knowledgeAfter = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter, expectedSanity);
@@ -614,7 +622,7 @@ public class TestOmenCard {
 			int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 2;
 
 			maskCard.isMaskOn = false;
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter2 = character.getCurrentSanityIndex();
 			int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter2, expectedSanity2);
@@ -651,7 +659,7 @@ public class TestOmenCard {
 
 			int expectedSanity = character.getCurrentSanityIndex();
 			int expectedKnowledge = character.getCurrentKnowledgeIndex();
-			maskCard.whatToDo(character, mockGame);
+			maskCard.whatToDo(character);
 			int sanityAfter = character.getCurrentSanityIndex();
 			int knowledgeAfter = character.getCurrentKnowledgeIndex();
 			assertEquals(sanityAfter, expectedSanity);
@@ -717,7 +725,7 @@ public class TestOmenCard {
 
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
 		int expectedKnowledge = character.getCurrentKnowledgeIndex() + 1;
-		girlCard.whatToDo(character, game);
+		girlCard.whatToDo(character);
 		int sanityAfter = character.getCurrentSanityIndex();
 		int knowledgeAfter = character.getCurrentKnowledgeIndex();
 
@@ -831,7 +839,7 @@ public class TestOmenCard {
 			});
 			int expectedMight = character.getCurrentMightIndex();
 
-			biteCard.whatToDo(character, mockGame);
+			biteCard.whatToDo(character);
 			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
@@ -865,7 +873,7 @@ public class TestOmenCard {
 			});
 			int expectedMight = character.getCurrentMightIndex() - 1;
 
-			biteCard.whatToDo(character, mockGame);
+			biteCard.whatToDo(character);
 			int mightAfter = character.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
 
@@ -928,7 +936,7 @@ public class TestOmenCard {
 		game.addCharacter(character);
 
 		int expectedSanity = character.getCurrentSanityIndex() + 2;
-		holySymbolCard.whatToDo(character, game);
+		holySymbolCard.whatToDo(character);
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(sanityAfter, expectedSanity);
 	}
@@ -1019,7 +1027,7 @@ public class TestOmenCard {
 
 		int expectedMight = character.getCurrentMightIndex() + 1;
 		int expectedSanity = character.getCurrentSanityIndex() + 1;
-		dogCard.whatToDo(character, game);
+		dogCard.whatToDo(character);
 		int mightAfter = character.getCurrentMightIndex();
 		int sanityAfter = character.getCurrentSanityIndex();
 		assertEquals(sanityAfter, expectedSanity);
