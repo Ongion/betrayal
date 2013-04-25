@@ -219,25 +219,25 @@ public class TestItemCard {
 	public void TestAmuletCardWhatToDoIfLost(){
 		Game game = Game.getInstance();
 		Player player = new Player();
-		Explorer character = new Explorer(Explorers.FatherRhinehardt,
-				new Locale("en"));
+		ExplorerFactory expFac = new ExplorerFactory();
+		Character character = expFac.getExplorer(Character_Name.FatherRhinehardt);
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
 		
 		amuletOfAgesCard.isLost = true;
 		
-		int expectedMight2 = character.getCurrentMightIndex() - 3;
-		int expectedSpeed2 = character.getCurrentSpeedIndex() - 3;
-		int expectedKnowledge2 = character.getCurrentKnowledgeIndex() - 3;
-		int expectedSanity2 = character.getCurrentSanityIndex() - 3;
+		int expectedMight2 = ((HumanStats) (character.getStats())).getCurrentMightIndex() - 3;
+		int expectedSpeed2 = ((HumanStats) (character.getStats())).getCurrentSpeedIndex() - 3;
+		int expectedKnowledge2 = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex() - 3;
+		int expectedSanity2 = ((HumanStats) (character.getStats())).getCurrentSanityIndex() - 3;
 		
 		amuletOfAgesCard.whatToDo(character);
 		
-		int mightAfter2 = character.getCurrentMightIndex();
-		int speedAfter2 = character.getCurrentSpeedIndex();
-		int knowledgeAfter2 = character.getCurrentKnowledgeIndex();
-		int sanityAfter2 = character.getCurrentSanityIndex();
+		int mightAfter2 = ((HumanStats) (character.getStats())).getCurrentMightIndex();
+		int speedAfter2 = ((HumanStats) (character.getStats())).getCurrentSpeedIndex();
+		int knowledgeAfter2 = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
+		int sanityAfter2 = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
 		
 		assertEquals(expectedMight2, mightAfter2);
 		assertEquals(expectedSpeed2, speedAfter2);

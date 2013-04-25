@@ -1,6 +1,6 @@
 package itemCards;
 
-import characters.Explorer;
+import characters.Character;
 
 public abstract class ItemCard {
 	protected String name;
@@ -30,6 +30,6 @@ public abstract class ItemCard {
 		this.description = description;
 	}
 
-	public abstract void whatToDo(Explorer character);
+	public abstract void whatToDo(Character character);
 
 }
