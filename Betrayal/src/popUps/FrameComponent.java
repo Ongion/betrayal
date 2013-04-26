@@ -15,6 +15,7 @@ public class FrameComponent extends JComponent{
      
        g.drawRect(0,0,200,1000);
        g.fillRect(0, 0, 200, 1000);
+       
     }
 
 }

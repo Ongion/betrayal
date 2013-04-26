@@ -1,5 +1,7 @@
 package Game;
 
+import java.io.IOException;
+
 import popUps.DeckAndCardPopups;
 import popUps.GameFrame;
 import popUps.TraitPopup;
@@ -8,8 +10,9 @@ public class GameRunner {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 //		GameFrame win = new GameFrame();
 //		//win.displayMenu();
 //		

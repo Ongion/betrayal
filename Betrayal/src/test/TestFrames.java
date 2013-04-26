@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import popUps.FrameComponent;
@@ -27,7 +29,7 @@ public class TestFrames {
 	}
 
 	@Test
-	public void TestMenuFrame() {
+	public void TestMenuFrame() throws IOException {
 		GameFrame menu = new GameFrame();
 		menu.displayMenu();
 	}

@@ -28,8 +28,8 @@ public JPanelWithBackground(Image i) {
 } 
 public void paint(Graphics g) { 
   if (image!=null) 
-	  g.drawImage(image, 0, 0, null); 
-  
+	  g.drawImage(image,0, 0, null); 
+  		
   super.paint(g); 
 } 
 } 
