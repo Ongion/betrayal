@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class ShriekingWind extends EventCard {
 
 	private Game game;
 	
-	public ShriekingWind(String name, String description) {
-		super(name, description);
+	public ShriekingWind(Locale loc) {
+		super("ShriekingWind", loc);
 		this.game = Game.getInstance();
 	}
 

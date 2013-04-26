@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import characters.Trait;
 import Game.Game;
 
@@ -7,8 +9,8 @@ public class CreepyCrawlies extends EventCard {
 
 	private Game game;
 	
-	public CreepyCrawlies(String name, String description) {
-		super(name, description);
+	public CreepyCrawlies(Locale loc) {
+		super("CreepyCrawlies", loc);
 		this.game = Game.getInstance();
 	}
 

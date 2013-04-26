@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class ClosetDoor extends EventCard {
@@ -7,8 +9,8 @@ public class ClosetDoor extends EventCard {
 
 	private Game game;
 	
-	public ClosetDoor(String name, String description) {
-		super(name, description);
+	public ClosetDoor(Locale loc) {
+		super("ClosetDoor", loc);
 		this.game = Game.getInstance();
 	}
 	

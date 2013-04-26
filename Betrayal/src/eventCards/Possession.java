@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import characters.Trait;
 import characters.ExplorerType;
 import characters.HumanStats;
@@ -9,8 +11,8 @@ public class Possession extends EventCard {
 
 	private Game game;
 	
-	public Possession(String name, String description) {
-		super(name, description);
+	public Possession(Locale loc) {
+		super("Possession", loc);
 		this.game = Game.getInstance();
 	}
 	

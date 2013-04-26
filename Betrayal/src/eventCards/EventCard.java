@@ -1,13 +1,19 @@
 package eventCards;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public abstract class EventCard {
 
 	protected String name;
 	protected String description;
+	protected String rules;
 	
-	protected EventCard(String name, String description){
-		this.name = name;
-		this.description = description;
+	protected EventCard(String cardname, Locale loc){
+		ResourceBundle messages = ResourceBundle.getBundle("EventCardBundle", loc);
+		this.name = messages.getString("title" + cardname);
+		this.description = messages.getString("des" + cardname);
+		this.rules = messages.getString("rules" + cardname);
 	}
 
 	public String getName() {
@@ -24,6 +30,14 @@ public abstract class EventCard {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getRules(){
+		return this.rules;
+	}
+	
+	public void setRules(String rules){
+		this.rules = rules;
 	}
 	
 	public abstract void happen(int rollResult);

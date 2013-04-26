@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class Skeletons extends EventCard {
@@ -7,8 +9,8 @@ public class Skeletons extends EventCard {
 
 	private Game game;
 	
-	public Skeletons(String name, String description) {
-		super(name, description);
+	public Skeletons(Locale loc) {
+		super("Skeletons", loc);
 		this.game = Game.getInstance();
 	}
 

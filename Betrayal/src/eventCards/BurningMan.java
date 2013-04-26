@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import characters.Trait;
 import Game.Game;
 
@@ -7,8 +9,8 @@ public class BurningMan extends EventCard {
 
 	private Game game;
 	
-	public BurningMan(String name, String description) {
-		super(name, description);
+	public BurningMan(Locale loc) {
+		super("BurningMan", loc);
 		this.game = Game.getInstance();
 	}
 	@Override

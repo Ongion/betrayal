@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import characters.Trait;
+
 public class GameFrame extends JFrame implements ActionListener {
 
 	private int width;
@@ -53,6 +55,10 @@ public class GameFrame extends JFrame implements ActionListener {
 		characters.setBounds(50, 450, 100, 50);
 		background.setBounds(50, 550, 100, 50);
 		exit.setBounds(50, 650, 100, 50);
+		// Add button actions
+		rules.setActionCommand("rules");
+		characters.setActionCommand("characters");
+		
 		// Add buttons to frame
 		menuFrame.add(play);
 		menuFrame.add(rules);
@@ -64,7 +70,7 @@ public class GameFrame extends JFrame implements ActionListener {
 		// works for now..
 		ImageIcon image = new ImageIcon("MainImage.jpg");
 		JLabel graphic = new JLabel(image);
-
+		
 		// Make Jpanel where image will be put on.
 		JPanel panel = new JPanel(new BorderLayout());
 		// Set bounds and background color
@@ -79,8 +85,9 @@ public class GameFrame extends JFrame implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		if ("knowledge".equals(e.getActionCommand())){			
+		}
 
 	}
 

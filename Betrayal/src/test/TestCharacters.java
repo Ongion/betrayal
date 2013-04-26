@@ -291,7 +291,7 @@ public class TestCharacters {
 	
 	@Test
 	public void testEventHand() {
-		EventCard card = new Rotten(null, null);
+		EventCard card = new Rotten(new Locale("en","US"));
 		
 		FatherRhinehardt.addEventCard(card);
 		

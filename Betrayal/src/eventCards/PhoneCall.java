@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class PhoneCall extends EventCard {
 
 	private Game game;
 	
-	public PhoneCall(String name, String description) {
-		super(name, description);
+	public PhoneCall(Locale loc) {
+		super("PhoneCall", loc);
 		this.game = Game.getInstance();
 	}
 

@@ -40,16 +40,13 @@ public class TestGame {
 
 	private Game game;
 	private ExplorerFactory explorers = new ExplorerFactory();
+	private Locale enLocale = new Locale("en", "US");
 	private Character character;
 	private Character character2;
-	private String rottenDes = "The smell in this room, it's horrible. Smells like death, like blood. A slaughterhouse smell.";
-	private String angryBeingDes = "It emerges from the slime on the wall next to you.";
-	private String creepyCrawliesDes = "A thousand bugs spill out on your skin, under your clothes, and in your hair.";
-	private String nightViewDes = "You see a vision of a ghostly couple walking the grounds, silently strolling in their wedding best";
-	private EventCard angryBeing = new AngryBeing("Angry Being", angryBeingDes);
-	private EventCard creepyCrawlies = new CreepyCrawlies("Creepy Crawlies", creepyCrawliesDes);
-	private EventCard nightView = new NightView("Night View", nightViewDes);
-	private EventCard rotten = new Rotten("Rotten", rottenDes);
+	private EventCard angryBeing = new AngryBeing(enLocale);
+	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
+	private EventCard nightView = new NightView(enLocale);
+	private EventCard rotten = new Rotten(enLocale);
 	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
 	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
 	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");

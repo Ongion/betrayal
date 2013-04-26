@@ -1,4 +1,6 @@
 package eventCards;
+import java.util.Locale;
+
 import characters.Trait;
 import Game.Game;
 
@@ -6,8 +8,8 @@ public class Rotten extends EventCard {
 
 	private Game game;
 	
-	public Rotten(String name, String description) {
-		super(name, description);
+	public Rotten(Locale loc) {
+		super("Rotten", loc);
 		this.game = Game.getInstance();
 	}
 

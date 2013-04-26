@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class Mirror2 extends EventCard {
 
 	private Game game;
 	
-	public Mirror2(String name, String description) {
-		super(name, description);
+	public Mirror2(Locale loc) {
+		super("Mirror2", loc);
 		this.game = Game.getInstance();
 	}
 

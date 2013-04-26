@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import characters.Trait;
 import Game.Game;
 
@@ -7,8 +9,8 @@ public class TheBeckoning extends EventCard {
 	// TODO: make work on all characters in Gardens, Graveyard, Tower, Balcony, or room with outward facing window
 	private Game game;
 	
-	public TheBeckoning(String name, String description) {
-		super(name, description);
+	public TheBeckoning(Locale loc) {
+		super("TheBeckoning", loc);
 		this.game = Game.getInstance();
 	}
 	

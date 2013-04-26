@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class MistsFromTheWalls extends EventCard {
@@ -7,8 +9,8 @@ public class MistsFromTheWalls extends EventCard {
 
 	private Game game;
 	
-	public MistsFromTheWalls(String name, String description) {
-		super(name, description);
+	public MistsFromTheWalls(Locale loc) {
+		super("MistsFromTheWalls", loc);
 		this.game = Game.getInstance();
 	}
 	

@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class Footsteps extends EventCard {
 
 	private Game game;
 	
-	public Footsteps(String name, String description) {
-		super(name, description);
+	public Footsteps(Locale loc) {
+		super("Footsteps", loc);
 		this.game = Game.getInstance();
 	}
 	

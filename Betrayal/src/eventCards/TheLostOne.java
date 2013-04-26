@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class TheLostOne extends EventCard {
 
 	private Game game;
 	
-	public TheLostOne(String name, String description) {
-		super(name, description);
+	public TheLostOne(Locale loc) {
+		super("TheLostOne", loc);
 		this.game = Game.getInstance();
 	}
 	

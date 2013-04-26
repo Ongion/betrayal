@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class Spider extends EventCard {
 
 	private Game game;
 	
-	public Spider(String name, String description) {
-		super(name, description);
+	public Spider(Locale loc) {
+		super("Spider", loc);
 		this.game = Game.getInstance();
 	}
 	

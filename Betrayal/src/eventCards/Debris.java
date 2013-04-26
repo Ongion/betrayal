@@ -1,5 +1,7 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class Debris extends EventCard {
@@ -7,8 +9,8 @@ public class Debris extends EventCard {
 
 	private Game game;
 	
-	public Debris(String name, String description) {
-		super(name, description);
+	public Debris(Locale loc) {
+		super("Debris", loc);
 		this.game = Game.getInstance();
 	}
 

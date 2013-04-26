@@ -1,13 +1,15 @@
 package eventCards;
 
+import java.util.Locale;
+
 import Game.Game;
 
 public class HangedMen extends EventCard {
 
 	private Game game;
 	
-	public HangedMen(String name, String description) {
-		super(name, description);
+	public HangedMen(Locale loc) {
+		super("HangedMen", loc);
 		this.game = Game.getInstance();
 	}
 
