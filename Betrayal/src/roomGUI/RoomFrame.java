@@ -189,7 +189,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 
 		r1.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0,0));
 		r2.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 1,1));
-		r3.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2,2));
+		r3.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.UPPER, 2,0));
 
 		rf.addRoomPanels();
 

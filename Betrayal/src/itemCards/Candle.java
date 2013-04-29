@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class Candle extends ItemCard {
 
-	public Candle(String name, String description) {
-		super(name, description);
+	public Candle(Locale loc) {
+		super("Candle", loc);
 		
 	}
 

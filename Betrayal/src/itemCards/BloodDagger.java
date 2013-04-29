@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class BloodDagger extends ItemCard {
 
-	public BloodDagger(String name, String description) {
-		super(name, description);
+	public BloodDagger(Locale loc) {
+		super("BloodDagger", loc);
 		
 	}
 

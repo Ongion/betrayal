@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class LuckyStone extends ItemCard {
 
-	public LuckyStone(String name, String description) {
-		super(name, description);
+	public LuckyStone(Locale loc) {
+		super("LuckyStone", loc);
 		
 	}
 

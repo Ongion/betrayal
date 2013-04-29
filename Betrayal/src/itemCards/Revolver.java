@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class Revolver extends ItemCard {
 
-	public Revolver(String name, String description) {
-		super(name, description);
+	public Revolver(Locale loc) {
+		super("Revolver", loc);
 	
 	}
 

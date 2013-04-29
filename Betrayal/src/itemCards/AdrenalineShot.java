@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class AdrenalineShot extends ItemCard {
 
-	public AdrenalineShot(String name, String description) {
-		super(name, description);
+	public AdrenalineShot(Locale loc) {
+		super("AdrenalineShot", loc);
 		
 	}
 

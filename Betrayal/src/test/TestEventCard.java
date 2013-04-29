@@ -72,10 +72,10 @@ public class TestEventCard {
 	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
-	private ItemCard angelFeather = new AngelFeather("Angel Feather", "A perfect feather fluttering in your hand.");
-	private ItemCard adrenalineShotCard = new AdrenalineShot("Adrenaline Shot", "A syringe containing a strange fluorescent liquid.");
-	private ItemCard revolverCard = new Revolver("Revolver","WEAPON An old, potent-looking weapon.");	
-	private ItemCard puzzleBoxCard = new PuzzleBox("Puzzle Box", "There must be a way to open it.");
+	private ItemCard angelFeather = new AngelFeather(enLocale);
+	private ItemCard adrenalineShotCard = new AdrenalineShot(enLocale);
+	private ItemCard revolverCard = new Revolver(enLocale);	
+	private ItemCard puzzleBoxCard = new PuzzleBox(enLocale);
 	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
 	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
 	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");

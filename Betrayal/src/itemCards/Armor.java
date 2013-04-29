@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class Armor extends ItemCard {
 
-	public Armor(String name, String description) {
-		super(name, description);
+	public Armor(Locale loc) {
+		super("Armor", loc);
 	
 	}
 

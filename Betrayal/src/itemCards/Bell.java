@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class Bell extends ItemCard {
 
-	public Bell(String name, String description) {
-		super(name, description);
+	public Bell(Locale loc) {
+		super("Bell", loc);
 		
 	}
 

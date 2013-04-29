@@ -1,13 +1,15 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class AmuletOfAges extends ItemCard {
 	
 	private boolean isLost = false;
 
-	public AmuletOfAges(String name, String description) {
-		super(name, description);
+	public AmuletOfAges(Locale loc) {
+		super("AmuletOfAges", loc);
 		
 	}
 

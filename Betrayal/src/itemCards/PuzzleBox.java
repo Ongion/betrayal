@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class PuzzleBox extends ItemCard {
 
-	public PuzzleBox(String name, String description) {
-		super(name, description);
+	public PuzzleBox(Locale loc) {
+		super("PuzzleBox", loc);
 		
 	}
 

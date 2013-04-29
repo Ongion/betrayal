@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class RabbitsFoot extends ItemCard {
 
-	public RabbitsFoot(String name, String description) {
-		super(name, description);
+	public RabbitsFoot(Locale loc) {
+		super("RabbitsFoot", loc);
 		
 	}
 

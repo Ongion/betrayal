@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class SmellingSalts extends ItemCard {
 
-	public SmellingSalts(String name, String description) {
-		super(name, description);
+	public SmellingSalts(Locale loc) {
+		super("SmellingSalts", loc);
 		
 	}
 

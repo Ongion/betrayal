@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class AngelFeather extends ItemCard {
 
-	public AngelFeather(String name, String description) {
-		super(name, description);
+	public AngelFeather(Locale loc) {
+		super("AngelFeather", loc);
 		
 	}
 

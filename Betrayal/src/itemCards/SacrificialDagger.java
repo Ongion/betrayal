@@ -1,12 +1,14 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character
 ;
 
 public class SacrificialDagger extends ItemCard {
 
-	public SacrificialDagger(String name, String description) {
-		super(name, description);
+	public SacrificialDagger(Locale loc) {
+		super("SacrificialDagger", loc);
 		
 	}
 

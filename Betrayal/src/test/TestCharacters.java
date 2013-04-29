@@ -272,7 +272,7 @@ public class TestCharacters {
 	
 	@Test
 	public void testItemHand() {
-		ItemCard card = new AngelFeather(null, null);
+		ItemCard card = new AngelFeather(new Locale("en", "US"));
 		
 		FatherRhinehardt.addItemCard(card);
 		

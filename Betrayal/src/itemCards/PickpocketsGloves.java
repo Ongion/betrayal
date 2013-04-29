@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class PickpocketsGloves extends ItemCard {
 
-	public PickpocketsGloves(String name, String description) {
-		super(name, description);
+	public PickpocketsGloves(Locale loc) {
+		super("PickpoketsGloves", loc);
 	
 	}
 

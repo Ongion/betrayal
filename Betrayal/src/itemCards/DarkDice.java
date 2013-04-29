@@ -1,11 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class DarkDice extends ItemCard {
 
-	public DarkDice(String name, String description) {
-		super(name, description);
+	public DarkDice(Locale loc) {
+		super("DarkDice", loc);
 		
 	}
 

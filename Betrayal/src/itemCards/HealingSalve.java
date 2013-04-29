@@ -1,12 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class HealingSalve extends ItemCard {
 
-	public HealingSalve(String name, String description) {
-		super(name, description);
-		
+	public HealingSalve(Locale loc) {
+		super("HealingSalve", loc);
 	}
 
 	@Override

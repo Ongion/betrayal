@@ -97,8 +97,7 @@ public class TestOmenCard {
 	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
-	private ItemCard angelFeather = new AngelFeather("Angel Feather",
-			"A perfect feather fluttering in your hand.");
+	private ItemCard angelFeather = new AngelFeather(enLocale);
 
 	@Before
 	public void SetUp() {

@@ -1,12 +1,13 @@
 package itemCards;
 
+import java.util.Locale;
+
 import characters.Character;
 
 public class Idol extends ItemCard {
 
-	public Idol(String name, String description) {
-		super(name, description);
-		
+	public Idol(Locale loc) {
+		super("Idol", loc);
 	}
 
 	@Override
