@@ -1,14 +1,16 @@
 package omenCards;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import characters.Character;
 import characters.ExplorerType;
 import Game.Game;
 
 public class Girl extends OmenCard {
 
-	public Girl(String name, String quote) {
-		super(name, quote);
+	public Girl(Locale loc) {
+		super("Girl", loc);
 
 	}
 

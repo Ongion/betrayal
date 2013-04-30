@@ -1,6 +1,8 @@
 package omenCards;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import characters.Character;
 
 import characters.ExplorerType;
@@ -8,8 +10,8 @@ import Game.Game;
 
 public class HolySymbol extends OmenCard {
 
-	public HolySymbol(String name, String quote) {
-		super(name, quote);
+	public HolySymbol(Locale loc) {
+		super("HolySymbol", loc);
 
 	}
 

@@ -252,7 +252,7 @@ public class TestCharacters {
 	
 	@Test
 	public void testOmenHand() {
-		OmenCard card = new CrystalBall("test","test 2");
+		OmenCard card = new CrystalBall(new Locale("en", "US"));
 		
 		FatherRhinehardt.addOmenCard(card);
 		

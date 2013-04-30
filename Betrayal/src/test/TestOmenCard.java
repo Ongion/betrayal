@@ -2,15 +2,14 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import omenCards.Bite;
 import omenCards.Book;
@@ -34,11 +33,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.Room;
-import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
-import characters.ExplorerType;
 import characters.ExplorerFactory;
 import characters.Character;
 import characters.HumanStats;
@@ -47,47 +43,35 @@ import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
-import characters.Character;
 import characters.Character.Character_Name;
 
 public class TestOmenCard {
 
+	private Locale enLocale = new Locale("en", "US");
+	private Locale spLocale = new Locale("es", "ES");
+	
+	private ResourceBundle mesEN = ResourceBundle.getBundle("OmenCardBundle", enLocale);
+	private ResourceBundle mesSP = ResourceBundle.getBundle("OmenCardBundle", spLocale);
+	
 	private ExplorerFactory explorers = new ExplorerFactory();
 	private Character character;
 	private Player player = new Player();
 
 	private Game game;
-	
-	private Locale enLocale = new Locale("en", "US");
-	
-	private ArrayList<Room> rooms = new ArrayList<Room>();
 
-	private OmenCard crystalBallCard = new CrystalBall("Crystal Ball",
-			"Hazy images appear in the glass.");
-	private OmenCard bookCard = new Book("Book",
-			"A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ringCard = new Ring("Ring",
-			"A battered ring with an incomprehensible inscription.");
-	private OmenCard madmanCard = new Madman("Madman",
-			"COMPANION A raving, frothing madman");
-	private OmenCard spearCard = new Spear("Spear",
-			"A weapon pulsing with power.");
-	private OmenCard spiritBoardCard = new SpiritBoard("Spirit Board",
-			"A board with letters and numbers to call the dead");
-	private Mask maskCard = new Mask("Mask",
-			"A somber mask to hide your intentions.");
-	private OmenCard medallionCard = new Medallion("Medallion",
-			"A medallion inscribed with a pentagram.");
-	private OmenCard girlCard = new Girl("Girl",
-			"COMPANION A girl.Trapped.Alone.You free her!");
-	private OmenCard biteCard = new Bite("Bite",
-			"A growl, the scent of death.Pain.Darkness.Gone.");
-	private OmenCard skullCard = new Skull("Skull",
-			"A skull, cracked and missing teeth.");
-	private OmenCard holySymbolCard = new HolySymbol("Holy Symbol",
-			"A symbol of calm in an unsettling world.");
-	private OmenCard dogCard = new Dog("Dog",
-			"COMPANION This mangy dog seems friendly. At least you hope it is.");
+	private OmenCard crystalBallCard = new CrystalBall(enLocale);
+	private OmenCard bookCard = new Book(enLocale);
+	private OmenCard ringCard = new Ring(enLocale);
+	private OmenCard madmanCard = new Madman(enLocale);
+	private OmenCard spearCard = new Spear(enLocale);
+	private OmenCard spiritBoardCard = new SpiritBoard(enLocale);
+	private Mask maskCard = new Mask(enLocale);
+	private OmenCard medallionCard = new Medallion(enLocale);
+	private OmenCard girlCard = new Girl(enLocale);
+	private OmenCard biteCard = new Bite(enLocale);
+	private OmenCard skullCard = new Skull(enLocale);
+	private OmenCard holySymbolCard = new HolySymbol(enLocale);
+	private OmenCard dogCard = new Dog(enLocale);
 
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
@@ -123,13 +107,13 @@ public class TestOmenCard {
 
 	@Test
 	public void TestIsHauntRollForOmenCard() {
-		OmenCard card = new Book("Test card", "Just testing");
+		OmenCard card = new Book(enLocale);
 		assertEquals(game.getIsHaunt(), card.isHauntRoll());
 	}
 
 	@Test
 	public void TestMakeHauntRollForOmenCard() {
-		OmenCard card = new Book("Test", "Just testing");
+		OmenCard card = new Book(enLocale);
 		assertFalse(card.makeHauntRoll());
 		game.setIsHaunt(true);
 		if (card.isHauntRoll()) {
@@ -140,10 +124,10 @@ public class TestOmenCard {
 	@Test
 	public void CrystalBallOmenInit() {
 		crystalBallCard.setName("Crystal Ball");
-		crystalBallCard.setQuote("Hazy images appear in the glass.");
+		crystalBallCard.setDescription("Hazy images appear in the glass.");
 		assertEquals("Crystal Ball", crystalBallCard.getName());
 		assertEquals("Hazy images appear in the glass.",
-				crystalBallCard.getQuote());
+				crystalBallCard.getDescription());
 	}
 
 	@Test
@@ -349,11 +333,22 @@ public class TestOmenCard {
 
 	@Test
 	public void BookInit() {
+		assertEquals(mesEN.getString("titleBook"), bookCard.getName());
+		assertEquals(mesEN.getString("desBook"), bookCard.getDescription());
+		assertEquals(mesEN.getString("rulesBook"), bookCard.getRules());
+		
+		bookCard = new Book(spLocale);
+		assertEquals(mesSP.getString("titleBook"), bookCard.getName());
+		assertEquals(mesSP.getString("desBook"), bookCard.getDescription());
+		assertEquals(mesSP.getString("rulesBook"), bookCard.getRules());
+		
 		bookCard.setName("Book");
-		bookCard.setQuote("A diary or lab notes? Ancient script or modern ravings?");
+		bookCard.setDescription("A diary or lab notes? Ancient script or modern ravings?");
+		bookCard.setRules("Testing rules");
 		assertEquals("Book", bookCard.getName());
 		assertEquals("A diary or lab notes? Ancient script or modern ravings?",
-				bookCard.getQuote());
+				bookCard.getDescription());
+		assertEquals("Testing rules", bookCard.getRules());
 	}
 
 	@Test
@@ -372,11 +367,14 @@ public class TestOmenCard {
 
 	@Test
 	public void RingInit() {
-		ringCard.setName("Ring");
-		ringCard.setQuote("A battered ring with an incomprehensible inscription.");
-		assertEquals("Ring", ringCard.getName());
-		assertEquals("A battered ring with an incomprehensible inscription.",
-				ringCard.getQuote());
+		assertEquals(mesEN.getString("titleRing"), ringCard.getName());
+		assertEquals(mesEN.getString("desRing"), ringCard.getDescription());
+		assertEquals(mesEN.getString("rulesRing"), ringCard.getRules());
+		
+		ringCard = new Ring(spLocale);
+		assertEquals(mesSP.getString("titleRing"), ringCard.getName());
+		assertEquals(mesSP.getString("desRing"), ringCard.getDescription());
+		assertEquals(mesSP.getString("rulesRing"), ringCard.getRules());
 	}
 
 	@Test
@@ -465,11 +463,14 @@ public class TestOmenCard {
 
 	@Test
 	public void MadmanInit() {
-		madmanCard.setName("Madman");
-		madmanCard.setQuote("COMPANION A raving, frothing madman");
-		assertEquals("Madman", madmanCard.getName());
-		assertEquals("COMPANION A raving, frothing madman",
-				madmanCard.getQuote());
+		assertEquals(mesEN.getString("titleMadman"), madmanCard.getName());
+		assertEquals(mesEN.getString("desMadman"), madmanCard.getDescription());
+		assertEquals(mesEN.getString("rulesMadman"), madmanCard.getRules());
+		
+		madmanCard = new Madman(spLocale);
+		assertEquals(mesSP.getString("titleMadman"), madmanCard.getName());
+		assertEquals(mesSP.getString("desMadman"), madmanCard.getDescription());
+		assertEquals(mesSP.getString("rulesMadman"), madmanCard.getRules());
 	}
 
 	@Test
@@ -488,20 +489,26 @@ public class TestOmenCard {
 
 	@Test
 	public void SpearInit() {
-		spearCard.setName("Spear");
-		spearCard.setQuote("A weapon pulsing with power.");
-		assertEquals("Spear", spearCard.getName());
-		assertEquals("A weapon pulsing with power.", spearCard.getQuote());
+		assertEquals(mesEN.getString("titleSpear"), spearCard.getName());
+		assertEquals(mesEN.getString("desSpear"), spearCard.getDescription());
+		assertEquals(mesEN.getString("rulesSpear"), spearCard.getRules());
+		
+		spearCard = new Spear(spLocale);
+		assertEquals(mesSP.getString("titleSpear"), spearCard.getName());
+		assertEquals(mesSP.getString("desSpear"), spearCard.getDescription());
+		assertEquals(mesSP.getString("rulesSpear"), spearCard.getRules());
 	}
 
 	@Test
 	public void SpiritBoardInit() {
-		spiritBoardCard.setName("Spirit Board");
-		spiritBoardCard
-				.setQuote("A board with letters and numbers to call the dead");
-		assertEquals("Spirit Board", spiritBoardCard.getName());
-		assertEquals("A board with letters and numbers to call the dead",
-				spiritBoardCard.getQuote());
+		assertEquals(mesEN.getString("titleSpiritBoard"), spiritBoardCard.getName());
+		assertEquals(mesEN.getString("desSpiritBoard"), spiritBoardCard.getDescription());
+		assertEquals(mesEN.getString("rulesSpiritBoard"), spiritBoardCard.getRules());
+		
+		spiritBoardCard = new SpiritBoard(spLocale);
+		assertEquals(mesSP.getString("titleSpiritBoard"), spiritBoardCard.getName());
+		assertEquals(mesSP.getString("desSpiritBoard"), spiritBoardCard.getDescription());
+		assertEquals(mesSP.getString("rulesSpiritBoard"), spiritBoardCard.getRules());
 	}
 
 	@Test
@@ -520,11 +527,14 @@ public class TestOmenCard {
 
 	@Test
 	public void MaskInit() {
-		maskCard.setName("Mask");
-		maskCard.setQuote("A somber mask to hide your intentions.");
-		assertEquals("Mask", maskCard.getName());
-		assertEquals("A somber mask to hide your intentions.",
-				maskCard.getQuote());
+		assertEquals(mesEN.getString("titleMask"), maskCard.getName());
+		assertEquals(mesEN.getString("desMask"), maskCard.getDescription());
+		assertEquals(mesEN.getString("rulesMask"), maskCard.getRules());
+		
+		maskCard = new Mask(spLocale);
+		assertEquals(mesSP.getString("titleMask"), maskCard.getName());
+		assertEquals(mesSP.getString("desMask"), maskCard.getDescription());
+		assertEquals(mesSP.getString("rulesMask"), maskCard.getRules());
 	}
 
 	@Test
@@ -656,11 +666,14 @@ public class TestOmenCard {
 
 	@Test
 	public void MedallionInit() {
-		medallionCard.setName("Medallion");
-		medallionCard.setQuote("A medallion inscribed with a pentagram.");
-		assertEquals("Medallion", medallionCard.getName());
-		assertEquals("A medallion inscribed with a pentagram.",
-				medallionCard.getQuote());
+		assertEquals(mesEN.getString("titleMedallion"), medallionCard.getName());
+		assertEquals(mesEN.getString("desMedallion"), medallionCard.getDescription());
+		assertEquals(mesEN.getString("rulesMedallion"), medallionCard.getRules());
+		
+		medallionCard = new Medallion(spLocale);
+		assertEquals(mesSP.getString("titleMedallion"), medallionCard.getName());
+		assertEquals(mesSP.getString("desMedallion"), medallionCard.getDescription());
+		assertEquals(mesSP.getString("rulesMedallion"), medallionCard.getRules());
 	}
 
 	@Test
@@ -748,11 +761,14 @@ public class TestOmenCard {
 
 	@Test
 	public void GirlInit() {
-		girlCard.setName("Girl");
-		girlCard.setQuote("COMPANION A girl.Trapped.Alone.You free her!");
-		assertEquals("Girl", girlCard.getName());
-		assertEquals("COMPANION A girl.Trapped.Alone.You free her!",
-				girlCard.getQuote());
+		assertEquals(mesEN.getString("titleGirl"), girlCard.getName());
+		assertEquals(mesEN.getString("desGirl"), girlCard.getDescription());
+		assertEquals(mesEN.getString("rulesGirl"), girlCard.getRules());
+		
+		girlCard = new Girl(spLocale);
+		assertEquals(mesSP.getString("titleGirl"), girlCard.getName());
+		assertEquals(mesSP.getString("desGirl"), girlCard.getDescription());
+		assertEquals(mesSP.getString("rulesGirl"), girlCard.getRules());
 	}
 
 	@Test
@@ -771,11 +787,14 @@ public class TestOmenCard {
 
 	@Test
 	public void BiteInit() {
-		biteCard.setName("Bite");
-		biteCard.setQuote("A growl, the scent of death.Pain.Darkness.Gone.");
-		assertEquals("Bite", biteCard.getName());
-		assertEquals("A growl, the scent of death.Pain.Darkness.Gone.",
-				biteCard.getQuote());
+		assertEquals(mesEN.getString("titleBite"), biteCard.getName());
+		assertEquals(mesEN.getString("desBite"), biteCard.getDescription());
+		assertEquals(mesEN.getString("rulesBite"), biteCard.getRules());
+		
+		biteCard = new Bite(spLocale);
+		assertEquals(mesSP.getString("titleBite"), biteCard.getName());
+		assertEquals(mesSP.getString("desBite"), biteCard.getDescription());
+		assertEquals(mesSP.getString("rulesBite"), biteCard.getRules());
 	}
 
 	@Test
@@ -862,11 +881,14 @@ public class TestOmenCard {
 
 	@Test
 	public void SkullInit() {
-		skullCard.setName("Skull");
-		skullCard.setQuote("A skull, cracked and missing teeth.");
-		assertEquals("Skull", skullCard.getName());
-		assertEquals("A skull, cracked and missing teeth.",
-				skullCard.getQuote());
+		assertEquals(mesEN.getString("titleSkull"), skullCard.getName());
+		assertEquals(mesEN.getString("desSkull"), skullCard.getDescription());
+		assertEquals(mesEN.getString("rulesSkull"), skullCard.getRules());
+		
+		skullCard = new Skull(spLocale);
+		assertEquals(mesSP.getString("titleSkull"), skullCard.getName());
+		assertEquals(mesSP.getString("desSkull"), skullCard.getDescription());
+		assertEquals(mesSP.getString("rulesSkull"), skullCard.getRules());
 	}
 
 	@Test
@@ -946,11 +968,14 @@ public class TestOmenCard {
 
 	@Test
 	public void HolySymbolInit() {
-		holySymbolCard.setName("Holy Symbol");
-		holySymbolCard.setQuote("A symbol of calm in an unsettling world.");
-		assertEquals("Holy Symbol", holySymbolCard.getName());
-		assertEquals("A symbol of calm in an unsettling world.",
-				holySymbolCard.getQuote());
+		assertEquals(mesEN.getString("titleHolySymbol"), holySymbolCard.getName());
+		assertEquals(mesEN.getString("desHolySymbol"), holySymbolCard.getDescription());
+		assertEquals(mesEN.getString("rulesHolySymbol"), holySymbolCard.getRules());
+		
+		holySymbolCard = new HolySymbol(spLocale);
+		assertEquals(mesSP.getString("titleHolySymbol"), holySymbolCard.getName());
+		assertEquals(mesSP.getString("desHolySymbol"), holySymbolCard.getDescription());
+		assertEquals(mesSP.getString("rulesHolySymbol"), holySymbolCard.getRules());
 	}
 
 	@Test
@@ -1037,12 +1062,14 @@ public class TestOmenCard {
 
 	@Test
 	public void DogInit() {
-		dogCard.setName("Dog");
-		dogCard.setQuote("COMPANION This mangy dog seems friendly. At least you hope it is.");
-		assertEquals("Dog", dogCard.getName());
-		assertEquals(
-				"COMPANION This mangy dog seems friendly. At least you hope it is.",
-				dogCard.getQuote());
+		assertEquals(mesEN.getString("titleDog"), dogCard.getName());
+		assertEquals(mesEN.getString("desDog"), dogCard.getDescription());
+		assertEquals(mesEN.getString("rulesDog"), dogCard.getRules());
+		
+		dogCard = new Dog(spLocale);
+		assertEquals(mesSP.getString("titleDog"), dogCard.getName());
+		assertEquals(mesSP.getString("desDog"), dogCard.getDescription());
+		assertEquals(mesSP.getString("rulesDog"), dogCard.getRules());
 
 	}
 

@@ -1,5 +1,7 @@
 package omenCards;
 
+import java.util.Locale;
+
 import Game.Game;
 import characters.Character;
 import characters.ExplorerType;
@@ -8,8 +10,8 @@ public class Mask extends OmenCard {
 
 	public boolean isMaskOn;
 
-	public Mask(String name, String quote) {
-		super(name, quote);
+	public Mask(Locale loc) {
+		super("Mask", loc);
 	}
 
 	@Override

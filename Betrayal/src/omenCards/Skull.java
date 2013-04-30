@@ -1,13 +1,15 @@
 package omenCards;
 
+import java.util.Locale;
+
 import characters.ExplorerType;
 import characters.Character;
 import Game.Game;
 
 public class Skull extends OmenCard {
 
-	public Skull(String name, String quote) {
-		super(name, quote);
+	public Skull(Locale loc) {
+		super("Skull", loc);
 
 	}
 

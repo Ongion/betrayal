@@ -1,6 +1,8 @@
 package omenCards;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import characters.Character;
 
 import characters.ExplorerType;
@@ -8,8 +10,8 @@ import Game.Game;
 
 public class Madman extends OmenCard {
 
-	public Madman(String name, String quote) {
-		super(name, quote);
+	public Madman(Locale loc) {
+		super("Madman", loc);
 
 	}
 
