@@ -2,6 +2,8 @@ package omenCards;
 
 import characters.ExplorerType;
 import java.util.Collections;
+import java.util.Locale;
+
 import characters.Character;
 import Game.Game;
 
@@ -9,8 +11,8 @@ public class CrystalBall extends OmenCard {
 
 	private int itemOrEvent;
 
-	public CrystalBall(String name, String quote) {
-		super(name, quote);
+	public CrystalBall(Locale loc) {
+		super("CrystalBall", loc);
 
 	}
 

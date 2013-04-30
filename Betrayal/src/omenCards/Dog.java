@@ -1,6 +1,8 @@
 package omenCards;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import characters.Character;
 import characters.ExplorerType;
 import Game.Game;
@@ -8,8 +10,8 @@ import Game.Game;
 public class Dog extends OmenCard {
 	private boolean hasToken;
 
-	public Dog(String name, String quote) {
-		super(name, quote);
+	public Dog(Locale loc) {
+		super("Dog", loc);
 
 	}
 

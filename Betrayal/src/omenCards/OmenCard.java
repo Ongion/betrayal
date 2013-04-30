@@ -1,18 +1,24 @@
 package omenCards;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import characters.Character;
 import characters.ExplorerType;
 import Game.Game;
 
 public abstract class OmenCard {
 	protected String name;
-	protected String quote;
+	protected String description;
+	protected String rules;
 	public int itemOrEvent;
 	public boolean hasToken;
 
-	protected OmenCard(String name, String quote) {
-		this.name = name;
-		this.quote = quote;
+	protected OmenCard(String cardname, Locale loc) {
+		ResourceBundle messages = ResourceBundle.getBundle("OmenCardBundle", loc);
+		this.name = messages.getString("title" + cardname);
+		this.description = messages.getString("des" + cardname);
+		this.rules = messages.getString("rules" + cardname);
 	}
 
 	public String getName() {
@@ -23,12 +29,20 @@ public abstract class OmenCard {
 		this.name = name;
 	}
 
-	public String getQuote() {
-		return quote;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setQuote(String quote) {
-		this.quote = quote;
+	public void setDescription(String quote) {
+		this.description = quote;
+	}
+	
+	public String getRules() {
+		return rules;
+	}
+
+	public void setRules(String rules) {
+		this.rules = rules;
 	}
 
 	public boolean isHauntRoll() {

@@ -48,9 +48,9 @@ public class TestGame {
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
 	private ItemCard angelFeather = new AngelFeather(enLocale);
-	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
-	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+	private OmenCard crystalBall = new CrystalBall(enLocale);
+	private OmenCard book = new Book(enLocale);
+	private OmenCard ring = new Ring(enLocale);
 	private Player player = new Player();
 	private Player player2 = new Player();
 	private ArrayList<Room> rooms = new ArrayList<Room>();

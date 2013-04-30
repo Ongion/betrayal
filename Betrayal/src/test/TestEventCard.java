@@ -76,9 +76,9 @@ public class TestEventCard {
 	private ItemCard adrenalineShotCard = new AdrenalineShot(enLocale);
 	private ItemCard revolverCard = new Revolver(enLocale);	
 	private ItemCard puzzleBoxCard = new PuzzleBox(enLocale);
-	private OmenCard crystalBall = new CrystalBall("Crystal Ball", "Hazy images appear in the glass.");
-	private OmenCard book = new Book("Book", "A diary or lab notes? Ancient script or modern ravings?");
-	private OmenCard ring = new Ring("Ring","A battered ring with an incomprehensible inscription.");
+	private OmenCard crystalBall = new CrystalBall(enLocale);
+	private OmenCard book = new Book(enLocale);
+	private OmenCard ring = new Ring(enLocale);
 	private Player player = new Player();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
