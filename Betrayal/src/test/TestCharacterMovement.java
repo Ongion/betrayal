@@ -12,9 +12,11 @@ import rooms.EventRoom;
 import rooms.JunkRoomRoom;
 import rooms.OmenRoom;
 import rooms.Room;
+import rooms.RoomFactory;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
+import rooms.RoomName;
 import Game.Game;
 import characters.Character;
 import characters.Character.Character_Name;
@@ -42,6 +44,7 @@ public class TestCharacterMovement {
 	public void init() {
 		Game.resetGame();
 		
+		RoomFactory rooms = new RoomFactory();
 		HashSet<Relative_Direction> allDirectionExits = new HashSet<Relative_Direction>();
 		allDirectionExits.add(Relative_Direction.NORTH);
 		allDirectionExits.add(Relative_Direction.SOUTH);
@@ -52,42 +55,17 @@ public class TestCharacterMovement {
 		gardensExits.add(Relative_Direction.NORTH);
 		gardensExits.add(Relative_Direction.SOUTH);
 		
-		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
-		gardensFloors.add(Floor_Name.GROUND);
-		gardens = new EventRoom("Garden", allDirectionExits, gardensFloors);
+		gardens = rooms.makeRoom(RoomName.CREAKYHALLWAY);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
-		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
-		organRoomExits.add(Relative_Direction.SOUTH);
-		organRoomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
-		organRoomFloors.add(Floor_Name.UPPER);
-		organRoomFloors.add(Floor_Name.GROUND);
-		organRoomFloors.add(Floor_Name.BASEMENT);
-		organRoom = new EventRoom("Organ Room", allDirectionExits, organRoomFloors);
+		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
 		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
 		
-		HashSet<Relative_Direction> diningRoomExits = new HashSet<Relative_Direction>();
-		diningRoomExits.add(Relative_Direction.NORTH);
-		diningRoomExits.add(Relative_Direction.EAST);
-		HashSet<Floor_Name> diningRoomFloors = new HashSet<Floor_Name>();
-		diningRoomFloors.add(Floor_Name.GROUND);
-		HashMap<Relative_Direction, Integer> diningRoomWindows = new HashMap<Relative_Direction, Integer>();
-		diningRoomWindows.put(Relative_Direction.WEST, 2);
-		diningRoom = new OmenRoom("Dining Room", allDirectionExits, diningRoomFloors, diningRoomWindows);
-		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, 1));
+		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
 		
-		HashSet<Relative_Direction> junkRoomExits = new HashSet<Relative_Direction>();
-		junkRoomExits.add(Relative_Direction.NORTH);
-		junkRoomExits.add(Relative_Direction.EAST);
-		junkRoomExits.add(Relative_Direction.SOUTH);
-		junkRoomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> junkRoomFloors = new HashSet<Floor_Name>();
-		junkRoomFloors.add(Floor_Name.UPPER);
-		junkRoomFloors.add(Floor_Name.GROUND);
-		junkRoomFloors.add(Floor_Name.BASEMENT);
-		junkRoom = new JunkRoomRoom("Junk Room", allDirectionExits, junkRoomFloors);
-		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
+		junkRoom = rooms.makeRoom(RoomName.DUSTYHALLWAY);
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, -1));
 
 		c = new ExplorerFactory().getExplorer(Character_Name.FatherRhinehardt);
 		}
@@ -174,23 +152,23 @@ public class TestCharacterMovement {
 		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		
-		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
 		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
 		
 		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.EAST));
 		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
 		
-		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
 		Assert.assertEquals(c.getCurrentRoom(), gardens);
 		
 		//Completed the full loop. Now go backwards!
-		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
 		Assert.assertEquals(c.getCurrentRoom(), junkRoom);
 		
 		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.WEST));
 		Assert.assertEquals(c.getCurrentRoom(), diningRoom);
 		
-		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.SOUTH));
+		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH));
 		Assert.assertEquals(c.getCurrentRoom(), organRoom);
 		
 		Assert.assertTrue(c.attemptMoveInAbsoluteDirection(Relative_Direction.EAST));

@@ -10,11 +10,11 @@ import characters.Character;
 
 public class OmenRoom extends Room{
 	
-	public OmenRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
+	public OmenRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
 		super(name, doorExits, floorsAllowedOn, windows);
 	}
 
-	public OmenRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public OmenRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn, new HashMap<Relative_Direction, Integer>());
 	}
 	

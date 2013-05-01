@@ -8,7 +8,7 @@ import characters.Character;
 
 public class TowerRoom extends EventRoom {
 
-	public TowerRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public TowerRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}
 	

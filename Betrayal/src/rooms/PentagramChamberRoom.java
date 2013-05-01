@@ -9,7 +9,7 @@ import characters.Character;
 
 public class PentagramChamberRoom extends OmenRoom {
 
-	public PentagramChamberRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public PentagramChamberRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}
 	

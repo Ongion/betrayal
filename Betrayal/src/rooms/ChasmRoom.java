@@ -8,7 +8,7 @@ import characters.Character;
 
 public class ChasmRoom extends NormalRoom {
 
-	public ChasmRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public ChasmRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}
 	

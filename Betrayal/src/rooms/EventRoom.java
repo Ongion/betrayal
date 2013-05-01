@@ -10,11 +10,11 @@ import eventCards.EventCard;
 
 public class EventRoom extends Room{
 	
-	public EventRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
+	public EventRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
 		super(name, doorExits, floorsAllowedOn, windows);
 	}
 
-	public EventRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public EventRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn, new HashMap<Relative_Direction, Integer>());
 	}
 	

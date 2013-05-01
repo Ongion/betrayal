@@ -184,7 +184,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 
 		RoomFactory rooms = new RoomFactory();
 		Room r1 = rooms.makeRoom(RoomName.DININGROOM);
-		Room r2 = rooms.makeRoom(RoomName.GARDEN);
+		Room r2 = rooms.makeRoom(RoomName.GARDENS);
 		Room r3 = rooms.makeRoom(RoomName.ORGANROOM);
 
 		r1.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0,0));

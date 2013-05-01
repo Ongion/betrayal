@@ -21,6 +21,8 @@ import rooms.EventRoom;
 import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
+import rooms.RoomFactory;
+import rooms.RoomName;
 
 import Game.Game;
 import Game.Player;
@@ -63,6 +65,7 @@ public class TestGame {
 	
 	@Before
 	public void setUp(){
+		RoomFactory roomfactory = new RoomFactory();
 		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
 		character2 = explorers.getExplorer(Character_Name.OxBellows);
 		player.addCharacter(character);
@@ -81,23 +84,9 @@ public class TestGame {
 		players.add(player2);
 		
 		// Set up Room Deck
-		HashSet<Relative_Direction> foyerExits = new HashSet<Relative_Direction>();
-		foyerExits.add(Relative_Direction.NORTH);
-		foyerExits.add(Relative_Direction.EAST);
-		foyerExits.add(Relative_Direction.SOUTH);
-		foyerExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> foyerFloors = new HashSet<Floor_Name>();
-		foyerFloors.add(Floor_Name.GROUND);
-		foyer = new EventRoom("Foyer", foyerExits, foyerFloors);
+		foyer = roomfactory.makeRoom(RoomName.FOYER);
 
-		HashSet<Relative_Direction> organRoomExits = new HashSet<Relative_Direction>();
-		organRoomExits.add(Relative_Direction.SOUTH);
-		organRoomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> organRoomFloors = new HashSet<Floor_Name>();
-		organRoomFloors.add(Floor_Name.UPPER);
-		organRoomFloors.add(Floor_Name.GROUND);
-		organRoomFloors.add(Floor_Name.BASEMENT);
-		organRoom = new EventRoom("Organ Room", organRoomExits, organRoomFloors);
+		organRoom = roomfactory.makeRoom(RoomName.ORGANROOM);
 		
 		rooms.add(foyer);
 		rooms.add(organRoom);

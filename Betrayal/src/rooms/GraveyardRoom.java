@@ -8,7 +8,7 @@ import characters.Character;
 
 public class GraveyardRoom extends OmenRoom {
 
-	public GraveyardRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public GraveyardRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}
 	
