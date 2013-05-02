@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,23 +20,25 @@ import characters.Character;
 import characters.ExplorerFactory;
 import characters.Character.Character_Name;
 
+import Game.Game;
 import actions.IAction;
 import actions.JumpDownFromGalleryToBallroomAction;
 
-import Game.Game;
-
 public class TestActions {
 	
-	Game game;
 	Room gallery;
 	Room ballroom;
-	Character darrinWilliams;
+	Room basementLandingWithSecretStairs1;
+	Room bedroomWithSecretStairs2;
+	Character darrinWilliamsJumpingDownFromBalcony;
+	Character missyDubourdeUsingSecretStairs;
 	IAction jumpDownToBallroom;
+	IAction useSecretStairs1;
+	IAction useSecretStairs2;
 	
 	@Before
 	public void setUp() throws Exception {
 		Game.resetGame();
-		game = Game.getInstance();
 		
 		RoomFactory rooms = new RoomFactory();
 		gallery = rooms.makeRoom(RoomName.GALLERY);
@@ -42,12 +46,27 @@ public class TestActions {
 		
 		ballroom = rooms.makeRoom(RoomName.BALLROOM);
 		
-		darrinWilliams = new ExplorerFactory().getExplorer(Character_Name.DarrinWilliams);
+		basementLandingWithSecretStairs1 = Game.getInstance().getRoomByRoomName(RoomName.BASEMENTLANDING);
 		
-		darrinWilliams.setCurrentRoom(gallery);
-		darrinWilliams.setSideOfRoom(Relative_Direction.NORTH);
+		bedroomWithSecretStairs2 = rooms.makeRoom(RoomName.BEDROOM);
+		bedroomWithSecretStairs2.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 1, 1));
 		
-		jumpDownToBallroom = new JumpDownFromGalleryToBallroomAction();
+		ExplorerFactory explorers = new ExplorerFactory();
+		darrinWilliamsJumpingDownFromBalcony = explorers.getExplorer(Character_Name.DarrinWilliams);
+		missyDubourdeUsingSecretStairs = explorers.getExplorer(Character_Name.MissyDubourde);
+		
+		darrinWilliamsJumpingDownFromBalcony.setCurrentRoom(gallery);
+		darrinWilliamsJumpingDownFromBalcony.setSideOfRoom(Relative_Direction.NORTH);
+		missyDubourdeUsingSecretStairs.setCurrentRoom(bedroomWithSecretStairs2);
+		missyDubourdeUsingSecretStairs.setSideOfRoom(Relative_Direction.EAST);
+		
+		jumpDownToBallroom =  gallery.getRoomActions().toArray(new IAction[1])[0];
+		useSecretStairs1 = new UseSecretStairsAction(bedroomWithSecretStairs2);
+		useSecretStairs2 = new UseSecretStairsAction(basementLandingWithSecretStairs1);
+		
+		basementLandingWithSecretStairs1.addRoomAction(useSecretStairs1);
+		bedroomWithSecretStairs2.addRoomAction(useSecretStairs2);
+		
 	}
 
 	@After
@@ -55,28 +74,38 @@ public class TestActions {
 	}
 
 	@Test
-	public void testCanPerformWithNoBallroom() {
-		assertFalse(jumpDownToBallroom.canPerform(darrinWilliams));
+	public void testCanJumpDownWithNoBallroom() {
+		IAction[] galleryActions = gallery.getRoomActions().toArray(new IAction[1]);
+		for (IAction action : galleryActions) {
+			assertFalse(action.canPerform(darrinWilliamsJumpingDownFromBalcony));
+		}
 	}
 	
 	@Test
-	public void testCanPerformWithBallroom() {
+	public void testCanJumpDownWithBallroom() {
 		ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
-		assertTrue(jumpDownToBallroom.canPerform(darrinWilliams));
+		IAction[] galleryActions = gallery.getRoomActions().toArray(new IAction[1]);
+		for (IAction action : galleryActions) {
+			assertTrue(action.canPerform(darrinWilliamsJumpingDownFromBalcony));
+		}
 	}
 
 	@Test
-	public void testPerform() {
+	public void testJumpDown() {
 		ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
-		jumpDownToBallroom.perform(darrinWilliams);
+		IAction[] galleryActions = gallery.getRoomActions().toArray(new IAction[1]);
+		for (IAction action : galleryActions) {
+			assertTrue(action.canPerform(darrinWilliamsJumpingDownFromBalcony));
+		}
 		
-		assertEquals(ballroom, darrinWilliams.getCurrentRoom());
+		assertEquals(ballroom, darrinWilliamsJumpingDownFromBalcony.getCurrentRoom());
 	}
 
 	@Test
 	public void testGetName() {
 		// English
 		assertEquals("Jump down to Ballroom", jumpDownToBallroom.getName());
+		assertEquals("Use Secret Stairs", useSecretStairs1.getName());
 		
 		// Spanish
 		
@@ -86,6 +115,7 @@ public class TestActions {
 	public void testGetDescription() {
 		// English
 		assertEquals("Jump down to the Ballroom. Take 1 point of physical damage.", jumpDownToBallroom.getDescription());
+		assertEquals("Go through the secret stairs. Takes one movement.", useSecretStairs1.getDescription());
 		
 		// Spanish
 	}

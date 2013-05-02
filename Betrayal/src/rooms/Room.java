@@ -36,7 +36,7 @@ public abstract class Room {
 	protected Relative_Direction sideOfSecretPassage;
 
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH, UP, DOWN, SECRETPASSAGE};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
+	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, UP, DOWN};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 
 	public Room (RoomName name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
@@ -82,8 +82,6 @@ public abstract class Room {
 	}
 
 	public void addSecretStairs(Room roomConnectingTo) {
-		this.exits.add(Relative_Direction.SECRETSTAIRS);
-		this.otherEndOfSecretStairs = roomConnectingTo;
 	}
 	
 	public void addActionAddingTile(ActionAddingTile tileToBeAdded) {
@@ -370,12 +368,6 @@ public abstract class Room {
 			break;
 		case DOWN:
 			locationOfNewRoom = this.downwardsRoom == null? null : this.downwardsRoom.getLocation();
-			break;
-		case SECRETSTAIRS:
-			locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
-			break;
-		case WALLSWITCH:
-			locationOfNewRoom = this.otherEndOfWallSwitch.getLocation();
 			break;
 		}
 		return locationOfNewRoom;
