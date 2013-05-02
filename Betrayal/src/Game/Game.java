@@ -67,7 +67,9 @@ public class Game {
 		this.characters = new ArrayList<Character>();
 		
 		this.currentCharacter = 0;
-		
+	}
+	
+	public void addStartingRooms() {
 		// Add starting rooms to the map
 		RoomFactory rooms = new RoomFactory();
 		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
@@ -91,6 +93,7 @@ public class Game {
 	
 	public static void resetGame() {
 		INSTANCE = new Game();
+		INSTANCE.addStartingRooms();
 	}
 	
 	public Game(ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
@@ -353,7 +356,7 @@ public class Game {
 		return this.locale;
 	}
 
-	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS IN THE DECK
+	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
 	public Room getRoomByName(String nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
 			if (roomChecking.getName().equals(nameOfRoomWanted)) {

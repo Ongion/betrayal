@@ -55,16 +55,15 @@ public class TestRooms {
 		Game.resetGame();
 		RoomFactory rooms = new RoomFactory();
 		gardens = rooms.makeRoom(RoomName.GARDENS);
-		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 0));
 
 		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
-		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
+		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 9 , 0));	
 		
 		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
-		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 9, -1));
 
-		basementLanding = rooms.makeRoom(RoomName.BASEMENTLANDING);
-		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		basementLanding = Game.getInstance().getRoomByName("Basement Landing");
 		
 		catacombs = rooms.makeRoom(RoomName.CATACOMBS);
 		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
@@ -79,16 +78,16 @@ public class TestRooms {
 		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, -1));
 		
 		creakyHallway = rooms.makeRoom(RoomName.CREAKYHALLWAY);
-		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5));
+		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 15, 5));
 		
 		servantsQuarters = rooms.makeRoom(RoomName.SERVANTSQUARTERS);
-		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 5));
+		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 16, 5));
 		
 		masterBedroom = rooms.makeRoom(RoomName.MASTERBEDROOM);
-		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 5, 6));
+		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 15, 6));
 		
 		bedroom = rooms.makeRoom(RoomName.BEDROOM);
-		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
+		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 16, 6));
 		
 		explorers = new ExplorerFactory();
 
