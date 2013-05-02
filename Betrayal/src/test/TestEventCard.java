@@ -19,38 +19,60 @@ import omenCards.Ring;
 import org.junit.Before;
 import org.junit.Test;
 
+import rooms.RoomFactory;
+import rooms.RoomName;
+
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 
 import Game.Game;
 import Game.Player;
+import eventCards.AMomentOfHope;
 import eventCards.AngryBeing;
 import eventCards.BloodyVision;
 import eventCards.BurningMan;
 import eventCards.ClosetDoor;
 import eventCards.CreepyCrawlies;
+import eventCards.CreepyPuppet;
 import eventCards.Debris;
+import eventCards.DisquietingSounds;
+import eventCards.Drip;
 import eventCards.EventCard;
 import eventCards.Footsteps;
 import eventCards.Funeral;
+import eventCards.GraveDirt;
+import eventCards.Groundskeeper;
 import eventCards.HangedMen;
 import eventCards.HideousShriek;
+import eventCards.ItIsMeantToBe;
+import eventCards.JonahsTurn;
+import eventCards.LightsOut;
 import eventCards.LockedSafe;
+import eventCards.Mirror;
 import eventCards.MistsFromTheWalls;
 import eventCards.Mirror2;
+import eventCards.MysticSlide;
 import eventCards.NightView;
 import eventCards.PhoneCall;
 import eventCards.Possession;
+import eventCards.RevolvingWall;
 import eventCards.Rotten;
+import eventCards.SecretPassage;
+import eventCards.SecretStairs;
 import eventCards.ShriekingWind;
 import eventCards.Silence;
 import eventCards.Skeletons;
+import eventCards.Smoke;
 import eventCards.SomethingHidden;
 import eventCards.SomethingSlimy;
 import eventCards.Spider;
 import eventCards.TheBeckoning;
 import eventCards.TheLostOne;
 import eventCards.TheVoice;
+import eventCards.TheWalls;
+import eventCards.Webs;
+import eventCards.WhatThe;
+import eventCards.Whoops;
 
 public class TestEventCard {
 
@@ -1399,20 +1421,6 @@ public class TestEventCard {
 	}
 	
 	@Test
-	public void testTheLostOneInit(){
-		card = new TheLostOne(enLocale);
-		assertEquals(mesEN.getString("titleTheLostOne"), card.getName());
-		assertEquals(mesEN.getString("desTheLostOne"), card.getDescription());
-		assertEquals(mesEN.getString("rulesTheLostOne"), card.getRules());
-		
-		//Check Spanish
-		card = new TheLostOne(spLocale);
-		assertEquals(mesSP.getString("titleTheLostOne"), card.getName());
-		assertEquals(mesSP.getString("desTheLostOne"), card.getDescription());
-		assertEquals(mesSP.getString("rulesTheLostOne"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
-	
-	@Test
 	public void testBurningManInit(){
 		card = new BurningMan(enLocale);
 		assertEquals(mesEN.getString("titleBurningMan"), card.getName());
@@ -1511,6 +1519,323 @@ public class TestEventCard {
 		assertEquals(2, game.getCurrentCharacter().getEventHand().size());
 		assertEquals(creepyCrawlies, game.getCurrentCharacter().getEventHand().get(1));
 	}
+	
+	@Test
+	public void testTheLostOneInit(){
+		card = new TheLostOne(enLocale);
+		assertEquals(mesEN.getString("titleTheLostOne"), card.getName());
+		assertEquals(mesEN.getString("desTheLostOne"), card.getDescription());
+		assertEquals(mesEN.getString("rulesTheLostOne"), card.getRules());
+		
+		//Check Spanish
+		card = new TheLostOne(spLocale);
+		assertEquals(mesSP.getString("titleTheLostOne"), card.getName());
+		assertEquals(mesSP.getString("desTheLostOne"), card.getDescription());
+		assertEquals(mesSP.getString("rulesTheLostOne"), card.getRules());
+	}
+	
+	@Test
+	public void testTheLostOne6(){
+		card = new TheLostOne(enLocale);
+		
+		card.happen(6);
+		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+	}
+	
+	@Test
+	public void testTheLostOne4or5(){
+		card = new TheLostOne(enLocale);
+		
+		card.happen(5);
+		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		
+		game.getCurrentCharacter().setCurrentRoom((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		
+		card.happen(4);
+		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		
+	}
+	
+	@Test
+	public void testTheLostOne2or3(){
+		card = new TheLostOne(enLocale);
+		
+		card.happen(2);
+		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		
+		game.getCurrentCharacter().setCurrentRoom((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		
+		card.happen(3);
+		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+	}
+	
+	@Test
+	public void testTheWallsInit(){
+		card = new TheWalls(enLocale);
+		assertEquals(mesEN.getString("titleTheWalls"), card.getName());
+		assertEquals(mesEN.getString("desTheWalls"), card.getDescription());
+		assertEquals(mesEN.getString("rulesTheWalls"), card.getRules());
+		
+		//Check Spanish
+		card = new TheWalls(spLocale);
+		assertEquals(mesSP.getString("titleTheWalls"), card.getName());
+		assertEquals(mesSP.getString("desTheWalls"), card.getDescription());
+		assertEquals(mesSP.getString("rulesTheWalls"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testJonahsTurnInit(){
+		card = new JonahsTurn(enLocale);
+		assertEquals(mesEN.getString("titleJonahsTurn"), card.getName());
+		assertEquals(mesEN.getString("desJonahsTurn"), card.getDescription());
+		assertEquals(mesEN.getString("rulesJonahsTurn"), card.getRules());
+		
+		//Check Spanish
+		card = new JonahsTurn(spLocale);
+		assertEquals(mesSP.getString("titleJonahsTurn"), card.getName());
+		assertEquals(mesSP.getString("desJonahsTurn"), card.getDescription());
+		assertEquals(mesSP.getString("rulesJonahsTurn"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testWhatTheInit(){
+		card = new WhatThe(enLocale);
+		assertEquals(mesEN.getString("titleWhatThe"), card.getName());
+		assertEquals(mesEN.getString("desWhatThe"), card.getDescription());
+		assertEquals(mesEN.getString("rulesWhatThe"), card.getRules());
+		
+		//Check Spanish
+		card = new WhatThe(spLocale);
+		assertEquals(mesSP.getString("titleWhatThe"), card.getName());
+		assertEquals(mesSP.getString("desWhatThe"), card.getDescription());
+		assertEquals(mesSP.getString("rulesWhatThe"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testWhoopsInit(){
+		card = new Whoops(enLocale);
+		assertEquals(mesEN.getString("titleWhoops"), card.getName());
+		assertEquals(mesEN.getString("desWhoops"), card.getDescription());
+		assertEquals(mesEN.getString("rulesWhoops"), card.getRules());
+		
+		//Check Spanish
+		card = new Whoops(spLocale);
+		assertEquals(mesSP.getString("titleWhoops"), card.getName());
+		assertEquals(mesSP.getString("desWhoops"), card.getDescription());
+		assertEquals(mesSP.getString("rulesWhoops"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testMirrorInit(){
+		card = new Mirror(enLocale);
+		assertEquals(mesEN.getString("titleMirror"), card.getName());
+		assertEquals(mesEN.getString("desMirror"), card.getDescription());
+		assertEquals(mesEN.getString("rulesMirror"), card.getRules());
+		
+		//Check Spanish
+		card = new Mirror(spLocale);
+		assertEquals(mesSP.getString("titleMirror"), card.getName());
+		assertEquals(mesSP.getString("desMirror"), card.getDescription());
+		assertEquals(mesSP.getString("rulesMirror"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testDisquietingSoundsInit(){
+		card = new DisquietingSounds(enLocale);
+		assertEquals(mesEN.getString("titleDisquietingSounds"), card.getName());
+		assertEquals(mesEN.getString("desDisquietingSounds"), card.getDescription());
+		assertEquals(mesEN.getString("rulesDisquietingSounds"), card.getRules());
+		
+		//Check Spanish
+		card = new DisquietingSounds(spLocale);
+		assertEquals(mesSP.getString("titleDisquietingSounds"), card.getName());
+		assertEquals(mesSP.getString("desDisquietingSounds"), card.getDescription());
+		assertEquals(mesSP.getString("rulesDisquietingSounds"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testCreepyPuppetInit(){
+		card = new CreepyPuppet(enLocale);
+		assertEquals(mesEN.getString("titleCreepyPuppet"), card.getName());
+		assertEquals(mesEN.getString("desCreepyPuppet"), card.getDescription());
+		assertEquals(mesEN.getString("rulesCreepyPuppet"), card.getRules());
+		
+		//Check Spanish
+		card = new CreepyPuppet(spLocale);
+		assertEquals(mesSP.getString("titleCreepyPuppet"), card.getName());
+		assertEquals(mesSP.getString("desCreepyPuppet"), card.getDescription());
+		assertEquals(mesSP.getString("rulesCreepyPuppet"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testGroundskeeperInit(){
+		card = new Groundskeeper(enLocale);
+		assertEquals(mesEN.getString("titleGroundskeeper"), card.getName());
+		assertEquals(mesEN.getString("desGroundskeeper"), card.getDescription());
+		assertEquals(mesEN.getString("rulesGroundskeeper"), card.getRules());
+		
+		//Check Spanish
+		card = new Groundskeeper(spLocale);
+		assertEquals(mesSP.getString("titleGroundskeeper"), card.getName());
+		assertEquals(mesSP.getString("desGroundskeeper"), card.getDescription());
+		assertEquals(mesSP.getString("rulesGroundskeeper"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testWebsInit(){
+		card = new Webs(enLocale);
+		assertEquals(mesEN.getString("titleWebs"), card.getName());
+		assertEquals(mesEN.getString("desWebs"), card.getDescription());
+		assertEquals(mesEN.getString("rulesWebs"), card.getRules());
+		
+		//Check Spanish
+		card = new Webs(spLocale);
+		assertEquals(mesSP.getString("titleWebs"), card.getName());
+		assertEquals(mesSP.getString("desWebs"), card.getDescription());
+		assertEquals(mesSP.getString("rulesWebs"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testGraveDirtInit(){
+		card = new GraveDirt(enLocale);
+		assertEquals(mesEN.getString("titleGraveDirt"), card.getName());
+		assertEquals(mesEN.getString("desGraveDirt"), card.getDescription());
+		assertEquals(mesEN.getString("rulesGraveDirt"), card.getRules());
+		
+		//Check Spanish
+		card = new GraveDirt(spLocale);
+		assertEquals(mesSP.getString("titleGraveDirt"), card.getName());
+		assertEquals(mesSP.getString("desGraveDirt"), card.getDescription());
+		assertEquals(mesSP.getString("rulesGraveDirt"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testLightsOutInit(){
+		card = new LightsOut(enLocale);
+		assertEquals(mesEN.getString("titleLightsOut"), card.getName());
+		assertEquals(mesEN.getString("desLightsOut"), card.getDescription());
+		assertEquals(mesEN.getString("rulesLightsOut"), card.getRules());
+		
+		//Check Spanish
+		card = new LightsOut(spLocale);
+		assertEquals(mesSP.getString("titleLightsOut"), card.getName());
+		assertEquals(mesSP.getString("desLightsOut"), card.getDescription());
+		assertEquals(mesSP.getString("rulesLightsOut"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testSecretPassageInit(){
+		card = new SecretPassage(enLocale);
+		assertEquals(mesEN.getString("titleSecretPassage"), card.getName());
+		assertEquals(mesEN.getString("desSecretPassage"), card.getDescription());
+		assertEquals(mesEN.getString("rulesSecretPassage"), card.getRules());
+		
+		//Check Spanish
+		card = new SecretPassage(spLocale);
+		assertEquals(mesSP.getString("titleSecretPassage"), card.getName());
+		assertEquals(mesSP.getString("desSecretPassage"), card.getDescription());
+		assertEquals(mesSP.getString("rulesSecretPassage"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testRevolvingWallInit(){
+		card = new RevolvingWall(enLocale);
+		assertEquals(mesEN.getString("titleRevolvingWall"), card.getName());
+		assertEquals(mesEN.getString("desRevolvingWall"), card.getDescription());
+		assertEquals(mesEN.getString("rulesRevolvingWall"), card.getRules());
+		
+		//Check Spanish
+		card = new RevolvingWall(spLocale);
+		assertEquals(mesSP.getString("titleRevolvingWall"), card.getName());
+		assertEquals(mesSP.getString("desRevolvingWall"), card.getDescription());
+		assertEquals(mesSP.getString("rulesRevolvingWall"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testMysticSlideInit(){
+		card = new MysticSlide(enLocale);
+		assertEquals(mesEN.getString("titleMysticSlide"), card.getName());
+		assertEquals(mesEN.getString("desMysticSlide"), card.getDescription());
+		assertEquals(mesEN.getString("rulesMysticSlide"), card.getRules());
+		
+		//Check Spanish
+		card = new MysticSlide(spLocale);
+		assertEquals(mesSP.getString("titleMysticSlide"), card.getName());
+		assertEquals(mesSP.getString("desMysticSlide"), card.getDescription());
+		assertEquals(mesSP.getString("rulesMysticSlide"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testAMomentOfHopeInit(){
+		card = new AMomentOfHope(enLocale);
+		assertEquals(mesEN.getString("titleAMomentOfHope"), card.getName());
+		assertEquals(mesEN.getString("desAMomentOfHope"), card.getDescription());
+		assertEquals(mesEN.getString("rulesAMomentOfHope"), card.getRules());
+		
+		//Check Spanish
+		card = new AMomentOfHope(spLocale);
+		assertEquals(mesSP.getString("titleAMomentOfHope"), card.getName());
+		assertEquals(mesSP.getString("desAMomentOfHope"), card.getDescription());
+		assertEquals(mesSP.getString("rulesAMomentOfHope"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testDripInit(){
+		card = new Drip(enLocale);
+		assertEquals(mesEN.getString("titleDrip"), card.getName());
+		assertEquals(mesEN.getString("desDrip"), card.getDescription());
+		assertEquals(mesEN.getString("rulesDrip"), card.getRules());
+		
+		//Check Spanish
+		card = new Drip(spLocale);
+		assertEquals(mesSP.getString("titleDrip"), card.getName());
+		assertEquals(mesSP.getString("desDrip"), card.getDescription());
+		assertEquals(mesSP.getString("rulesDrip"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testSmokeInit(){
+		card = new Smoke(enLocale);
+		assertEquals(mesEN.getString("titleSmoke"), card.getName());
+		assertEquals(mesEN.getString("desSmoke"), card.getDescription());
+		assertEquals(mesEN.getString("rulesSmoke"), card.getRules());
+		
+		//Check Spanish
+		card = new Smoke(spLocale);
+		assertEquals(mesSP.getString("titleSmoke"), card.getName());
+		assertEquals(mesSP.getString("desSmoke"), card.getDescription());
+		assertEquals(mesSP.getString("rulesSmoke"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testSecretStairsInit(){
+		card = new SecretStairs(enLocale);
+		assertEquals(mesEN.getString("titleSecretStairs"), card.getName());
+		assertEquals(mesEN.getString("desSecretStairs"), card.getDescription());
+		assertEquals(mesEN.getString("rulesSecretStairs"), card.getRules());
+		
+		//Check Spanish
+		card = new SecretStairs(spLocale);
+		assertEquals(mesSP.getString("titleSecretStairs"), card.getName());
+		assertEquals(mesSP.getString("desSecretStairs"), card.getDescription());
+		assertEquals(mesSP.getString("rulesSecretStairs"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
+	
+	@Test
+	public void testItIsMeantToBeInit(){
+		card = new ItIsMeantToBe(enLocale);
+		assertEquals(mesEN.getString("titleItIsMeantToBe"), card.getName());
+		assertEquals(mesEN.getString("desItIsMeantToBe"), card.getDescription());
+		assertEquals(mesEN.getString("rulesItIsMeantToBe"), card.getRules());
+		
+		//Check Spanish
+		card = new ItIsMeantToBe(spLocale);
+		assertEquals(mesSP.getString("titleItIsMeantToBe"), card.getName());
+		assertEquals(mesSP.getString("desItIsMeantToBe"), card.getDescription());
+		assertEquals(mesSP.getString("rulesItIsMeantToBe"), card.getRules());
+	}// Only test for now. Don't have methods to develop further yet
 	
 	
 }
