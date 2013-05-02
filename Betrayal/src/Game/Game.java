@@ -19,7 +19,7 @@ import rooms.Location;
 
 public class Game {
 	
-	private Locale locale = new Locale("en");
+	private Locale locale = new Locale("en", "US");
 	private Set<Room> mapRooms; 
 	private ArrayList<Room> roomDeck;
 	private ArrayList<EventCard> eventDeck;

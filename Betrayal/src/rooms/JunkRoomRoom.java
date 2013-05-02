@@ -9,7 +9,7 @@ import characters.Character;
 
 public class JunkRoomRoom extends OmenRoom {
 
-	public JunkRoomRoom(String name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
+	public JunkRoomRoom(RoomName name, Set<Relative_Direction> doorExits, Set<Floor_Name> floorsAllowedOn) {
 		super(name, doorExits, floorsAllowedOn);
 	}
 	

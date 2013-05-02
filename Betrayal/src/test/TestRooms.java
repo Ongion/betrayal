@@ -54,8 +54,7 @@ public class TestRooms {
 	public void setUp() {
 		Game.resetGame();
 		RoomFactory rooms = new RoomFactory();
-		gardens = rooms.makeRoom(RoomName.GARDEN);
-//		game.addRoomToMap(gardens);
+		gardens = rooms.makeRoom(RoomName.GARDENS);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
 
 		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
@@ -64,92 +63,31 @@ public class TestRooms {
 		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
 		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
 
-		HashSet<Relative_Direction> basementLandingExits = new HashSet<Relative_Direction>();
-		basementLandingExits.add(Relative_Direction.NORTH);
-		basementLandingExits.add(Relative_Direction.EAST);
-		basementLandingExits.add(Relative_Direction.SOUTH);
-		basementLandingExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> basementLandingFloors = new HashSet<Floor_Name>();
-		basementLandingFloors.add(Floor_Name.BASEMENT);
-		basementLanding = new NormalRoom("Basement Landing", basementLandingExits, basementLandingFloors);
+		basementLanding = rooms.makeRoom(RoomName.BASEMENTLANDING);
 		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
 		
-		HashSet<Relative_Direction> catacombsExits = new HashSet<Relative_Direction>();
-		catacombsExits.add(Relative_Direction.NORTH);
-		catacombsExits.add(Relative_Direction.SOUTH);
-		HashSet<Floor_Name> catacombsFloors = new HashSet<Floor_Name>();
-		catacombsFloors.add(Floor_Name.BASEMENT);
-		catacombs = new CatacombsRoom("Catacombs", catacombsExits, catacombsFloors);
+		catacombs = rooms.makeRoom(RoomName.CATACOMBS);
 		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
 		
-		HashSet<Relative_Direction> chasmExits = new HashSet<Relative_Direction>();
-		chasmExits.add(Relative_Direction.EAST);
-		chasmExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> chasmFloors = new HashSet<Floor_Name>();
-		chasmFloors.add(Floor_Name.BASEMENT);
-		chasm = new ChasmRoom("Chasm", chasmExits, chasmFloors);
+		chasm = rooms.makeRoom(RoomName.CHASM);
 		chasm.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 0, 1));
 		
-		HashSet<Relative_Direction> pentagramChamberExits = new HashSet<Relative_Direction>();
-		pentagramChamberExits.add(Relative_Direction.EAST);
-		HashSet<Floor_Name> pentagramChamberFloors = new HashSet<Floor_Name>();
-		pentagramChamberFloors.add(Floor_Name.BASEMENT);
-		pentagramChamber = new PentagramChamberRoom("Pentagram Chamber", pentagramChamberExits, pentagramChamberFloors);
+		pentagramChamber = rooms.makeRoom(RoomName.PENTAGRAMCHAMBER);
 		pentagramChamber.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, -1, 0));
 		
-		HashSet<Relative_Direction> junkRoomExits = new HashSet<Relative_Direction>();
-		junkRoomExits.add(Relative_Direction.NORTH);
-		junkRoomExits.add(Relative_Direction.EAST);
-		junkRoomExits.add(Relative_Direction.SOUTH);
-		junkRoomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> junkRoomFloors = new HashSet<Floor_Name>();
-		junkRoomFloors.add(Floor_Name.UPPER);
-		junkRoomFloors.add(Floor_Name.GROUND);
-		junkRoomFloors.add(Floor_Name.BASEMENT);
-		junkRoom = new JunkRoomRoom("Junk Room", junkRoomExits, junkRoomFloors);
+		junkRoom = rooms.makeRoom(RoomName.JUNKROOM);
 		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, -1));
 		
-		HashSet<Relative_Direction> creakyHallwayExits = new HashSet<Relative_Direction>();
-		creakyHallwayExits.add(Relative_Direction.NORTH);
-		creakyHallwayExits.add(Relative_Direction.EAST);
-		creakyHallwayExits.add(Relative_Direction.SOUTH);
-		creakyHallwayExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> creakyHallwayFloors = new HashSet<Floor_Name>();
-		creakyHallwayFloors.add(Floor_Name.UPPER);
-		creakyHallwayFloors.add(Floor_Name.GROUND);
-		creakyHallwayFloors.add(Floor_Name.BASEMENT);
-		creakyHallway = new NormalRoom("Creaky Hallway", creakyHallwayExits, creakyHallwayFloors);
+		creakyHallway = rooms.makeRoom(RoomName.CREAKYHALLWAY);
 		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5));
 		
-		HashSet<Relative_Direction> servantsQuartersExits = new HashSet<Relative_Direction>();
-		servantsQuartersExits.add(Relative_Direction.NORTH);
-		servantsQuartersExits.add(Relative_Direction.EAST);
-		servantsQuartersExits.add(Relative_Direction.SOUTH);
-		servantsQuartersExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> servantsQuartersFloors = new HashSet<Floor_Name>();
-		servantsQuartersFloors.add(Floor_Name.UPPER);
-		servantsQuartersFloors.add(Floor_Name.BASEMENT);
-		servantsQuarters = new OmenRoom("Servant's Quarters", servantsQuartersExits, servantsQuartersFloors);
+		servantsQuarters = rooms.makeRoom(RoomName.SERVANTSQUARTERS);
 		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 5));
 		
-		HashSet<Relative_Direction> masterBedroomExits = new HashSet<Relative_Direction>();
-		masterBedroomExits.add(Relative_Direction.NORTH);
-		masterBedroomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> masterBedroomFloors = new HashSet<Floor_Name>();
-		masterBedroomFloors.add(Floor_Name.UPPER);
-		HashMap<Relative_Direction, Integer> masterBedroomWindows = new HashMap<Relative_Direction, Integer>();
-		masterBedroomWindows.put(Relative_Direction.SOUTH, 2);
-		masterBedroom = new OmenRoom("Master Bedroom", masterBedroomExits, masterBedroomFloors, masterBedroomWindows);
+		masterBedroom = rooms.makeRoom(RoomName.MASTERBEDROOM);
 		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 5, 6));
 		
-		HashSet<Relative_Direction> bedroomExits = new HashSet<Relative_Direction>();
-		bedroomExits.add(Relative_Direction.EAST);
-		bedroomExits.add(Relative_Direction.WEST);
-		HashSet<Floor_Name> bedroomFloors = new HashSet<Floor_Name>();
-		bedroomFloors.add(Floor_Name.UPPER);
-		HashMap<Relative_Direction, Integer> bedroomWindows = new HashMap<Relative_Direction, Integer>();
-		bedroomWindows.put(Relative_Direction.SOUTH, 1);
-		bedroom = new EventRoom("Bedroom", bedroomExits, bedroomFloors, bedroomWindows);
+		bedroom = rooms.makeRoom(RoomName.BEDROOM);
 		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
 		
 		explorers = new ExplorerFactory();

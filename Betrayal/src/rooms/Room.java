@@ -2,6 +2,7 @@ package rooms;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import actions.IAction;
@@ -13,7 +14,7 @@ import characters.Trait;
 import rooms.Location;
 
 public abstract class Room {
-	protected final String name;
+	protected final RoomName name;
 	protected Room_Orientation orientation;
 	protected final Set<Relative_Direction> exits;
 	protected Set<Floor_Name> floorsAllowedOn;
@@ -38,7 +39,7 @@ public abstract class Room {
 	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH, UP, DOWN, SECRETPASSAGE};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 
-	public Room (String name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
+	public Room (RoomName name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
 		this.name = name;
 		this.exits = exits;
 		this.floorsAllowedOn = floorsAllowedOn;
@@ -49,7 +50,7 @@ public abstract class Room {
 	}
 
 	public String getName() {
-		return this.name;
+		return ResourceBundle.getBundle("rooms/RoomsBundle", Game.getInstance().getLocale()).getString(this.name+"-Name");
 	}
 	
 	public Set<IAction> getRoomActions() {
@@ -363,7 +364,7 @@ public abstract class Room {
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.name.equals(otherRoom.getName()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
+			return (this.getName().equals(otherRoom.getName()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
 		} else {
 			return false;
 		}
