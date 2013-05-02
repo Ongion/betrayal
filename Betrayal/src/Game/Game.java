@@ -363,9 +363,9 @@ public class Game {
 	}
 
 	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
-	public Room getRoomByName(String nameOfRoomWanted) {
+	public Room getRoomByRoomName(RoomName nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
-			if (roomChecking.getName().equals(nameOfRoomWanted)) {
+			if (roomChecking.getNameEnum().equals(nameOfRoomWanted)) {
 				return roomChecking;
 			}
 		}

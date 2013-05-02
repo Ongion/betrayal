@@ -3,6 +3,8 @@ package rooms;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import actions.JumpDownFromGalleryToBallroomAction;
+
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import Game.Game;
@@ -333,6 +335,21 @@ public class RoomFactory {
 					}
 				}
 			};
+			break;
+		case GALLERY:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			room = new OmenRoom(nameOfRoom, roomExits, roomFloors);
+			room.addRoomAction(new JumpDownFromGalleryToBallroomAction());
+			break;
+		case BALLROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
 			break;
 		}
 		return room;

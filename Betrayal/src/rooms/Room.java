@@ -1,6 +1,7 @@
 package rooms;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -12,7 +13,7 @@ import characters.Character;
 public abstract class Room {
 	protected final RoomName name;
 	protected Room_Orientation orientation;
-	protected final Set<Relative_Direction> exits;
+	protected Set<Relative_Direction> exits;
 	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
@@ -43,6 +44,8 @@ public abstract class Room {
 		this.exits = exits;
 		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
+		
+		this.roomActions = new HashSet<IAction>();
 
 		// Add the room to the room deck!
 		//		Game.getInstance().addToRoomDeck(this);
@@ -50,6 +53,10 @@ public abstract class Room {
 
 	public String getName() {
 		return ResourceBundle.getBundle("rooms/RoomsBundle", Game.getInstance().getLocale()).getString(this.name+"-Name");
+	}
+	
+	public RoomName getNameEnum() {
+		return this.name;
 	}
 	
 	public Set<IAction> getRoomActions() {

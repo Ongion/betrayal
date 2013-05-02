@@ -48,8 +48,8 @@ public class TestRooms {
 	public void setUp() {
 		Game.resetGame();
 		RoomFactory rooms = new RoomFactory();
-		grandStaircase = Game.getInstance().getRoomByName("Grand Staircase");
-		upperLanding = Game.getInstance().getRoomByName("Upper Landing");
+		grandStaircase = Game.getInstance().getRoomByRoomName(RoomName.GRANDSTAIRCASE);
+		upperLanding = Game.getInstance().getRoomByRoomName(RoomName.UPPERLANDING);
 		
 		gardens = rooms.makeRoom(RoomName.GARDENS);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 0));
@@ -60,7 +60,7 @@ public class TestRooms {
 		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
 		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 9, -1));
 
-		basementLanding = Game.getInstance().getRoomByName("Basement Landing");
+		basementLanding = Game.getInstance().getRoomByRoomName(RoomName.BASEMENTLANDING);
 		
 		catacombs = rooms.makeRoom(RoomName.CATACOMBS);
 		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
