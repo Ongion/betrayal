@@ -2,13 +2,11 @@ package rooms;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
-
-import Game.Game;
-import characters.Character;
 
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
+import Game.Game;
+import characters.Character;
 
 public class RoomFactory {
 
@@ -270,6 +268,71 @@ public class RoomFactory {
 			roomFloors.add(Floor_Name.UPPER);
 			room = new NormalRoom(nameOfRoom, roomExits, roomFloors);
 			//TODO: Make all non-direction "moves" into actions, perhaps?
+			break;
+		case GRAVEYARD:
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors) {
+				public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+					/* 
+					 * When exiting, you must attempt a Sanity roll of 4+.
+					 * If you fail, you lose 1 Knowledge (but continue moving) 
+					 */
+					
+					if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
+						int diceToRoll = characterLeavingRoom.getCurrentSanity();
+						int TARGET_RESULT = 4;
+						int rollResult = Game.getInstance().rollDice(diceToRoll);
+						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
+						if (rollResult < TARGET_RESULT) {
+							characterLeavingRoom.decrementKnowledge(1);
+							System.out.println(String.format("%s lost 1 Knowledge!", characterLeavingRoom.getName()));
+						} else {
+							System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
+						}
+					}
+				}
+			};
+			break;
+		case PATIO:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case BALCONY:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			room = new OmenRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case TOWER:
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.UPPER);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors) {
+				public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+					/* 
+					 * When exiting, you must attempt a Might roll of 3+ to cross
+					 * If you fail, you stop moving. 
+					 */
+					
+					if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
+						int diceToRoll = characterLeavingRoom.getCurrentMight();
+						int TARGET_RESULT = 3;
+						int rollResult = Game.getInstance().rollDice(diceToRoll);
+						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
+						if (rollResult < TARGET_RESULT) {
+							characterLeavingRoom.endMovement();
+							System.out.println(String.format("%s had to stop moving.", characterLeavingRoom.getName()));
+						} else {
+							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));
+						}
+					}
+				}
+			};
+			break;
 		}
 		return room;
 	}
