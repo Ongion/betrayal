@@ -74,9 +74,15 @@ public class Game {
 		RoomFactory rooms = new RoomFactory();
 		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
 		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
-		rooms.makeRoom(RoomName.GRANDSTAIRCASE).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		Room grandstaircase = rooms.makeRoom(RoomName.GRANDSTAIRCASE);
 		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
-		rooms.makeRoom(RoomName.UPPERLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
+		Room upperlanding = rooms.makeRoom(RoomName.UPPERLANDING);
+		
+		grandstaircase.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		upperlanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
+		
+		grandstaircase.addUpwardExit(upperlanding);
+		upperlanding.addDownwardExit(grandstaircase);
 	}
 	
 	public Trait getTraitForAction(){

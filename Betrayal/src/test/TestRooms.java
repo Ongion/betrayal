@@ -3,7 +3,6 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -13,29 +12,24 @@ import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import rooms.CatacombsRoom;
-import rooms.ChasmRoom;
-import rooms.EventRoom;
-import rooms.JunkRoomRoom;
-import rooms.NormalRoom;
-import rooms.OmenRoom;
-import rooms.PentagramChamberRoom;
+
+import rooms.Location;
 import rooms.Room;
-import rooms.RoomName;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
+import rooms.RoomName;
 import Game.Game;
-import characters.Character.Character_Name;
-import characters.ExplorerType;
 import characters.Character;
+import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import rooms.Location;
 import characters.HumanStats;
 
 public class TestRooms {
 	ExplorerFactory explorers;
+	Room grandStaircase;
+	Room upperLanding;
 	Room organRoom;
 	Room gardens;
 	Room basementLanding;
@@ -54,6 +48,9 @@ public class TestRooms {
 	public void setUp() {
 		Game.resetGame();
 		RoomFactory rooms = new RoomFactory();
+		grandStaircase = Game.getInstance().getRoomByName("Grand Staircase");
+		upperLanding = Game.getInstance().getRoomByName("Upper Landing");
+		
 		gardens = rooms.makeRoom(RoomName.GARDENS);
 		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 0));
 
@@ -104,6 +101,11 @@ public class TestRooms {
 		expectedOrganRoomExits.add(Relative_Direction.SOUTH);
 		expectedOrganRoomExits.add(Relative_Direction.WEST);
 		assertEquals(expectedOrganRoomExits, organRoom.getExits());
+		
+		HashSet<Relative_Direction> expectedGrandStaircaseExits = new HashSet<Relative_Direction>();
+		expectedGrandStaircaseExits.add(Relative_Direction.SOUTH);
+		expectedGrandStaircaseExits.add(Relative_Direction.UP);
+		assertEquals(expectedGrandStaircaseExits, grandStaircase.getExits());
 	}
 	
 	@Test
@@ -126,6 +128,9 @@ public class TestRooms {
 		
 		assertEquals(catacombs, basementLanding.getRoomFromExit(Relative_Direction.EAST));
 		assertEquals(basementLanding, catacombs.getRoomFromExit(Relative_Direction.SOUTH));
+		
+		assertEquals(upperLanding, grandStaircase.getRoomFromExit(Relative_Direction.UP));
+		assertEquals(grandStaircase, upperLanding.getRoomFromExit(Relative_Direction.DOWN));
 		
 		assertEquals(null, servantsQuarters.getRoomFromExit(Relative_Direction.NORTH));
 	}

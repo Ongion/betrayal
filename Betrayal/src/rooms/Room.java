@@ -5,13 +5,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import actions.IAction;
-
 import Game.Game;
-import characters.ExplorerType;
+import actions.IAction;
 import characters.Character;
-import characters.Trait;
-import rooms.Location;
 
 public abstract class Room {
 	protected final RoomName name;
@@ -23,6 +19,9 @@ public abstract class Room {
 	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
 	protected Set<ActionAddingTile> actionAddingTilesInRoom;
 	protected Set<IAction> roomActions;
+	
+	protected Room upwardsRoom = null;
+	protected Room downwardsRoom = null;
 
 
 	protected Room otherEndOfSecretStairs = null;
@@ -63,6 +62,16 @@ public abstract class Room {
 
 	public boolean hasConnection() {
 		return !this.getExitMap().isEmpty();
+	}
+	
+	public void addUpwardExit(Room roomConnectingTo) {
+		this.exits.add(Relative_Direction.UP);
+		this.upwardsRoom = roomConnectingTo;
+	}
+	
+	public void addDownwardExit(Room roomConnectingTo) {
+		this.exits.add(Relative_Direction.DOWN);
+		this.downwardsRoom = roomConnectingTo;
 	}
 
 	public void addSecretStairs(Room roomConnectingTo) {
@@ -200,7 +209,7 @@ public abstract class Room {
 				}
 			default:
 				//How the fuck did you get here....
-				return null;
+				return dir;
 		}
 	}
 
@@ -285,75 +294,82 @@ public abstract class Room {
 		Location locationOfNewRoom = null;
 
 		switch (usingExit) {
+		case NORTH:
+			switch(this.getOrientation()) {
 			case NORTH:
-				switch(this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case WEST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
 				break;
 			case EAST:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					default:  // case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
 				break;
 			case SOUTH:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					default: //case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
 				break;
 			case WEST:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					default:  // case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
 				break;
-			case SECRETSTAIRS:
-				locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
+			}
+			break;
+		case EAST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
 				break;
-			case WALLSWITCH:
-				locationOfNewRoom = this.otherEndOfWallSwitch.getLocation();
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			}
+			break;
+		case SOUTH:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			default: //case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			}
+			break;
+		case WEST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			}
+			break;
+		case UP:
+			locationOfNewRoom = this.upwardsRoom == null ? null : this.upwardsRoom.getLocation();
+			break;
+		case DOWN:
+			locationOfNewRoom = this.downwardsRoom == null? null : this.downwardsRoom.getLocation();
+			break;
+		case SECRETSTAIRS:
+			locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
+			break;
+		case WALLSWITCH:
+			locationOfNewRoom = this.otherEndOfWallSwitch.getLocation();
+			break;
 		}
 		return locationOfNewRoom;
 	}
