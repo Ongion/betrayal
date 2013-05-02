@@ -58,7 +58,8 @@ public class RoomFactory {
 			roomExits.add(Relative_Direction.SOUTH);
 			roomExits.add(Relative_Direction.UP);
 			roomFloors.add(Floor_Name.GROUND);
-			room = new NormalRoom(nameOfRoom, roomExits, roomFloors);
+			roomWindows.put(Relative_Direction.WEST, 2);
+			room = new NormalRoom(nameOfRoom, roomExits, roomFloors, roomWindows);
 			break;
 		case JUNKROOM:
 			roomExits.add(Relative_Direction.NORTH);

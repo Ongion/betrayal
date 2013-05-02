@@ -11,11 +11,15 @@ import java.util.Set;
 
 import omenCards.OmenCard;
 import rooms.Room;
+import rooms.Room.Floor_Name;
+import rooms.RoomFactory;
+import rooms.RoomName;
 import characters.Character;
 import characters.ExplorerType;
 import characters.Trait;
 import eventCards.EventCard;
 import rooms.Location;
+import rooms.Room.Room_Orientation;
 
 public class Game {
 	
@@ -63,6 +67,14 @@ public class Game {
 		this.characters = new ArrayList<Character>();
 		
 		this.currentCharacter = 0;
+		
+		// Add starting rooms to the map
+		RoomFactory rooms = new RoomFactory();
+		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
+		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
+		rooms.makeRoom(RoomName.GRANDSTAIRCASE).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		rooms.makeRoom(RoomName.UPPERLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
 	}
 	
 	public Trait getTraitForAction(){
