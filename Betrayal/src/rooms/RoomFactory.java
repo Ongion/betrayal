@@ -219,6 +219,57 @@ public class RoomFactory {
 			roomFloors.add(Floor_Name.BASEMENT);
 			room = new NormalRoom(nameOfRoom, roomExits, roomFloors);
 			break;
+		case UNDERGROUNDLAKE:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case STATUARYCORRIDOR:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case STOREROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new ItemRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case BLOODYROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new ItemRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case WINECELLAR:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new ItemRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case VAULT:
+			roomExits.add(Relative_Direction.NORTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			//TODO: Add OpenVault Action
+			break;
+		case UPPERLANDING:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomExits.add(Relative_Direction.DOWN);
+			roomFloors.add(Floor_Name.UPPER);
+			room = new NormalRoom(nameOfRoom, roomExits, roomFloors);
+			//TODO: Make all non-direction "moves" into actions, perhaps?
 		}
 		return room;
 	}
