@@ -84,6 +84,10 @@ public abstract class Room {
 	public void addSecretStairs(Room roomConnectingTo) {
 	}
 	
+	public boolean isBarrierRoom() {
+		return false;
+	}
+	
 	public void addActionAddingTile(ActionAddingTile tileToBeAdded) {
 		this.actionAddingTilesInRoom.add(tileToBeAdded);
 	}

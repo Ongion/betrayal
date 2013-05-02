@@ -23,6 +23,7 @@ import characters.Character.Character_Name;
 import Game.Game;
 import actions.IAction;
 import actions.JumpDownFromGalleryToBallroomAction;
+import actions.UseSecretStairsAction;
 
 public class TestActions {
 	
@@ -61,8 +62,8 @@ public class TestActions {
 		missyDubourdeUsingSecretStairs.setSideOfRoom(Relative_Direction.EAST);
 		
 		jumpDownToBallroom =  gallery.getRoomActions().toArray(new IAction[1])[0];
-		useSecretStairs1 = new UseSecretStairsAction(bedroomWithSecretStairs2);
-		useSecretStairs2 = new UseSecretStairsAction(basementLandingWithSecretStairs1);
+		useSecretStairs1 = new UseSecretStairsAction(basementLandingWithSecretStairs1, bedroomWithSecretStairs2, Relative_Direction.EAST, missyDubourdeUsingSecretStairs.getSideOfRoom());
+		useSecretStairs2 = new UseSecretStairsAction(bedroomWithSecretStairs2, basementLandingWithSecretStairs1, missyDubourdeUsingSecretStairs.getSideOfRoom(), Relative_Direction.EAST);
 		
 		basementLandingWithSecretStairs1.addRoomAction(useSecretStairs1);
 		bedroomWithSecretStairs2.addRoomAction(useSecretStairs2);
@@ -93,11 +94,7 @@ public class TestActions {
 	@Test
 	public void testJumpDown() {
 		ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
-		IAction[] galleryActions = gallery.getRoomActions().toArray(new IAction[1]);
-		for (IAction action : galleryActions) {
-			assertTrue(action.canPerform(darrinWilliamsJumpingDownFromBalcony));
-		}
-		
+		jumpDownToBallroom.perform(darrinWilliamsJumpingDownFromBalcony);
 		assertEquals(ballroom, darrinWilliamsJumpingDownFromBalcony.getCurrentRoom());
 	}
 

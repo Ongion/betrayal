@@ -125,6 +125,10 @@ public class RoomFactory {
 						}
 					}
 				}
+				
+				public boolean isBarrierRoom() {
+					return true;
+				}
 			};
 			break;
 		case CHASM:
@@ -150,6 +154,10 @@ public class RoomFactory {
 							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));
 						}
 					}
+				}
+				
+				public boolean isBarrierRoom() {
+					return true;
 				}
 			};
 			break;
@@ -333,6 +341,10 @@ public class RoomFactory {
 							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));
 						}
 					}
+				}
+				
+				public boolean isBarrierRoom() {
+					return true;
 				}
 			};
 			break;
