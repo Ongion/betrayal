@@ -35,21 +35,23 @@ public class OpenVaultAction implements IAction {
 
 	@Override
 	public boolean canPerform(Character characterAttemptingAction) {
-		return true;
+		return characterAttemptingAction.getCurrentRoom().equals(this.vaultRoom);
 	}
 
 	@Override
 	public void perform(Character characterPerformingAction) {
-		final int REQUIREDKNOWLEDGE = 6;
-		int rollResult = characterPerformingAction.getTraitRoll(Trait.KNOWLEDGE);
-		if (rollResult >= REQUIREDKNOWLEDGE) {
-			final int ITEMSINVAULT = 2;
-			for (int i = 0; i < ITEMSINVAULT; i++) {
-				ItemCard item = Game.getInstance().drawItem();
-				characterPerformingAction.addItemCard(item);
+		if (canPerform(characterPerformingAction)) {
+			final int REQUIREDKNOWLEDGE = 6;
+			int rollResult = characterPerformingAction.getTraitRoll(Trait.KNOWLEDGE);
+			if (rollResult >= REQUIREDKNOWLEDGE) {
+				final int ITEMSINVAULT = 2;
+				for (int i = 0; i < ITEMSINVAULT; i++) {
+					ItemCard item = Game.getInstance().drawItem();
+					characterPerformingAction.addItemCard(item);
+				}
+				vaultRoom.removeRoomAction(this);
+				vaultRoom.addActionAddingTile(ActionAddingTile.VAULT_EMPTY);
 			}
-			vaultRoom.removeRoomAction(this);
-			vaultRoom.addActionAddingTile(ActionAddingTile.VAULT_EMPTY);
 		}
 	}
 	

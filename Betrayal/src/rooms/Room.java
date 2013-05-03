@@ -23,12 +23,6 @@ public abstract class Room {
 	
 	protected Room upwardsRoom = null;
 	protected Room downwardsRoom = null;
-
-
-	protected Room otherEndOfSecretStairs = null;
-	protected Room otherEndOfWallSwitch = null;
-	protected Room belowCollapsedRoom = null;
-	protected Room otherEndOfSecretPassage = null;
 	
 	protected Relative_Direction sideOfSecretStairs;
 	protected Relative_Direction sideOfWallSwitch;
@@ -46,6 +40,8 @@ public abstract class Room {
 		this.windows = windows;
 		
 		this.roomActions = new HashSet<IAction>();
+		this.traitRollModifyingTilesInRoom = new HashSet<TraitRollModifyingTile>();
+		this.actionAddingTilesInRoom = new HashSet<ActionAddingTile>();
 
 		// Add the room to the room deck!
 		//		Game.getInstance().addToRoomDeck(this);
@@ -387,7 +383,7 @@ public abstract class Room {
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.getName().equals(otherRoom.getName()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
+			return (this.getNameEnum().equals(otherRoom.getNameEnum()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
 		} else {
 			return false;
 		}
