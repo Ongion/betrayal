@@ -35,7 +35,7 @@ public class UseSecretStairsAction implements IAction {
 		// Characters can only ever access this method if they are in the room with the secret stairs, so don't need to worry about that.
 		// We do need to check to see if they have enough movement left
 		// TODO: Add check for movmentsLeft being greater than 1
-		return !thisEndOfStairs.isBarrierRoom() || this.thisEndsSideOfRoom.equals(characterAttemptingAction.getSideOfRoom());
+		return this.thisEndOfStairs.equals(characterAttemptingAction.getCurrentRoom()) && (!thisEndOfStairs.isBarrierRoom() || this.thisEndsSideOfRoom.equals(characterAttemptingAction.getSideOfRoom()));
 	}
 
 	@Override
