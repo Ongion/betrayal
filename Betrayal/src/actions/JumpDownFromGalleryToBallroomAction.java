@@ -38,5 +38,16 @@ public class JumpDownFromGalleryToBallroomAction implements IAction {
 	public String getDescription() {
 		return ResourceBundle.getBundle("actions/ActionBundle", Game.getInstance().getLocale()).getString("JumpDownFromGalleryToBallroomDescription");
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof JumpDownFromGalleryToBallroomAction;
+	}
+	
+	@Override
+	public int hashCode() {
+		// All of these actions are identical to one another
+		return 78345895;
+	}
 
 }

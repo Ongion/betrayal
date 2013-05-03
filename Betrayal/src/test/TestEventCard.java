@@ -1562,7 +1562,7 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(2);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(Game.getInstance().getRoomByRoomName(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
 		
 		game.getCurrentCharacter().setCurrentRoom((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL));
 		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());

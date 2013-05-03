@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import actions.JumpDownFromGalleryToBallroomAction;
+import actions.OpenVaultAction;
 
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
@@ -268,7 +269,7 @@ public class RoomFactory {
 			roomFloors.add(Floor_Name.UPPER);
 			roomFloors.add(Floor_Name.BASEMENT);
 			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
-			//TODO: Add OpenVault Action
+			room.addRoomAction(new OpenVaultAction(room));
 			break;
 		case UPPERLANDING:
 			roomExits.add(Relative_Direction.NORTH);
@@ -278,7 +279,6 @@ public class RoomFactory {
 			roomExits.add(Relative_Direction.DOWN);
 			roomFloors.add(Floor_Name.UPPER);
 			room = new NormalRoom(nameOfRoom, roomExits, roomFloors);
-			//TODO: Make all non-direction "moves" into actions, perhaps?
 			break;
 		case GRAVEYARD:
 			roomExits.add(Relative_Direction.SOUTH);

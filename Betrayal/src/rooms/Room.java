@@ -66,6 +66,10 @@ public abstract class Room {
 	public void addRoomAction(IAction actionToAddToRoom) {
 		this.roomActions.add(actionToAddToRoom);
 	}
+	
+	public void removeRoomAction(IAction actionToRemoveFromRoom) {
+		this.roomActions.remove(actionToRemoveFromRoom);
+	}
 
 	public boolean hasConnection() {
 		return !this.getExitMap().isEmpty();
