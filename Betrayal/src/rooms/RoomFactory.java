@@ -363,6 +363,97 @@ public class RoomFactory {
 			roomFloors.add(Floor_Name.GROUND);
 			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
 			break;
+		case STAIRSFROMBASEMENT:
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.UP);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new NormalRoom(nameOfRoom, roomExits, roomFloors) {
+				public void flipCard() {
+					this.addUpwardExit(Game.getInstance().getRoomByRoomName(RoomName.FOYER));
+					Game.getInstance().getRoomByRoomName(RoomName.FOYER).addDownwardExit(this);
+				}
+			};
+			break;
+		case ATTIC:
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors) {
+				public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
+					/* 
+					 * When exiting, you must attempt a Speed roll of 3+.
+					 * If you fail, you lose 1 Might (but continue moving) 
+					 */
+					
+					if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
+						int diceToRoll = characterLeavingRoom.getCurrentSpeed();
+						int TARGET_RESULT = 3;
+						int rollResult = Game.getInstance().rollDice(diceToRoll);
+						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
+						if (rollResult < TARGET_RESULT) {
+							characterLeavingRoom.decrementMight(1);
+							System.out.println(String.format("%s lost 1 Might!", characterLeavingRoom.getName()));
+						} else {
+							System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
+						}
+					}
+				}
+			};
+			break;
+		case GAMEROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case CONSERVATORY:
+			roomExits.add(Relative_Direction.NORTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case CHARREDROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new OmenRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case ABANDONEDROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.GROUND);
+			room = new OmenRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case KITCHEN:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomFloors.add(Floor_Name.GROUND);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new OmenRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case RESEARCHLABORATORY:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+		case OPERATINGLABORATORY:
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.EAST);
+			roomFloors.add(Floor_Name.UPPER);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors);
+			break;
+			
 		}
 		return room;
 	}
