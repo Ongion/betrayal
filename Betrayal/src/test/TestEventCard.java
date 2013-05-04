@@ -7,6 +7,7 @@ import itemCards.ItemCard;
 import itemCards.PuzzleBox;
 import itemCards.Revolver;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -16,14 +17,20 @@ import omenCards.CrystalBall;
 import omenCards.OmenCard;
 import omenCards.Ring;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import rooms.Room;
 import rooms.RoomFactory;
 import rooms.RoomName;
 
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
+import characters.HumanStats;
 
 import Game.Game;
 import Game.Player;
@@ -78,6 +85,7 @@ public class TestEventCard {
 
 	private EventCard card;
 	private Game game;
+	private RoomFactory roomFact = new RoomFactory();
 	
 	private Locale enLocale = new Locale("en", "US");
 	private Locale spLocale = new Locale("es", "ES");
@@ -106,6 +114,7 @@ public class TestEventCard {
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Room> rooms = new ArrayList<Room>();
 	
 	@Before
 	public void setUp(){
@@ -113,17 +122,31 @@ public class TestEventCard {
 		events.add(creepyCrawlies);
 		events.add(nightView);
 		events.add(rotten);
+		
 		items.add(angelFeather);
 		items.add(adrenalineShotCard);
 		items.add(revolverCard);
 		items.add(puzzleBoxCard);
+		
 		omens.add(crystalBall);
 		omens.add(book);
 		omens.add(ring);
+		
 		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		
 		player.addCharacter(character);
 		players.add(player);
 		players.add(player);
+		
+		rooms.add(roomFact.makeRoom(RoomName.TOWER));
+		rooms.add(roomFact.makeRoom(RoomName.BALCONY));
+		rooms.add(roomFact.makeRoom(RoomName.BEDROOM));
+		rooms.add(roomFact.makeRoom(RoomName.GARDENS));
+		rooms.add(roomFact.makeRoom(RoomName.PATIO));
+		rooms.add(roomFact.makeRoom(RoomName.GRAVEYARD));
+		rooms.add(roomFact.makeRoom(RoomName.DININGROOM));
+		rooms.add(roomFact.makeRoom(RoomName.WINECELLAR));
+		rooms.add(roomFact.makeRoom(RoomName.UNDERGROUNDLAKE));
 		
 		Game.resetGame();
 		game = Game.getInstance();
@@ -131,6 +154,7 @@ public class TestEventCard {
 		game.addAllToItemDeck(items);
 		game.addAllToOmenDeck(omens);
 		game.addPlayer(player);
+		game.addAllToRoomDeck(rooms);
 		game.addCharacter(character);
 	}
 	
@@ -167,6 +191,38 @@ public class TestEventCard {
 	
 	@Test
 	public void testRottenHappen5OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		card = new Rotten(enLocale);
+//		final Game mockGame = mocks.mock(Game.class);
+//		try {
+//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+//			instanceField.setAccessible(true);
+//			instanceField.set(null, mockGame);
+//
+//			final int fRSanity = character.getCurrentSanity();
+//			mocks.checking(new Expectations() {
+//				{
+//					oneOf(mockGame).rollDice(fRSanity);
+//					will(returnValue(5));
+//				}
+//			});
+//
+//			assertEquals(character, game.getCurrentCharacter());
+//			card.happens();
+//			assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+//			card.happens();	
+//			assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+//
+//			mocks.assertIsSatisfied();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Assert.fail();
+//		}
+		
 		card = new Rotten(enLocale);
 		// Test to be removed
 		assertEquals(character, game.getCurrentCharacter());
@@ -1539,7 +1595,7 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(6);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
@@ -1547,13 +1603,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(5);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
 		
-		game.getCurrentCharacter().setCurrentRoom((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL));
-		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 		
 		card.happen(4);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
 		
 	}
 	
@@ -1562,13 +1618,27 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(2);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
 		
-		game.getCurrentCharacter().setCurrentRoom((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL));
-		assertEquals((new RoomFactory()).makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 		
 		card.happen(3);
-		assertEquals((new RoomFactory()).makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
+	}
+	
+	@Test
+	public void testTheLostOne0or1(){
+		card = new TheLostOne(enLocale);
+		
+		card.happen(0);
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		
+		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		
+		card.happen(1);
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
