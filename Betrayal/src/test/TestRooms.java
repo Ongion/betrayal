@@ -22,11 +22,15 @@ import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
+import tiles.BlessingTile;
+import tiles.DripTile;
+import tiles.SmokeTile;
 import Game.Game;
 import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.HumanStats;
+import characters.Trait;
 
 public class TestRooms {
 	ExplorerFactory explorers;
@@ -44,6 +48,7 @@ public class TestRooms {
 	Room chasm;
 	Room pentagramChamber;
 	Room junkRoom;
+	Room dustyHallwayWithTiles;
 	Character zoeIngstrom;
 	
 	@Before
@@ -87,6 +92,9 @@ public class TestRooms {
 		
 		bedroom = rooms.makeRoom(RoomName.BEDROOM);
 		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 16, 6));
+		
+		dustyHallwayWithTiles = rooms.makeRoom(RoomName.DUSTYHALLWAY);
+		dustyHallwayWithTiles.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, -10, 7));
 		
 		explorers = new ExplorerFactory();
 
@@ -354,7 +362,7 @@ public class TestRooms {
 	}
 	
 	@Test
-	public void TestConvertDirectionMethod(){
+	public void testConvertDirectionMethod(){
 		gardens.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND,999,999));
 		Assert.assertEquals(Relative_Direction.NORTH, gardens.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.NORTH));
 		Assert.assertEquals(Relative_Direction.EAST, gardens.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST));
@@ -382,6 +390,94 @@ public class TestRooms {
 		Assert.assertEquals(Relative_Direction.SOUTH, gardens.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.EAST));
 		Assert.assertEquals(Relative_Direction.WEST, gardens.convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction.SOUTH));
 }
+	
+	@Test
+	public void testBlessingTileAddsDiceToTraitRolls() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
+			final int traitScore = zoeIngstrom.getCurrentKnowledge();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore+1); will(returnValue(4));
+			}});
+			zoeIngstrom.setCurrentRoom(dustyHallwayWithTiles);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.SOUTH);
+			dustyHallwayWithTiles.addTraitRollModifyingTile(new BlessingTile());
+
+			assertEquals(3, zoeIngstrom.getCurrentKnowledge());
+			assertEquals(4, zoeIngstrom.getTraitRoll(Trait.KNOWLEDGE));
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testDripTileSubtractsDiceFromTraitRolls() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
+			final int traitScore = zoeIngstrom.getCurrentKnowledge();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore-1); will(returnValue(4));
+			}});
+			zoeIngstrom.setCurrentRoom(dustyHallwayWithTiles);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.SOUTH);
+			dustyHallwayWithTiles.addTraitRollModifyingTile(new DripTile());
+
+			assertEquals(3, zoeIngstrom.getCurrentKnowledge());
+			assertEquals(4, zoeIngstrom.getTraitRoll(Trait.KNOWLEDGE));
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testSmokeTileSubtractsDiceFromTraitRolls() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
+			final int traitScore = zoeIngstrom.getCurrentKnowledge();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore-2); will(returnValue(2));
+			}});
+			zoeIngstrom.setCurrentRoom(dustyHallwayWithTiles);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.SOUTH);
+			dustyHallwayWithTiles.addTraitRollModifyingTile(new SmokeTile());
+
+			assertEquals(3, zoeIngstrom.getCurrentKnowledge());
+			assertEquals(2, zoeIngstrom.getTraitRoll(Trait.KNOWLEDGE));
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 	
 
 

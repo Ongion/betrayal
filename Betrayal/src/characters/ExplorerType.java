@@ -29,7 +29,22 @@ public class ExplorerType implements ICharacterType {
 
 	@Override
 	public int getTraitRoll(Trait traitBeingRolledFor) {
-		return Game.getInstance().rollDice(this.characterTypeBelongsTo.getTrait(traitBeingRolledFor) + this.characterTypeBelongsTo.currentRoom.getRoomTraitRollModifier());
+		return Game.getInstance().rollDice(this.characterTypeBelongsTo.getTrait(traitBeingRolledFor) + this.characterTypeBelongsTo.currentRoom.getTraitRollModifier(this.characterTypeBelongsTo));
+	}
+
+	@Override
+	public boolean isAffectedByBlessing() {
+		return true;
+	}
+
+	@Override
+	public boolean isAffectedByDrip() {
+		return true;
+	}
+
+	@Override
+	public boolean isAffectedBySmoke() {
+		return true;
 	}
 
 

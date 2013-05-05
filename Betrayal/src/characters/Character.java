@@ -332,4 +332,16 @@ public class Character {
 		return traitAmount;
 
 	}
+
+	public boolean isAffectedByBlessing() {
+		return type.isAffectedByBlessing();
+	}
+
+	public boolean isAffectedByDrip() {
+		return type.isAffectedByDrip();
+	}
+
+	public boolean isAffectedBySmoke() {
+		return type.isAffectedBySmoke();
+	}
 }

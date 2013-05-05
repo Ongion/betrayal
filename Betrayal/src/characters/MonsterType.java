@@ -28,4 +28,19 @@ public class MonsterType implements ICharacterType {
 	public int getTraitRoll(Trait traitBeingRolledFor) {
 		return this.characterTypeBelongsTo.getTrait(traitBeingRolledFor);
 	}
+
+	@Override
+	public boolean isAffectedByBlessing() {
+		return false;
+	}
+
+	@Override
+	public boolean isAffectedByDrip() {
+		return false;
+	}
+
+	@Override
+	public boolean isAffectedBySmoke() {
+		return false;
+	}
 }
