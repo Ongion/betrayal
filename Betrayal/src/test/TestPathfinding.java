@@ -1,10 +1,6 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 
 import junit.framework.Assert;
 
@@ -12,19 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rooms.EventRoom;
-import rooms.NormalRoom;
-import rooms.OmenRoom;
+import rooms.Location;
 import rooms.Room;
-import rooms.RoomName;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
+import rooms.RoomName;
 import Game.Game;
 import characters.Character;
-import characters.ExplorerFactory;
 import characters.Character.Character_Name;
-import rooms.Location;
+import characters.ExplorerFactory;
 
 public class TestPathfinding {
 	

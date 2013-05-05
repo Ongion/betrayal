@@ -4,17 +4,14 @@ import itemCards.ItemCard;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import omenCards.OmenCard;
 import pathFinding.PathFinding;
-import eventCards.EventCard;
-import rooms.Location;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
-import Game.Game;
+import eventCards.EventCard;
 
 public class Character {
 	public enum Character_Name{

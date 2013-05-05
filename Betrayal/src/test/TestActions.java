@@ -1,12 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.DarkDice;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.jmock.Expectations;
@@ -21,21 +21,18 @@ import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
+import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
-import rooms.Room.Room_Orientation;
-
-import characters.Character;
-import characters.ExplorerFactory;
-import characters.HumanStats;
-import characters.Character.Character_Name;
-
 import Game.Game;
 import actions.IAction;
 import actions.JumpDownFromGalleryToBallroomAction;
 import actions.OpenVaultAction;
 import actions.UseSecretPassageAction;
 import actions.UseSecretStairsAction;
+import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 
 public class TestActions {
 	

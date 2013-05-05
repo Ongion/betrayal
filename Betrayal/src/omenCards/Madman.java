@@ -3,10 +3,8 @@ package omenCards;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import characters.Character;
-
-import characters.ExplorerType;
 import Game.Game;
+import characters.Character;
 
 public class Madman extends OmenCard {
 
@@ -26,7 +24,7 @@ public class Madman extends OmenCard {
 	}
 
 	public void isLost(Character character) {
-		ArrayList omenHand = character.getOmenHand();
+		ArrayList<OmenCard> omenHand = character.getOmenHand();
 		if (!omenHand.contains(this)) {
 			character.decrementMight(2);
 			character.incrementSanity();

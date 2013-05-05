@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import Game.Game;
 import characters.Character;
-import characters.ExplorerType;
 
 public class Mask extends OmenCard {
 

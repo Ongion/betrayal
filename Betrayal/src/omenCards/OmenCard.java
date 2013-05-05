@@ -3,9 +3,8 @@ package omenCards;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import characters.Character;
-import characters.ExplorerType;
 import Game.Game;
+import characters.Character;
 
 public abstract class OmenCard {
 	protected String name;

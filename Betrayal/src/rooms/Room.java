@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 
 import tiles.ActionAddingTile;
 import tiles.ITraitRollModifyingTile;
-import tiles.TraitRollModifyingTile;
-
 import Game.Game;
 import actions.IAction;
 import characters.Character;

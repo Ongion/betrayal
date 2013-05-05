@@ -1,12 +1,6 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
+import static org.junit.Assert.assertEquals;
 import itemCards.AdrenalineShot;
 import itemCards.AmuletOfAges;
 import itemCards.AngelFeather;
@@ -31,20 +25,17 @@ import itemCards.Revolver;
 import itemCards.SacrificialDagger;
 import itemCards.SmellingSalts;
 
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-import characters.Character.Character_Name;
-import characters.ExplorerFactory;
-import characters.Character;
-import characters.HumanStats;
+import org.junit.Test;
 
 import Game.Game;
 import Game.Player;
-import eventCards.EventCard;
+import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
+import characters.HumanStats;
 
 public class TestItemCard {
 	

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import rooms.Room;
 import characters.Character;
-import characters.ExplorerType;
 
 public class Player {
 	

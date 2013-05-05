@@ -3,14 +3,11 @@ package rooms;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.swing.JOptionPane;
-
-import actions.JumpDownFromGalleryToBallroomAction;
-import actions.OpenVaultAction;
-
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import Game.Game;
+import actions.JumpDownFromGalleryToBallroomAction;
+import actions.OpenVaultAction;
 import characters.Character;
 import characters.Trait;
 
