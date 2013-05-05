@@ -11,11 +11,15 @@ import java.util.Set;
 
 import omenCards.OmenCard;
 import rooms.Room;
+import rooms.Room.Floor_Name;
+import rooms.RoomFactory;
+import rooms.RoomName;
 import characters.Character;
 import characters.ExplorerType;
 import characters.Trait;
 import eventCards.EventCard;
 import rooms.Location;
+import rooms.Room.Room_Orientation;
 
 public class Game {
 	
@@ -65,6 +69,22 @@ public class Game {
 		this.currentCharacter = 0;
 	}
 	
+	public void addStartingRooms() {
+		// Add starting rooms to the map
+		RoomFactory rooms = new RoomFactory();
+		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
+		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
+		Room grandstaircase = rooms.makeRoom(RoomName.GRANDSTAIRCASE);
+		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		Room upperlanding = rooms.makeRoom(RoomName.UPPERLANDING);
+		
+		grandstaircase.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		upperlanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
+		
+		grandstaircase.addUpwardExit(upperlanding);
+		upperlanding.addDownwardExit(grandstaircase);
+	}
+	
 	public Trait getTraitForAction(){
 		return this.traitForAction;
 	}
@@ -79,6 +99,7 @@ public class Game {
 	
 	public static void resetGame() {
 		INSTANCE = new Game();
+		INSTANCE.addStartingRooms();
 	}
 	
 	public Game(ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
@@ -341,10 +362,10 @@ public class Game {
 		return this.locale;
 	}
 
-	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS IN THE DECK
-	public Room getRoomByName(String nameOfRoomWanted) {
+	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
+	public Room getRoomByRoomName(RoomName nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
-			if (roomChecking.getName().equals(nameOfRoomWanted)) {
+			if (roomChecking.getNameEnum().equals(nameOfRoomWanted)) {
 				return roomChecking;
 			}
 		}

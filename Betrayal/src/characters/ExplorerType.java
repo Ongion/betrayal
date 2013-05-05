@@ -2,6 +2,8 @@ package characters;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import Game.Game;
 import characters.Character;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
@@ -27,7 +29,7 @@ public class ExplorerType implements ICharacterType {
 
 	@Override
 	public int getTraitRoll(Trait traitBeingRolledFor) {
-		return this.characterTypeBelongsTo.getTrait(traitBeingRolledFor) + this.characterTypeBelongsTo.currentRoom.getRoomTraitRollModifier();
+		return Game.getInstance().rollDice(this.characterTypeBelongsTo.getTrait(traitBeingRolledFor) + this.characterTypeBelongsTo.currentRoom.getRoomTraitRollModifier());
 	}
 
 

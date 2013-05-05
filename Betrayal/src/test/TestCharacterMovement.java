@@ -56,16 +56,16 @@ public class TestCharacterMovement {
 		gardensExits.add(Relative_Direction.SOUTH);
 		
 		gardens = rooms.makeRoom(RoomName.CREAKYHALLWAY);
-		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 0));
 
 		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
-		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
+		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 9 , 0));	
 		
 		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
-		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 9, -1));
 		
 		junkRoom = rooms.makeRoom(RoomName.DUSTYHALLWAY);
-		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, -1));
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 10, -1));
 
 		c = new ExplorerFactory().getExplorer(Character_Name.FatherRhinehardt);
 		}

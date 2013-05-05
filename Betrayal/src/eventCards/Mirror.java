@@ -21,7 +21,7 @@ public class Mirror extends EventCard {
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
+		
 
 	}
 

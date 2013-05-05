@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import itemCards.AdrenalineShot;
 import itemCards.AngelFeather;
 import itemCards.ItemCard;
@@ -12,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import omenCards.Bite;
 import omenCards.Book;
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
 import omenCards.Ring;
+import omenCards.Spear;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -28,6 +31,7 @@ import rooms.Room;
 import rooms.RoomFactory;
 import rooms.RoomName;
 
+import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.HumanStats;
@@ -155,6 +159,7 @@ public class TestEventCard {
 		game.addAllToOmenDeck(omens);
 		game.addPlayer(player);
 		game.addAllToRoomDeck(rooms);
+		game.addCharacter(character);
 		game.addCharacter(character);
 	}
 	
@@ -1653,7 +1658,15 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleTheWalls"), card.getName());
 		assertEquals(mesSP.getString("desTheWalls"), card.getDescription());
 		assertEquals(mesSP.getString("rulesTheWalls"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testTheWallsHappen(){
+		card = new TheWalls(enLocale);
+		
+		card.happens();
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+	}
 	
 	@Test
 	public void testJonahsTurnInit(){
@@ -1667,7 +1680,36 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleJonahsTurn"), card.getName());
 		assertEquals(mesSP.getString("desJonahsTurn"), card.getDescription());
 		assertEquals(mesSP.getString("rulesJonahsTurn"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testJonahsTurnHasPuzzleBox(){
+		card = new JonahsTurn(enLocale);
+		System.out.print(game.getCharacters());
+		Character ex1 = game.getCharacters().get(1);
+		assertEquals(0, ex1.getItemHand().size());
+		
+		PuzzleBox pb = new PuzzleBox(enLocale);
+		
+		ex1.addItemCard(pb);
+		assertEquals(1, ex1.getItemHand().size());
+		assertEquals(pb, ex1.getItemHand().get(0));
+		
+		card.happens();
+		assertEquals(1, ex1.getItemHand().size());
+		assertEquals(angelFeather, ex1.getItemHand().get(0));
+		
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+	}
+	
+	@Test
+	public void testJonahsTurnNoPuzzleBox(){
+		card = new JonahsTurn(enLocale);
+		
+		card.happens();
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentSanity() && game.getCurrentCharacter().getCurrentSanity() <= 6);
+	}
 	
 	@Test
 	public void testWhatTheInit(){
@@ -1709,7 +1751,24 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleMirror"), card.getName());
 		assertEquals(mesSP.getString("desMirror"), card.getDescription());
 		assertEquals(mesSP.getString("rulesMirror"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testMirrorHappen(){
+		card = new Mirror(enLocale);
+		
+		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		
+		PuzzleBox pb = new PuzzleBox(enLocale);
+		game.getCurrentCharacter().addItemCard(pb);
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(pb, game.getCurrentCharacter().getItemHand().get(0));
+		
+		card.happens();
+		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		
+		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+	}
 	
 	@Test
 	public void testDisquietingSoundsInit(){
@@ -1723,7 +1782,47 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleDisquietingSounds"), card.getName());
 		assertEquals(mesSP.getString("desDisquietingSounds"), card.getDescription());
 		assertEquals(mesSP.getString("rulesDisquietingSounds"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testDisquietingSoundsMoreThanOmens(){
+		card = new DisquietingSounds(enLocale);
+		
+		assertEquals(0, game.getNumOmens());
+		
+		card.happens();
+		
+		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+	}
+	
+	@Test
+	public void testDisquietingSoundsLessThanOmens(){
+		card = new DisquietingSounds(enLocale);
+		
+		assertEquals(0, game.getNumOmens());
+		
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		game.discardOmen(new Bite(enLocale));
+		game.discardOmen(new Book(enLocale));
+		
+		assertEquals(14, game.getNumOmens());
+		
+		card.happens();
+		
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+	}
 	
 	@Test
 	public void testCreepyPuppetInit(){
@@ -1737,7 +1836,77 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleCreepyPuppet"), card.getName());
 		assertEquals(mesSP.getString("desCreepyPuppet"), card.getDescription());
 		assertEquals(mesSP.getString("rulesCreepyPuppet"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testCreepyPuppetSpear(){
+		card = new CreepyPuppet(enLocale);
+		
+		Character ex1 = game.getCharacters().get(1);
+		assertEquals(0, ex1.getItemHand().size());
+		
+		ex1.addOmenCard(new Spear(enLocale));
+		assertEquals(1, ex1.getItemHand().size());
+		assertEquals(new Spear(enLocale), ex1.getItemHand().get(0));
+		assertEquals(2, ex1.getCurrentMight());
+		
+		game.getCurrentCharacter().decrementMight(2);
+		
+		card.happens();
+		
+		assertEquals(4, ex1.getCurrentMight());
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+	}
+	
+	@Test
+	public void testCreepyPuppetCurrentCharacterHasSpear(){
+		card = new CreepyPuppet(enLocale);
+		
+		Character ex1 = game.getCurrentCharacter();
+		assertEquals(0, ex1.getItemHand().size());
+		
+		ex1.addOmenCard(new Spear(enLocale));
+		assertEquals(1, ex1.getItemHand().size());
+		assertEquals(new Spear(enLocale), ex1.getItemHand().get(0));
+		assertEquals(2, ex1.getCurrentMight());
+		
+		card.happens();
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+	}
+	
+	@Test
+	public void testCreepyPuppetCurrentNoSpearDamaged(){
+		card = new CreepyPuppet(enLocale);
+		
+		
+		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		game.getCurrentCharacter().decrementMight(2);
+		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		
+		card.happens();
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+	}
+	
+	@Test
+	public void testCreepyPuppetCurrentNoDamaged(){
+		card = new CreepyPuppet(enLocale);
+		
+		
+		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		game.getCurrentCharacter().incrementMight(6);
+		assertEquals(7, game.getCurrentCharacter().getCurrentMight());
+		
+		card.happens();
+		
+		assertEquals(7, game.getCurrentCharacter().getCurrentMight());
+		
+	}
 	
 	@Test
 	public void testGroundskeeperInit(){
@@ -1751,7 +1920,45 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleGroundskeeper"), card.getName());
 		assertEquals(mesSP.getString("desGroundskeeper"), card.getDescription());
 		assertEquals(mesSP.getString("rulesGroundskeeper"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
+	
+	@Test
+	public void testGroundskeeper4orGreater(){
+		card = new Groundskeeper(enLocale);
+		
+		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		
+		card.happen(4);
+		
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		
+		card.happen(5);
+		
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		
+	}
+	
+	@Test
+	public void testGroundskeeper0to3(){
+		card = new Groundskeeper(enLocale);
+		
+		card.happen(0);
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+		card.happen(1);
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+		card.happen(2);
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		
+		card.happen(3);
+		
+		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+
+	}
 	
 	@Test
 	public void testWebsInit(){
