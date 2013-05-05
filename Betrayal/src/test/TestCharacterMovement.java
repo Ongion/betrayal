@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rooms.EventRoom;
-import rooms.JunkRoomRoom;
 import rooms.OmenRoom;
 import rooms.Room;
 import rooms.RoomFactory;

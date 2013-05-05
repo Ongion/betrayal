@@ -203,6 +203,40 @@ public class Character {
 //		}
 //		return true;
 	}
+	
+	public void incrementTrait(Trait traitBeingIncremented) {
+		switch(traitBeingIncremented) {
+		case KNOWLEDGE:
+			incrementKnowledge();
+			break;
+		case MIGHT:
+			incrementMight();
+			break;
+		case SANITY:
+			incrementSanity();
+			break;
+		case SPEED:
+			incrementSpeed();
+			break;
+		}
+	}
+	
+	public void decrementTrait(Trait traitBeingDecremented) {
+		switch(traitBeingDecremented) {
+		case KNOWLEDGE:
+			decrementKnowledge();
+			break;
+		case MIGHT:
+			decrementMight();
+			break;
+		case SANITY:
+			decrementSanity();
+			break;
+		case SPEED:
+			decrementSpeed();
+			break;
+		}
+	}
 		
 	public void incrementKnowledge() {
 		incrementKnowledge(1);

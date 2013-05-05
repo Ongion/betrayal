@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import Game.Game;
 import actions.IAction;
 import characters.Character;
+import characters.Trait;
 
 public abstract class Room {
 	protected final RoomName name;
@@ -80,9 +83,6 @@ public abstract class Room {
 		this.exits.add(Relative_Direction.DOWN);
 		this.downwardsRoom = roomConnectingTo;
 	}
-
-	public void addSecretStairs(Room roomConnectingTo) {
-	}
 	
 	public boolean isBarrierRoom() {
 		return false;
@@ -132,6 +132,20 @@ public abstract class Room {
 
 	public void flipCard() {
 		// EventRooms and the like implement this method to get a card and make it happen
+	}
+	
+	protected boolean testTraitAndDecrementOnLeavingRoom(Character characterLeavingRoom, Trait traitBeingTestedAgainst, int targetResult, Trait traitDecrementedIfFailed) {
+		int rollResult = characterLeavingRoom.getTraitRoll(traitBeingTestedAgainst);
+		boolean doesCharacterStillWantToLeaveTheRoom = true;
+		if (rollResult < targetResult) {
+			doesCharacterStillWantToLeaveTheRoom = (Game.getInstance().makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage") == JOptionPane.YES_OPTION);
+			if (doesCharacterStillWantToLeaveTheRoom) {
+				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed);
+			} else {
+				characterLeavingRoom.endMovement();
+			}
+		}
+		return doesCharacterStillWantToLeaveTheRoom;
 	}
 
 

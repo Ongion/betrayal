@@ -7,7 +7,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Set;
+
+import javax.swing.JOptionPane;
 
 import omenCards.OmenCard;
 import rooms.Room;
@@ -360,6 +363,17 @@ public class Game {
 	
 	public Locale getLocale() {
 		return this.locale;
+	}
+	
+	public int makeYesNoDialogAndGetResult(String titleBundleString, String messageBundleString) {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String confirmationBoxTitle = dialogBoxBundle.getString(titleBundleString);
+		String confirmationBoxMessage = dialogBoxBundle.getString(messageBundleString);
+		int confirmationBoxResult = JOptionPane.CLOSED_OPTION;
+		while (confirmationBoxResult == JOptionPane.CLOSED_OPTION) {
+			confirmationBoxResult = JOptionPane.showConfirmDialog(null, confirmationBoxMessage, confirmationBoxTitle, JOptionPane.YES_NO_OPTION);
+		}
+		return confirmationBoxResult;
 	}
 
 	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD

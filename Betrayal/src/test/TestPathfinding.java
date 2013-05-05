@@ -11,13 +11,9 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.CatacombsRoom;
-import rooms.ChasmRoom;
 import rooms.EventRoom;
-import rooms.JunkRoomRoom;
 import rooms.NormalRoom;
 import rooms.OmenRoom;
-import rooms.PentagramChamberRoom;
 import rooms.Room;
 import rooms.RoomName;
 import rooms.Room.Floor_Name;

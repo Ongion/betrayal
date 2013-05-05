@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Locale;
 
+import javax.swing.JOptionPane;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
@@ -167,7 +169,7 @@ public class TestRooms {
 	}
 	
 	@Test
-	public void testLeavingPentagramChamberFailingRoll() {
+	public void testLeavingPentagramChamberFailingRollAndStillMoving() {
 		Mockery mocks = new Mockery() {{
 	        setImposteriser(ClassImposteriser.INSTANCE);
 	    }};
@@ -179,7 +181,7 @@ public class TestRooms {
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(3); will(returnValue(3));
-				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
+				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.YES_OPTION));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT, 0, 0)); will(returnValue(basementLanding));
 			}});
 			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
@@ -188,13 +190,43 @@ public class TestRooms {
 			assertEquals(5, zoeIngstrom.getCurrentSanity());
 			zoeIngstrom.attemptMoveInAbsoluteDirection(Relative_Direction.EAST);
 			assertEquals(4, zoeIngstrom.getCurrentSanity());
+			assertEquals(basementLanding, zoeIngstrom.getCurrentRoom());
 			mocks.assertIsSatisfied();
 		} catch(Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
 	}
-	
+
+	@Test
+	public void testLeavingPentagramChamberFailingRollAndStopsMoving() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(3); will(returnValue(3));
+				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.NO_OPTION));
+			}});
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
+			zoeIngstrom.setCurrentRoom(pentagramChamber);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(5, zoeIngstrom.getCurrentSanity());
+			zoeIngstrom.attemptMoveInAbsoluteDirection(Relative_Direction.EAST);
+			assertEquals(5, zoeIngstrom.getCurrentSanity());
+			assertEquals(pentagramChamber, zoeIngstrom.getCurrentRoom());
+			mocks.assertIsSatisfied();
+		} catch(Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 	@Test
 	public void testLeavingPentagramChamberSucceedingRoll() {
 		Mockery mocks = new Mockery() {{
@@ -210,7 +242,6 @@ public class TestRooms {
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(zoesKnowledge); will(returnValue(5));
-				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT, 0, 0)); will(returnValue(basementLanding));
 			}});
 			zoeIngstrom.setCurrentRoom(pentagramChamber);
@@ -226,7 +257,7 @@ public class TestRooms {
 	}
 	
 	@Test
-	public void testLeavingJunkRoomFailingRoll() {
+	public void testLeavingJunkRoomFailingRollAndStillMoving() {
 		Mockery mocks = new Mockery() {{
 	        setImposteriser(ClassImposteriser.INSTANCE);
 	    }};
@@ -240,24 +271,55 @@ public class TestRooms {
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(traitScore); will(returnValue(2));
-				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
+				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.YES_OPTION));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,0,-2)); will(returnValue(null));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,-1,-1)); will(returnValue(null));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,1,-1)); will(returnValue(null));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,0,0)); will(returnValue(basementLanding));
-
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
 			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
 			zoeIngstrom.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH);
 			assertEquals(2, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
+			assertEquals(basementLanding, zoeIngstrom.getCurrentRoom());
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void testLeavingJunkRoomFailingRollAndStopsMoving() {
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
+			final int traitScore = zoeIngstrom.getCurrentMight();
+			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).rollDice(traitScore); will(returnValue(2));
+				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.NO_OPTION));
+			}});
+			zoeIngstrom.setCurrentRoom(junkRoom);
+			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
+			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
+			zoeIngstrom.attemptMoveInAbsoluteDirection(Relative_Direction.NORTH);
+			assertEquals(3, ((HumanStats) zoeIngstrom.getStats()).getCurrentSpeedIndex());
+			assertEquals(junkRoom, zoeIngstrom.getCurrentRoom());
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 	
 	@Test
 	public void testLeavingJunkRoomSucceedingRoll() {
@@ -274,7 +336,6 @@ public class TestRooms {
 			
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(traitScore); will(returnValue(3));
-				oneOf(mockGame).getLocale(); will(returnValue(new Locale("en")));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,0,-2)); will(returnValue(null));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,-1,-1)); will(returnValue(null));
 				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.BASEMENT,1,-1)); will(returnValue(null));
