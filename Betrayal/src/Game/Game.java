@@ -383,6 +383,25 @@ public class Game {
 			return Trait.KNOWLEDGE;
 		}
 	}
+	
+	public Trait chooseAPhysicalTrait() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedMight = dialogBoxBundle.getString("MightTrait");
+		String localizedSpeed = dialogBoxBundle.getString("SpeedTrait");
+		String localizedMessage = dialogBoxBundle.getString("PhysicalTraitChoiceMessage");
+		Object[] options = {localizedSpeed, localizedMight};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Speed
+			return Trait.SPEED;
+		} else { // User selected Might
+			return Trait.MIGHT;
+		}
+
+	}
 	///CLOVER:ON
 
 	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD

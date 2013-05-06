@@ -6,6 +6,7 @@ import rooms.RoomName;
 
 import Game.Game;
 import characters.Character;
+import characters.Trait;
 
 public class JumpDownFromGalleryToBallroomAction implements IAction {
 
@@ -23,6 +24,9 @@ public class JumpDownFromGalleryToBallroomAction implements IAction {
 		if (canPerform(characterPerformingAction)) {
 			characterPerformingAction.setCurrentRoom(Game.getInstance().getRoomByRoomName(RoomName.BALLROOM));
 			// TODO: Character needs to take physical damage from this.
+			Trait chosenTrait = Game.getInstance().chooseAPhysicalTrait();
+			int damage = 1;
+			characterPerformingAction.decrementTrait(chosenTrait, damage);
 			return;
 		} else {
 			// Theoretically, GameRunner should check canPerform before allowing characters to perform actions, so you shouldn't get here anyway.
