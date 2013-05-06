@@ -65,6 +65,8 @@ public class RoomFrame extends JFrame implements ActionListener {
 		
 		menuBar.add(menu);
 		this.setJMenuBar(menuBar);
+		
+		this.addRoomPanels();
 
 	}
 
@@ -191,7 +193,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 		r2.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 1,1));
 		r3.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.UPPER, 2,0));
 
-		rf.addRoomPanels();
+		//rf.addRoomPanels();
 
 		rf.display();
 	}

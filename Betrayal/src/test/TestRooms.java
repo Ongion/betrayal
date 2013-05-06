@@ -2,10 +2,15 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import itemCards.Armor;
+
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
+
+import omenCards.Dog;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -30,6 +35,7 @@ import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.HumanStats;
 import characters.Trait;
+import eventCards.Drip;
 
 public class TestRooms {
 	ExplorerFactory explorers;
@@ -48,6 +54,8 @@ public class TestRooms {
 	Room pentagramChamber;
 	Room junkRoom;
 	Room dustyHallwayWithTiles;
+	
+	Room storeRoom;
 	Character zoeIngstrom;
 	
 	@Before
@@ -96,7 +104,9 @@ public class TestRooms {
 		dustyHallwayWithTiles.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, -10, 7));
 		
 		explorers = new ExplorerFactory();
-
+		
+		storeRoom = rooms.makeRoom(RoomName.STOREROOM);
+		storeRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, -50, 7));
 	}
 	
 	@Test
@@ -471,6 +481,51 @@ public class TestRooms {
 			assertEquals(3, zoeIngstrom.getCurrentKnowledge());
 			assertEquals(2, zoeIngstrom.getTraitRoll(Trait.KNOWLEDGE));
 			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testFlipRoom(){
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+			
+			mocks.checking(new Expectations() {{
+				allowing(mockGame).getCurrentCharacter(); will(returnValue(explorers.getExplorer(Character_Name.FatherRhinehardt)));
+				oneOf(mockGame).drawEvent(); will(returnValue(new Drip(new Locale("US"))));
+				oneOf(mockGame).drawItem(); will(returnValue(new Armor(new Locale("US"))));
+				oneOf(mockGame).drawOmen(); will(returnValue(new Dog(new Locale("US"))));
+			}});
+			//Event Room
+			final int numEventCards = Game.getInstance().getCurrentCharacter().getEventHand().size();
+			
+			gardens.flipCard();
+
+			assertEquals(numEventCards+1, Game.getInstance().getCurrentCharacter().getEventHand().size());
+			
+			//Item Room
+			final int numItemCards = Game.getInstance().getCurrentCharacter().getItemHand().size();
+			
+			storeRoom.flipCard();
+
+			assertEquals(numItemCards+1, Game.getInstance().getCurrentCharacter().getItemHand().size());
+			
+			//Omen Room
+			final int numOmenCards = Game.getInstance().getCurrentCharacter().getOmenHand().size();
+			
+			diningRoom.flipCard();
+
+			assertEquals(numOmenCards+1, Game.getInstance().getCurrentCharacter().getOmenHand().size());
+			
+			//mocks.assertIsSatisfied();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

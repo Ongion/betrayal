@@ -16,7 +16,9 @@ import org.junit.Test;
 import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
+import characters.HeroType;
 import characters.HumanStats;
+import characters.Trait;
 import eventCards.EventCard;
 import eventCards.Rotten;
 
@@ -99,8 +101,8 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 4);
 		FatherRhinehardt.incrementKnowledge();
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 5);
-		FatherRhinehardt.incrementKnowledge();
-		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 6);
+		FatherRhinehardt.incrementTrait(Trait.KNOWLEDGE,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(Trait.KNOWLEDGE), 6);
 		FatherRhinehardt.incrementKnowledge();
 		Assert.assertEquals(FatherRhinehardt.getCurrentKnowledge(), 6);
 		FatherRhinehardt.incrementKnowledge();
@@ -126,8 +128,8 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentSanity(), 6);
 		FatherRhinehardt.incrementSanity();
 		Assert.assertEquals(FatherRhinehardt.getCurrentSanity(), 7);
-		FatherRhinehardt.incrementSanity();
-		Assert.assertEquals(FatherRhinehardt.getCurrentSanity(), 7);
+		FatherRhinehardt.incrementTrait(Trait.SANITY,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(Trait.SANITY), 7);
 		FatherRhinehardt.incrementSanity();
 		Assert.assertEquals(FatherRhinehardt.getCurrentSanity(), 8);
 		FatherRhinehardt.incrementSanity();
@@ -154,8 +156,8 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentMight(), 2);
 		FatherRhinehardt.incrementMight();
 		Assert.assertEquals(FatherRhinehardt.getCurrentMight(), 4);
-		FatherRhinehardt.incrementMight();
-		Assert.assertEquals(FatherRhinehardt.getCurrentMight(), 4);
+		FatherRhinehardt.incrementTrait(Trait.MIGHT,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(Trait.MIGHT), 4);
 		FatherRhinehardt.incrementMight();
 		Assert.assertEquals(FatherRhinehardt.getCurrentMight(), 5);
 		FatherRhinehardt.incrementMight();
@@ -186,8 +188,8 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 5);
 		FatherRhinehardt.incrementSpeed();
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 6);
-		FatherRhinehardt.incrementSpeed();
-		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 7);
+		FatherRhinehardt.incrementTrait(Trait.SPEED,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(Trait.SPEED), 7);
 		FatherRhinehardt.incrementSpeed();
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 7);
 		FatherRhinehardt.incrementSpeed();
@@ -206,6 +208,43 @@ public class TestCharacters {
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 2);
 		FatherRhinehardt.decrementSpeed();
 		Assert.assertEquals(FatherRhinehardt.getCurrentSpeed(), 2);
+	}
+	
+	@Test
+	public void testIncDecGenericMethod(){
+		//Speed
+		Trait t = Trait.SPEED;
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 3);
+		FatherRhinehardt.incrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 4);
+		FatherRhinehardt.decrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 3);
+		
+		//Might
+		t = Trait.MIGHT;
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 2);
+		FatherRhinehardt.incrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 4);
+		FatherRhinehardt.decrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 2);
+		
+		//Knowledge
+		t = Trait.KNOWLEDGE;
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 4);
+		FatherRhinehardt.incrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 5);
+		FatherRhinehardt.decrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 4);
+		
+		//Sanity
+		t = Trait.SANITY;
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 6);
+		FatherRhinehardt.incrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 7);
+		FatherRhinehardt.decrementTrait(t,1);
+		Assert.assertEquals(FatherRhinehardt.getTrait(t), 6);
+		
+		
 	}
 	
 	@Test
@@ -308,6 +347,13 @@ public class TestCharacters {
 
 	@Test
 	public void TestMonsterInit(){
+	}
+	
+	@Test
+	public void testgetTypeandsetType(){
+		Assert.assertEquals("ExplorerType", FatherRhinehardt.getType().getClass().getSimpleName());
+		FatherRhinehardt.setType(new HeroType());
+		Assert.assertEquals("HeroType", FatherRhinehardt.getType().getClass().getSimpleName());
 	}
 	
 
