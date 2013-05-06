@@ -15,13 +15,13 @@ public class Mirror extends EventCard {
 	
 	@Override
 	public void happen(int rollResult) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void happens() {
-		
+		game.discardItem(game.getCurrentCharacter().getItemHand().remove(0)); // TODO: Change this to all the user to select the item card
+		game.getCurrentCharacter().incrementKnowledge();
 
 	}
 

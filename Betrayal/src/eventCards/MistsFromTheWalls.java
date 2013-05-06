@@ -20,7 +20,7 @@ public class MistsFromTheWalls extends EventCard {
 	@Override
 	public void happen(int rollResult) {
 		for (Character characterChecking : Game.getInstance().getCharacters()) {
-			if (characterChecking.getCurrentRoom().getFloor() == Floor_Name.BASEMENT) {
+			//if (characterChecking.getCurrentRoom().getFloor() == Floor_Name.BASEMENT) {
 				if (rollResult >= 1 && rollResult <= 3){
 					Trait chosenTrait = Game.getInstance().chooseAMentalTrait();
 					int diceToRoll = 1;
@@ -34,7 +34,7 @@ public class MistsFromTheWalls extends EventCard {
 					game.getCurrentCharacter().decrementSanity(); // TODO: Make this decrementMental
 					// TODO: Take 2 additional die of damage if in a room with an event symbol
 				}
-			}
+			//}
 		}
 	}
 
