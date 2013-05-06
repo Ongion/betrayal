@@ -2,9 +2,7 @@ package Game;
 
 import java.io.IOException;
 
-import popUps.DeckAndCardPopups;
 import popUps.GameFrame;
-import popUps.TraitPopup;
 
 public class GameRunner {
 

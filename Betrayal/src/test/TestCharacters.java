@@ -7,21 +7,18 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import junit.framework.Assert;
-
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import characters.ExplorerType;
+import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import characters.MonsterType;
+import characters.HumanStats;
 import eventCards.EventCard;
 import eventCards.Rotten;
-import characters.Character;
-import characters.HumanStats;
 
 public class TestCharacters {
 	

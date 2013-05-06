@@ -8,7 +8,6 @@ import itemCards.ItemCard;
 import itemCards.PuzzleBox;
 import itemCards.Revolver;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -20,24 +19,19 @@ import omenCards.OmenCard;
 import omenCards.Ring;
 import omenCards.Spear;
 
-import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import rooms.Room;
 import rooms.RoomFactory;
 import rooms.RoomName;
-
+import Game.Game;
+import Game.Player;
 import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import characters.HumanStats;
-
-import Game.Game;
-import Game.Player;
 import eventCards.AMomentOfHope;
 import eventCards.AngryBeing;
 import eventCards.BloodyVision;
@@ -60,8 +54,8 @@ import eventCards.JonahsTurn;
 import eventCards.LightsOut;
 import eventCards.LockedSafe;
 import eventCards.Mirror;
-import eventCards.MistsFromTheWalls;
 import eventCards.Mirror2;
+import eventCards.MistsFromTheWalls;
 import eventCards.MysticSlide;
 import eventCards.NightView;
 import eventCards.PhoneCall;

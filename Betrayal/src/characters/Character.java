@@ -4,17 +4,14 @@ import itemCards.ItemCard;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import omenCards.OmenCard;
 import pathFinding.PathFinding;
-import eventCards.EventCard;
-import rooms.Location;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
-import Game.Game;
+import eventCards.EventCard;
 
 public class Character {
 	public enum Character_Name{
@@ -204,36 +201,36 @@ public class Character {
 //		return true;
 	}
 	
-	public void incrementTrait(Trait traitBeingIncremented) {
+	public void incrementTrait(Trait traitBeingIncremented, int amount) {
 		switch(traitBeingIncremented) {
 		case KNOWLEDGE:
-			incrementKnowledge();
+			incrementKnowledge(amount);
 			break;
 		case MIGHT:
-			incrementMight();
+			incrementMight(amount);
 			break;
 		case SANITY:
-			incrementSanity();
+			incrementSanity(amount);
 			break;
 		case SPEED:
-			incrementSpeed();
+			incrementSpeed(amount);
 			break;
 		}
 	}
 	
-	public void decrementTrait(Trait traitBeingDecremented) {
+	public void decrementTrait(Trait traitBeingDecremented, int amount) {
 		switch(traitBeingDecremented) {
 		case KNOWLEDGE:
-			decrementKnowledge();
+			decrementKnowledge(amount);
 			break;
 		case MIGHT:
-			decrementMight();
+			decrementMight(amount);
 			break;
 		case SANITY:
-			decrementSanity();
+			decrementSanity(amount);
 			break;
 		case SPEED:
-			decrementSpeed();
+			decrementSpeed(amount);
 			break;
 		}
 	}

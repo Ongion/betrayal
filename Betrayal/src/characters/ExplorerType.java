@@ -1,14 +1,8 @@
 package characters;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import Game.Game;
-import characters.Character;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
-
-import characters.Character.Character_Name;
+import Game.Game;
 
 public class ExplorerType implements ICharacterType {
 	private Character characterTypeBelongsTo;

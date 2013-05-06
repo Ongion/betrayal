@@ -1,12 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
 import itemCards.DarkDice;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.jmock.Expectations;
@@ -21,21 +21,20 @@ import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
+import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
-import rooms.Room.Room_Orientation;
-
-import characters.Character;
-import characters.ExplorerFactory;
-import characters.HumanStats;
-import characters.Character.Character_Name;
-
+import tiles.SmokeTile;
 import Game.Game;
 import actions.IAction;
 import actions.JumpDownFromGalleryToBallroomAction;
 import actions.OpenVaultAction;
 import actions.UseSecretPassageAction;
 import actions.UseSecretStairsAction;
+import characters.Character;
+import characters.Trait;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 
 public class TestActions {
 	
@@ -149,9 +148,34 @@ public class TestActions {
 
 	@Test
 	public void testJumpDown() {
-		ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
-		jumpDownToBallroom.perform(darrinWilliamsJumpingDownFromGallery);
-		assertEquals(ballroom, darrinWilliamsJumpingDownFromGallery.getCurrentRoom());
+		Mockery mocks = new Mockery() {{
+	        setImposteriser(ClassImposteriser.INSTANCE);
+	    }};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);			
+			mocks.checking(new Expectations() {{
+				oneOf(mockGame).getRoomAtLocation(new Location(Floor_Name.GROUND, 100, 25)); will(returnValue(null));
+				oneOf(mockGame).addRoomToMap(ballroom);
+				oneOf(mockGame).getRoomByRoomName(RoomName.BALLROOM); will(returnValue(ballroom));
+				oneOf(mockGame).getRoomByRoomName(RoomName.GALLERY); will(returnValue(gallery));
+				oneOf(mockGame).getRoomByRoomName(RoomName.GALLERY); will(returnValue(gallery));
+				oneOf(mockGame).getRoomByRoomName(RoomName.BALLROOM); will(returnValue(ballroom));
+				oneOf(mockGame).chooseAPhysicalTrait(); will(returnValue(Trait.SPEED));
+			}});
+			ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
+			assertEquals(6, darrinWilliamsJumpingDownFromGallery.getTrait(Trait.SPEED));
+			jumpDownToBallroom.perform(darrinWilliamsJumpingDownFromGallery);
+			assertEquals(ballroom, darrinWilliamsJumpingDownFromGallery.getCurrentRoom());
+			assertEquals(5, darrinWilliamsJumpingDownFromGallery.getTrait(Trait.SPEED));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test

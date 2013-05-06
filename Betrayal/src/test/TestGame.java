@@ -1,42 +1,37 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import itemCards.AngelFeather;
+import itemCards.ItemCard;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Locale;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import omenCards.Book;
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
 import omenCards.Ring;
 
-import itemCards.AngelFeather;
-import itemCards.ItemCard;
+import org.junit.Before;
+import org.junit.Test;
 
-import rooms.EventRoom;
 import rooms.Room;
-import rooms.Room.Floor_Name;
-import rooms.Room.Relative_Direction;
 import rooms.RoomFactory;
 import rooms.RoomName;
-
 import Game.Game;
 import Game.Player;
-
+import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
+import characters.Trait;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
-
-import characters.Character.Character_Name;
-import characters.Trait;
-import characters.ExplorerFactory;
-import characters.Character;
 
 public class TestGame {
 

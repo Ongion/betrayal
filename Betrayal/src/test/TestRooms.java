@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
-import java.util.Locale;
 
 import javax.swing.JOptionPane;
 

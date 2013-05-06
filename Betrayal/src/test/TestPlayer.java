@@ -1,7 +1,5 @@
 package test;
 
-import java.util.Locale;
-
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -9,10 +7,9 @@ import org.junit.Test;
 
 import Game.Game;
 import Game.Player;
-import characters.Character.Character_Name;
-import characters.ExplorerType;
-import characters.ExplorerFactory;
 import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 
 public class TestPlayer {
 
