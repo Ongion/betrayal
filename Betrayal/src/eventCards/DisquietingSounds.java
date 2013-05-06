@@ -21,7 +21,13 @@ public class DisquietingSounds extends EventCard {
 
 	@Override
 	public void happens() {
-		// TODO Auto-generated method stub
+		int rollResult = game.rollDice(6);
+		
+		if (rollResult >= game.numOmensOut()){
+			game.getCurrentCharacter().incrementSanity();
+		} else {
+			game.getCurrentCharacter().decrementSanity(game.rollDice(1)); // TODO: Change this to decrement mental
+		}
 
 	}
 
