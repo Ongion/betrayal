@@ -3,9 +3,8 @@ package omenCards;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import characters.Character;
-import characters.ExplorerType;
 import Game.Game;
+import characters.Character;
 
 public class Dog extends OmenCard {
 	private boolean hasToken;

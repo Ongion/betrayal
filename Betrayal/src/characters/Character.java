@@ -4,17 +4,14 @@ import itemCards.ItemCard;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import omenCards.OmenCard;
 import pathFinding.PathFinding;
-import eventCards.EventCard;
-import rooms.Location;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
 import Game.Player;
-import Game.Game;
+import eventCards.EventCard;
 
 public class Character {
 	public enum Character_Name{
@@ -203,6 +200,40 @@ public class Character {
 //		}
 //		return true;
 	}
+	
+	public void incrementTrait(Trait traitBeingIncremented, int amount) {
+		switch(traitBeingIncremented) {
+		case KNOWLEDGE:
+			incrementKnowledge(amount);
+			break;
+		case MIGHT:
+			incrementMight(amount);
+			break;
+		case SANITY:
+			incrementSanity(amount);
+			break;
+		case SPEED:
+			incrementSpeed(amount);
+			break;
+		}
+	}
+	
+	public void decrementTrait(Trait traitBeingDecremented, int amount) {
+		switch(traitBeingDecremented) {
+		case KNOWLEDGE:
+			decrementKnowledge(amount);
+			break;
+		case MIGHT:
+			decrementMight(amount);
+			break;
+		case SANITY:
+			decrementSanity(amount);
+			break;
+		case SPEED:
+			decrementSpeed(amount);
+			break;
+		}
+	}
 		
 	public void incrementKnowledge() {
 		incrementKnowledge(1);
@@ -297,5 +328,17 @@ public class Character {
 		}
 		return traitAmount;
 
+	}
+
+	public boolean isAffectedByBlessing() {
+		return type.isAffectedByBlessing();
+	}
+
+	public boolean isAffectedByDrip() {
+		return type.isAffectedByDrip();
+	}
+
+	public boolean isAffectedBySmoke() {
+		return type.isAffectedBySmoke();
 	}
 }

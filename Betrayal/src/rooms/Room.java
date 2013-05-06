@@ -6,9 +6,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
+import tiles.ActionAddingTile;
+import tiles.ITraitRollModifyingTile;
 import Game.Game;
 import actions.IAction;
 import characters.Character;
+import characters.Trait;
 
 public abstract class Room {
 	protected final RoomName name;
@@ -17,7 +22,7 @@ public abstract class Room {
 	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
-	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
+	protected Set<ITraitRollModifyingTile> traitRollModifyingTilesInRoom;
 	protected Set<ActionAddingTile> actionAddingTilesInRoom;
 	protected Set<IAction> roomActions;
 	
@@ -40,7 +45,7 @@ public abstract class Room {
 		this.windows = windows;
 		
 		this.roomActions = new HashSet<IAction>();
-		this.traitRollModifyingTilesInRoom = new HashSet<TraitRollModifyingTile>();
+		this.traitRollModifyingTilesInRoom = new HashSet<ITraitRollModifyingTile>();
 		this.actionAddingTilesInRoom = new HashSet<ActionAddingTile>();
 
 		// Add the room to the room deck!
@@ -66,10 +71,6 @@ public abstract class Room {
 	public void removeRoomAction(IAction actionToRemoveFromRoom) {
 		this.roomActions.remove(actionToRemoveFromRoom);
 	}
-
-	public boolean hasConnection() {
-		return !this.getExitMap().isEmpty();
-	}
 	
 	public void addUpwardExit(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.UP);
@@ -79,9 +80,6 @@ public abstract class Room {
 	public void addDownwardExit(Room roomConnectingTo) {
 		this.exits.add(Relative_Direction.DOWN);
 		this.downwardsRoom = roomConnectingTo;
-	}
-
-	public void addSecretStairs(Room roomConnectingTo) {
 	}
 	
 	public boolean isBarrierRoom() {
@@ -96,42 +94,30 @@ public abstract class Room {
 		this.actionAddingTilesInRoom.remove(tileToBeRemoved);
 	}
 	
-	public void addTraitRollModifyingTile(TraitRollModifyingTile tileToBeAdded) {
+	public void addTraitRollModifyingTile(ITraitRollModifyingTile tileToBeAdded) {
 		this.traitRollModifyingTilesInRoom.add(tileToBeAdded);
 	}
 	
-	public void removeTraitRollModifyingTile(TraitRollModifyingTile tileToBeRemoved) {
+	public void removeTraitRollModifyingTile(ITraitRollModifyingTile tileToBeRemoved) {
 		this.traitRollModifyingTilesInRoom.remove(tileToBeRemoved);
 	}
 
-	//	public void setHasSecretStairs(boolean newHasStairs) {
-	//		this.hasSecretStairs = newHasStairs;
-	//	}
-	//	
-	//	public boolean getHasSecretStairs() {
-	//		return this.hasSecretStairs;
-	//	}
-	//	
-	//	public Room getExitThroughSecretStairs() {
-	//		if (!this.hasSecretStairs) {
-	//			throw new RuntimeException(String.format("Room %s doesn't have secret stairs!", this.getName()));
-	//		}
-	//		return this.otherEndOfSecretStairs;
-	//	}
-	//	
-	//	public void addSecretStairsToRoom(Room roomConnectingTo) {
-	//		this.setHasSecretStairs(true);
-	//		this.otherEndOfSecretStairs = roomConnectingTo;
-	//		roomConnectingTo.addSecretStairsFromRoom(this);
-	//	}
-	//	
-	//	private void addSecretStairsFromRoom(Room roomConnectingFrom) {
-	//		this.setHasSecretStairs(true);
-	//		this.otherEndOfSecretStairs = roomConnectingFrom;
-	//	}
-
 	public void flipCard() {
 		// EventRooms and the like implement this method to get a card and make it happen
+	}
+	
+	protected boolean testTraitAndDecrementOnLeavingRoom(Character characterLeavingRoom, Trait traitBeingTestedAgainst, int targetResult, Trait traitDecrementedIfFailed) {
+		int rollResult = characterLeavingRoom.getTraitRoll(traitBeingTestedAgainst);
+		boolean doesCharacterStillWantToLeaveTheRoom = true;
+		if (rollResult < targetResult) {
+			doesCharacterStillWantToLeaveTheRoom = (Game.getInstance().makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage") == JOptionPane.YES_OPTION);
+			if (doesCharacterStillWantToLeaveTheRoom) {
+				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed, 1);
+			} else {
+				characterLeavingRoom.endMovement();
+			}
+		}
+		return doesCharacterStillWantToLeaveTheRoom;
 	}
 
 
@@ -399,24 +385,11 @@ public abstract class Room {
 		return result;
 	}
 
-	public int getRoomTraitRollModifier() {
+	public int getTraitRollModifier(Character characterMakingRoll) {
 		int modifier = 0;
-		for (TraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
-			switch(tile) {
-			case BLESSING:
-				modifier++;
-				break;
-			case DRIP:
-				modifier--;
-				break;
-			case SMOKE:
-				modifier -= 2;
-				break;
-			default:
-				// How did you get here?
-				break;
+		for (ITraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
+				modifier += tile.getModifierForCharacter(characterMakingRoll);
 			}
-		}
 		return modifier;
 	}
 }

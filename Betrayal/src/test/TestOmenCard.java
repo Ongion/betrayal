@@ -35,15 +35,15 @@ import org.junit.Test;
 
 import Game.Game;
 import Game.Player;
-import characters.ExplorerFactory;
 import characters.Character;
+import characters.Character.Character_Name;
+import characters.ExplorerFactory;
 import characters.HumanStats;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
 import eventCards.NightView;
 import eventCards.Rotten;
-import characters.Character.Character_Name;
 
 public class TestOmenCard {
 

@@ -1,6 +1,5 @@
 package test;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import junit.framework.Assert;
@@ -8,20 +7,17 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.EventRoom;
-import rooms.JunkRoomRoom;
-import rooms.OmenRoom;
+import rooms.Location;
 import rooms.Room;
-import rooms.RoomFactory;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
+import rooms.RoomFactory;
 import rooms.RoomName;
 import Game.Game;
 import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
-import rooms.Location;
 
 public class TestCharacterMovement {
 

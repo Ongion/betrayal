@@ -3,13 +3,13 @@ package rooms;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import actions.JumpDownFromGalleryToBallroomAction;
-import actions.OpenVaultAction;
-
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import Game.Game;
+import actions.JumpDownFromGalleryToBallroomAction;
+import actions.OpenVaultAction;
 import characters.Character;
+import characters.Trait;
 
 public class RoomFactory {
 
@@ -78,18 +78,9 @@ public class RoomFactory {
 					 * When exiting, you must attempt a Might roll of 3+
 					 * If you fail, lose 1 Speed (but continue moving). 
 					 */
-					
-					int diceToRoll = characterLeavingRoom.getCurrentMight();
-					int TARGET_RESULT = 3;
-					int rollResult = Game.getInstance().rollDice(diceToRoll);
-					System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-					if (rollResult < TARGET_RESULT) {
-						characterLeavingRoom.decrementSpeed(1); //TODO Characters may choose to stay in the room, instead of losing stats
-						System.out.println(String.format("%s lost 1 speed!", characterLeavingRoom.getName()));
-					} else {
-						System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
+					if (testTraitAndDecrementOnLeavingRoom(characterLeavingRoom, Trait.MIGHT, 3, Trait.SPEED)) {
+						super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 					}
-					super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 				}
 			};
 			break;
@@ -171,18 +162,9 @@ public class RoomFactory {
 					 * When exiting, you must attempt a Knowledge roll of 4+
 					 * If you fail, lose 1 Sanity (but continue moving). 
 					 */
-					
-					int diceToRoll = characterLeavingRoom.getCurrentKnowledge();
-					int TARGET_RESULT = 4;
-					int rollResult = Game.getInstance().rollDice(diceToRoll);
-					System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-					if (rollResult < TARGET_RESULT) {
-						characterLeavingRoom.decrementSanity(1); //TODO Characters may choose to stay in the room, instead of losing stats
-						System.out.println(String.format("%s lost 1 sanity!", characterLeavingRoom.getName()));
-					} else {
-						System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
+					if (testTraitAndDecrementOnLeavingRoom(characterLeavingRoom, Trait.KNOWLEDGE, 4, Trait.SANITY)) {
+						super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 					}
-					super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 				}
 			};
 			break;
@@ -289,18 +271,8 @@ public class RoomFactory {
 					 * When exiting, you must attempt a Sanity roll of 4+.
 					 * If you fail, you lose 1 Knowledge (but continue moving) 
 					 */
-					
-					if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
-						int diceToRoll = characterLeavingRoom.getCurrentSanity();
-						int TARGET_RESULT = 4;
-						int rollResult = Game.getInstance().rollDice(diceToRoll);
-						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-						if (rollResult < TARGET_RESULT) {
-							characterLeavingRoom.decrementKnowledge(1);
-							System.out.println(String.format("%s lost 1 Knowledge!", characterLeavingRoom.getName()));
-						} else {
-							System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
-						}
+					if (testTraitAndDecrementOnLeavingRoom(characterLeavingRoom, Trait.SANITY, 4, Trait.KNOWLEDGE)) {
+						super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 					}
 				}
 			};
@@ -383,18 +355,8 @@ public class RoomFactory {
 					 * When exiting, you must attempt a Speed roll of 3+.
 					 * If you fail, you lose 1 Might (but continue moving) 
 					 */
-					
-					if (!characterLeavingRoom.getSideOfRoom().equals(exitAttemptingToLeaveBy)) {
-						int diceToRoll = characterLeavingRoom.getCurrentSpeed();
-						int TARGET_RESULT = 3;
-						int rollResult = Game.getInstance().rollDice(diceToRoll);
-						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
-						if (rollResult < TARGET_RESULT) {
-							characterLeavingRoom.decrementMight(1);
-							System.out.println(String.format("%s lost 1 Might!", characterLeavingRoom.getName()));
-						} else {
-							System.out.println(String.format("%s avoided danger.", characterLeavingRoom.getName()));
-						}
+					if (testTraitAndDecrementOnLeavingRoom(characterLeavingRoom, Trait.SPEED, 3, Trait.MIGHT)) {
+						super.leaveRoomInAbsoluteDirection(characterLeavingRoom, exitAttemptingToLeaveBy);
 					}
 				}
 			};

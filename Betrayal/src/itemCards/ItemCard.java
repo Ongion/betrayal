@@ -9,15 +9,25 @@ public abstract class ItemCard {
 	protected String name;
 	protected String description;
 	protected String desDetail;
+	protected String cardName;
 	public boolean isLost;
 	
 
 	
 	public ItemCard(String cardname, Locale loc){
+		this.cardName = cardname;
+		
 		ResourceBundle messages = ResourceBundle.getBundle("ItemCardBundle", loc);
 		this.name = messages.getString("title" + cardname);
 		this.description = messages.getString("des" + cardname);
 		this.desDetail = messages.getString("detail" + cardname);
+		
+	}
+	
+	//This is different than getName, in the it returns the always English name
+	//Not one that has been localized. Used to pick correct image, for example.
+	public String getCardName() {
+		return this.cardName;
 	}
 
 	public String getName() {

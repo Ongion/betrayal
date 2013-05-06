@@ -52,7 +52,7 @@ public class Location {
 	}
 	
 	@Override
-	public int hashCode() { //Must override hashCode when overriding equals. Just doing some stuff with prime numbers. Hopefully, good enough to avoid collisions?
+	public int hashCode() { //Must override hashCode when overriding equals. Just doing some stuff with prime numbers. Not using this in a hash-collection anyway, so whatever.
 		int hash = 31;
 		hash = 89 * hash + this.floor.ordinal();
 		hash = 89 * hash + this.x;

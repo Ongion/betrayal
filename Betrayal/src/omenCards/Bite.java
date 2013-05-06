@@ -2,9 +2,8 @@ package omenCards;
 
 import java.util.Locale;
 
-import characters.ExplorerType;
-import characters.Character;
 import Game.Game;
+import characters.Character;
 
 public class Bite extends OmenCard {
 

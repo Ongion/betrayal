@@ -3,9 +3,8 @@ package omenCards;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import characters.ExplorerType;
-import characters.Character;
 import Game.Game;
+import characters.Character;
 
 public class Book extends OmenCard {
 
@@ -24,7 +23,7 @@ public class Book extends OmenCard {
 	}
 
 	public void isLost(Character character) {
-		ArrayList omenHand = character.getOmenHand();
+		ArrayList<OmenCard> omenHand = character.getOmenHand();
 		if (!omenHand.contains(this)) {
 			character.decrementKnowledge(2);
 
