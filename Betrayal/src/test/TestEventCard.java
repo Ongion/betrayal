@@ -1408,19 +1408,20 @@ public class TestEventCard {
 		assertEquals(character, game.getCurrentCharacter());
 	}
 	
-	@Test
-	public void testMistsFromTheWalls1To3(){
-		card = new MistsFromTheWalls(enLocale);
-		
-		card.happen(1);
-		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		
-		card.happen(2);
-		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		
-		card.happen(3);
-		//assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
-	}
+	//TODO MOCK ME
+//	@Test
+//	public void testMistsFromTheWalls1To3(){
+//		card = new MistsFromTheWalls(enLocale);
+//		
+//		card.happen(1);
+//		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+//		
+//		card.happen(2);
+//		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+//		
+//		card.happen(3);
+//		//assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+//	}
 	
 	@Test
 	public void testMistsFromTheWalls0(){
