@@ -9,3 +9,4 @@ Betrayal/.project
 Betrayal/.classpath.txt
 Betrayal/.project.txt
 bin/*
+.settings/*

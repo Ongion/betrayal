@@ -16,23 +16,21 @@ public class TraitPopup extends JFrame implements ActionListener {
 	
 	private int width;
 	private int height;
-	private Game game;
 	
 	public TraitPopup(int windowWidth, int windowHeight) {
 		this.width = windowWidth;
 		this.height = windowHeight;
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //make it close when it's closed.
-		this.game = Game.getInstance();
 	}
 
 	public TraitPopup() {
-		
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	public void displayChooseRollTypePopup(){
-		JFrame rollTypePopup = new JFrame();
-		rollTypePopup.setTitle("Choose Trait");
-		rollTypePopup.setSize(300, 300);
+		//this.removeAll();
+		this.setTitle("Choose Trait");
+		this.setSize(300, 300);
 		
 		JButton btnKnowledge = new JButton("Knowledge");
 		btnKnowledge.setSize(200, 50);
@@ -53,17 +51,18 @@ public class TraitPopup extends JFrame implements ActionListener {
 		btnMight.addActionListener(this);
 		btnSpeed.addActionListener(this);
 		
-		Container content = rollTypePopup.getContentPane();
+		Container content = this.getContentPane();
 		content.setLayout(new FlowLayout());
 		content.add(btnKnowledge);
 		content.add(btnSanity);
 		content.add(btnMight);
 		content.add(btnSpeed);
 		
-		rollTypePopup.setVisible(true);
+		this.setVisible(true);
 	}
 	
 	public void displayChoosePhysicalPopup(){
+		this.removeAll();
 		JFrame physicalPopup = new JFrame();
 		physicalPopup.setTitle("Choose Physical Trait");
 		physicalPopup.setSize(300, 300);
@@ -88,6 +87,7 @@ public class TraitPopup extends JFrame implements ActionListener {
 	}
 	
 	public void displayChooseMentalPopup(){
+		this.removeAll();
 		JFrame mentalPopup = new JFrame();
 		mentalPopup.setTitle("Choose Mental Trait");
 		mentalPopup.setSize(300, 300);
@@ -114,17 +114,18 @@ public class TraitPopup extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("knowledge".equals(e.getActionCommand())){
-			this.game.setTraitForAction(Trait.KNOWLEDGE);
+			Game.getInstance().setTraitForAction(Trait.KNOWLEDGE);
 			TraitPopup.this.dispose();
+			TraitPopup.this.setVisible(false);
 		} else if ("sanity".equals(e.getActionCommand())){
-			this.game.setTraitForAction(Trait.SANITY);
-			TraitPopup.this.dispose();
+			Game.getInstance().setTraitForAction(Trait.SANITY);
+			this.dispose();
 		} else if  ("might".equals(e.getActionCommand())){
-			this.game.setTraitForAction(Trait.MIGHT);
-			TraitPopup.this.dispose();
+			Game.getInstance().setTraitForAction(Trait.MIGHT);
+			this.dispose();
 		} else if ("speed".equals(e.getActionCommand())){
-			this.game.setTraitForAction(Trait.SPEED);
-			TraitPopup.this.dispose();
+			Game.getInstance().setTraitForAction(Trait.SPEED);
+			this.dispose();
 		}
 	}
 
