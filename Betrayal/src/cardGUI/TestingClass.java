@@ -5,7 +5,9 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
+import itemCards.*;
 import eventCards.*;
+import omenCards.*;
 
 public class TestingClass {
 
@@ -15,12 +17,16 @@ public class TestingClass {
 	public static void main(String[] args) {
 		Locale en = new Locale("US");
 		
-		EventCard angryBeing = new HangedMen(en);
+		EventCard eCard = new HangedMen(en);
+		ItemCard iCard = new DarkDice(en);
+		OmenCard oCard = new Skull(en);
 		
-		EventCardFrame angryFrame = new EventCardFrame(angryBeing);
+		//EventCardFrame frame = new EventCardFrame(eCard);
+		//ItemCardFrame frame = new ItemCardFrame(iCard);
+		OmenCardFrame frame = new OmenCardFrame(oCard);
 		
-		angryFrame.display();
-		angryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.display();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 

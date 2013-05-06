@@ -15,24 +15,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import eventCards.EventCard;
+import itemCards.*;
 
-public class EventCardFrame extends JFrame {
+public class ItemCardFrame extends JFrame {
 
 	/**
 	 * Ya I really don't know what this is for but Eclipse always wants it.
 	 */
 	private static final long serialVersionUID = -300674110989890700L;
 	
-	private EventCard card;
+	private ItemCard card;
 	
 	
-	public EventCardFrame(EventCard card) {
+	public ItemCardFrame(ItemCard card) {
 		this(340,630,card);
 		//This default size matches the size of the picture
 	}
 	
-	public EventCardFrame(int width, int height, EventCard card){
+	public ItemCardFrame(int width, int height, ItemCard card){
 		this.card = card;
 		
 		this.setSize(width, height);
@@ -40,16 +40,16 @@ public class EventCardFrame extends JFrame {
 		
 		JPanel panel = null;
 		try {
-			panel = new BackgroundPanel(ImageIO.read(new File("Betrayal/images/FrontOfEventCard.jpg")));
+			panel = new BackgroundPanel(ImageIO.read(new File("Betrayal/images/itemCards/" + card.getCardName()+ ".jpg")));
 		} catch (Exception e){
 			panel = new JPanel();
 			System.out.println("File most likely not found. Reverting to JPanel, instead of BackgroundPanel");
 			System.out.println(e);
 		}
 		
-		//GridLayout gridLayout = new GridLayout(0,1);//Zero so it auto sizes the Grid Based on what's in it
+
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+		panel.setBorder(BorderFactory.createEmptyBorder(150,50,50,50));
 		
 		//Add the title to the Frame
 		JLabel title = new JLabel("<html><p>"+card.getName()+"</p></html>");
@@ -65,7 +65,7 @@ public class EventCardFrame extends JFrame {
 		panel.add(description);
 				
 		//Add the rules
-		JLabel rules = new JLabel("<html><p>"+card.getRules()+"</p></html>");
+		JLabel rules = new JLabel("<html><p>"+card.getDetails()+"</p></html>");
 		//Using HTML in JLabel's is weird but kinda awesome, for a web developer at least.
 		rules.setHorizontalAlignment(SwingConstants.CENTER);
 		rules.setBorder(BorderFactory.createEmptyBorder(30,0,50,0));

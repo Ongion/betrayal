@@ -15,24 +15,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import eventCards.EventCard;
+import omenCards.OmenCard;
 
-public class EventCardFrame extends JFrame {
+public class OmenCardFrame extends JFrame {
 
 	/**
 	 * Ya I really don't know what this is for but Eclipse always wants it.
 	 */
 	private static final long serialVersionUID = -300674110989890700L;
 	
-	private EventCard card;
+	private OmenCard card;
 	
 	
-	public EventCardFrame(EventCard card) {
+	public OmenCardFrame(OmenCard card) {
 		this(340,630,card);
 		//This default size matches the size of the picture
 	}
 	
-	public EventCardFrame(int width, int height, EventCard card){
+	public OmenCardFrame(int width, int height, OmenCard card){
 		this.card = card;
 		
 		this.setSize(width, height);
@@ -40,7 +40,7 @@ public class EventCardFrame extends JFrame {
 		
 		JPanel panel = null;
 		try {
-			panel = new BackgroundPanel(ImageIO.read(new File("Betrayal/images/FrontOfEventCard.jpg")));
+			panel = new BackgroundPanel(ImageIO.read(new File("Betrayal/images/FrontOfOmenCard.jpg")));
 		} catch (Exception e){
 			panel = new JPanel();
 			System.out.println("File most likely not found. Reverting to JPanel, instead of BackgroundPanel");
@@ -67,6 +67,7 @@ public class EventCardFrame extends JFrame {
 		//Add the rules
 		JLabel rules = new JLabel("<html><p>"+card.getRules()+"</p></html>");
 		//Using HTML in JLabel's is weird but kinda awesome, for a web developer at least.
+		//Using the HTML to autowrap the text inside the JLabel
 		rules.setHorizontalAlignment(SwingConstants.CENTER);
 		rules.setBorder(BorderFactory.createEmptyBorder(30,0,50,0));
 		panel.add(rules);
