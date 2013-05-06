@@ -112,7 +112,7 @@ public abstract class Room {
 		if (rollResult < targetResult) {
 			doesCharacterStillWantToLeaveTheRoom = (Game.getInstance().makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage") == JOptionPane.YES_OPTION);
 			if (doesCharacterStillWantToLeaveTheRoom) {
-				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed);
+				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed, 1);
 			} else {
 				characterLeavingRoom.endMovement();
 			}
