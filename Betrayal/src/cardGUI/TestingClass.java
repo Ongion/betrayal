@@ -1,9 +1,11 @@
 package cardGUI;
 
+import java.io.File;
 import java.util.Locale;
 
-import eventCards.AngryBeing;
-import eventCards.EventCard;
+import javax.swing.JFrame;
+
+import eventCards.*;
 
 public class TestingClass {
 
@@ -13,11 +15,12 @@ public class TestingClass {
 	public static void main(String[] args) {
 		Locale en = new Locale("US");
 		
-		EventCard angryBeing = new AngryBeing(en);
+		EventCard angryBeing = new HangedMen(en);
 		
 		EventCardFrame angryFrame = new EventCardFrame(angryBeing);
 		
 		angryFrame.display();
+		angryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
