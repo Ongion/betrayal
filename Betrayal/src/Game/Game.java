@@ -7,15 +7,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import omenCards.OmenCard;
+import rooms.Location;
 import rooms.Room;
+import rooms.Room.Floor_Name;
+import rooms.Room.Room_Orientation;
+import rooms.RoomFactory;
+import rooms.RoomName;
 import characters.Character;
-import characters.ExplorerType;
 import characters.Trait;
 import eventCards.EventCard;
-import rooms.Location;
 
 public class Game {
 	
@@ -65,6 +71,22 @@ public class Game {
 		this.currentCharacter = 0;
 	}
 	
+	public void addStartingRooms() {
+		// Add starting rooms to the map
+		RoomFactory rooms = new RoomFactory();
+		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
+		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
+		Room grandstaircase = rooms.makeRoom(RoomName.GRANDSTAIRCASE);
+		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		Room upperlanding = rooms.makeRoom(RoomName.UPPERLANDING);
+		
+		grandstaircase.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		upperlanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
+		
+		grandstaircase.addUpwardExit(upperlanding);
+		upperlanding.addDownwardExit(grandstaircase);
+	}
+	
 	public Trait getTraitForAction(){
 		return this.traitForAction;
 	}
@@ -79,19 +101,9 @@ public class Game {
 	
 	public static void resetGame() {
 		INSTANCE = new Game();
+		INSTANCE.addStartingRooms();
 	}
-	
-	public Game(ArrayList<Room> roomDeck, ArrayList<EventCard> eventDeck, ArrayList<OmenCard> omenDeck, ArrayList<ItemCard> itemDeck, ArrayList<Player> players){
-		this.roomDeck = roomDeck;
-		this.eventDeck = eventDeck;
-		this.omenDeck = omenDeck;
-		this.itemDeck = itemDeck;
-		this.players = players;
-		this.numOmens = omenDeck.size();
 		
-		this.currentCharacter = 0;
-	}
-	
 	public Boolean getIsHaunt() {
 		return isHaunt;
 	}
@@ -340,11 +352,62 @@ public class Game {
 	public Locale getLocale() {
 		return this.locale;
 	}
+	
+	// Begin UI stuff
+	///CLOVER:OFF
+	public int makeYesNoDialogAndGetResult(String titleBundleString, String messageBundleString) {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String confirmationBoxTitle = dialogBoxBundle.getString(titleBundleString);
+		String confirmationBoxMessage = dialogBoxBundle.getString(messageBundleString);
+		int confirmationBoxResult = JOptionPane.CLOSED_OPTION;
+		while (confirmationBoxResult == JOptionPane.CLOSED_OPTION) {
+			confirmationBoxResult = JOptionPane.showConfirmDialog(null, confirmationBoxMessage, confirmationBoxTitle, JOptionPane.YES_NO_OPTION);
+		}
+		return confirmationBoxResult;
+	}
+	
+	public Trait chooseAMentalTrait() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedSanity = dialogBoxBundle.getString("SanityTrait");
+		String localizedKnowledge = dialogBoxBundle.getString("KnowledgeTrait");
+		String localizedMessage = dialogBoxBundle.getString("MentalTraitChoiceMessage");
+		Object[] options = {localizedSanity, localizedKnowledge};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Sanity
+			return Trait.SANITY;
+		} else { // User selected Knowledge
+			return Trait.KNOWLEDGE;
+		}
+	}
+	
+	public Trait chooseAPhysicalTrait() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedMight = dialogBoxBundle.getString("MightTrait");
+		String localizedSpeed = dialogBoxBundle.getString("SpeedTrait");
+		String localizedMessage = dialogBoxBundle.getString("PhysicalTraitChoiceMessage");
+		Object[] options = {localizedSpeed, localizedMight};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Speed
+			return Trait.SPEED;
+		} else { // User selected Might
+			return Trait.MIGHT;
+		}
 
-	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS IN THE DECK
-	public Room getRoomByName(String nameOfRoomWanted) {
+	}
+	///CLOVER:ON
+
+	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
+	public Room getRoomByRoomName(RoomName nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
-			if (roomChecking.getName().equals(nameOfRoomWanted)) {
+			if (roomChecking.getNameEnum().equals(nameOfRoomWanted)) {
 				return roomChecking;
 			}
 		}

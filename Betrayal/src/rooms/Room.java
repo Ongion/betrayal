@@ -1,34 +1,33 @@
 package rooms;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import actions.IAction;
+import javax.swing.JOptionPane;
 
+import tiles.ActionAddingTile;
+import tiles.ITraitRollModifyingTile;
 import Game.Game;
-import characters.ExplorerType;
+import actions.IAction;
 import characters.Character;
 import characters.Trait;
-import rooms.Location;
 
 public abstract class Room {
 	protected final RoomName name;
 	protected Room_Orientation orientation;
-	protected final Set<Relative_Direction> exits;
+	protected Set<Relative_Direction> exits;
 	protected Set<Floor_Name> floorsAllowedOn;
 	protected Map<Relative_Direction, Integer> windows;
 	protected Location currentLocation;
-	protected Set<TraitRollModifyingTile> traitRollModifyingTilesInRoom;
+	protected Set<ITraitRollModifyingTile> traitRollModifyingTilesInRoom;
 	protected Set<ActionAddingTile> actionAddingTilesInRoom;
 	protected Set<IAction> roomActions;
-
-
-	protected Room otherEndOfSecretStairs = null;
-	protected Room otherEndOfWallSwitch = null;
-	protected Room belowCollapsedRoom = null;
-	protected Room otherEndOfSecretPassage = null;
+	
+	protected Room upwardsRoom = null;
+	protected Room downwardsRoom = null;
 	
 	protected Relative_Direction sideOfSecretStairs;
 	protected Relative_Direction sideOfWallSwitch;
@@ -36,7 +35,7 @@ public abstract class Room {
 	protected Relative_Direction sideOfSecretPassage;
 
 	public enum Room_Orientation {NORTH, EAST, SOUTH, WEST};  // Room rotations are defined which way the TOP of the card is pointing. NORTH is "normal", where text on the card is readable
-	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, SECRETSTAIRS, WALLSWITCH, UP, DOWN, SECRETPASSAGE};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
+	public enum Relative_Direction {NORTH, EAST, SOUTH, WEST, UP, DOWN};  // Exit directions are relative to a NORTH orientation. For example, the Mystic Elevator ALWAYS has a NORTH exit
 	public enum Floor_Name {UPPER, GROUND, BASEMENT};
 
 	public Room (RoomName name, Set<Relative_Direction> exits, Set<Floor_Name> floorsAllowedOn, Map<Relative_Direction, Integer> windows) {
@@ -44,6 +43,10 @@ public abstract class Room {
 		this.exits = exits;
 		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
+		
+		this.roomActions = new HashSet<IAction>();
+		this.traitRollModifyingTilesInRoom = new HashSet<ITraitRollModifyingTile>();
+		this.actionAddingTilesInRoom = new HashSet<ActionAddingTile>();
 
 		// Add the room to the room deck!
 		//		Game.getInstance().addToRoomDeck(this);
@@ -53,6 +56,10 @@ public abstract class Room {
 		return ResourceBundle.getBundle("rooms/RoomsBundle", Game.getInstance().getLocale()).getString(this.name+"-Name");
 	}
 	
+	public RoomName getNameEnum() {
+		return this.name;
+	}
+	
 	public Set<IAction> getRoomActions() {
 		return this.roomActions;
 	}
@@ -60,14 +67,23 @@ public abstract class Room {
 	public void addRoomAction(IAction actionToAddToRoom) {
 		this.roomActions.add(actionToAddToRoom);
 	}
-
-	public boolean hasConnection() {
-		return !this.getExitMap().isEmpty();
+	
+	public void removeRoomAction(IAction actionToRemoveFromRoom) {
+		this.roomActions.remove(actionToRemoveFromRoom);
 	}
-
-	public void addSecretStairs(Room roomConnectingTo) {
-		this.exits.add(Relative_Direction.SECRETSTAIRS);
-		this.otherEndOfSecretStairs = roomConnectingTo;
+	
+	public void addUpwardExit(Room roomConnectingTo) {
+		this.exits.add(Relative_Direction.UP);
+		this.upwardsRoom = roomConnectingTo;
+	}
+	
+	public void addDownwardExit(Room roomConnectingTo) {
+		this.exits.add(Relative_Direction.DOWN);
+		this.downwardsRoom = roomConnectingTo;
+	}
+	
+	public boolean isBarrierRoom() {
+		return false;
 	}
 	
 	public void addActionAddingTile(ActionAddingTile tileToBeAdded) {
@@ -78,42 +94,30 @@ public abstract class Room {
 		this.actionAddingTilesInRoom.remove(tileToBeRemoved);
 	}
 	
-	public void addTraitRollModifyingTile(TraitRollModifyingTile tileToBeAdded) {
+	public void addTraitRollModifyingTile(ITraitRollModifyingTile tileToBeAdded) {
 		this.traitRollModifyingTilesInRoom.add(tileToBeAdded);
 	}
 	
-	public void removeTraitRollModifyingTile(TraitRollModifyingTile tileToBeRemoved) {
+	public void removeTraitRollModifyingTile(ITraitRollModifyingTile tileToBeRemoved) {
 		this.traitRollModifyingTilesInRoom.remove(tileToBeRemoved);
 	}
 
-	//	public void setHasSecretStairs(boolean newHasStairs) {
-	//		this.hasSecretStairs = newHasStairs;
-	//	}
-	//	
-	//	public boolean getHasSecretStairs() {
-	//		return this.hasSecretStairs;
-	//	}
-	//	
-	//	public Room getExitThroughSecretStairs() {
-	//		if (!this.hasSecretStairs) {
-	//			throw new RuntimeException(String.format("Room %s doesn't have secret stairs!", this.getName()));
-	//		}
-	//		return this.otherEndOfSecretStairs;
-	//	}
-	//	
-	//	public void addSecretStairsToRoom(Room roomConnectingTo) {
-	//		this.setHasSecretStairs(true);
-	//		this.otherEndOfSecretStairs = roomConnectingTo;
-	//		roomConnectingTo.addSecretStairsFromRoom(this);
-	//	}
-	//	
-	//	private void addSecretStairsFromRoom(Room roomConnectingFrom) {
-	//		this.setHasSecretStairs(true);
-	//		this.otherEndOfSecretStairs = roomConnectingFrom;
-	//	}
-
 	public void flipCard() {
 		// EventRooms and the like implement this method to get a card and make it happen
+	}
+	
+	protected boolean testTraitAndDecrementOnLeavingRoom(Character characterLeavingRoom, Trait traitBeingTestedAgainst, int targetResult, Trait traitDecrementedIfFailed) {
+		int rollResult = characterLeavingRoom.getTraitRoll(traitBeingTestedAgainst);
+		boolean doesCharacterStillWantToLeaveTheRoom = true;
+		if (rollResult < targetResult) {
+			doesCharacterStillWantToLeaveTheRoom = (Game.getInstance().makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage") == JOptionPane.YES_OPTION);
+			if (doesCharacterStillWantToLeaveTheRoom) {
+				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed, 1);
+			} else {
+				characterLeavingRoom.endMovement();
+			}
+		}
+		return doesCharacterStillWantToLeaveTheRoom;
 	}
 
 
@@ -200,7 +204,7 @@ public abstract class Room {
 				}
 			default:
 				//How the fuck did you get here....
-				return null;
+				return dir;
 		}
 	}
 
@@ -285,75 +289,76 @@ public abstract class Room {
 		Location locationOfNewRoom = null;
 
 		switch (usingExit) {
+		case NORTH:
+			switch(this.getOrientation()) {
 			case NORTH:
-				switch(this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case WEST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
 				break;
 			case EAST:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					default:  // case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
 				break;
 			case SOUTH:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					default: //case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
 				break;
 			case WEST:
-				switch (this.getOrientation()) {
-					case NORTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
-						break;
-					case EAST:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
-						break;
-					case SOUTH:
-						locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
-						break;
-					default:  // case WEST
-						locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
-						break;
-				}
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
 				break;
-			case SECRETSTAIRS:
-				locationOfNewRoom = this.otherEndOfSecretStairs.getLocation();
+			}
+			break;
+		case EAST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
 				break;
-			case WALLSWITCH:
-				locationOfNewRoom = this.otherEndOfWallSwitch.getLocation();
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			}
+			break;
+		case SOUTH:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			default: //case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			}
+			break;
+		case WEST:
+			switch (this.getOrientation()) {
+			case NORTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToWest();
+				break;
+			case EAST:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToNorth();
+				break;
+			case SOUTH:
+				locationOfNewRoom = this.currentLocation.getFloorLocationToEast();
+				break;
+			default:  // case WEST
+				locationOfNewRoom = this.currentLocation.getFloorLocationToSouth();
+				break;
+			}
+			break;
+		case UP:
+			locationOfNewRoom = this.upwardsRoom == null ? null : this.upwardsRoom.getLocation();
+			break;
+		case DOWN:
+			locationOfNewRoom = this.downwardsRoom == null? null : this.downwardsRoom.getLocation();
+			break;
 		}
 		return locationOfNewRoom;
 	}
@@ -364,7 +369,7 @@ public abstract class Room {
 	public boolean equals(Object other) {
 		if (other instanceof Room) {
 			Room otherRoom = (Room) other;
-			return (this.getName().equals(otherRoom.getName()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
+			return (this.getNameEnum().equals(otherRoom.getNameEnum()) && this.exits.equals(otherRoom.exits) && this.floorsAllowedOn.equals(otherRoom.floorsAllowedOn) && this.windows.equals(otherRoom.windows));
 		} else {
 			return false;
 		}
@@ -380,24 +385,11 @@ public abstract class Room {
 		return result;
 	}
 
-	public int getRoomTraitRollModifier() {
+	public int getTraitRollModifier(Character characterMakingRoll) {
 		int modifier = 0;
-		for (TraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
-			switch(tile) {
-			case BLESSING:
-				modifier++;
-				break;
-			case DRIP:
-				modifier--;
-				break;
-			case SMOKE:
-				modifier -= 2;
-				break;
-			default:
-				// How did you get here?
-				break;
+		for (ITraitRollModifyingTile tile : this.traitRollModifyingTilesInRoom) {
+				modifier += tile.getModifierForCharacter(characterMakingRoll);
 			}
-		}
 		return modifier;
 	}
 }

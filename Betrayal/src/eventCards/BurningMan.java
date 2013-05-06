@@ -2,6 +2,8 @@ package eventCards;
 
 import java.util.Locale;
 
+import rooms.RoomName;
+
 import characters.Trait;
 import Game.Game;
 
@@ -18,7 +20,7 @@ public class BurningMan extends EventCard {
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
-			game.getCurrentCharacter().setCurrentRoom(game.getRoomByName("Entrance Hall"));
+			game.getCurrentCharacter().setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
 		} else {
 			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
 			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
@@ -32,7 +34,7 @@ public class BurningMan extends EventCard {
 		if(rollResult >= 4){
 			game.getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
-			game.getCurrentCharacter().setCurrentRoom(game.getRoomByName("Entrance Hall"));
+			game.getCurrentCharacter().setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
 		} else {
 			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
 			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical

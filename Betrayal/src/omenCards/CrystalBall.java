@@ -1,11 +1,10 @@
 package omenCards;
 
-import characters.ExplorerType;
 import java.util.Collections;
 import java.util.Locale;
 
-import characters.Character;
 import Game.Game;
+import characters.Character;
 
 public class CrystalBall extends OmenCard {
 

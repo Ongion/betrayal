@@ -1,34 +1,24 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import rooms.CatacombsRoom;
-import rooms.ChasmRoom;
 import rooms.EventRoom;
-import rooms.JunkRoomRoom;
-import rooms.NormalRoom;
-import rooms.OmenRoom;
-import rooms.PentagramChamberRoom;
+import rooms.Location;
 import rooms.Room;
-import rooms.RoomName;
 import rooms.Room.Floor_Name;
 import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
+import rooms.RoomName;
 import Game.Game;
 import characters.Character;
-import characters.ExplorerFactory;
 import characters.Character.Character_Name;
-import rooms.Location;
+import characters.ExplorerFactory;
 
 public class TestPathfinding {
 	
@@ -53,40 +43,40 @@ public class TestPathfinding {
 		Game.resetGame();
 		RoomFactory rooms = new RoomFactory();
 		gardens = rooms.makeRoom(RoomName.GARDENS);
-		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 0));
+		gardens.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 0));
 
 		organRoom = rooms.makeRoom(RoomName.ORGANROOM);
-		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, -1 , 0));	
+		organRoom.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 9 , 0));	
 		
 		diningRoom = rooms.makeRoom(RoomName.DININGROOM);
-		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, -1, -1));
+		diningRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 9, -1));
 
 		basementLanding = rooms.makeRoom(RoomName.BASEMENTLANDING);
-		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		basementLanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 10, 0));
 		
 		catacombs = rooms.makeRoom(RoomName.CATACOMBS);
-		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 1, 0));
+		catacombs.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.BASEMENT, 11, 0));
 		
 		chasm = rooms.makeRoom(RoomName.CHASM);
-		chasm.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 0, 1));
+		chasm.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.BASEMENT, 10, 1));
 		
 		pentagramChamber = rooms.makeRoom(RoomName.PENTAGRAMCHAMBER);
-		pentagramChamber.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, -1, 0));
+		pentagramChamber.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 9, 0));
 		
 		junkRoom = rooms.makeRoom(RoomName.JUNKROOM);
-		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, -1));
+		junkRoom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 10, -1));
 		
 		creakyHallway = rooms.makeRoom(RoomName.CREAKYHALLWAY);
-		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 5, 5));
+		creakyHallway.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 15, 5));
 		
 		servantsQuarters = rooms.makeRoom(RoomName.SERVANTSQUARTERS);
-		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 5));
+		servantsQuarters.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 16, 5));
 		
 		masterBedroom = rooms.makeRoom(RoomName.MASTERBEDROOM);
-		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 5, 6));
+		masterBedroom.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.UPPER, 15, 6));
 		
 		bedroom = rooms.makeRoom(RoomName.BEDROOM);
-		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 6, 6));
+		bedroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 16, 6));
 
 		ExplorerFactory explorers = new ExplorerFactory();
 		c1 = explorers.getExplorer(Character_Name.BrandonJaspers);
@@ -140,24 +130,24 @@ public class TestPathfinding {
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
 		r1 = new EventRoom(RoomName.GARDENS, r1Exits, gardensFloors);
-		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
+		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 11 , 0));
 		
 		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
 		r2Exits.add(Relative_Direction.NORTH);
 		r2Exits.add(Relative_Direction.EAST);
 		r2 = new EventRoom(RoomName.BASEMENTLANDING, r2Exits, gardensFloors);
-		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
+		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 12 , 0));
 		
 		r3 = new EventRoom(RoomName.CATACOMBS, r2Exits, gardensFloors);
-		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
+		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 12 , 1));
 		
 		r4 = new EventRoom(RoomName.ENTRANCEHALL, r1Exits, gardensFloors);
-		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
+		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 11 , 1));
 		
 		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
 		r5Exits.add(Relative_Direction.NORTH);
 		r5 = new EventRoom(RoomName.GRANDSTAIRCASE, r5Exits, gardensFloors);
-		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 1));
+		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 1));
 		
 		r6 = new EventRoom(RoomName.ORGANROOM, r1Exits, gardensFloors);
 		gardensFloors.add(Floor_Name.BASEMENT);
@@ -187,24 +177,24 @@ public class TestPathfinding {
 		HashSet<Floor_Name> gardensFloors = new HashSet<Floor_Name>();
 		gardensFloors.add(Floor_Name.GROUND);
 		r1 = new EventRoom(RoomName.GARDENS, r1Exits, gardensFloors);
-		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 1 , 0));
+		r1.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 11 , 0));
 		
 		HashSet<Relative_Direction> r2Exits = new HashSet<Relative_Direction>();
 		r2Exits.add(Relative_Direction.NORTH);
 		r2Exits.add(Relative_Direction.EAST);
 		r2 = new EventRoom(RoomName.DININGROOM, r2Exits, gardensFloors);
-		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 2 , 0));
+		r2.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 12 , 0));
 		
 		r3 = new EventRoom(RoomName.UNDERGROUNDLAKE, r2Exits, gardensFloors);
-		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 2 , 1));
+		r3.setPlacement(Room_Orientation.SOUTH, new Location(Floor_Name.GROUND, 12 , 1));
 		
 		r4 = new EventRoom(RoomName.STATUARYCORRIDOR, r1Exits, gardensFloors);
-		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 1 , 1));
+		r4.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.GROUND, 11 , 1));
 		
 		HashSet<Relative_Direction> r5Exits = new HashSet<Relative_Direction>();
 		r5Exits.add(Relative_Direction.NORTH);
 		r5 = new EventRoom(RoomName.STOREROOM, r5Exits, gardensFloors);
-		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 0 , 1));
+		r5.setPlacement(Room_Orientation.EAST, new Location(Floor_Name.GROUND, 10 , 1));
 		
 		r6 = new EventRoom(RoomName.ORGANROOM, r1Exits, gardensFloors);
 		gardensFloors.add(Floor_Name.BASEMENT);

@@ -2,9 +2,7 @@ package omenCards;
 
 import java.util.Locale;
 
-import characters.ExplorerType;
 import characters.Character;
-import Game.Game;
 
 public class SpiritBoard extends OmenCard {
 

@@ -12,4 +12,10 @@ public interface ICharacterType {
 
 	int getTraitRoll(Trait traitBeingRolledFor);
 
+	boolean isAffectedByBlessing();
+
+	boolean isAffectedByDrip();
+
+	boolean isAffectedBySmoke();
+
 }
