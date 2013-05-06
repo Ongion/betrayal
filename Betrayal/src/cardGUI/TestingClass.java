@@ -16,6 +16,8 @@ public class TestingClass {
 		EventCard angryBeing = new AngryBeing(en);
 		
 		EventCardFrame angryFrame = new EventCardFrame(angryBeing);
+		
+		angryFrame.display();
 
 	}
 

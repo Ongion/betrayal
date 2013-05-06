@@ -26,7 +26,7 @@ public class EventCardFrame extends JFrame {
 		this.setSize(width, height);
 		this.setTitle("Event Card - " + card.getName());
 		
-		GridLayout gridLayout = new GridLayout(1,3);
+		GridLayout gridLayout = new GridLayout(3,1);
 		this.setLayout(gridLayout);
 		
 		//Add the title to the Frame
@@ -44,11 +44,6 @@ public class EventCardFrame extends JFrame {
 	
 	public void display(){
 		this.setVisible(true);
-		this.repaint();
-	}
-	
-	public void hide(){
-		this.setVisible(false);
 		this.repaint();
 	}
 
