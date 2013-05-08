@@ -8,9 +8,12 @@ import itemCards.ItemCard;
 import itemCards.PuzzleBox;
 import itemCards.Revolver;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import junit.framework.Assert;
 
 import omenCards.Bite;
 import omenCards.Book;
@@ -19,6 +22,7 @@ import omenCards.OmenCard;
 import omenCards.Ring;
 import omenCards.Spear;
 
+import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
@@ -30,6 +34,7 @@ import rooms.RoomName;
 import Game.Game;
 import Game.Player;
 import characters.Character;
+import characters.HumanStats;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import eventCards.AMomentOfHope;
@@ -195,40 +200,43 @@ public class TestEventCard {
 				setImposteriser(ClassImposteriser.INSTANCE);
 			}
 		};
-		card = new Rotten(enLocale);
-//		final Game mockGame = mocks.mock(Game.class);
-//		try {
-//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-//			instanceField.setAccessible(true);
-//			instanceField.set(null, mockGame);
-//
-//			final int fRSanity = character.getCurrentSanity();
-//			mocks.checking(new Expectations() {
-//				{
-//					oneOf(mockGame).rollDice(fRSanity);
-//					will(returnValue(5));
-//				}
-//			});
-//
-//			assertEquals(character, game.getCurrentCharacter());
-//			card.happens();
-//			assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-//			card.happens();	
-//			assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-//
-//			mocks.assertIsSatisfied();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
 		
 		card = new Rotten(enLocale);
-		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
-		card.happen(5);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-		card.happen(6);	
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(5));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(6));
+				}
+			});
+
+			assertEquals(character, mockGame.getCurrentCharacter());
+			card.happens();
+			assertEquals(7, mockGame.getCurrentCharacter().getCurrentSanity());
+			card.happens();	
+			assertEquals(7, mockGame.getCurrentCharacter().getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+//		card = new Rotten(enLocale);
+//		// Test to be removed
+//		assertEquals(character, game.getCurrentCharacter());
+//		card.happen(5);
+//		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+//		card.happen(6);	
+//		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
 	}
 	
 	@Test
@@ -1413,13 +1421,13 @@ public class TestEventCard {
 		card = new MistsFromTheWalls(enLocale);
 		
 		card.happen(1);
-		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
 		
 		card.happen(2);
-		//assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
 		
 		card.happen(3);
-		//assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
 	}
 	
 	@Test
@@ -1471,7 +1479,7 @@ public class TestEventCard {
 	@Test
 	public void testBloodyVision1Or0(){
 		card = new BloodyVision(enLocale);
-		// For now do nothing because the need methods that are not yet implemented for attack
+		// TODO: For now do nothing because the need methods that are not yet implemented for attack
 		
 	}
 	
@@ -1503,7 +1511,11 @@ public class TestEventCard {
 	@Test
 	public void testBurningMan2Or3(){
 		card = new BurningMan(enLocale);
-		// Needs to test that location is in the EntranceHall but this doesn't exist yet
+		
+		card.happen(2);
+		
+		
+		// TODO: Needs to test that location is in the EntranceHall but this doesn't exist yet
 	}
 
 	@Test
@@ -1594,7 +1606,7 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(6);
-		//assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
@@ -1602,13 +1614,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(5);
-		//assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
 		
 		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		//assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 		
 		card.happen(4);
-		//assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
 		
 	}
 	
@@ -1617,13 +1629,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(2);
-		//assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
 		
 		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		//assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 		
 		card.happen(3);
-		//assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
@@ -1631,13 +1643,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(0);
-		//assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
 		
 		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		//assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
 		
 		card.happen(1);
-		//assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
@@ -1659,7 +1671,7 @@ public class TestEventCard {
 		card = new TheWalls(enLocale);
 		
 		card.happens();
-		//assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
 	}
 	
 	@Test
@@ -1717,7 +1729,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleWhatThe"), card.getName());
 		assertEquals(mesSP.getString("desWhatThe"), card.getDescription());
 		assertEquals(mesSP.getString("rulesWhatThe"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testWhoopsInit(){
@@ -1731,7 +1743,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleWhoops"), card.getName());
 		assertEquals(mesSP.getString("desWhoops"), card.getDescription());
 		assertEquals(mesSP.getString("rulesWhoops"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testMirrorInit(){
@@ -1855,7 +1867,7 @@ public class TestEventCard {
 		
 		card.happens();
 		
-		//assertEquals(4, ex1.getCurrentMight());
+		assertEquals(4, ex1.getCurrentMight());
 		
 		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
 		
@@ -1932,11 +1944,11 @@ public class TestEventCard {
 		
 		card.happen(4);
 		
-		//assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
 		
 		card.happen(5);
 		
-		//assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
 		
 	}
 	
@@ -1974,7 +1986,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleWebs"), card.getName());
 		assertEquals(mesSP.getString("desWebs"), card.getDescription());
 		assertEquals(mesSP.getString("rulesWebs"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testGraveDirtInit(){
@@ -1988,7 +2000,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleGraveDirt"), card.getName());
 		assertEquals(mesSP.getString("desGraveDirt"), card.getDescription());
 		assertEquals(mesSP.getString("rulesGraveDirt"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testLightsOutInit(){
@@ -2002,7 +2014,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleLightsOut"), card.getName());
 		assertEquals(mesSP.getString("desLightsOut"), card.getDescription());
 		assertEquals(mesSP.getString("rulesLightsOut"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testSecretPassageInit(){
@@ -2016,7 +2028,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleSecretPassage"), card.getName());
 		assertEquals(mesSP.getString("desSecretPassage"), card.getDescription());
 		assertEquals(mesSP.getString("rulesSecretPassage"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testRevolvingWallInit(){
@@ -2030,7 +2042,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleRevolvingWall"), card.getName());
 		assertEquals(mesSP.getString("desRevolvingWall"), card.getDescription());
 		assertEquals(mesSP.getString("rulesRevolvingWall"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testMysticSlideInit(){
@@ -2044,7 +2056,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleMysticSlide"), card.getName());
 		assertEquals(mesSP.getString("desMysticSlide"), card.getDescription());
 		assertEquals(mesSP.getString("rulesMysticSlide"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testAMomentOfHopeInit(){
@@ -2058,7 +2070,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleAMomentOfHope"), card.getName());
 		assertEquals(mesSP.getString("desAMomentOfHope"), card.getDescription());
 		assertEquals(mesSP.getString("rulesAMomentOfHope"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testDripInit(){
@@ -2072,7 +2084,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleDrip"), card.getName());
 		assertEquals(mesSP.getString("desDrip"), card.getDescription());
 		assertEquals(mesSP.getString("rulesDrip"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testSmokeInit(){
@@ -2086,7 +2098,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleSmoke"), card.getName());
 		assertEquals(mesSP.getString("desSmoke"), card.getDescription());
 		assertEquals(mesSP.getString("rulesSmoke"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testSecretStairsInit(){
@@ -2100,7 +2112,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleSecretStairs"), card.getName());
 		assertEquals(mesSP.getString("desSecretStairs"), card.getDescription());
 		assertEquals(mesSP.getString("rulesSecretStairs"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	@Test
 	public void testItIsMeantToBeInit(){
@@ -2114,7 +2126,7 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleItIsMeantToBe"), card.getName());
 		assertEquals(mesSP.getString("desItIsMeantToBe"), card.getDescription());
 		assertEquals(mesSP.getString("rulesItIsMeantToBe"), card.getRules());
-	}// Only test for now. Don't have methods to develop further yet
+	}
 	
 	
 }
