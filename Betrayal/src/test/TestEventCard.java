@@ -1416,6 +1416,7 @@ public class TestEventCard {
 		assertEquals(character, game.getCurrentCharacter());
 	}
 	
+
 	@Test
 	public void testMistsFromTheWalls1To3(){
 		card = new MistsFromTheWalls(enLocale);
