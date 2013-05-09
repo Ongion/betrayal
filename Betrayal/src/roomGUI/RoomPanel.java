@@ -58,25 +58,25 @@ public class RoomPanel extends JPanel {
 		g.setColor(textColor);
 		g.drawString(name, xOffset, fSize*2);
 		
+		
+		this.drawCharacters(g ,20, fSize*4);
+		
 		this.drawExits(g);
 		
-		this.drawCharacters(g);
+		
 		
 		super.paint(g);
 	}
 	
-	private void drawCharacters(Graphics g){
+	private void drawCharacters(Graphics g, int xOffset, int yOffset){
 		ArrayList<Character> characters = Game.getInstance().getCharacters();
 		
-		int x = 10;
-		int y = 10;
 		g.setColor(characterColor);
 		
 		for (Character c:characters){
 			if (c.getCurrentRoom().equals(this.room)){
-				g.fillRect(x, y, 10, 10);
-				x += 15;
-				y += 15;
+				g.drawString(c.getName(), xOffset, yOffset);
+				yOffset *= 2;
 			}
 		}
 	}

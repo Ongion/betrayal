@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.Trait;
 
 import popUps.GameFrame;
+import roomGUI.RoomFrame;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
@@ -60,16 +62,30 @@ public class GameRunner {
 			charactersToChoose.add(explorers.getExplorer(name));
 		}
 		
+		//Choose all the Characters to play
 		Room entrance = Game.getInstance().getRoomAtLocation(new Location(Floor_Name.GROUND,0,0));
 		for (int i = 0; i < numChars; i++){
 			dialogResult = JOptionPane.CLOSED_OPTION;
 			while (dialogResult == JOptionPane.CLOSED_OPTION) {
-				dialogResult = JOptionPane.showOptionDialog(null, "Choose the next Character", "Choose the next Character", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, charactersToChoose.toArray(), charactersToChoose.toArray()[0]);
+				dialogResult = JOptionPane.showOptionDialog(null, "Choose character number " + (i+1),"Choose Character" , JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, charactersToChoose.toArray(), charactersToChoose.toArray()[0]);
 			}
 			
+			Character toAdd = charactersToChoose.remove(dialogResult);
 			
+			//Find the other character on the same card to remove
+			int otherToRemove = dialogResult - (dialogResult % 2);
+			charactersToChoose.remove(otherToRemove);
+			
+			//Add the chosen character to the game and starting at the entrance
+			toAdd.setCurrentRoom(entrance);
+			Game.getInstance().addCharacter(toAdd);
 		}
 		
+		//Display Rooms
+		RoomFrame rf = new RoomFrame();
+		rf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		rf.display();
 		
 		
 		
