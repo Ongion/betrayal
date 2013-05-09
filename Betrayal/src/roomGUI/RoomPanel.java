@@ -3,12 +3,15 @@ package roomGUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Game.Game;
+
 import rooms.Room;
 import rooms.Room.Relative_Direction;
-
+import characters.Character;
 
 
 public class RoomPanel extends JPanel {
@@ -24,6 +27,7 @@ public class RoomPanel extends JPanel {
 	private final Color border = Color.BLACK;
 	private final Color exitColor = Color.RED;
 	private final Color textColor = Color.YELLOW;
+	private final Color characterColor = Color.BLUE;
 	
 	public RoomPanel(Room room){
 		this.room = room;
@@ -47,7 +51,7 @@ public class RoomPanel extends JPanel {
 		
 		int fSize = Math.min(72, Math.min( (this.getWidth()/name.length()) , this.getHeight()/4));
 		
-		int xOffset = (this.getWidth() - (int) (fSize * name.length()*FONT_WIDTH_RATIO))/2;
+		int xOffset = (this.getWidth() - (int) (fSize * name.length()* FONT_WIDTH_RATIO))/2;
 		
 		Font f = new Font(Font.MONOSPACED,0,fSize);
 		g.setFont(f);
@@ -56,7 +60,25 @@ public class RoomPanel extends JPanel {
 		
 		this.drawExits(g);
 		
+		this.drawCharacters(g);
+		
 		super.paint(g);
+	}
+	
+	private void drawCharacters(Graphics g){
+		ArrayList<Character> characters = Game.getInstance().getCharacters();
+		
+		int x = 10;
+		int y = 10;
+		g.setColor(characterColor);
+		
+		for (Character c:characters){
+			if (c.getCurrentRoom().equals(this.room)){
+				g.fillRect(x, y, 10, 10);
+				x += 15;
+				y += 15;
+			}
+		}
 	}
 	
 	private void drawExits(Graphics g){
