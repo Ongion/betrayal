@@ -42,7 +42,7 @@ public class Game {
 	private Boolean isHaunt = false;
 	private Trait traitForAction = null;
 	
-	private static Game INSTANCE = new Game();
+	private static Game INSTANCE = null;
 	
 	public enum Deck {
 		ROOM, EVENT, ITEM, OMEN
@@ -96,6 +96,9 @@ public class Game {
 	}
 
 	public static Game getInstance() {
+		if (INSTANCE == null) {
+			Game.resetGame();
+		}
 		return INSTANCE;
 	}
 	
