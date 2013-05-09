@@ -338,4 +338,9 @@ public class Character {
 	public boolean isAffectedBySmoke() {
 		return type.isAffectedBySmoke();
 	}
+	
+	public String toString() {
+		return this.getName();
+	}
+	}
 }
