@@ -342,5 +342,5 @@ public class Character {
 	public String toString() {
 		return this.getName();
 	}
-	}
+	
 }
