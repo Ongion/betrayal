@@ -322,9 +322,6 @@ public class Character {
 		case SPEED:
 			traitAmount = getCurrentSpeed();
 			break;
-		default:
-			// How did you get here?
-			break;
 		}
 		return traitAmount;
 
