@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import tiles.ActionAddingTile;
 import tiles.ITraitRollModifyingTile;
 import Game.Game;
-import actions.IAction;
+import actions.Action;
 import characters.Character;
 import characters.Trait;
 
@@ -24,7 +24,7 @@ public abstract class Room {
 	protected Location currentLocation;
 	protected Set<ITraitRollModifyingTile> traitRollModifyingTilesInRoom;
 	protected Set<ActionAddingTile> actionAddingTilesInRoom;
-	protected Set<IAction> roomActions;
+	protected Set<Action> roomActions;
 	
 	protected Room upwardsRoom = null;
 	protected Room downwardsRoom = null;
@@ -44,7 +44,7 @@ public abstract class Room {
 		this.floorsAllowedOn = floorsAllowedOn;
 		this.windows = windows;
 		
-		this.roomActions = new HashSet<IAction>();
+		this.roomActions = new HashSet<Action>();
 		this.traitRollModifyingTilesInRoom = new HashSet<ITraitRollModifyingTile>();
 		this.actionAddingTilesInRoom = new HashSet<ActionAddingTile>();
 
@@ -60,15 +60,15 @@ public abstract class Room {
 		return this.name;
 	}
 	
-	public Set<IAction> getRoomActions() {
+	public Set<Action> getRoomActions() {
 		return this.roomActions;
 	}
 	
-	public void addRoomAction(IAction actionToAddToRoom) {
+	public void addRoomAction(Action actionToAddToRoom) {
 		this.roomActions.add(actionToAddToRoom);
 	}
 	
-	public void removeRoomAction(IAction actionToRemoveFromRoom) {
+	public void removeRoomAction(Action actionToRemoveFromRoom) {
 		this.roomActions.remove(actionToRemoveFromRoom);
 	}
 	
@@ -154,6 +154,53 @@ public abstract class Room {
 		return this.getRoomFromExit(this.convertAbsoluteDirectionToRoomRelativeDirection(exitDirection));
 	}
 	
+	private Relative_Direction convertRoomRelativeDirectionToAbsoluteDirection(Relative_Direction direction) {
+		switch(this.orientation) {
+		case NORTH:
+			return direction;
+		case SOUTH:
+			switch(direction) {
+			case NORTH:
+				return Relative_Direction.SOUTH;
+			case EAST:
+				return Relative_Direction.WEST;
+			case SOUTH:
+				return Relative_Direction.NORTH;
+			case WEST:
+				return Relative_Direction.EAST;
+			default:
+				return direction;
+			}
+		case EAST:
+			switch(direction) {
+			case NORTH:
+				return Relative_Direction.EAST;
+			case EAST:
+				return Relative_Direction.SOUTH;
+			case SOUTH:
+				return Relative_Direction.WEST;
+			case WEST:
+				return Relative_Direction.NORTH;
+			default:
+				return direction;
+			}
+		case WEST:
+			switch(direction) {
+			case NORTH:
+				return Relative_Direction.WEST;
+			case EAST:
+				return Relative_Direction.NORTH;
+			case SOUTH:
+				return Relative_Direction.EAST;
+			case WEST:
+				return Relative_Direction.SOUTH;
+			default:
+				return direction;
+			}
+		}
+		return direction;
+	}
+
 	public Relative_Direction convertAbsoluteDirectionToRoomRelativeDirection(Relative_Direction dir){
 		switch (this.orientation){
 			case NORTH:
@@ -236,6 +283,15 @@ public abstract class Room {
 	public Set<Relative_Direction> getExits() {
 		return this.exits;
 	}
+	
+	public Set<Relative_Direction> getAbsoluteExits() {
+		HashSet<Relative_Direction> absoluteExits = new HashSet<Relative_Direction>();
+		for (Relative_Direction exit : this.exits) {
+			absoluteExits.add(this.convertRoomRelativeDirectionToAbsoluteDirection(exit));
+		}
+		return absoluteExits;
+	}
+
 
 	public Room_Orientation getOrientation() {
 		return this.orientation;

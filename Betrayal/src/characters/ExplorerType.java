@@ -1,5 +1,6 @@
 package characters;
 
+import actions.Action;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import Game.Game;
@@ -41,5 +42,9 @@ public class ExplorerType implements ICharacterType {
 		return true;
 	}
 
+	@Override
+	public Action askForAction() {
+		return Game.getInstance().chooseAnAction(this.characterTypeBelongsTo);
+	}
 
 }

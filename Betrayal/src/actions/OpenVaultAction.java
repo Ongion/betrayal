@@ -12,7 +12,7 @@ import Game.Game;
 import characters.Character;
 import characters.Trait;
 
-public class OpenVaultAction implements IAction {
+public class OpenVaultAction extends Action {
 	Room vaultRoom;
 
 	public OpenVaultAction(Room vaultRoom) {

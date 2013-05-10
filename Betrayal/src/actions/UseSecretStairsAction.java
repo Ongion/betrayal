@@ -7,7 +7,7 @@ import rooms.Room;
 import rooms.Room.Relative_Direction;
 import characters.Character;
 
-public class UseSecretStairsAction implements IAction {
+public class UseSecretStairsAction extends Action {
 	private Room thisEndOfStairs;
 	private Room otherEndOfStairs;
 	private Relative_Direction thisEndsSideOfRoom;

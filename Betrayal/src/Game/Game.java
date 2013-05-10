@@ -2,6 +2,8 @@ package Game;
 
 import itemCards.ItemCard;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,12 +12,17 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import actions.Action;
 
 import omenCards.OmenCard;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
+import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
@@ -405,6 +412,17 @@ public class Game {
 		}
 
 	}
+	
+	public Action chooseAnAction(Character characterMakingAction) {
+		ArrayList<Action> possibleActions = characterMakingAction.getPossibleActions();		
+		Object[] options = possibleActions.toArray();
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, "Choose an exit.", "Exit Chooser", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		return (Action) options[dialogResult];
+	}
+
 	///CLOVER:ON
 
 	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
@@ -417,4 +435,5 @@ public class Game {
 		// We should never actually get here.
 		return null;
 	}
+
 }

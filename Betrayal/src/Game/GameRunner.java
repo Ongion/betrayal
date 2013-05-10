@@ -87,7 +87,13 @@ public class GameRunner {
 		
 		rf.display();
 		
-		
+		// Current character does stuff now
+		while (true) {
+			Character currentCharacter = Game.getInstance().getCurrentCharacter();
+			currentCharacter.askForAction();
+			rf.repaint();
+			
+		}
 		
 	}
 	

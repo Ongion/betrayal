@@ -1,5 +1,6 @@
 package characters;
 
+import actions.Action;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 
@@ -17,5 +18,7 @@ public interface ICharacterType {
 	boolean isAffectedByDrip();
 
 	boolean isAffectedBySmoke();
+
+	Action askForAction();
 
 }
