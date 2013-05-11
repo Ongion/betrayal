@@ -25,9 +25,21 @@ import itemCards.Revolver;
 import itemCards.SacrificialDagger;
 import itemCards.SmellingSalts;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import omenCards.Book;
+import omenCards.CrystalBall;
+import omenCards.OmenCard;
+import omenCards.Ring;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import Game.Game;
@@ -36,6 +48,11 @@ import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.HumanStats;
+import eventCards.AngryBeing;
+import eventCards.CreepyCrawlies;
+import eventCards.EventCard;
+import eventCards.NightView;
+import eventCards.Rotten;
 
 public class TestItemCard {
 	
@@ -45,6 +62,11 @@ public class TestItemCard {
 	private ResourceBundle mesEN = ResourceBundle.getBundle("ItemCardBundle", enLocale);
 	private ResourceBundle mesSP = ResourceBundle.getBundle("ItemCardBundle", spLocale);
 	
+	private ExplorerFactory explorers = new ExplorerFactory();
+	private Character character;
+	private Player player = new Player();
+
+	private Game game;
 	
 	private ItemCard angelFeatherCard = new AngelFeather(enLocale);
 	private ItemCard adrenalineShotCard = new AdrenalineShot(enLocale);
@@ -68,6 +90,42 @@ public class TestItemCard {
 	private ItemCard darkDiceCard = new DarkDice(enLocale);
 	private ItemCard bloodDaggerCard = new BloodDagger(enLocale);
 	private ItemCard idolCard = new Idol(enLocale);
+	
+	private OmenCard crystalBallCard = new CrystalBall(enLocale);
+	private OmenCard bookCard = new Book(enLocale);
+	private OmenCard ringCard = new Ring(enLocale);
+	
+	private ArrayList<EventCard> events = new ArrayList<EventCard>();
+	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
+	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private EventCard angryBeing = new AngryBeing(enLocale);
+	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
+	private EventCard nightView = new NightView(enLocale);
+	private EventCard rotten = new Rotten(enLocale);
+	private ItemCard angelFeather = new AngelFeather(enLocale);
+	
+	@Before
+	public void SetUp() {
+		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
+		events.add(angryBeing);
+		events.add(creepyCrawlies);
+		events.add(nightView);
+		events.add(rotten);
+		items.add(angelFeather);
+		omens.add(crystalBallCard);
+		omens.add(bookCard);
+		omens.add(ringCard);
+		players.add(player);
+
+		Game.resetGame();
+		game = Game.getInstance();
+		game.addAllToEventDeck(events);
+		game.addAllToItemDeck(items);
+		game.addAllToOmenDeck(omens);
+		game.addPlayer(player);
+
+	}
 	
 	@Test
 	public void TestAngelFeatherInit() {
@@ -221,6 +279,142 @@ public class TestItemCard {
 		sacrificialDaggerCard.setDescription("A twisted shard of iron covered in mysterious symbols and stained with blood.");
 		assertEquals("Sacrificial Dagger", sacrificialDaggerCard.getName());
 		assertEquals("A twisted shard of iron covered in mysterious symbols and stained with blood.", sacrificialDaggerCard.getDescription());
+	}
+	
+	@Test
+	public void TestWhatToDoForSacrificialDaggerHasCorrectNumRolls(){
+		assertEquals(sacrificialDaggerCard.numRolls, 4);
+	}
+	
+	@Test
+	public void TestWhatToDoKnowledgeRollIfGreaterThanSix(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(7));
+				}
+			});
+
+			int sanityBefore = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
+			sacrificialDaggerCard.whatToDo(character);
+			int sanityAfter = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
+			assertEquals(sanityAfter, sanityBefore);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestWhatToDoKnowledgeRollIfThreeToFiveTakingSanityDamage(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(4));
+				}
+			});
+
+			int expectedSanity = ((HumanStats) (character.getStats())).getCurrentSanityIndex()-1;
+			sacrificialDaggerCard.whatToDo(character);
+			int sanityAfter = ((HumanStats) (character.getStats())).getCurrentSanityIndex();
+			assertEquals(sanityAfter, expectedSanity);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestWhatToDoKnowledgeRollIfThreeToFiveTakingKnowledgeDamage(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(3));
+				}
+			});
+
+			int expectedKnowledge = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex()-1;
+			sacrificialDaggerCard.whatToDo(character);
+			int knowledgeAfter = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
+			assertEquals(knowledgeAfter, expectedKnowledge);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	@Test
+	public void TestWhatToDoKnowledgeRollIfZeroToTwo(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(2));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex()-1;
+			sacrificialDaggerCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats())).getCurrentKnowledgeIndex();
+			assertEquals(mightAfter, expectedMight);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
