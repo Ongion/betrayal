@@ -356,6 +356,10 @@ public class Character {
 		return type.isAffectedBySmoke();
 	}
 	
+	public void attack(){
+		Game game = Game.getInstance();
+		game.rollDice(this.getCurrentMight());
+	}
 	public String toString() {
 		return this.getName();
 	}
