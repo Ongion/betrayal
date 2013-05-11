@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import itemCards.AdrenalineShot;
 import itemCards.AmuletOfAges;
 import itemCards.AngelFeather;
@@ -24,6 +24,7 @@ import itemCards.RabbitsFoot;
 import itemCards.Revolver;
 import itemCards.SacrificialDagger;
 import itemCards.SmellingSalts;
+
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -207,6 +208,73 @@ public class TestItemCard {
 	}
 	
 	@Test
+	public void TestWhatToDoForPuzzleBoxDieRollGreaterThanSix(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+			{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(7));
+				
+			}});
+			
+			ArrayList<ItemCard> expectedItemHand = character.getItemHand();
+			expectedItemHand.add(bellCard);
+			expectedItemHand.add(candleCard);
+			
+			puzzleBoxCard.whatToDo(character);
+			ArrayList<ItemCard> itemHandAfter = character.getItemHand();
+			assertEquals(expectedItemHand, itemHandAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestWhatToDoForPuzzleBoxForDiscardedCard(){
+	
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+			{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(7));
+				
+			}});
+		
+			puzzleBoxCard.whatToDo(character);
+			assertFalse(character.getItemHand().contains(puzzleBoxCard));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	} 
+	@Test
 	public void TestRabbitsFootInit(){
 		assertEquals(mesEN.getString("titleRabbitsFoot"), rabbitsFootCard.getName());
 		assertEquals(mesEN.getString("desRabbitsFoot"), rabbitsFootCard.getDescription());
@@ -230,8 +298,10 @@ public class TestItemCard {
 	
 	@Test
 	public void TestWhatToDoForRabbitsFootKeepsSecondRoll(){
-		//some kind of mock here
+		// some kind of mock here
 	}
+	
+	
 	
 	@Test 
 	public void TestMedicalKitInit(){
