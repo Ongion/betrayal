@@ -1111,4 +1111,15 @@ public class TestItemCard {
 				"Perhaps it's chosen you for some greater purpose. Like human sacrifice.",
 				idolCard.getDescription());
 	}
+	
+	@Test
+	public void TestWhatToDoForIdol(){
+		assertEquals(idolCard.numRolls, 2);
+		int expectedSanity = ((HumanStats) (character.getStats()))
+				.getCurrentSanityIndex() - 1;
+		idolCard.whatToDo(character);
+		int sanityAfter = ((HumanStats) (character.getStats()))
+				.getCurrentSanityIndex();
+		assertEquals(expectedSanity, sanityAfter);
+	}
 }
