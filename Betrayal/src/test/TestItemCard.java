@@ -180,6 +180,16 @@ public class TestItemCard {
 	}
 	
 	@Test
+	public void TestWhatToDoForRevolverForCorrectNumRolls(){
+		assertEquals(revolverCard.numRolls, 2);
+	}
+	
+	@Test
+	public void TestNoDamageIsTakenIfLoseAttackAgainstPlayerInOtherRoom(){
+		//some kind of mock here
+	}
+	
+	@Test
 	public void TestPuzzleBoxInit(){
 		assertEquals(mesEN.getString("titlePuzzleBox"), puzzleBoxCard.getName());
 		assertEquals(mesEN.getString("desPuzzleBox"), puzzleBoxCard.getDescription());
@@ -211,6 +221,16 @@ public class TestItemCard {
 		rabbitsFootCard.setDescription("Not so lucky for the rabbit.");
 		assertEquals("Rabbit's Foot", rabbitsFootCard.getName());
 		assertEquals("Not so lucky for the rabbit.", rabbitsFootCard.getDescription());
+	}
+	
+	@Test
+	public void TestWhatToDoForRabbitsFootForCorrectNumRolls(){
+		assertEquals(rabbitsFootCard.numRolls, 2);
+	}
+	
+	@Test
+	public void TestWhatToDoForRabbitsFootKeepsSecondRoll(){
+		//some kind of mock here
 	}
 	
 	@Test 
