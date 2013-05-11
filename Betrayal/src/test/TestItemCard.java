@@ -364,7 +364,6 @@ public class TestItemCard {
 
 	@Test
 	public void TestWhatToDoForMedicalKitKnowledgeRollGreaterThanEight() {
-		// mock
 		Mockery mocks = new Mockery() {
 			{
 				setImposteriser(ClassImposteriser.INSTANCE);
@@ -519,6 +518,256 @@ public class TestItemCard {
 		assertEquals("Bottle", bottleCard.getName());
 		assertEquals("An opaque vial containing a black liquid.",
 				bottleCard.getDescription());
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfSix() {
+		// some kind of mock
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfFive() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(5));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex() + 2;
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() + 2;
+			darkDiceCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex();
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			assertEquals(expectedMight, mightAfter);
+			assertEquals(expectedSpeed, speedAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfFour() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(4));
+				}
+			});
+
+			int expectedSanity = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex() + 2;
+			int expectedKnowledge = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex() + 2;
+			darkDiceCard.whatToDo(character);
+			int sanityAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex();
+			int knowledgeAfter = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex();
+			assertEquals(expectedSanity, sanityAfter);
+			assertEquals(expectedKnowledge, knowledgeAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfThree() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(3));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex() - 1;
+			int expectedKnowledge = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex() + 1;
+			darkDiceCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex();
+			int knowledgeAfter = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex();
+			assertEquals(expectedMight, mightAfter);
+			assertEquals(expectedKnowledge, knowledgeAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfTwo() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(2));
+				}
+			});
+
+			int expectedSanity = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex() - 2;
+			int expectedKnowledge = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex() - 2;
+			darkDiceCard.whatToDo(character);
+			int sanityAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex();
+
+			int knowledgeAfter = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex();
+			assertEquals(expectedSanity, sanityAfter);
+			assertEquals(expectedKnowledge, knowledgeAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfOne() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(1));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex() - 2;
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() - 2;
+			darkDiceCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex();
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			assertEquals(expectedMight, mightAfter);
+			assertEquals(expectedSpeed, speedAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForBottleDiceRollValueOfZero() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(0));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex() - 2;
+			int expectedSanity = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex() - 2;
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() - 2;
+			int expectedKnowledge = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex() - 2;
+			darkDiceCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex();
+			int sanityAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex();
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			int knowledgeAfter = ((HumanStats) (character.getStats()))
+					.getCurrentKnowledgeIndex();
+			assertEquals(expectedMight, mightAfter);
+			assertEquals(expectedSanity, sanityAfter);
+			assertEquals(expectedSpeed, speedAfter);
+			assertEquals(expectedKnowledge, knowledgeAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 
 	@Test
