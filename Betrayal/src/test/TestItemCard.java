@@ -1068,6 +1068,127 @@ public class TestItemCard {
 	}
 
 	@Test
+	public void TestWhatToDoForDarkDiceRollValueSix() {
+		// some kind of mock
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueFive() {
+		// some kind of mock
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueFour() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(4));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex() + 1;
+			darkDiceCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentMightIndex();
+			assertEquals(expectedMight, mightAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueThree() {
+		// some kind of mock
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueTwo() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(2));
+				}
+			});
+
+			int expectedSanity = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex() + 1;
+			darkDiceCard.whatToDo(character);
+			int sanityAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex();
+			assertEquals(expectedSanity, sanityAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueOne() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(1));
+				}
+			});
+
+			ArrayList<ItemCard> expectedItemHand = character.getItemHand();
+			expectedItemHand.add(adrenalineShotCard);
+			darkDiceCard.whatToDo(character);
+			ArrayList<ItemCard> itemHandAfter = character.getItemHand();
+			assertEquals(expectedItemHand, itemHandAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void TestWhatToDoForDarkDiceRollValueZero() {
+		// some kind of mock
+	}
+
+	@Test
 	public void TestBloodDaggerInit() {
 		assertEquals(mesEN.getString("titleBloodDagger"),
 				bloodDaggerCard.getName());
@@ -1111,9 +1232,9 @@ public class TestItemCard {
 				"Perhaps it's chosen you for some greater purpose. Like human sacrifice.",
 				idolCard.getDescription());
 	}
-	
+
 	@Test
-	public void TestWhatToDoForIdol(){
+	public void TestWhatToDoForIdol() {
 		assertEquals(idolCard.numRolls, 2);
 		int expectedSanity = ((HumanStats) (character.getStats()))
 				.getCurrentSanityIndex() - 1;
