@@ -707,6 +707,39 @@ public class TestItemCard {
 	}
 	
 	@Test
+	public void TestWhatToDoForPickPocketsGloves(){
+		//Unfinished mock
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			
+			mocks.checking(new Expectations() {
+				{
+					
+				}
+			});
+
+			
+			pickpocketCard.whatToDo(character);
+			assertFalse(character.getItemHand().contains(pickpocketCard));
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	
+	}
+	
+	@Test
 	public void TestAxeInit(){
 		assertEquals(mesEN.getString("titleAxe"), axeCard.getName());
 		assertEquals(mesEN.getString("desAxe"), axeCard.getDescription());
