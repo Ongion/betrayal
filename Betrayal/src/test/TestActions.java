@@ -26,7 +26,7 @@ import rooms.RoomFactory;
 import rooms.RoomName;
 import tiles.SmokeTile;
 import Game.Game;
-import actions.IAction;
+import actions.Action;
 import actions.JumpDownFromGalleryToBallroomAction;
 import actions.OpenVaultAction;
 import actions.UseSecretPassageAction;
@@ -52,14 +52,14 @@ public class TestActions {
 	Character zoeIngstromUsingSecretStairs;
 	Character professorLongfellowUsingSecretPassage;
 	Character peterAkimotoOpeningVault;
-	IAction jumpDownToBallroom;
-	IAction useSecretStairs1;
-	IAction useSecretStairs2;
-	IAction useSecretStairs3;
-	IAction useSecretStairs4;
-	IAction useSecretPassage1;
-	IAction useSecretPassage2;
-	IAction openVault;
+	Action jumpDownToBallroom;
+	Action useSecretStairs1;
+	Action useSecretStairs2;
+	Action useSecretStairs3;
+	Action useSecretStairs4;
+	Action useSecretPassage1;
+	Action useSecretPassage2;
+	Action openVault;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -108,14 +108,14 @@ public class TestActions {
 		peterAkimotoOpeningVault.setCurrentRoom(vault);
 		peterAkimotoOpeningVault.setSideOfRoom(Relative_Direction.NORTH);
 		
-		jumpDownToBallroom = gallery.getRoomActions().toArray(new IAction[1])[0];
+		jumpDownToBallroom = gallery.getRoomActions().toArray(new Action[1])[0];
 		useSecretStairs1 = new UseSecretStairsAction(basementLandingWithSecretStairs1, bedroomWithSecretStairs2, Relative_Direction.EAST, missyDubourdeUsingSecretStairs.getSideOfRoom());
 		useSecretStairs2 = new UseSecretStairsAction(bedroomWithSecretStairs2, basementLandingWithSecretStairs1, missyDubourdeUsingSecretStairs.getSideOfRoom(), Relative_Direction.EAST);
 		useSecretStairs3 = new UseSecretStairsAction(catacombsWithSecretStairs3, foyerWithSecretStairs4, zoeIngstromUsingSecretStairs.getSideOfRoom(), Relative_Direction.WEST);
 		useSecretStairs4 = new UseSecretStairsAction(foyerWithSecretStairs4, catacombsWithSecretStairs3, Relative_Direction.WEST, zoeIngstromUsingSecretStairs.getSideOfRoom());
 		useSecretPassage1 = new UseSecretPassageAction(chasmWithSecretPassage1, charredRoomWithSecretPassage2, professorLongfellowUsingSecretPassage.getSideOfRoom(), Relative_Direction.WEST);
 		useSecretPassage2 = new UseSecretPassageAction(charredRoomWithSecretPassage2, chasmWithSecretPassage1, Relative_Direction.WEST, professorLongfellowUsingSecretPassage.getSideOfRoom());
-		openVault = vault.getRoomActions().toArray(new IAction[1])[0];
+		openVault = vault.getRoomActions().toArray(new Action[1])[0];
 		
 		basementLandingWithSecretStairs1.addRoomAction(useSecretStairs1);
 		bedroomWithSecretStairs2.addRoomAction(useSecretStairs2);
@@ -140,8 +140,8 @@ public class TestActions {
 	@Test
 	public void testCanJumpDownWithBallroom() {
 		ballroom.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 100, 25));
-		IAction[] galleryActions = gallery.getRoomActions().toArray(new IAction[1]);
-		for (IAction action : galleryActions) {
+		Action[] galleryActions = gallery.getRoomActions().toArray(new Action[1]);
+		for (Action action : galleryActions) {
 			assertTrue(action.canPerform(darrinWilliamsJumpingDownFromGallery));
 		}
 	}

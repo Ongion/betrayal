@@ -5,6 +5,9 @@ import itemCards.ItemCard;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import actions.Action;
+import actions.MoveAction;
+
 import omenCards.OmenCard;
 import pathFinding.PathFinding;
 import rooms.Room;
@@ -52,6 +55,20 @@ public class Character {
 		
 		type.setCharacter(this);
 		stats.setCharacter(this);
+	}
+	
+	public void askForAction() {
+		Action chosenAction = type.askForAction();
+		chosenAction.perform(this);
+	}
+	
+	public ArrayList<Action> getPossibleActions() {
+		ArrayList<Action> possibleActions = new ArrayList<Action>();
+		for (Relative_Direction absoluteExitDirection : this.getCurrentRoom().getAbsoluteExits()) {
+			possibleActions.add(new MoveAction(absoluteExitDirection));
+		}
+		possibleActions.addAll(this.getCurrentRoom().getRoomActions());
+		return possibleActions;
 	}
 
 	public String getName() {
@@ -322,9 +339,6 @@ public class Character {
 		case SPEED:
 			traitAmount = getCurrentSpeed();
 			break;
-		default:
-			// How did you get here?
-			break;
 		}
 		return traitAmount;
 
@@ -341,4 +355,9 @@ public class Character {
 	public boolean isAffectedBySmoke() {
 		return type.isAffectedBySmoke();
 	}
+	
+	public String toString() {
+		return this.getName();
+	}
+	
 }

@@ -7,7 +7,7 @@ import rooms.Room;
 import rooms.Room.Relative_Direction;
 import characters.Character;
 
-public class UseSecretPassageAction implements IAction {
+public class UseSecretPassageAction extends Action {
 	private Room thisEndOfPassage;
 	private Room otherEndOfPassage;
 	private Relative_Direction thisEndsSideOfRoom;

@@ -8,7 +8,7 @@ import Game.Game;
 import characters.Character;
 import characters.Trait;
 
-public class JumpDownFromGalleryToBallroomAction implements IAction {
+public class JumpDownFromGalleryToBallroomAction extends Action {
 
 	public JumpDownFromGalleryToBallroomAction() {
 		// TODO Auto-generated constructor stub

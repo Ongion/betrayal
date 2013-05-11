@@ -14,6 +14,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import characters.Character;
+import characters.ExplorerFactory;
+import characters.Character.Character_Name;
+
 import Game.Game;
 
 import rooms.Location;
@@ -67,6 +71,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 		this.setJMenuBar(menuBar);
 		
 		this.addRoomPanels();
+		
 
 	}
 
@@ -185,14 +190,15 @@ public class RoomFrame extends JFrame implements ActionListener {
 		rf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		RoomFactory rooms = new RoomFactory();
-		Room r1 = rooms.makeRoom(RoomName.DININGROOM);
-		Room r2 = rooms.makeRoom(RoomName.GARDENS);
-		Room r3 = rooms.makeRoom(RoomName.ORGANROOM);
+		Room r1 = Game.getInstance().getRoomAtLocation(new Location(Floor_Name.GROUND,0,0));
 
-		r1.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0,0));
-		r2.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 1,1));
-		r3.setPlacement(Room_Orientation.WEST, new Location(Floor_Name.UPPER, 2,0));
-
+		ExplorerFactory exps = new ExplorerFactory();
+		Character father = exps.getExplorer(Character_Name.FatherRhinehardt);
+		Game.getInstance().addCharacter(father);
+		father.setCurrentRoom(r1);
+		
+		System.out.println(father.getCurrentRoom().equals(r1));
+		
 		//rf.addRoomPanels();
 
 		rf.display();
