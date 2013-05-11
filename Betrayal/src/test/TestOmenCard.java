@@ -500,6 +500,12 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void TestWhatToDoForSpear(){
+		assertEquals(spearCard.numRolls, 3);
+		
+	}
+	
+	@Test
 	public void SpiritBoardInit() {
 		assertEquals(mesEN.getString("titleSpiritBoard"), spiritBoardCard.getName());
 		assertEquals(mesEN.getString("desSpiritBoard"), spiritBoardCard.getDescription());
@@ -511,11 +517,7 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("rulesSpiritBoard"), spiritBoardCard.getRules());
 	}
 	
-	@Test
-	public void TestWhatToDoForSpear(){
-		assertEquals(numRolls, 3);
-		
-	}
+	
 
 	@Test
 	public void IsHauntRollWithMask() {

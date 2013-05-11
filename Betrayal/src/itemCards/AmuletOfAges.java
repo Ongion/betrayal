@@ -6,7 +6,6 @@ import characters.Character;
 
 public class AmuletOfAges extends ItemCard {
 	
-	private boolean isLost = false;
 
 	public AmuletOfAges(Locale loc) {
 		super("AmuletOfAges", loc);
@@ -15,7 +14,7 @@ public class AmuletOfAges extends ItemCard {
 
 	@Override
 	public void whatToDo(Character character) {
-		if(!isLost){
+		if(!character.getItemHand().contains(this)){
 			character.incrementKnowledge();
 			character.incrementMight();
 			character.incrementSpeed();
