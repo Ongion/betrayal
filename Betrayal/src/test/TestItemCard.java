@@ -1462,6 +1462,17 @@ public class TestItemCard {
 				"WEAPON A nasty weapon. Needles and tubes extend from the handle...and plunge right into your veins.",
 				bloodDaggerCard.getDescription());
 	}
+	
+	@Test
+	public void TestWhatToDoForBloodDaggerHasCorrectNumRollsAndSanity(){
+		int expectedSpeed = ((HumanStats) (character.getStats()))
+				.getCurrentSpeedIndex() - 1;
+		bloodDaggerCard.whatToDo(character);
+		int speedAfter = ((HumanStats) (character.getStats()))
+				.getCurrentSpeedIndex();
+		assertEquals(expectedSpeed, speedAfter);
+		assertEquals(bloodDaggerCard.numRolls, 4);
+	}
 
 	@Test
 	public void TestIdolInit() {
