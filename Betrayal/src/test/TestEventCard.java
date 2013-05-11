@@ -37,6 +37,7 @@ import characters.Character;
 import characters.HumanStats;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
+import characters.Trait;
 import eventCards.AMomentOfHope;
 import eventCards.AngryBeing;
 import eventCards.BloodyVision;
@@ -99,6 +100,7 @@ public class TestEventCard {
 	
 	private ExplorerFactory explorers = new ExplorerFactory();
 	private characters.Character character;
+	private characters.Character character2;
 	
 	
 	private EventCard angryBeing = new AngryBeing(enLocale);
@@ -113,11 +115,13 @@ public class TestEventCard {
 	private OmenCard book = new Book(enLocale);
 	private OmenCard ring = new Ring(enLocale);
 	private Player player = new Player();
+	private Player player2 = new Player();
 	private ArrayList<EventCard> events = new ArrayList<EventCard>();
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
+	private ArrayList<Character> characters = new ArrayList<Character>();
 	
 	@Before
 	public void setUp(){
@@ -136,10 +140,14 @@ public class TestEventCard {
 		omens.add(ring);
 		
 		character = explorers.getExplorer(Character_Name.FatherRhinehardt);
-		
+		character2 = explorers.getExplorer(Character_Name.BrandonJaspers);
+		characters.add(character);
+		characters.add(character2);
 		player.addCharacter(character);
+		player2.addCharacter(character2);
+		
 		players.add(player);
-		players.add(player);
+		players.add(player2);
 		
 		rooms.add(roomFact.makeRoom(RoomName.TOWER));
 		rooms.add(roomFact.makeRoom(RoomName.BALCONY));
@@ -157,9 +165,13 @@ public class TestEventCard {
 		game.addAllToItemDeck(items);
 		game.addAllToOmenDeck(omens);
 		game.addPlayer(player);
+		game.addPlayer(player2);
 		game.addAllToRoomDeck(rooms);
 		game.addCharacter(character);
-		game.addCharacter(character);
+		game.addCharacter(character2);
+		character.setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
+		character2.setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
+
 	}
 	
 	@Test
@@ -211,8 +223,14 @@ public class TestEventCard {
 
 			mocks.checking(new Expectations() {
 				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
 					oneOf(mockGame).rollDice(6);
 					will(returnValue(5));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
 					oneOf(mockGame).rollDice(7);
 					will(returnValue(6));
 				}
@@ -220,9 +238,94 @@ public class TestEventCard {
 
 			assertEquals(character, mockGame.getCurrentCharacter());
 			card.happens();
-			assertEquals(7, mockGame.getCurrentCharacter().getCurrentSanity());
+			assertEquals(7, character.getCurrentSanity());
 			card.happens();	
-			assertEquals(7, mockGame.getCurrentCharacter().getCurrentSanity());
+			assertEquals(7, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testRottenHappen2To4(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
+		card = new Rotten(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(4));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(2));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(8);
+					will(returnValue(3));
+				}
+			});
+
+			card.happens();
+			assertEquals(2, character.getCurrentMight());
+			character.incrementSanity();
+			card.happens();
+			assertEquals(1, character.getCurrentMight());
+			character.incrementSanity(2);
+			card.happens();
+			assertEquals(1, character.getCurrentMight());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test 
+	public void testRottenHappen1(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
+		card = new Rotten(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(1));
+				}
+			});
+
+			card.happens();
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(3, character.getCurrentSpeed());
 
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
@@ -230,46 +333,44 @@ public class TestEventCard {
 			Assert.fail();
 		}
 		
-//		card = new Rotten(enLocale);
-//		// Test to be removed
-//		assertEquals(character, game.getCurrentCharacter());
-//		card.happen(5);
-//		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-//		card.happen(6);	
-//		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-	}
-	
-	@Test
-	public void testRottenHappen2To4(){
-		card = new Rotten(enLocale);
-		
-		card.happen(4);
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		card.happen(2);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		card.happen(5);
-		card.happen(3);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-	}
-	
-	@Test 
-	public void testRottenHappen1(){
-		card = new Rotten(enLocale);
-		
-		card.happen(1);
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
 	}
 	
 	@Test
 	public void testRottenHappen0(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new Rotten(enLocale);
 		
-		card.happen(0);
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(0));
+				}
+			});
+
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(5, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
@@ -290,11 +391,11 @@ public class TestEventCard {
 	public void testAngryBeingHappen5OrGreater(){
 		card = new AngryBeing(enLocale);
 		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		card.happen(5);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentSpeed());
 		card.happen(6);	
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentSpeed());
 	}
 	
 	@Test
@@ -302,11 +403,11 @@ public class TestEventCard {
 		card = new AngryBeing(enLocale);
 		
 		card.happen(4);
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentKnowledge());
 		card.happen(2);
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentKnowledge());
 		card.happen(3);
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(1, character.getCurrentKnowledge());
 	}
 	
 	@Test 
@@ -314,11 +415,11 @@ public class TestEventCard {
 		card = new AngryBeing(enLocale);
 		
 		card.happen(1);
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
 		card.happen(0);
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(1, character.getCurrentMight());
 	}
 
 	@Test
@@ -337,35 +438,137 @@ public class TestEventCard {
 	
 	@Test
 	public void testCreepyCrawliesHappen5OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new CreepyCrawlies(enLocale);
-		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
-		card.happen(5);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
-		card.happen(6);	
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(5));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(6));
+				}
+			});
+
+			card.happens();
+			assertEquals(7, character.getCurrentSanity());
+			card.happens();	
+			assertEquals(7, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
 	public void testCreepyCrawlies1To4(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new CreepyCrawlies(enLocale);
 		
-		card.happen(4);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		card.happen(3);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
-		card.happen(1);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(4));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(3));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(2));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(1));
+				}
+			});
+
+			character.incrementSanity();
+			card.happens();
+			assertEquals(6, character.getCurrentSanity());
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+			character.decrementSanity();
+			card.happens();
+			assertEquals(4, character.getCurrentSanity());
+			card.happens();
+			assertEquals(3, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test 
 	public void testCreepyCrawliesHappen0(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new CreepyCrawlies(enLocale);
 		
-		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(0));
+					
+				}
+			});
+
+			character.incrementSanity();
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 
 	@Test
@@ -384,30 +587,109 @@ public class TestEventCard {
 	
 	@Test
 	public void testNightViewHappen5OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new NightView(enLocale);
 		
-		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
-		card.happen(5);
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
-		card.happen(6);	
-		assertEquals(6, game.getCurrentCharacter().getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(5));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(6));
+				}
+			});
+
+			card.happens();
+			assertEquals(5, character.getCurrentKnowledge());
+			card.happens();	
+			assertEquals(6, character.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
 	public void testNightViewLessThan5(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new NightView(enLocale);
-				
-		card.happen(4);
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		card.happen(2);
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		card.happen(3);
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		card.happen(1);
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		card.happen(0);
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(4));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(3));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(2));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(1));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(8);
+					will(returnValue(0));
+				}
+			});
+
+			character.decrementKnowledge();
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			character.incrementKnowledge();
+			card.happens();
+			assertEquals(4, character.getCurrentKnowledge());
+			character.incrementKnowledge();
+			card.happens();
+			assertEquals(5, character.getCurrentKnowledge());
+			character.incrementKnowledge();
+			card.happens();
+			assertEquals(6, character.getCurrentKnowledge());
+			character.incrementKnowledge(2);
+			card.happens();
+			assertEquals(8, character.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
@@ -429,11 +711,11 @@ public class TestEventCard {
 		card = new Funeral(enLocale);
 		
 		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		card.happen(4);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		card.happen(5);	
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -441,9 +723,9 @@ public class TestEventCard {
 		card = new Funeral(enLocale);
 		
 		card.happen(3);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 	}
 
 	@Test
@@ -451,11 +733,11 @@ public class TestEventCard {
 		card = new Funeral(enLocale);
 		
 		card.happen(1);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentMight());
 		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(1, character.getCurrentMight());
 	}
 	
 	@Test
@@ -474,36 +756,131 @@ public class TestEventCard {
 	
 	@Test
 	public void testSomethingSlimy4OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new SomethingSlimy(enLocale);
 		
-		// Test to be removed
-		assertEquals(character, game.getCurrentCharacter());
-		card.happen(4);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
-		card.happen(5);	
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(4));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(5));
+				}
+			});
+
+			card.happens();
+			assertEquals(4, character.getCurrentSpeed());
+			card.happens();	
+			assertEquals(5, character.getCurrentSpeed());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
 	public void testSomethingSlimy1Or3(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new SomethingSlimy(enLocale);
 		
-		card.happen(3);
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		card.happen(2);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		card.happen(5);
-		card.happen(1);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(3));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(2));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(1));
+				}
+			});
+
+			card.happens();
+			assertEquals(2, character.getCurrentMight());
+			character.incrementSpeed();
+			card.happens();
+			assertEquals(1, character.getCurrentMight());
+			character.incrementSpeed();
+			character.incrementMight();
+			card.happens();
+			assertEquals(1, character.getCurrentMight());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 
 	@Test
 	public void testSomethingSlimy0(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new SomethingSlimy(enLocale);
 		
-		card.happen(0);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(0));
+				}
+			});
+
+
+			card.happens();
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(2, character.getCurrentMight());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
@@ -524,13 +901,13 @@ public class TestEventCard {
 	public void testMirror2Happen(){
 		card = new Mirror2(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		card.happens();
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
 		card.happens();	
-		assertEquals(2, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
+		assertEquals(2, character.getItemHand().size());
+		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
 	}
 	
 	@Test
@@ -551,37 +928,37 @@ public class TestEventCard {
 	public void testSkeletons5orGreater(){
 		card = new Skeletons(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		card.happen(5);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
 		card.happen(6);	
-		assertEquals(2, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
+		assertEquals(2, character.getItemHand().size());
+		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
 	}
 	
 	@Test
 	public void testSkeletonsLessThan5(){
 		card = new Skeletons(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		card.happen(0);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(5, character.getCurrentSanity());
 		card.happen(1);	
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(5, character.getCurrentSanity());
 		card.happen(2);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(4, character.getCurrentSanity());
 		card.happen(3);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(3, character.getCurrentSanity());
 		card.happen(5);
 		card.happen(4);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
+		assertEquals(3, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -600,15 +977,54 @@ public class TestEventCard {
 	
 	@Test
 	public void testTheVoice4orGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new TheVoice(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		card.happen(4);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
-		card.happen(5);	
-		assertEquals(2, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(4));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(5));
+					oneOf(mockGame).drawItem();
+					will(returnValue(adrenalineShotCard));
+				}
+			});
+
+
+			assertEquals(0, character.getItemHand().size());
+			card.happens();
+			assertEquals(1, character.getItemHand().size());
+			assertEquals(angelFeather, character.getItemHand().get(0));
+			character.incrementKnowledge();
+			card.happens();	
+			assertEquals(2, character.getItemHand().size());
+			assertEquals(adrenalineShotCard, character.getItemHand().get(1));
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		
 	}
 	
 	@Test
@@ -629,32 +1045,32 @@ public class TestEventCard {
 	public void testSomethingHidden4orGreater(){
 		card = new SomethingHidden(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		card.happen(4);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
 		card.happen(5);	
-		assertEquals(2, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
+		assertEquals(2, character.getItemHand().size());
+		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
 	}
 	
 	@Test
 	public void testSomethingHiddenLessThan4(){
 		card = new SomethingHidden(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		card.happen(0);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(5, character.getCurrentSanity());
 		card.happen(1);	
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(5, character.getCurrentSanity());
 		card.happen(2);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(4, character.getCurrentSanity());
 		card.happen(3);
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(0, character.getItemHand().size());
+		assertEquals(3, character.getCurrentSanity());
 		
 	}
 	
@@ -676,48 +1092,48 @@ public class TestEventCard {
 	public void testHangedMen2OrGreater(){
 		card = new HangedMen(enLocale);
 		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(3, character.getCurrentSpeed());
 		
 		card.happen(2);
 		
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(3, character.getCurrentSpeed());
 		
 		card.happen(3);
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(6, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(3, character.getCurrentSpeed());
 	}
 	
 	@Test
 	public void testHangedMenLessThan2(){
 		card = new HangedMen(enLocale);
 		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(3, character.getCurrentSpeed());
 		
 		card.happen(1);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(3, character.getCurrentSpeed());
 		
 		card.happen(0);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentSpeed());
 	}
 	
 	@Test
@@ -738,17 +1154,17 @@ public class TestEventCard {
 	public void testDebris3OrGreater(){
 		card = new Debris(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());		
+		assertEquals(0, character.getEventHand().size());
+		assertEquals(3, character.getCurrentSpeed());		
 		card.happen(3);
 		
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(4, character.getCurrentSpeed());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(6);
 		
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());		
+		assertEquals(5, character.getCurrentSpeed());
+		assertEquals(0, character.getEventHand().size());		
 		
 	}
 	
@@ -756,16 +1172,16 @@ public class TestEventCard {
 	public void testDebris1Or2(){
 		card = new Debris(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(2);
 		
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(1);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());		
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(0, character.getEventHand().size());		
 		
 	}
 	
@@ -773,12 +1189,12 @@ public class TestEventCard {
 	public void testDebris0(){
 		card = new Debris(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(0);
 		
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(1, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(1, character.getEventHand().size());
 
 	}
 	
@@ -800,24 +1216,24 @@ public class TestEventCard {
 	public void testShriekingWind5orGreater(){
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
 		card.happen(5);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
 		card.happen(6);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
 	}
 	
@@ -825,88 +1241,88 @@ public class TestEventCard {
 	public void testShriekingWind3or4(){
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
-		game.getCurrentCharacter().addItemCard(game.drawItem());
+		character.addItemCard(game.drawItem());
 		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(4);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(3);
 		
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(2, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(1, character.getItemHand().size());
 	}
 
 	@Test
 	public void testShriekingWind1or2(){
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
-		game.getCurrentCharacter().addItemCard(game.drawItem());
+		character.addItemCard(game.drawItem());
 		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(2);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(1);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(3, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(1, character.getItemHand().size());
 	}
 	
 	@Test
 	public void testShriekingWind0(){
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 		
-		game.getCurrentCharacter().addItemCard(game.drawItem());
+		character.addItemCard(game.drawItem());
 		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		
-		card.happen(0);
-		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
-		
-		game.getCurrentCharacter().addItemCard(game.drawItem());
-		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(0);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
+		
+		character.addItemCard(game.drawItem());
+		
+		assertEquals(1, character.getItemHand().size());
+		
+		card.happen(0);
+		
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(0, character.getItemHand().size());
 	}
 	
 	@Test
@@ -924,55 +1340,406 @@ public class TestEventCard {
 	}
 	
 	@Test
-	public void testSilence4orGreater(){
+	public void testSilence4orGreater1InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new Silence(enLocale);
 		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		
-		card.happen(4);
-		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
-		
-		card.happen(5);
-		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(5));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(6));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(6, character.getCurrentSanity());
+			card.happens();
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(6, character.getCurrentSanity());
+			character.incrementSanity();
+			card.happens();
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(7, character.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
 	}
 	
 	@Test
-	public void testSilence1To3(){
+	public void testSilence4orGreater2InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new Silence(enLocale);
 		
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(5));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(6));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(5));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(6));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			character2.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(6, character.getCurrentSanity());
+			assertEquals(3, character2.getCurrentKnowledge());
+			assertEquals(4, character2.getCurrentSanity());
+			card.happens();
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(6, character.getCurrentSanity());
+			assertEquals(3, character2.getCurrentKnowledge());
+			assertEquals(4, character2.getCurrentSanity());
+			character.incrementSanity();
+			character2.incrementSanity();
+			card.happens();
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(7, character.getCurrentSanity());
+			assertEquals(3, character2.getCurrentKnowledge());
+			assertEquals(5, character2.getCurrentSanity());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		card.happen(1);
-		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		
-		card.happen(2);
-		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
-		
-		card.happen(3);
-		
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
 	}
 	
 	@Test
-	public void testSilence0(){
+	public void testSilence1To3With1InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
 		card = new Silence(enLocale);
 		
-		game.getCurrentCharacter().incrementKnowledge();
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			character.decrementSanity();
+			
+			assertEquals(4, character.getCurrentKnowledge());
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			character.incrementSanity();
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			character.incrementSanity();
+			card.happens();
+			assertEquals(1, character.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testSilence1To3With2InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
 		
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+		card = new Silence(enLocale);
 		
-		card.happen(0);
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			character2.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			character.decrementSanity();
+			character2.incrementKnowledge();
+			
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(5, character2.getCurrentKnowledge());
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(3, character2.getCurrentKnowledge());
+			character.incrementSanity();
+			character2.incrementSanity();
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(3, character2.getCurrentKnowledge());
+			character.incrementSanity();
+			character2.incrementSanity();
+			card.happens();
+			assertEquals(1, character.getCurrentKnowledge());
+			assertEquals(1, character2.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testSilence0With1InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		card = new Silence(enLocale);
 		
-		card.happen(0);
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			character.incrementKnowledge();
+			
+			assertEquals(5, character.getCurrentKnowledge());
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			character.incrementSanity();
+			card.happens();
+			assertEquals(1, character.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+	}
+	
+	@Test
+	public void testSilence0With2InBasement(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		
+		card = new Silence(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+				}
+			});
+			
+			character.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			character2.setCurrentRoom(game.getRoomByRoomName(RoomName.BASEMENTLANDING));
+			
+			character.incrementKnowledge();
+			character2.incrementKnowledge(2);
+			
+			assertEquals(5, character.getCurrentKnowledge());
+			assertEquals(5, character2.getCurrentKnowledge());
+			
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(3, character2.getCurrentKnowledge());
+			character.incrementSanity();
+			character2.incrementSanity();
+			card.happens();
+			assertEquals(1, character.getCurrentKnowledge());
+			assertEquals(1, character2.getCurrentKnowledge());
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
@@ -995,11 +1762,11 @@ public class TestEventCard {
 		
 		card.happen(4);
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 		card.happen(4);
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 	}
 	
@@ -1009,11 +1776,11 @@ public class TestEventCard {
 		
 		card.happen(3);
 		
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(5, character.getCurrentKnowledge());
 		
 		card.happen(3);
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(6, character.getCurrentKnowledge());
 		
 	}
 	
@@ -1023,15 +1790,15 @@ public class TestEventCard {
 		
 		card.happen(1);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentKnowledge());
 		
 		card.happen(2);
 		
-		assertEquals(3, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentKnowledge());
 		
 		card.happen(2);
 		
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(1, character.getCurrentKnowledge());
 		
 	}
 	
@@ -1040,7 +1807,7 @@ public class TestEventCard {
 		card = new PhoneCall(enLocale);
 		
 		card.happen(0);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(1, character.getCurrentMight());
 		
 	}
 	
@@ -1063,30 +1830,30 @@ public class TestEventCard {
 		card = new Spider(enLocale);
 		
 		card.happen(4);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentSpeed());
 		
 		card.happen(5);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentSpeed());
 	}
 	
 	@Test
 	public void testSpider1To3(){
 		card = new Spider(enLocale);
 		
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(6, character.getCurrentSpeed());
 		
 		card.happen(1);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentSpeed());
 		
 		card.happen(2);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentSpeed());
 		
 		card.happen(3);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentSpeed());
 	}
 	
 
@@ -1095,7 +1862,7 @@ public class TestEventCard {
 		card = new Spider(enLocale);
 		
 		card.happen(0);
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(2, character.getCurrentSpeed());
 	}
 	
 	@Test
@@ -1117,29 +1884,29 @@ public class TestEventCard {
 		card = new HideousShriek(enLocale);
 		
 		card.happen(4);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		
 		card.happen(5);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 	}
 	
 	@Test
 	public void testHideousShriek1To3(){
 		card = new HideousShriek(enLocale);
 		
-		game.getCurrentCharacter().incrementSanity();
-		game.getCurrentCharacter().incrementSanity();
+		character.incrementSanity();
+		character.incrementSanity();
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 		card.happen(1);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 		card.happen(2);
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(6, character.getCurrentSanity());
 		
 		card.happen(3);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 	}
 	
 
@@ -1147,11 +1914,11 @@ public class TestEventCard {
 	public void testHideousShriek0(){
 		card = new HideousShriek(enLocale);
 		
-		game.getCurrentCharacter().decrementSanity();
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		character.decrementSanity();
+		assertEquals(5, character.getCurrentSanity());
 		
 		card.happen(0);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(4, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1173,44 +1940,44 @@ public class TestEventCard {
 		card = new Possession(enLocale);
 		
 		card.happen(4);
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(5, character.getCurrentKnowledge());
 		
 		card.happen(5);
-		assertEquals(6, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(6, character.getCurrentKnowledge());
 	}
 	
 	@Test
 	public void testPossession0To3(){
 		card = new Possession(enLocale);
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(4, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(4, character.getCurrentKnowledge());
 		
 		card.happen(0);
-		assertEquals(6, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(6, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(1, character.getCurrentKnowledge());
 		
 		card.happen(1);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentMight());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(1, character.getCurrentKnowledge());
 		
 		card.happen(2);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(3, character.getCurrentSpeed());
+		assertEquals(1, character.getCurrentKnowledge());
+		assertEquals(3, character.getCurrentSanity());
 		
 		card.happen(3);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
-		assertEquals(1, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(3, character.getCurrentSanity());
+		assertEquals(1, character.getCurrentMight());
+		assertEquals(2, character.getCurrentSpeed());
+		assertEquals(1, character.getCurrentKnowledge());
 		
 	}
 	
@@ -1232,20 +1999,20 @@ public class TestEventCard {
 	public void testLockedSafe5OrGreater(){
 		card = new LockedSafe(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		
 		card.happen(5);
-		assertEquals(2, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
+		assertEquals(2, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
+		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
 		assertEquals(2, game.getItemDeck().size());
 		
 		card.happen(6);
-		assertEquals(4, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
-		assertEquals(adrenalineShotCard, game.getCurrentCharacter().getItemHand().get(1));
-		assertEquals(revolverCard, game.getCurrentCharacter().getItemHand().get(2));
-		assertEquals(puzzleBoxCard, game.getCurrentCharacter().getItemHand().get(3));
+		assertEquals(4, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
+		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
+		assertEquals(revolverCard, character.getItemHand().get(2));
+		assertEquals(puzzleBoxCard, character.getItemHand().get(3));
 		assertEquals(0, game.getItemDeck().size());
 		
 	}
@@ -1254,20 +2021,20 @@ public class TestEventCard {
 	public void testLockedSafe2To4(){
 		card = new LockedSafe(enLocale);
 		
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(6, character.getCurrentSpeed());
 		
 		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentSpeed());
 		
 		card.happen(3);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentSpeed());
 		
 		card.happen(4);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentSpeed());
 		
 	}
 	
@@ -1276,15 +2043,15 @@ public class TestEventCard {
 	public void testLockedSafe0And1(){
 		card = new LockedSafe(enLocale);
 		
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		character.incrementSpeed();
+		character.incrementSpeed();
+		assertEquals(5, character.getCurrentSpeed());
 		
 		card.happen(0);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentSpeed());
 		
 		card.happen(1);
-		assertEquals(2, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(2, character.getCurrentSpeed());
 	}
 	
 	@Test
@@ -1306,10 +2073,10 @@ public class TestEventCard {
 		card = new TheBeckoning(enLocale);
 		
 		card.happen(3);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		
 		card.happen(4);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		
 	}
 
@@ -1317,20 +2084,20 @@ public class TestEventCard {
 	public void testTheBeckoning0To2Damage(){
 		card = new TheBeckoning(enLocale);
 		
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
-		game.getCurrentCharacter().incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
+		character.incrementSpeed();
 		
-		assertEquals(6, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(6, character.getCurrentSpeed());
 		
 		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(5, character.getCurrentSpeed());
 		
 		card.happen(1);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(4, character.getCurrentSpeed());
 		
 		card.happen(2);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentSpeed());
 
 	}
 	
@@ -1353,7 +2120,7 @@ public class TestEventCard {
 		card = new Footsteps(enLocale);
 		
 		card.happen(4);
-		assertEquals(4, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(4, character.getCurrentMight());
 	}
 	
 	@Test 
@@ -1361,7 +2128,7 @@ public class TestEventCard {
 		card = new Footsteps(enLocale);
 		
 		card.happen(3);
-		assertEquals(4, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(4, character.getCurrentMight());
 	}
 	
 	@Test 
@@ -1369,18 +2136,18 @@ public class TestEventCard {
 		card = new Footsteps(enLocale);
 		
 		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 	}
 	
 	@Test 
 	public void testFootsteps1(){
 		card = new Footsteps(enLocale);
 		
-		game.getCurrentCharacter().incrementSpeed();
-		assertEquals(4, game.getCurrentCharacter().getCurrentSpeed());
+		character.incrementSpeed();
+		assertEquals(4, character.getCurrentSpeed());
 		
 		card.happen(1);
-		assertEquals(3, game.getCurrentCharacter().getCurrentSpeed());
+		assertEquals(3, character.getCurrentSpeed());
 	}
 	
 	@Test 
@@ -1388,7 +2155,7 @@ public class TestEventCard {
 		card = new Footsteps(enLocale);
 		
 		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1410,10 +2177,10 @@ public class TestEventCard {
 		card = new MistsFromTheWalls(enLocale);
 		
 		card.happen(4);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 		
 		card.happen(5);
-		assertEquals(character, game.getCurrentCharacter());
+		assertEquals(character, character);
 	}
 	
 
@@ -1422,13 +2189,13 @@ public class TestEventCard {
 		card = new MistsFromTheWalls(enLocale);
 		
 		card.happen(1);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 		
 		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 		
 		card.happen(3);
-		assertEquals(4, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(4, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1436,7 +2203,7 @@ public class TestEventCard {
 		card = new MistsFromTheWalls(enLocale);
 		
 		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1458,10 +2225,10 @@ public class TestEventCard {
 		card = new BloodyVision(enLocale);
 		
 		card.happen(4);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 		card.happen(5);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 	}
 	
@@ -1470,10 +2237,10 @@ public class TestEventCard {
 		card = new BloodyVision(enLocale);
 		
 		card.happen(2);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 		
 		card.happen(3);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(5, character.getCurrentSanity());
 		
 	}
 	
@@ -1503,10 +2270,10 @@ public class TestEventCard {
 		card = new BurningMan(enLocale);
 		
 		card.happen(4);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 		card.happen(5);
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1524,12 +2291,12 @@ public class TestEventCard {
 		card = new BurningMan(enLocale);
 		
 		card.happen(1);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(2, character.getCurrentMight());
 		
 		card.happen(0);
-		assertEquals(5, game.getCurrentCharacter().getCurrentSanity());
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(5, character.getCurrentSanity());
+		assertEquals(1, character.getCurrentMight());
 	}
 	
 	@Test
@@ -1550,26 +2317,26 @@ public class TestEventCard {
 	public void testClosetDoor4(){
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		
 		card.happen(4);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(angelFeather, game.getCurrentCharacter().getItemHand().get(0));
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(angelFeather, character.getItemHand().get(0));
 	}
 	
 	@Test
 	public void testClosetDoor2Or3(){
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(2);
-		assertEquals(1, game.getCurrentCharacter().getEventHand().size());
-		assertEquals(angryBeing, game.getCurrentCharacter().getEventHand().get(0));
+		assertEquals(1, character.getEventHand().size());
+		assertEquals(angryBeing, character.getEventHand().get(0));
 		
 		card.happen(3);
-		assertEquals(2, game.getCurrentCharacter().getEventHand().size());
-		assertEquals(creepyCrawlies, game.getCurrentCharacter().getEventHand().get(1));
+		assertEquals(2, character.getEventHand().size());
+		assertEquals(creepyCrawlies, character.getEventHand().get(1));
 	}
 	
 	@Test
@@ -1577,15 +2344,15 @@ public class TestEventCard {
 		// Eventually needs to test for removal of Closet Token
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getEventHand().size());
+		assertEquals(0, character.getEventHand().size());
 		
 		card.happen(0);
-		assertEquals(1, game.getCurrentCharacter().getEventHand().size());
-		assertEquals(angryBeing, game.getCurrentCharacter().getEventHand().get(0));
+		assertEquals(1, character.getEventHand().size());
+		assertEquals(angryBeing, character.getEventHand().get(0));
 		
 		card.happen(1);
-		assertEquals(2, game.getCurrentCharacter().getEventHand().size());
-		assertEquals(creepyCrawlies, game.getCurrentCharacter().getEventHand().get(1));
+		assertEquals(2, character.getEventHand().size());
+		assertEquals(creepyCrawlies, character.getEventHand().get(1));
 	}
 	
 	@Test
@@ -1607,7 +2374,7 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(6);
-		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), character.getCurrentRoom());
 	}
 	
 	@Test
@@ -1615,13 +2382,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(5);
-		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), character.getCurrentRoom());
 		
-		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		character.setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), character.getCurrentRoom());
 		
 		card.happen(4);
-		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.UPPERLANDING), character.getCurrentRoom());
 		
 	}
 	
@@ -1630,13 +2397,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(2);
-		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), character.getCurrentRoom());
 		
-		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		character.setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), character.getCurrentRoom());
 		
 		card.happen(3);
-		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), character.getCurrentRoom());
 	}
 	
 	@Test
@@ -1644,13 +2411,13 @@ public class TestEventCard {
 		card = new TheLostOne(enLocale);
 		
 		card.happen(0);
-		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), character.getCurrentRoom());
 		
-		game.getCurrentCharacter().setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
-		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), game.getCurrentCharacter().getCurrentRoom());
+		character.setCurrentRoom(roomFact.makeRoom(RoomName.ENTRANCEHALL));
+		assertEquals(roomFact.makeRoom(RoomName.ENTRANCEHALL), character.getCurrentRoom());
 		
 		card.happen(1);
-		assertEquals(roomFact.makeRoom(RoomName.BALCONY), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.BALCONY), character.getCurrentRoom());
 	}
 	
 	@Test
@@ -1672,7 +2439,7 @@ public class TestEventCard {
 		card = new TheWalls(enLocale);
 		
 		card.happens();
-		assertEquals(roomFact.makeRoom(RoomName.TOWER), game.getCurrentCharacter().getCurrentRoom());
+		assertEquals(roomFact.makeRoom(RoomName.TOWER), character.getCurrentRoom());
 	}
 	
 	@Test
@@ -1706,7 +2473,7 @@ public class TestEventCard {
 		assertEquals(1, ex1.getItemHand().size());
 		assertEquals(angelFeather, ex1.getItemHand().get(0));
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 	}
 	
 	@Test
@@ -1715,7 +2482,7 @@ public class TestEventCard {
 		
 		card.happens();
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentSanity() && game.getCurrentCharacter().getCurrentSanity() <= 6);
+		assertTrue(0 <= character.getCurrentSanity() && character.getCurrentSanity() <= 6);
 	}
 	
 	@Test
@@ -1764,17 +2531,17 @@ public class TestEventCard {
 	public void testMirrorHappen(){
 		card = new Mirror(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		
 		PuzzleBox pb = new PuzzleBox(enLocale);
-		game.getCurrentCharacter().addItemCard(pb);
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
-		assertEquals(pb, game.getCurrentCharacter().getItemHand().get(0));
+		character.addItemCard(pb);
+		assertEquals(1, character.getItemHand().size());
+		assertEquals(pb, character.getItemHand().get(0));
 		
 		card.happens();
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		
-		assertEquals(5, game.getCurrentCharacter().getCurrentKnowledge());
+		assertEquals(5, character.getCurrentKnowledge());
 	}
 	
 	@Test
@@ -1799,7 +2566,7 @@ public class TestEventCard {
 		
 		card.happens();
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentSanity());
+		assertEquals(7, character.getCurrentSanity());
 		
 	}
 	
@@ -1834,7 +2601,7 @@ public class TestEventCard {
 		
 		card.happens();
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentSanity() && game.getCurrentCharacter().getCurrentSanity() <= 6);
+		assertTrue(0 <= character.getCurrentSanity() && character.getCurrentSanity() <= 6);
 	}
 	
 	@Test
@@ -1864,13 +2631,13 @@ public class TestEventCard {
 		assertEquals(sp, ex1.getOmenHand().get(0));
 		assertEquals(2, ex1.getCurrentMight());
 		
-		game.getCurrentCharacter().decrementMight(2);
+		character.decrementMight(2);
 		
 		card.happens();
 		
 		assertEquals(4, ex1.getCurrentMight());
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 	}
 	
@@ -1878,7 +2645,7 @@ public class TestEventCard {
 	public void testCreepyPuppetCurrentCharacterHasSpear(){
 		card = new CreepyPuppet(enLocale);
 		
-		Character ex1 = game.getCurrentCharacter();
+		Character ex1 = character;
 		assertEquals(0, ex1.getItemHand().size());
 		
 		Spear sp = new Spear(enLocale);
@@ -1889,7 +2656,7 @@ public class TestEventCard {
 		
 		card.happens();
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 	}
 	
@@ -1898,13 +2665,13 @@ public class TestEventCard {
 		card = new CreepyPuppet(enLocale);
 		
 		
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		game.getCurrentCharacter().decrementMight(2);
-		assertEquals(1, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(2, character.getCurrentMight());
+		character.decrementMight(2);
+		assertEquals(1, character.getCurrentMight());
 		
 		card.happens();
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 	}
 	
@@ -1913,13 +2680,13 @@ public class TestEventCard {
 		card = new CreepyPuppet(enLocale);
 		
 		
-		assertEquals(2, game.getCurrentCharacter().getCurrentMight());
-		game.getCurrentCharacter().incrementMight(6);
-		assertEquals(7, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(2, character.getCurrentMight());
+		character.incrementMight(6);
+		assertEquals(7, character.getCurrentMight());
 		
 		card.happens();
 		
-		assertEquals(7, game.getCurrentCharacter().getCurrentMight());
+		assertEquals(7, character.getCurrentMight());
 		
 	}
 	
@@ -1941,15 +2708,15 @@ public class TestEventCard {
 	public void testGroundskeeper4orGreater(){
 		card = new Groundskeeper(enLocale);
 		
-		assertEquals(0, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(0, character.getItemHand().size());
 		
 		card.happen(4);
 		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, character.getItemHand().size());
 		
 		card.happen(5);
 		
-		assertEquals(1, game.getCurrentCharacter().getItemHand().size());
+		assertEquals(1, character.getItemHand().size());
 		
 	}
 	
@@ -1959,19 +2726,19 @@ public class TestEventCard {
 		
 		card.happen(0);
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 		card.happen(1);
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 		card.happen(2);
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 		
 		card.happen(3);
 		
-		assertTrue(0 <= game.getCurrentCharacter().getCurrentMight() && game.getCurrentCharacter().getCurrentMight() <= 2);
+		assertTrue(0 <= character.getCurrentMight() && character.getCurrentMight() <= 2);
 
 	}
 	
