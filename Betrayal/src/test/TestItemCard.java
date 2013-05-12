@@ -245,6 +245,10 @@ public void TestWhatToDoForRevolver(){
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(7));
+					oneOf(mockGame).drawItem();
+					will(returnValue(bellCard));
+					oneOf(mockGame).drawItem();
+					will(returnValue(candleCard));
 
 				}
 			});
@@ -265,7 +269,7 @@ public void TestWhatToDoForRevolver(){
 	}
 
 	@Test
-	public void TestWhatToDoForPuzzleBoxForDiscardedCard() {
+	public void TestWhatToDoForPuzzleBoxRollLessThanSix() {
 
 		Mockery mocks = new Mockery() {
 			{
@@ -282,13 +286,12 @@ public void TestWhatToDoForRevolver(){
 			mocks.checking(new Expectations() {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
-					will(returnValue(7));
+					will(returnValue(4));
 
 				}
 			});
 
 			puzzleBoxCard.whatToDo(character);
-			assertFalse(character.getItemHand().contains(puzzleBoxCard));
 
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
