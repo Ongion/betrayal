@@ -7,7 +7,7 @@ import Game.Game;
 import characters.Character;
 
 public class Dog extends OmenCard {
-	private boolean hasToken;
+
 
 	public Dog(Locale loc) {
 		super("Dog", loc);

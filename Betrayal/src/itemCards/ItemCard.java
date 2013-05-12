@@ -11,6 +11,7 @@ public abstract class ItemCard {
 	protected String desDetail;
 	protected String cardName;
 	public boolean isLost;
+	public int numRolls;
 	
 
 	

@@ -12,6 +12,7 @@ public abstract class OmenCard {
 	protected String rules;
 	public int itemOrEvent;
 	public boolean hasToken;
+	public int numRolls;
 
 	protected OmenCard(String cardname, Locale loc) {
 		ResourceBundle messages = ResourceBundle.getBundle("OmenCardBundle", loc);

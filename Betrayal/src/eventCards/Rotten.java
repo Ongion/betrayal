@@ -1,51 +1,50 @@
 package eventCards;
 import java.util.Locale;
-
+import characters.Character;
 import characters.Trait;
 import Game.Game;
 
 public class Rotten extends EventCard {
 
-	private Game game;
 	
 	public Rotten(Locale loc) {
 		super("Rotten", loc);
-		this.game = Game.getInstance();
 	}
 
 	@Override
 	public void happen(int rollResult) {
 		// This is only for testing purposes
 		if (rollResult >= 5){
-			game.getCurrentCharacter().incrementSanity();
+			Game.getInstance().getCurrentCharacter().incrementSanity();
 		} else if (rollResult == 1){
-			game.getCurrentCharacter().decrementMight();
-			game.getCurrentCharacter().decrementSpeed();
+			Game.getInstance().getCurrentCharacter().decrementMight();
+			Game.getInstance().getCurrentCharacter().decrementSpeed();
 		} else if (rollResult == 0){
-			game.getCurrentCharacter().decrementMight();
-			game.getCurrentCharacter().decrementSpeed();
-			game.getCurrentCharacter().decrementSanity();
-			game.getCurrentCharacter().decrementKnowledge(); 
+			Game.getInstance().getCurrentCharacter().decrementMight();
+			Game.getInstance().getCurrentCharacter().decrementSpeed();
+			Game.getInstance().getCurrentCharacter().decrementSanity();
+			Game.getInstance().getCurrentCharacter().decrementKnowledge(); 
 		} else{
-			game.getCurrentCharacter().decrementMight();
+			Game.getInstance().getCurrentCharacter().decrementMight();
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.typeRoll(Trait.SANITY);
+		Character currentCharacter = Game.getInstance().getCurrentCharacter();
+		int rollResult = currentCharacter.getTraitRoll(Trait.SANITY);
 		if (rollResult >= 5){
-			game.getCurrentCharacter().incrementSanity();
+			currentCharacter.incrementSanity();
 		} else if (rollResult == 1){
-			game.getCurrentCharacter().decrementMight();
-			game.getCurrentCharacter().decrementSpeed();
+			currentCharacter.decrementMight();
+			currentCharacter.decrementSpeed();
 		} else if (rollResult == 0){
-			game.getCurrentCharacter().decrementMight();
-			game.getCurrentCharacter().decrementSpeed();
-			game.getCurrentCharacter().decrementSanity();
-			game.getCurrentCharacter().decrementKnowledge(); 
+			currentCharacter.decrementMight();
+			currentCharacter.decrementSpeed();
+			currentCharacter.decrementSanity();
+			currentCharacter.decrementKnowledge(); 
 		} else{
-			game.getCurrentCharacter().decrementMight();
+			currentCharacter.decrementMight();
 		}
 		
 	}

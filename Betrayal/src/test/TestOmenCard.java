@@ -292,7 +292,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForBook() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 		ExplorerFactory expFac = new ExplorerFactory();
 		Character character = expFac.getExplorer(Character_Name.FatherRhinehardt);
@@ -393,7 +393,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForMadman() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 		
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -415,7 +415,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestMadmanIsLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -440,7 +440,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestMadmanIsNotLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 		
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -500,6 +500,12 @@ public class TestOmenCard {
 	}
 
 	@Test
+	public void TestWhatToDoForSpear(){
+		assertEquals(spearCard.numRolls, 3);
+		
+	}
+	
+	@Test
 	public void SpiritBoardInit() {
 		assertEquals(mesEN.getString("titleSpiritBoard"), spiritBoardCard.getName());
 		assertEquals(mesEN.getString("desSpiritBoard"), spiritBoardCard.getDescription());
@@ -510,6 +516,8 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("desSpiritBoard"), spiritBoardCard.getDescription());
 		assertEquals(mesSP.getString("rulesSpiritBoard"), spiritBoardCard.getRules());
 	}
+	
+	
 
 	@Test
 	public void IsHauntRollWithMask() {
@@ -692,7 +700,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForGirl() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 		
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -714,7 +722,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestGirlIsLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -739,7 +747,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestGirlIsNotLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -907,7 +915,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForHolySymbol() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -925,7 +933,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestHolySymbolIstLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 		
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -948,7 +956,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestHolySymbolIsNotLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -994,7 +1002,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForDog() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -1015,7 +1023,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestDogIsLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
@@ -1040,7 +1048,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestDogIsNotLost() {
-		game.getInstance();
+		Game.getInstance();
 		Player player = new Player();
 
 		ExplorerFactory expFac = new ExplorerFactory();
