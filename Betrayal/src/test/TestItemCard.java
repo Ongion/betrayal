@@ -201,17 +201,10 @@ public class TestItemCard {
 		assertEquals("WEAPON An old, potent-looking weapon.",
 				revolverCard.getDescription());
 	}
-
-	@Test
-	public void TestWhatToDoForRevolverForCorrectNumRolls() {
-		assertEquals(revolverCard.numRolls, 2);
-	}
-
-	@Test
-	public void TestNoDamageIsTakenIfLoseAttackAgainstPlayerInOtherRoom() {
-		// some kind of mock here
-	}
-
+@Test
+public void TestWhatToDoForRevolver(){
+	revolverCard.whatToDo(character);
+}
 	@Test
 	public void TestPuzzleBoxInit() {
 		assertEquals(mesEN.getString("titlePuzzleBox"), puzzleBoxCard.getName());

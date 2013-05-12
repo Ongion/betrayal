@@ -2,6 +2,8 @@ package itemCards;
 
 import java.util.Locale;
 
+import Game.Game;
+
 import characters.Character;
 
 public class Revolver extends ItemCard {
@@ -14,7 +16,7 @@ public class Revolver extends ItemCard {
 	@Override
 	public
 	void whatToDo(Character character) {
-		// TODO Auto-generated method stub
+		Game.getInstance().rollDice(1);
 		
 	}
 
