@@ -3,7 +3,9 @@ package characters;
 import itemCards.ItemCard;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import actions.Action;
 import actions.MoveAction;
@@ -47,11 +49,13 @@ public class Character {
 	protected ArrayList<EventCard> eventHand = new ArrayList<EventCard>();
 	protected ArrayList<OmenCard> omenHand = new ArrayList<OmenCard>();
 	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
+	private Set<Room> statRoomsThisCharacterHasEndedTurnIn;
 	
 	public Character(Character_Name name, ICharacterType type, IStats stats) {
 		this.name = name;
 		this.type = type;
 		this.stats = stats;
+		this.statRoomsThisCharacterHasEndedTurnIn = new HashSet<Room>();
 		
 		type.setCharacter(this);
 		stats.setCharacter(this);
@@ -60,6 +64,14 @@ public class Character {
 	public void askForAction() {
 		Action chosenAction = type.askForAction();
 		chosenAction.perform(this);
+	}
+	
+	public void addRoomToStatRoomsEndedTurnIn(Room oneTimeStatAlteringRoom) {
+		this.statRoomsThisCharacterHasEndedTurnIn.add(oneTimeStatAlteringRoom);
+	}
+	
+	public boolean hasEndedTurnInRoom(Room oneTimeStatAlteringRoom) {
+		return this.statRoomsThisCharacterHasEndedTurnIn.contains(oneTimeStatAlteringRoom);
 	}
 	
 	public ArrayList<Action> getPossibleActions() {
