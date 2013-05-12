@@ -1,5 +1,6 @@
 package characters;
 
+import actions.Action;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 
@@ -41,6 +42,12 @@ public class TraitorType implements ICharacterType {
 	@Override
 	public boolean isAffectedBySmoke() {
 		return true;
+	}
+
+	@Override
+	public Action askForAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

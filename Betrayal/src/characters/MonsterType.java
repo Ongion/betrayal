@@ -1,5 +1,6 @@
 package characters;
 
+import actions.Action;
 import rooms.Room;
 import rooms.Room.Relative_Direction;
 import characters.Character;;
@@ -42,5 +43,12 @@ public class MonsterType implements ICharacterType {
 	@Override
 	public boolean isAffectedBySmoke() {
 		return false;
+	}
+
+
+	@Override
+	public Action askForAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
