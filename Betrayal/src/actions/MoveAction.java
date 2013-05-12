@@ -18,8 +18,8 @@ public class MoveAction extends Action{
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO actual description?
+		return this.getName();
 	}
 
 	@Override
