@@ -17,11 +17,13 @@ public class ActionButton extends JButton {
 
 		
 		this.setText(action.getName());
+		this.setToolTipText(action.getDescription());
 	
 		this.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
 	        	action.perform(Game.getInstance().getCurrentCharacter());
 	        }
 		});
+		
 	}
 }

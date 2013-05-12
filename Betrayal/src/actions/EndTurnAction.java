@@ -1,19 +1,20 @@
 package actions;
 
+import java.util.ResourceBundle;
+
+import Game.Game;
 import characters.Character;
 
 public class EndTurnAction extends Action {
 
 	@Override
 	public String getName() {
-		// TODO Localize
-		return "End Turn";
+		return ResourceBundle.getBundle("actions/ActionBundle", Game.getInstance().getLocale()).getString("EndTurnName");
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Localize
-		return "End Turn";
+		return ResourceBundle.getBundle("actions/ActionBundle", Game.getInstance().getLocale()).getString("EndTurnDescription");
 	}
 
 	@Override
