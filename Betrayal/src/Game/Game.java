@@ -413,6 +413,48 @@ public class Game {
 
 	}
 	
+	public Trait chooseATrait() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedSanity = dialogBoxBundle.getString("SanityTrait");
+		String localizedKnowledge = dialogBoxBundle.getString("KnowledgeTrait");
+		String localizedMight = dialogBoxBundle.getString("MightTrait");
+		String localizedSpeed = dialogBoxBundle.getString("SpeedTrait");
+		String localizedMessage = dialogBoxBundle.getString("TraitChoiceMessage");
+		Object[] options = {localizedSanity, localizedKnowledge, localizedMight, localizedSpeed};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Sanity
+			return Trait.SANITY;
+		} else if (dialogResult == 2){ // User selected Knowledge
+			return Trait.KNOWLEDGE;
+		} else if ( dialogResult == 3){ // User selected Might
+			return Trait.MIGHT;
+		} else { // User selected Speed
+			return Trait.SPEED; 
+		}
+	}
+	
+	public Trait chooseSpeedOrSanity() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedSanity = dialogBoxBundle.getString("SanityTrait");
+		String localizedSpeed = dialogBoxBundle.getString("SpeedTrait");
+		String localizedMessage = dialogBoxBundle.getString("TraitChoiceMessage");
+		Object[] options = {localizedSanity, localizedSpeed};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Sanity
+			return Trait.SANITY;
+		} else { // User selected Speed
+			return Trait.SPEED; 
+		}
+	}
+	
 	public Action chooseAnAction(Character characterMakingAction) {
 		ArrayList<Action> possibleActions = characterMakingAction.getPossibleActions();		
 		Object[] options = possibleActions.toArray();

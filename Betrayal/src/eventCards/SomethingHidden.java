@@ -2,34 +2,34 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
+import characters.Trait;
 import Game.Game;
 
 public class SomethingHidden extends EventCard {
 
-	private Game game;
-	
 	public SomethingHidden(Locale loc) {
 		super("SomethingHidden", loc);
-		this.game = Game.getInstance();
 	}
 
 	@Override
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 4){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			Game.getInstance().getCurrentCharacter().addItemCard(Game.getInstance().drawItem());
 		} else {
-			game.getCurrentCharacter().decrementSanity();
+			Game.getInstance().getCurrentCharacter().decrementSanity();
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentKnowledge());
+		Character character = Game.getInstance().getCurrentCharacter();
+		int rollResult = character.getTraitRoll(Trait.KNOWLEDGE);
 		if (rollResult >= 4){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			character.addItemCard(Game.getInstance().drawItem());
 		} else {
-			game.getCurrentCharacter().decrementSanity();
+			character.decrementSanity();
 		}
 	}
 

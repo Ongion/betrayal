@@ -4,40 +4,43 @@ import java.util.Locale;
 
 import rooms.RoomName;
 
+import characters.Character;
 import characters.Trait;
 import Game.Game;
 
 public class BurningMan extends EventCard {
 
-	private Game game;
-	
 	public BurningMan(Locale loc) {
 		super("BurningMan", loc);
-		this.game = Game.getInstance();
 	}
 	@Override
 	public void happen(int rollResult) {
 		if(rollResult >= 4){
-			game.getCurrentCharacter().incrementSanity();
+			Game.getInstance().getCurrentCharacter().incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
-			game.getCurrentCharacter().setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
+			Game.getInstance().getCurrentCharacter().setCurrentRoom(Game.getInstance().getRoomByRoomName(RoomName.ENTRANCEHALL));
 		} else {
-			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
-			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+			Game.getInstance().getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
+			Game.getInstance().getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
 		}
 
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.SANITY);
+		Character character = Game.getInstance().getCurrentCharacter();
+		int rollResult = character.getTraitRoll(Trait.SANITY);
 		if(rollResult >= 4){
-			game.getCurrentCharacter().incrementSanity();
+			character.incrementSanity();
 		} else if (rollResult >=2 && rollResult <= 3){
-			game.getCurrentCharacter().setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
+			character.setCurrentRoom(Game.getInstance().getRoomByRoomName(RoomName.ENTRANCEHALL));
 		} else {
-			game.getCurrentCharacter().decrementSanity(); // TODO: Change this to decrementMental
-			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+			Trait trait1 = Game.getInstance().chooseAMentalTrait();
+			Trait trait2 = Game.getInstance().chooseAPhysicalTrait();
+			int damage1 = Game.getInstance().rollDice(1);
+			int damage2 = Game.getInstance().rollDice(1);
+			character.decrementTrait(trait1, damage1);
+			character.decrementTrait(trait2, damage2);
 		}
 
 	}

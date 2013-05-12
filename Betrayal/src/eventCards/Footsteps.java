@@ -1,47 +1,64 @@
 package eventCards;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
+import rooms.RoomName;
+
+import characters.Character;
+import characters.Trait;
 import Game.Game;
 
 public class Footsteps extends EventCard {
 
-	private Game game;
-	
 	public Footsteps(Locale loc) {
 		super("Footsteps", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
 	public void happen(int rollResult) {
 		if(rollResult == 4){
-			game.getCurrentCharacter().incrementMight(); // TODO: Increment closest explorer as well
+			Game.getInstance().getCurrentCharacter().incrementMight(); // TODO: Increment closest explorer as well
 		} else if (rollResult == 3){
-			game.getCurrentCharacter().incrementMight(); // TODO: Decrement closest explorer's Sanity
+			Game.getInstance().getCurrentCharacter().incrementMight(); // TODO: Decrement closest explorer's Sanity
 		} else if (rollResult == 2){
-			game.getCurrentCharacter().decrementSanity();
+			Game.getInstance().getCurrentCharacter().decrementSanity();
 		} else if (rollResult == 1){
-			game.getCurrentCharacter().decrementSpeed();
+			Game.getInstance().getCurrentCharacter().decrementSpeed();
 		} else {
-			game.getCurrentCharacter().decrementSanity(); // TODO: do this for each character but allow to choose trait
+			Game.getInstance().getCurrentCharacter().decrementSanity(); // TODO: do this for each character but allow to choose trait
 		}
 
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(1); // TODO: Change this so if in Chapel player rolls 2 die
+		Character character = Game.getInstance().getCurrentCharacter();
+		int rollResult = 0;
+		// TODO: uncomment once Chapel is in place.
+//		if (character.getCurrentRoom().getNameEnum() == RoomName.CHAPEL){
+//			rollResult = Game.getInstance().rollDice(2);
+//		}else{
+			rollResult = Game.getInstance().rollDice(1);
+//		}
 		if(rollResult == 4){
-			game.getCurrentCharacter().incrementMight(); // TODO: Increment closest explorer as well
+			character.incrementMight();
+			Character char2 = character.getNearestCharacter();
+			char2.incrementMight();
 		} else if (rollResult == 3){
-			game.getCurrentCharacter().incrementMight(); // TODO: Decrement closest explorer's Sanity
+			character.incrementMight();
+			Character char2 = character.getNearestCharacter();
+			char2.decrementSanity();
 		} else if (rollResult == 2){
-			game.getCurrentCharacter().decrementSanity();
+			character.decrementSanity();
 		} else if (rollResult == 1){
-			game.getCurrentCharacter().decrementSpeed();
+			character.decrementSpeed();
 		} else {
-			game.getCurrentCharacter().decrementSanity(); // TODO: do this for each character but allow to choose trait
+			ArrayList<Character> characters = Game.getInstance().getCharacters();
+			for (Character ch: characters){
+				Trait chosenTrait = Game.getInstance().chooseATrait();
+				ch.decrementTrait(chosenTrait, 1);
+			}
 		}
 	}
 

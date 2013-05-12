@@ -2,40 +2,46 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
+import characters.Trait;
 import Game.Game;
 
 public class AngryBeing extends EventCard {
 
-	private Game game;
-	
 	public AngryBeing(Locale loc) {
 		super("AngryBeing", loc);
-		this.game = Game.getInstance();
 	}
 
 	@Override
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentCharacter().incrementSpeed();
+			Game.getInstance().getCurrentCharacter().incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			game.getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental when implemented
+			Game.getInstance().getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental when implemented
 		} else{
-			game.getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental
-			game.getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
+			Game.getInstance().getCurrentCharacter().decrementKnowledge(); // TODO: Change this to decrementMental
+			Game.getInstance().getCurrentCharacter().decrementMight(); // TODO: Change this to decrementPhysical
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSpeed());
+		Character character = Game.getInstance().getCurrentCharacter();
+		int rollResult = character.getTraitRoll(Trait.SPEED);
 		if (rollResult >= 5){
-			game.getCurrentCharacter().incrementSpeed();
+			character.incrementSpeed();
 		} else if ((rollResult >= 2) && (rollResult <= 4)){
-			game.getCurrentCharacter().decrementKnowledge(game.rollDice(1)); // TODO: Change this to decrementMental when implemented
+			Trait chosenTrait = Game.getInstance().chooseAMentalTrait();
+			int damage = Game.getInstance().rollDice(1);
+			character.decrementTrait(chosenTrait, damage);
 		} else{
-			game.getCurrentCharacter().decrementKnowledge(game.rollDice(1)); // TODO: Change this to decrementMental
-			game.getCurrentCharacter().decrementMight(game.rollDice(1)); // TODO: Change this to decrementPhysical
+			Trait trait1 = Game.getInstance().chooseAMentalTrait();
+			Trait trait2 = Game.getInstance().chooseAPhysicalTrait();
+			int damage1 = Game.getInstance().rollDice(1);
+			int damage2 = Game.getInstance().rollDice(1);
+			character.decrementTrait(trait1, damage1);
+			character.decrementTrait(trait2, damage2);
 		}
 	}
 

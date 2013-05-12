@@ -2,15 +2,14 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Trait;
+
 import Game.Game;
 
 public class DisquietingSounds extends EventCard {
 
-	private Game game;
-	
 	public DisquietingSounds(Locale loc){
 		super("DisquietingSounds", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
@@ -21,14 +20,15 @@ public class DisquietingSounds extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(6);
+		int rollResult = Game.getInstance().rollDice(6);
 		
-		if (rollResult >= game.numOmensOut()){
-			game.getCurrentCharacter().incrementSanity();
+		if (rollResult >= Game.getInstance().numOmensOut()){
+			Game.getInstance().getCurrentCharacter().incrementSanity();
 		} else {
-			game.getCurrentCharacter().decrementSanity(game.rollDice(1)); // TODO: Change this to decrement mental
+			Trait chosenTrait = Game.getInstance().chooseAMentalTrait();
+			int damage = Game.getInstance().rollDice(1);
+			Game.getInstance().getCurrentCharacter().decrementTrait(chosenTrait, damage);			
 		}
-
 	}
 
 }

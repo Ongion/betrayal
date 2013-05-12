@@ -9,16 +9,13 @@ import Game.Game;
 
 public class Possession extends EventCard {
 
-	private Game game;
-	
 	public Possession(Locale loc) {
 		super("Possession", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
 	public void happen(int rollResult) {
-		HumanStats currentExplorer = (HumanStats) game.getCurrentCharacter().getStats();
+		HumanStats currentExplorer = (HumanStats) Game.getInstance().getCurrentCharacter().getStats();
 		if(rollResult >= 4){
 			currentExplorer.incrementKnowledge(1); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first
@@ -60,8 +57,8 @@ public class Possession extends EventCard {
 
 	@Override
 	public void happens() {
-		HumanStats currentExplorer = (HumanStats) game.getCurrentCharacter().getStats();
-		int rollResult = game.typeRoll(Trait.KNOWLEDGE); // TODO: Change this to allow user to chose
+		HumanStats currentExplorer = (HumanStats) Game.getInstance().getCurrentCharacter().getStats();
+		int rollResult = Game.getInstance().typeRoll(Trait.KNOWLEDGE); // TODO: Change this to allow user to chose
 		if(rollResult >= 4){
 			currentExplorer.incrementKnowledge(1); // TODO: Change this to allow user to choose trait
 		} else if(rollResult >= 0 && rollResult <=3){ // TODO: Change this so it decrements the trait they chose first

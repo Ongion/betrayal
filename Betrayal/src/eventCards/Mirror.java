@@ -2,15 +2,13 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
 import Game.Game;
 
 public class Mirror extends EventCard {
 
-	private Game game;
-	
 	public Mirror(Locale loc){
 		super("Mirror", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
@@ -20,8 +18,9 @@ public class Mirror extends EventCard {
 
 	@Override
 	public void happens() {
-		game.discardItem(game.getCurrentCharacter().getItemHand().remove(0)); // TODO: Change this to all the user to select the item card
-		game.getCurrentCharacter().incrementKnowledge();
+		Character character = Game.getInstance().getCurrentCharacter();
+		Game.getInstance().discardItem(character.getItemHand().remove(0)); // TODO: Change this to allow the user to select the item card
+		character.incrementKnowledge();
 
 	}
 
