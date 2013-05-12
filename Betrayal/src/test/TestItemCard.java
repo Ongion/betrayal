@@ -572,17 +572,13 @@ public void TestWhatToDoForRevolver(){
 				}
 			});
 
-			int expectedSanity = ((HumanStats) (character.getStats()))
-					.getCurrentSanityIndex() + 2;
-			int expectedKnowledge = ((HumanStats) (character.getStats()))
-					.getCurrentKnowledgeIndex() + 2;
 			bottleCard.whatToDo(character);
 			int sanityAfter = ((HumanStats) (character.getStats()))
 					.getCurrentSanityIndex();
 			int knowledgeAfter = ((HumanStats) (character.getStats()))
 					.getCurrentKnowledgeIndex();
-			assertEquals(expectedSanity, sanityAfter);
-			assertEquals(expectedKnowledge, knowledgeAfter);
+			assertEquals(4, sanityAfter);
+			assertEquals(7, knowledgeAfter);
 
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
