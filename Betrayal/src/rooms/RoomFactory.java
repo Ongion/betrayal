@@ -470,6 +470,30 @@ public class RoomFactory {
 				}
 			};
 			break;
+		case CRYPT:
+			roomExits.add(Relative_Direction.NORTH);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new EventRoom(nameOfRoom, roomExits, roomFloors) {
+				public void endTurnInRoom(Character characterEndingTurn) {
+					// TODO: Don't display this for characters that can't lose stats
+					Trait traitTakingDamageIn = Game.getInstance().chooseAMentalTrait();
+					characterEndingTurn.decrementTrait(traitTakingDamageIn, 1);
+				}
+			};
+			break;
+		case FURNACEROOM:
+			roomExits.add(Relative_Direction.NORTH);
+			roomExits.add(Relative_Direction.SOUTH);
+			roomExits.add(Relative_Direction.WEST);
+			roomFloors.add(Floor_Name.BASEMENT);
+			room = new ItemRoom(nameOfRoom, roomExits, roomFloors) {
+				public void endTurnInRoom(Character characterEndingTurn) {
+					//TODO: DOn't display this for character that can't lose stats
+					Trait traitTakingDamageIn = Game.getInstance().chooseAPhysicalTrait();
+					characterEndingTurn.decrementTrait(traitTakingDamageIn, 1);
+				}
+			};
+			break;
 		}
 		return room;
 	}
