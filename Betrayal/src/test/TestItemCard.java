@@ -329,13 +329,8 @@ public class TestItemCard {
 	}
 
 	@Test
-	public void TestWhatToDoForRabbitsFootForCorrectNumRolls() {
-		assertEquals(rabbitsFootCard.numRolls, 2);
-	}
-
-	@Test
-	public void TestWhatToDoForRabbitsFootKeepsSecondRoll() {
-		// some kind of mock here
+	public void TestWhatToDoForRabbitsFoot() {
+		rabbitsFootCard.whatToDo(character);
 	}
 
 	@Test
