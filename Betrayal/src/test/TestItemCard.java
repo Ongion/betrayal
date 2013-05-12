@@ -48,6 +48,7 @@ import characters.Character;
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.HumanStats;
+import characters.Trait;
 import eventCards.AngryBeing;
 import eventCards.CreepyCrawlies;
 import eventCards.EventCard;
@@ -822,10 +823,6 @@ public class TestItemCard {
 				sacrificialDaggerCard.getDescription());
 	}
 
-	@Test
-	public void TestWhatToDoForSacrificialDaggerHasCorrectNumRolls() {
-		assertEquals(sacrificialDaggerCard.numRolls, 4);
-	}
 
 	@Test
 	public void TestWhatToDoKnowledgeRollIfGreaterThanSix() {
@@ -915,6 +912,8 @@ public class TestItemCard {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
 				}
 			});
 
@@ -923,7 +922,7 @@ public class TestItemCard {
 			sacrificialDaggerCard.whatToDo(character);
 			int knowledgeAfter = ((HumanStats) (character.getStats()))
 					.getCurrentKnowledgeIndex();
-			assertEquals(knowledgeAfter, expectedKnowledge);
+			assertEquals(expectedKnowledge, knowledgeAfter);
 
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
@@ -932,6 +931,42 @@ public class TestItemCard {
 		}
 	}
 
+	@Test
+	public void TestWhatToDoKnowledgeRollIfThreeToFiveTakingSanityMentalDamage() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+				}
+			});
+
+			int expectedKnowledge = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex() - 1;
+			sacrificialDaggerCard.whatToDo(character);
+			int knowledgeAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSanityIndex();
+			assertEquals(expectedKnowledge, knowledgeAfter);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 	@Test
 	public void TestWhatToDoKnowledgeRollIfZeroToTwo() {
 		Mockery mocks = new Mockery() {
@@ -949,15 +984,58 @@ public class TestItemCard {
 			mocks.checking(new Expectations() {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(1));
+					oneOf(mockGame).rollDice(2);
 					will(returnValue(2));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
 				}
 			});
 
 			int expectedMight = ((HumanStats) (character.getStats()))
-					.getCurrentKnowledgeIndex() - 1;
+					.getCurrentMightIndex() - 2;
 			sacrificialDaggerCard.whatToDo(character);
 			int mightAfter = ((HumanStats) (character.getStats()))
-					.getCurrentKnowledgeIndex();
+					.getCurrentMightIndex();
+			assertEquals(mightAfter, expectedMight);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestWhatToDoKnowledgeRollIfZeroToTwoSpeedDamage() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(1));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+				}
+			});
+
+			int expectedMight = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() - 2;
+			sacrificialDaggerCard.whatToDo(character);
+			int mightAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
 			assertEquals(mightAfter, expectedMight);
 
 			mocks.assertIsSatisfied();
@@ -1175,6 +1253,8 @@ public class TestItemCard {
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
+		
+		character.getItemHand().add(amuletOfAgesCard);
 
 		int expectedMight = ((HumanStats) (character.getStats()))
 				.getCurrentMightIndex() + 1;
@@ -1214,19 +1294,10 @@ public class TestItemCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 
-		amuletOfAgesCard.isLost = true;
-
-		int expectedMight2 = ((HumanStats) (character.getStats()))
-				.getCurrentMightIndex() - 3;
-		int expectedSpeed2 = ((HumanStats) (character.getStats()))
-				.getCurrentSpeedIndex() - 3;
-		int expectedKnowledge2 = ((HumanStats) (character.getStats()))
-				.getCurrentKnowledgeIndex() - 3;
-		int expectedSanity2 = ((HumanStats) (character.getStats()))
-				.getCurrentSanityIndex() - 3;
-
+		
+		character.getItemHand().remove(amuletOfAgesCard);
 		amuletOfAgesCard.whatToDo(character);
-
+		
 		int mightAfter2 = ((HumanStats) (character.getStats()))
 				.getCurrentMightIndex();
 		int speedAfter2 = ((HumanStats) (character.getStats()))
@@ -1236,10 +1307,10 @@ public class TestItemCard {
 		int sanityAfter2 = ((HumanStats) (character.getStats()))
 				.getCurrentSanityIndex();
 
-		assertEquals(expectedMight2, mightAfter2);
-		assertEquals(expectedSpeed2, speedAfter2);
-		assertEquals(expectedKnowledge2, knowledgeAfter2);
-		assertEquals(expectedSanity2, sanityAfter2);
+		assertEquals(0, mightAfter2);
+		assertEquals(0, speedAfter2);
+		assertEquals(1, knowledgeAfter2);
+		assertEquals(2, sanityAfter2);
 	}
 
 	@Test
@@ -1310,33 +1381,8 @@ public class TestItemCard {
 
 	@Test
 	public void TestWhatToDoForPickPocketsGloves() {
-		// Unfinished mock
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
-
-			mocks.checking(new Expectations() {
-				{
-
-				}
-			});
-
 			pickpocketCard.whatToDo(character);
 			assertFalse(character.getItemHand().contains(pickpocketCard));
-
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-
 	}
 
 	@Test
@@ -1355,12 +1401,7 @@ public class TestItemCard {
 		assertEquals("Axe", axeCard.getName());
 		assertEquals("WEAPON Very sharp.", axeCard.getDescription());
 	}
-	
-	@Test
-	public void TestWhatToDoForAxeCardHasCorrectNumRolls(){
-		axeCard.whatToDo(character);
-		assertEquals(axeCard.numRolls, 2);
-	}
+
 
 	@Test
 	public void TestSmellingSaltsInit() {
@@ -1555,14 +1596,14 @@ public class TestItemCard {
 	}
 
 	@Test
-	public void TestWhatToDoForBloodDaggerHasCorrectNumRollsAndSanity() {
+	public void TestWhatToDoForBloodDaggerHasCorrectSpeed() {
 		int expectedSpeed = ((HumanStats) (character.getStats()))
 				.getCurrentSpeedIndex() - 1;
 		bloodDaggerCard.whatToDo(character);
 		int speedAfter = ((HumanStats) (character.getStats()))
 				.getCurrentSpeedIndex();
 		assertEquals(expectedSpeed, speedAfter);
-		assertEquals(bloodDaggerCard.numRolls, 4);
+		
 	}
 
 	@Test

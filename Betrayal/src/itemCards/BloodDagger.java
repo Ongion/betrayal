@@ -2,6 +2,8 @@ package itemCards;
 
 import java.util.Locale;
 
+import Game.Game;
+
 import characters.Character;
 
 public class BloodDagger extends ItemCard {
@@ -14,7 +16,11 @@ public class BloodDagger extends ItemCard {
 	@Override
 	public
 	void whatToDo(Character character) {
-		// TODO Auto-generated method stub
+		
+		//if character does a might attack
+		Game.getInstance().rollDice(3);
+		this.numRolls+=3;
+		character.decrementSpeed();
 		
 	}
 
