@@ -1253,6 +1253,8 @@ public class TestItemCard {
 		player.addCharacter(character);
 		game.addPlayer(player);
 		game.addCharacter(character);
+		
+		character.getItemHand().add(amuletOfAgesCard);
 
 		int expectedMight = ((HumanStats) (character.getStats()))
 				.getCurrentMightIndex() + 1;
@@ -1292,19 +1294,10 @@ public class TestItemCard {
 		game.addPlayer(player);
 		game.addCharacter(character);
 
-		amuletOfAgesCard.isLost = true;
-
-		int expectedMight2 = ((HumanStats) (character.getStats()))
-				.getCurrentMightIndex() - 3;
-		int expectedSpeed2 = ((HumanStats) (character.getStats()))
-				.getCurrentSpeedIndex() - 3;
-		int expectedKnowledge2 = ((HumanStats) (character.getStats()))
-				.getCurrentKnowledgeIndex() - 3;
-		int expectedSanity2 = ((HumanStats) (character.getStats()))
-				.getCurrentSanityIndex() - 3;
-
+		
+		character.getItemHand().remove(amuletOfAgesCard);
 		amuletOfAgesCard.whatToDo(character);
-
+		
 		int mightAfter2 = ((HumanStats) (character.getStats()))
 				.getCurrentMightIndex();
 		int speedAfter2 = ((HumanStats) (character.getStats()))
@@ -1314,10 +1307,10 @@ public class TestItemCard {
 		int sanityAfter2 = ((HumanStats) (character.getStats()))
 				.getCurrentSanityIndex();
 
-		assertEquals(expectedMight2, mightAfter2);
-		assertEquals(expectedSpeed2, speedAfter2);
-		assertEquals(expectedKnowledge2, knowledgeAfter2);
-		assertEquals(expectedSanity2, sanityAfter2);
+		assertEquals(0, mightAfter2);
+		assertEquals(0, speedAfter2);
+		assertEquals(1, knowledgeAfter2);
+		assertEquals(2, sanityAfter2);
 	}
 
 	@Test
