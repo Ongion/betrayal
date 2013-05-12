@@ -2,8 +2,6 @@ package Game;
 
 import itemCards.ItemCard;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,20 +10,16 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import actions.Action;
 
 import omenCards.OmenCard;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
-import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
+import actions.Action;
 import characters.Character;
 import characters.Trait;
 import eventCards.EventCard;
@@ -506,6 +500,15 @@ public class Game {
 		}
 		// We should never actually get here.
 		return null;
+	}
+
+	public boolean askToStealAnItem() {
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			//TODO: I18N
+			dialogResult = JOptionPane.showOptionDialog(null, "Do you want to steal an item?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+		}
+		return dialogResult == JOptionPane.YES_OPTION;
 	}
 
 }
