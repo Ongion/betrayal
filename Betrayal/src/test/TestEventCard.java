@@ -1613,6 +1613,147 @@ public class TestEventCard {
 	}
 	
 	@Test
+	public void testDebrisBeginningOfTurn(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
+		card = new Debris(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					// adds card to character
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(1));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character2 chooses not to attempt to free
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character2));
+					oneOf(mockGame).attemptToFree();
+					will(returnValue(false));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character rolls less than 4 #1
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(1));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character2 rolls less than 4 #2
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character2));
+					oneOf(mockGame).attemptToFree();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(2));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character rolls less than 4 #3
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(3));
+					oneOf(mockGame).endCharacterTurn();
+
+					// Character2 rolls less than 4 #4
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character2));
+					oneOf(mockGame).attemptToFree();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character is free to play
+					oneOf(mockGame).discardEvent(card);
+					
+					// Test for roll >4 set up
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(3);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(1));
+					oneOf(mockGame).endCharacterTurn();
+					
+					// Character2 rolls 4
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character2));
+					oneOf(mockGame).attemptToFree();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(4));
+					oneOf(mockGame).discardEvent(card);
+					oneOf(mockGame).endCharacterTurn();
+					
+					
+				}
+			});
+			
+			card.happens();
+			
+			mockGame.endCharacterTurn();
+			
+			// Character2 chooses not to attempt to free
+			card.beginningOfTurn();
+			mockGame.endCharacterTurn();
+			assertEquals(1, character.getEventHand().size());
+			
+			// Character rolls less than 4 #1
+			card.beginningOfTurn();
+			assertEquals(1, character.getEventHand().size());
+			
+			// Character2 rolls less than 4 #2
+			card.beginningOfTurn();
+			assertEquals(1, character.getEventHand().size());
+			
+			// Character rolls less than 4 #3
+			card.beginningOfTurn();
+			assertEquals(1, character.getEventHand().size());
+			
+			// Character2 rolls less than 4 #4
+			card.beginningOfTurn();
+			assertEquals(1, character.getEventHand().size());
+			
+			// Character is free to play
+			card.beginningOfTurn();
+			assertEquals(0, character.getEventHand().size());
+			
+			// Test for roll >4 set up
+			card.happens();
+			mockGame.endCharacterTurn();
+			
+			// Character2 rolls 4
+			card.beginningOfTurn();
+			assertEquals(0, character.getEventHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}	
+		
+	}
+	
+	@Test
 	public void testShriekingWindInit(){
 		card = new ShriekingWind(enLocale);
 		assertEquals(mesEN.getString("titleShriekingWind"), card.getName());
@@ -3916,19 +4057,47 @@ public class TestEventCard {
 	
 	@Test
 	public void testMirrorHappen(){
+		final PuzzleBox pb = new PuzzleBox(enLocale);
+		
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Mirror(enLocale);
 		
-		assertEquals(0, character.getItemHand().size());
-		
-		PuzzleBox pb = new PuzzleBox(enLocale);
-		character.addItemCard(pb);
-		assertEquals(1, character.getItemHand().size());
-		assertEquals(pb, character.getItemHand().get(0));
-		
-		card.happens();
-		assertEquals(0, character.getItemHand().size());
-		
-		assertEquals(5, character.getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseItemCard(character);
+					will(returnValue(pb));
+				}
+			});
+			
+			assertEquals(0, character.getItemHand().size());
+			
+			character.addItemCard(pb);
+			assertEquals(1, character.getItemHand().size());
+			assertEquals(pb, character.getItemHand().get(0));
+			
+			card.happens();
+			assertEquals(0, character.getItemHand().size());
+			
+			assertEquals(5, character.getCurrentKnowledge());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test

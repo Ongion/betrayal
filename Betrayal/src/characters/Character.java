@@ -56,7 +56,7 @@ public class Character {
 		type.setCharacter(this);
 		stats.setCharacter(this);
 	}
-	
+		
 	public void askForAction() {
 		Action chosenAction = type.askForAction();
 		chosenAction.perform(this);
@@ -149,6 +149,7 @@ public class Character {
 
 	public void endMovement() {
 		// TODO Implement this. Probably will call a method in Game?
+		Game.getInstance().endCharacterTurn();
 	}
 
 	public void setCurrentRoom(Room room) {
@@ -166,7 +167,7 @@ public class Character {
 	public Relative_Direction getSideOfRoom() {
 		return this.sideOfRoom;
 	}
-	
+		
 	public int getTraitRoll(Trait traitBeingRolledFor) {
 		return this.type.getTraitRoll(traitBeingRolledFor);
 	}
@@ -356,11 +357,33 @@ public class Character {
 		return type.isAffectedBySmoke();
 	}
 	
-	public boolean attack(){
-		Game game = Game.getInstance();
-		game.rollDice(this.getCurrentMight());
-		return true;
+	public void attack(Character defendingCharacter){
+		//TODO: Allow players to choose items they can attack with.
+		//TODO: Allow players to attack with the trait of the specified item.
+		//TODO: Defending players defend with the same stat they are being attacked with.
+		//TODO: If a monster does not have a certain stat, they cannot be attacked with that stat.
+		int attackRollResult = Game.getInstance().rollDice(this.getCurrentMight());
+		int defendRollResult = Game.getInstance().rollDice(defendingCharacter.getCurrentMight());
+		int damageTakenByDefendingCharacter = attackRollResult - defendRollResult;
+		if (damageTakenByDefendingCharacter <= 0) {
+			// Character took no damage, we're done.
+			return;
+		} else if (damageTakenByDefendingCharacter >= 2 && Game.getInstance().askToStealAnItem()) {
+			// Attacker chose to steal an item instead of inflicting damage.
+			// TODO: Only allow stealable item cards
+			ItemCard cardBeingStolen = Game.getInstance().chooseItemCard(defendingCharacter);
+			defendingCharacter.removeItemCard(cardBeingStolen);
+			this.addItemCard(cardBeingStolen);
+			return;
+		} else {
+			// Defender is taking damage.
+			//TODO: Sliding scale of damage for Physical and Mental attacks.
+			defendingCharacter.decrementTrait(Trait.MIGHT, damageTakenByDefendingCharacter);
+			return;
+		}
 	}
+	
+	
 	public String toString() {
 		return this.getName();
 	}
