@@ -1402,11 +1402,6 @@ public class TestItemCard {
 		assertEquals("WEAPON Very sharp.", axeCard.getDescription());
 	}
 
-	@Test
-	public void TestWhatToDoForAxeCardHasCorrectNumRolls() {
-		axeCard.whatToDo(character);
-		assertEquals(2, axeCard.numRolls);
-	}
 
 	@Test
 	public void TestSmellingSaltsInit() {
