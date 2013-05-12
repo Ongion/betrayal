@@ -491,14 +491,13 @@ public class Game {
 
 	///CLOVER:ON
 
-	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
 	public Room getRoomByRoomName(RoomName nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
 			if (roomChecking.getNameEnum().equals(nameOfRoomWanted)) {
 				return roomChecking;
 			}
 		}
-		// We should never actually get here.
+		// Guess we CAN get here actually. But that's still ok. Just don't assume it won't be null unless it's a starting room.
 		return null;
 	}
 
