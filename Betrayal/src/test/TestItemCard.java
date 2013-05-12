@@ -1596,14 +1596,14 @@ public class TestItemCard {
 	}
 
 	@Test
-	public void TestWhatToDoForBloodDaggerHasCorrectNumRollsAndSanity() {
+	public void TestWhatToDoForBloodDaggerHasCorrectSpeed() {
 		int expectedSpeed = ((HumanStats) (character.getStats()))
 				.getCurrentSpeedIndex() - 1;
 		bloodDaggerCard.whatToDo(character);
 		int speedAfter = ((HumanStats) (character.getStats()))
 				.getCurrentSpeedIndex();
 		assertEquals(expectedSpeed, speedAfter);
-		assertEquals(4, bloodDaggerCard.numRolls);
+		
 	}
 
 	@Test
