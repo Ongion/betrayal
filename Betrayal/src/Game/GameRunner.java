@@ -92,7 +92,6 @@ public class GameRunner {
 			Character currentCharacter = Game.getInstance().getCurrentCharacter();
 			currentCharacter.askForAction();
 			rf.repaint();
-			
 		}
 		
 	}

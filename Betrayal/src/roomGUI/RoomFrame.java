@@ -133,7 +133,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 			int width = maxX - minX + 1;
 			int height = maxY - minY + 1;
 
-			GridLayout gridLayout = new GridLayout(width,height);
+			GridLayout gridLayout = new GridLayout(height,width);
 			panel.setLayout(gridLayout);
 
 			Room[][] roomGrid = new Room[width][height];
@@ -144,7 +144,7 @@ public class RoomFrame extends JFrame implements ActionListener {
 			}
 
 			for (int i = 0; i < width; i++){
-				for (int j = 0; j < height; j++){
+				for (int j = height - 1; j >=0; j--){
 					if (roomGrid[i][j] != null){
 						panel.add(new RoomPanel(roomGrid[i][j]));
 					} else {
