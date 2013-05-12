@@ -428,12 +428,30 @@ public class Game {
 		}
 		if (dialogResult == 0) { // User selected Sanity
 			return Trait.SANITY;
-		} else if (dialogResult == 2){ // User selected Knowledge
+		} else if (dialogResult == 1){ // User selected Knowledge
 			return Trait.KNOWLEDGE;
-		} else if ( dialogResult == 3){ // User selected Might
+		} else if ( dialogResult == 2){ // User selected Might
 			return Trait.MIGHT;
 		} else { // User selected Speed
 			return Trait.SPEED; 
+		}
+	}
+		
+	public boolean attemptToFree() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedYes = dialogBoxBundle.getString("Yes");
+		String localizedNo = dialogBoxBundle.getString("No");
+		String localizedMessage = dialogBoxBundle.getString("attemptToFree");
+		Object[] options = {localizedYes, localizedNo};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Yes
+			return true;
+		} else { // User selected No
+			return false; 
 		}
 	}
 	
@@ -453,6 +471,18 @@ public class Game {
 		} else { // User selected Speed
 			return Trait.SPEED; 
 		}
+	}
+	
+	public ItemCard chooseItemCard(Character characterItemIsChosenFrom) {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedMessage = dialogBoxBundle.getString("ItemChoiceMessage");
+		Object[] options = characterItemIsChosenFrom.getItemHand().toArray();
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		return (ItemCard) options[dialogResult];
 	}
 	
 	public Action chooseAnAction(Character characterMakingAction) {

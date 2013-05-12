@@ -149,6 +149,7 @@ public class Character {
 
 	public void endMovement() {
 		// TODO Implement this. Probably will call a method in Game?
+		Game.getInstance().endCharacterTurn();
 	}
 
 	public void setCurrentRoom(Room room) {

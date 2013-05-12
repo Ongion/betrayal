@@ -1,8 +1,5 @@
 package eventCards;
 
-import itemCards.ItemCard;
-
-import java.util.ArrayList;
 import java.util.Locale;
 
 import characters.Character;
@@ -54,14 +51,26 @@ public class Debris extends EventCard {
 	public void beginningOfTurn(){
 		if (attempts <= 3){
 			Character character = Game.getInstance().getCurrentCharacter();
-			int rollResult = character.getTraitRoll(Trait.MIGHT);
-			if(rollResult >= 4){
-				//this.characterHolding.removeItemCard(this);
-			}else{
-				attempts++;
+			boolean attemptToFree = true;
+			if(character != characterHolding){
+				attemptToFree = Game.getInstance().attemptToFree();
+			}
+			if(attemptToFree){
+				int rollResult = character.getTraitRoll(Trait.MIGHT);
+				if(rollResult >= 4){
+					this.characterHolding.removeEventCard(this);
+					Game.getInstance().discardEvent(this);
+					character.endMovement();
+					attempts = 0;
+				}else{
+					attempts++;
+					character.endMovement(); //TODO: Ensure this is correct
+				}
 			}
 		}else{
-			//this.characterHolding.removeItemCard(this); TODO: Figure out how to do this.
+			this.characterHolding.removeEventCard(this);
+			Game.getInstance().discardEvent(this);
+			attempts = 0;
 		}
 	}
 
