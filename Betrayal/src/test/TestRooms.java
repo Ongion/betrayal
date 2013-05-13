@@ -229,6 +229,7 @@ public class TestRooms {
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(3); will(returnValue(3));
 				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.NO_OPTION));
+				oneOf(mockGame).endCharacterTurn();
 			}});
 			zoeIngstrom = explorers.getExplorer(Character_Name.ZoeIngstrom);
 			zoeIngstrom.setCurrentRoom(pentagramChamber);
@@ -323,6 +324,7 @@ public class TestRooms {
 			mocks.checking(new Expectations() {{
 				oneOf(mockGame).rollDice(traitScore); will(returnValue(2));
 				oneOf(mockGame).makeYesNoDialogAndGetResult("FailedRollTitle", "FailedRollMessage"); will(returnValue(JOptionPane.NO_OPTION));
+				oneOf(mockGame).endCharacterTurn();
 			}});
 			zoeIngstrom.setCurrentRoom(junkRoom);
 			zoeIngstrom.setSideOfRoom(Relative_Direction.EAST);
