@@ -475,11 +475,62 @@ public class Game {
 		for(Relative_Direction dir : roomToAdd.getExits()){
 			if (dir == Relative_Direction.UP || dir == Relative_Direction.DOWN) continue;
 			//Can't add the exit to either of these directions, so ignore them
+			System.out.println(count + " " + dir);
+			switch (dir){
+				case NORTH:
+					options[count] = directionOfAdjacentExit;
+					break;
+				case SOUTH:
+					switch (directionOfAdjacentExit) {
+						case NORTH:
+							options[count] = Room_Orientation.SOUTH;
+							break;
+						case SOUTH:
+							options[count] = Room_Orientation.NORTH;
+							break;
+						case EAST:
+							options[count] = Room_Orientation.WEST;
+							break;
+						case WEST:
+							options[count] = Room_Orientation.EAST;
+							break;
+					}
+					break;
+				case EAST:
+					switch (directionOfAdjacentExit) {
+						case NORTH:
+							options[count] = Room_Orientation.WEST;
+							break;
+						case EAST:
+							options[count] = Room_Orientation.NORTH;
+							break;
+						case SOUTH:
+							options[count] = Room_Orientation.EAST;
+							break;
+						case WEST:
+							options[count] = Room_Orientation.SOUTH;
+							break;	
+					}
+					break;
+				case WEST:
+					switch (directionOfAdjacentExit) {
+						case NORTH:
+							options[count] = Room_Orientation.EAST;
+							break;
+						case EAST:
+							options[count] = Room_Orientation.SOUTH;
+							break;
+						case SOUTH:
+							options[count] = Room_Orientation.WEST;
+							break;
+						case WEST:
+							options[count] = Room_Orientation.NORTH;
+							break;	
+					}
+					break;
+			}
 			
-			System.out.println(dir + " " + dir.ordinal());
-			System.out.println(directionOfAdjacentExit + " " + directionOfAdjacentExit.ordinal());
-			
-			options[count] = Room_Orientation.values()[(dir.ordinal() + directionOfAdjacentExit.ordinal())%4];
+//			options[count] = Room_Orientation.values()[(dir.ordinal() + directionOfAdjacentExit.ordinal())%4];
 			count++;
 		}
 		
@@ -491,7 +542,9 @@ public class Game {
 			dialogResult = JOptionPane.showOptionDialog(null, message, message, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		}
 		
-		Room_Orientation orientationForRoom = Room_Orientation.values()[dialogResult];
+		System.out.println(dialogResult);
+		
+		Room_Orientation orientationForRoom = (Room_Orientation) options[dialogResult];
 		
 		roomToAdd.setPlacement(orientationForRoom, l);
 		
