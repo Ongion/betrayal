@@ -3087,7 +3087,7 @@ public class TestEventCard {
 				setImposteriser(ClassImposteriser.INSTANCE);
 			}
 		};
-		
+
 		card = new Footsteps(enLocale);
 		
 		final Game mockGame = mocks.mock(Game.class);
@@ -3101,11 +3101,9 @@ public class TestEventCard {
 					oneOf(mockGame).getCurrentCharacter();
 					will(returnValue(character));
 					
-					oneOf(mockGame).rollDice(1);
+					oneOf(mockGame).rollDice(2);
 					will(returnValue(4));
 					
-					oneOf(mockGame).getCharacters();
-					will(returnValue(characters));
 				}
 			});
 			//TODO: Add Chapel to map
@@ -3142,11 +3140,8 @@ public class TestEventCard {
 				{
 					oneOf(mockGame).getCurrentCharacter();
 					will(returnValue(character));
-					oneOf(mockGame).rollDice(1);
+					oneOf(mockGame).rollDice(2);
 					will(returnValue(3));
-					
-					oneOf(mockGame).getCharacters();
-					will(returnValue(characters));
 					
 				}
 			});
