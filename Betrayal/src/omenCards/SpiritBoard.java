@@ -2,6 +2,9 @@ package omenCards;
 
 import java.util.Locale;
 
+import Game.Game;
+
+
 import characters.Character;
 
 public class SpiritBoard extends OmenCard {
@@ -12,7 +15,7 @@ public class SpiritBoard extends OmenCard {
 
 	@Override
 	public void whatToDo(Character character) {
-		// This card will not be implemented for the project
+		Game.getInstance().peekRoom();
 	}
 
 }

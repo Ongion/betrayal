@@ -18,6 +18,8 @@ public class StatPanel extends JPanel {
 	private JLabel charKnowledge = new JLabel();
 	private JLabel charSanity = new JLabel();
 	
+	private JLabel movesLeftPanel = new JLabel();
+	
 	public StatPanel(){
 		GridLayout layout = new GridLayout(0, 1);
 		this.setLayout(layout);
@@ -28,6 +30,7 @@ public class StatPanel extends JPanel {
 		this.add(charKnowledge);
 		this.add(charSanity);
 		this.add(new JPanel()); //Basically just create an empty space
+		this.add(movesLeftPanel);
 		
 		this.update();
 	}
@@ -39,6 +42,10 @@ public class StatPanel extends JPanel {
 		this.charSpeed.setText("Current Speed: " + curr.getCurrentSpeed());
 		this.charSanity.setText("Current Sanity: " + curr.getCurrentSanity());
 		this.charMight.setText("Current Might: " + curr.getCurrentMight());
+		
+		this.movesLeftPanel.setText("Moves Left: " + curr.getMovesLeft());
+		
+		this.repaint();
 	}
 
 }

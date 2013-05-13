@@ -3739,6 +3739,7 @@ public class TestEventCard {
 				{
 					oneOf(mockGame).getCurrentCharacter();
 					will(returnValue(character));
+					
 					oneOf(mockGame).rollDice(2);
 					will(returnValue(4));
 					oneOf(mockGame).getCharacters();
