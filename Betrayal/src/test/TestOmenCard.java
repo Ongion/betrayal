@@ -33,6 +33,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import rooms.Location;
+import rooms.OmenRoom;
+import rooms.Room;
+import rooms.RoomFactory;
+import rooms.RoomName;
+import rooms.Room.Floor_Name;
+import rooms.Room.Room_Orientation;
+
 import Game.Game;
 import Game.Player;
 import characters.Character;
@@ -77,11 +85,14 @@ public class TestOmenCard {
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Room> roomDeck = new ArrayList<Room>();
+	RoomFactory rooms = new RoomFactory();
 	private EventCard angryBeing = new AngryBeing(enLocale);
 	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
 	private ItemCard angelFeather = new AngelFeather(enLocale);
+	
 
 	@Before
 	public void SetUp() {
@@ -94,6 +105,7 @@ public class TestOmenCard {
 		omens.add(crystalBallCard);
 		omens.add(bookCard);
 		omens.add(ringCard);
+		roomDeck.add(rooms.makeRoom(RoomName.ORGANROOM));
 		players.add(player);
 
 		Game.resetGame();
@@ -102,7 +114,24 @@ public class TestOmenCard {
 		game.addAllToItemDeck(items);
 		game.addAllToOmenDeck(omens);
 		game.addPlayer(player);
+		game.addAllToRoomDeck(roomDeck);
 
+	}
+	
+	public void addStartingRooms() {
+		// Add starting rooms to the map
+		RoomFactory rooms = new RoomFactory();
+		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
+		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
+		Room grandstaircase = rooms.makeRoom(RoomName.GRANDSTAIRCASE);
+		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
+		Room upperlanding = rooms.makeRoom(RoomName.UPPERLANDING);
+		
+		grandstaircase.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
+		upperlanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
+		
+		grandstaircase.addUpwardExit(upperlanding);
+		upperlanding.addDownwardExit(grandstaircase);
 	}
 
 	@Test
@@ -228,6 +257,11 @@ public class TestOmenCard {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(6));
+					oneOf(mockGame).getEventDeck();
+					will(returnValue(new ArrayList<EventCard>()));
+					oneOf(mockGame).getItemDeck();
+					will(returnValue(new ArrayList<ItemCard>()));
+					
 				}
 			});
 			crystalBallCard.itemOrEvent = 0;
@@ -261,6 +295,7 @@ public class TestOmenCard {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(5));
+					oneOf(mockGame).getItemDeck();
 				}
 			});
 			crystalBallCard.itemOrEvent = 1;
