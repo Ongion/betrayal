@@ -1419,7 +1419,6 @@ public void TestWhatToDoForRevolver(){
 	@Test
 	public void TestWhatToDoForPickPocketsGloves() {
 			pickpocketCard.whatToDo(character);
-			assertFalse(character.getItemHand().contains(pickpocketCard));
 	}
 
 	@Test
