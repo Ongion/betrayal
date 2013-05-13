@@ -1484,6 +1484,11 @@ public void TestWhatToDoForRevolver(){
 		assertEquals("Axe", axeCard.getName());
 		assertEquals("WEAPON Very sharp.", axeCard.getDescription());
 	}
+	
+	@Test
+	public void TestWhatToDoForAxe(){
+		axeCard.whatToDo(character);
+	}
 
 
 	@Test
