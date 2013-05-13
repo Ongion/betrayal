@@ -57,6 +57,9 @@ public abstract class OmenCard {
 	
 	public abstract void whatToDo(Character character);
 	
-
+	public String toString() {
+		return this.getName();
+	}
 	
 	}
+

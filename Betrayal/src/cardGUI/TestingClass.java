@@ -18,19 +18,29 @@ public class TestingClass {
 	public static void main(String[] args) {
 		Locale en = new Locale("US");
 		
-		ArrayList<EventCard> cards = new ArrayList<EventCard>();
+		ArrayList<EventCard> eCards = new ArrayList<EventCard>();
+		ArrayList<ItemCard> iCards = new ArrayList<ItemCard>();
+		ArrayList<OmenCard> oCards = new ArrayList<OmenCard>();
 		
 		EventCard eCard = new HangedMen(en);
-		ItemCard iCard = new DarkDice(en);
+		ItemCard iCard1 = new DarkDice(en);
+		ItemCard iCard2 = new Axe(en);
+		ItemCard iCard3 = new Bell(en);
 		OmenCard oCard = new Skull(en);
 		
 		//EventCardFrame frame = new EventCardFrame(eCard);
 		//ItemCardFrame frame = new ItemCardFrame(iCard);
 		//OmenCardFrame frame = new OmenCardFrame(oCard);
 		
-		cards.add(eCard);
+		eCards.add(eCard);
+		iCards.add(iCard1);
+		iCards.add(iCard2);
+		iCards.add(iCard3);
+		oCards.add(oCard);
 		
-		EventCardPicker frame = new EventCardPicker(cards);
+//		EventCardPicker frame = new EventCardPicker(eCards);
+//		OmenCardPicker frame = new OmenCardPicker(oCards);
+		ItemCardPicker frame = new ItemCardPicker(iCards);
 		
 		frame.display();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

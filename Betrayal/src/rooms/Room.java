@@ -314,6 +314,11 @@ public abstract class Room {
 
 	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		Room nextRoom = this.getRoomFromExitAbsoluteDirection(exitAttemptingToLeaveBy);
+		if (nextRoom == null){
+			//TODO Implement adding a new Room Card to the board
+			System.out.println("Tried to move somewhere that needs to add a new room to the board.");
+			return;
+		}
 		characterLeavingRoom.enterRoomGoingInAbsoluteDirection(nextRoom, exitAttemptingToLeaveBy);
 	}
 

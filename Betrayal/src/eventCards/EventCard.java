@@ -49,4 +49,8 @@ public abstract class EventCard {
 		// Only implemented in cards that are added to character hands
 	}
 	
+	public String toString() {
+		return this.getName();
+	}
+	
 }
