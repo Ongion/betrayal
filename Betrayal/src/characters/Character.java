@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import actions.Action;
+import actions.EndTurnAction;
 import actions.MoveAction;
 
 import omenCards.OmenCard;
@@ -80,6 +81,10 @@ public class Character {
 			possibleActions.add(new MoveAction(absoluteExitDirection));
 		}
 		possibleActions.addAll(this.getCurrentRoom().getRoomActions());
+		
+		if (Game.getInstance().getCurrentCharacter() == this) {
+			possibleActions.add(new EndTurnAction());
+		}
 		return possibleActions;
 	}
 
@@ -161,6 +166,8 @@ public class Character {
 
 	public void endMovement() {
 		// TODO Implement this. Probably will call a method in Game?
+		
+		
 		Game.getInstance().endCharacterTurn();
 	}
 

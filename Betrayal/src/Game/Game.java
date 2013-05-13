@@ -198,9 +198,15 @@ public class Game {
 	}
 	
 	public void endCharacterTurn(){
-		if(this.currentCharacter < players.size() - 1){
-			this.currentCharacter ++;
-		} else {
+//		if(this.currentCharacter < players.size() - 1){
+//			this.currentCharacter ++;
+//		} else {
+//			this.currentCharacter = 0;
+//		}
+		
+		this.currentCharacter ++;
+		
+		if (this.currentCharacter >= characters.size()){
 			this.currentCharacter = 0;
 		}
 	}

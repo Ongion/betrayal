@@ -39,6 +39,8 @@ public class StatPanel extends JPanel {
 		this.charSpeed.setText("Current Speed: " + curr.getCurrentSpeed());
 		this.charSanity.setText("Current Sanity: " + curr.getCurrentSanity());
 		this.charMight.setText("Current Might: " + curr.getCurrentMight());
+		
+		this.repaint();
 	}
 
 }

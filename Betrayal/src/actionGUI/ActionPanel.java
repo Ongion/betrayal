@@ -22,12 +22,16 @@ public class ActionPanel extends JPanel {
 
 	
 	public void update(){
+		this.removeAll();
+		
 		ArrayList<Action> actions = Game.getInstance().getCurrentCharacter().getPossibleActions();
 		
 		for (Action a : actions){
 			ActionButton actionButton = new ActionButton(a);
 			this.add(actionButton);
 		}
+		
+		this.repaint();
 	}
 
 }
