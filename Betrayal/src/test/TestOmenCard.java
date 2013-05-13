@@ -33,6 +33,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import rooms.Location;
+import rooms.Room;
+import rooms.RoomFactory;
+import rooms.RoomName;
+import rooms.Room.Floor_Name;
+import rooms.Room.Room_Orientation;
+
 import Game.Game;
 import Game.Player;
 import characters.Character;
@@ -77,11 +84,14 @@ public class TestOmenCard {
 	private ArrayList<ItemCard> items = new ArrayList<ItemCard>();
 	private ArrayList<OmenCard> omens = new ArrayList<OmenCard>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Room> roomDeck = new ArrayList<Room>();
+	RoomFactory rooms = new RoomFactory();
 	private EventCard angryBeing = new AngryBeing(enLocale);
 	private EventCard creepyCrawlies = new CreepyCrawlies(enLocale);
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
 	private ItemCard angelFeather = new AngelFeather(enLocale);
+	
 
 	@Before
 	public void SetUp() {
@@ -94,6 +104,7 @@ public class TestOmenCard {
 		omens.add(crystalBallCard);
 		omens.add(bookCard);
 		omens.add(ringCard);
+		roomDeck.add(rooms.makeRoom(RoomName.ORGANROOM));
 		players.add(player);
 
 		Game.resetGame();
@@ -102,8 +113,11 @@ public class TestOmenCard {
 		game.addAllToItemDeck(items);
 		game.addAllToOmenDeck(omens);
 		game.addPlayer(player);
+		game.addAllToRoomDeck(roomDeck);
 
 	}
+	
+
 
 	@Test
 	public void TestIsHauntRollForOmenCard() {
@@ -228,6 +242,8 @@ public class TestOmenCard {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(6));
+					oneOf(mockGame).getEventDeck();
+					
 				}
 			});
 			crystalBallCard.itemOrEvent = 0;
@@ -261,6 +277,7 @@ public class TestOmenCard {
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(5));
+					oneOf(mockGame).getItemDeck();
 				}
 			});
 			crystalBallCard.itemOrEvent = 1;
