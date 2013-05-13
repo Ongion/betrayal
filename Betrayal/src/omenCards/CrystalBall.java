@@ -34,8 +34,7 @@ public class CrystalBall extends OmenCard {
 
 			if (itemOrEvent == 0) {
 				Collections.shuffle(eventDeckChosen);
-			}
-			else if (itemOrEvent == 1) {
+			} else if (itemOrEvent == 1) {
 				ArrayList<ItemCard> itemDeckChosen = game.getItemDeck();
 
 				Collections.shuffle(itemDeckChosen);
