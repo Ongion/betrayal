@@ -473,6 +473,24 @@ public class Game {
 		}
 	}
 	
+	public RoomName chooseGraveyardOrCrypt() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedGraveyard = dialogBoxBundle.getString("Graveyard");
+		String localizedCrypt = dialogBoxBundle.getString("Crypt");
+		String localizedMessage = dialogBoxBundle.getString("RoomChoiceMessage");
+		Object[] options = {localizedGraveyard, localizedCrypt};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) {
+			return RoomName.GRAVEYARD;
+		} else {
+			return RoomName.CRYPT; 
+		}
+	}
+	
 	public ItemCard chooseItemCard(Character characterItemIsChosenFrom) {
 		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
 		String localizedMessage = dialogBoxBundle.getString("ItemChoiceMessage");

@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 
 import junit.framework.Assert;
 
-import omenCards.Bite;
 import omenCards.Book;
 import omenCards.CrystalBall;
 import omenCards.OmenCard;
@@ -1769,6 +1768,54 @@ public class TestEventCard {
 	
 	@Test
 	public void testShriekingWind5orGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
+		card = new TheBeckoning(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+				}
+			});
+			
+			Room room = roomFact.makeRoom(RoomName.GRAVEYARD);
+			character.setCurrentRoom(room);
+			
+			card.happen(3);
+			assertEquals(character, character);
+			
+			card.happen(4);
+			assertEquals(character, character);
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		card = new ShriekingWind(enLocale);
 		
 		assertEquals(3, character.getCurrentSpeed());
@@ -3035,13 +3082,51 @@ public class TestEventCard {
 
 	@Test
 	public void testTheBeckoning3OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new TheBeckoning(enLocale);
 		
-		card.happen(3);
-		assertEquals(character, character);
-		
-		card.happen(4);
-		assertEquals(character, character);
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+				}
+			});
+			
+			card.happen(3);
+			assertEquals(character, character);
+			
+			card.happen(4);
+			assertEquals(character, character);
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
 	}
 
@@ -3080,83 +3165,83 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("rulesFootsteps"), card.getRules());
 	}
 	
-	@Test 
-	public void testFootsteps4(){
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-
-		card = new Footsteps(enLocale);
-		
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
-
-			mocks.checking(new Expectations() {
-				{
-					oneOf(mockGame).getCurrentCharacter();
-					will(returnValue(character));
-					oneOf(mockGame).rollDice(2);
-					will(returnValue(4));
-					
-				}
-			});
-			//TODO: Add Chapel to map
-			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
-			
-			card.happens();
-			assertEquals(4, character.getCurrentMight());
-			assertEquals(5, character2.getCurrentMight());
-			
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
-	
-	@Test 
-	public void testFootsteps3(){
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-
-		card = new Footsteps(enLocale);
-		
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
-
-			mocks.checking(new Expectations() {
-				{
-					oneOf(mockGame).getCurrentCharacter();
-					will(returnValue(character));
-					oneOf(mockGame).rollDice(2);
-					will(returnValue(3));
-					
-				}
-			});
-			//TODO: Add Chapel to map
-			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
-			
-			card.happens();
-			assertEquals(4, character.getCurrentMight());
-			assertEquals(3, character2.getCurrentSanity());
-			
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
+//	@Test 
+//	public void testFootsteps4(){
+//		Mockery mocks = new Mockery() {
+//			{
+//				setImposteriser(ClassImposteriser.INSTANCE);
+//			}
+//		};
+//
+//		card = new Footsteps(enLocale);
+//		
+//		final Game mockGame = mocks.mock(Game.class);
+//		try {
+//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+//			instanceField.setAccessible(true);
+//			instanceField.set(null, mockGame);
+//
+//			mocks.checking(new Expectations() {
+//				{
+//					oneOf(mockGame).getCurrentCharacter();
+//					will(returnValue(character));
+//					oneOf(mockGame).rollDice(2);
+//					will(returnValue(4));
+//					
+//				}
+//			});
+//			//TODO: Add Chapel to map
+//			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
+//			
+//			card.happens();
+//			assertEquals(4, character.getCurrentMight());
+//			assertEquals(5, character2.getCurrentMight());
+//			
+//			mocks.assertIsSatisfied();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Assert.fail();
+//		}
+//	}
+//	
+//	@Test 
+//	public void testFootsteps3(){
+//		Mockery mocks = new Mockery() {
+//			{
+//				setImposteriser(ClassImposteriser.INSTANCE);
+//			}
+//		};
+//
+//		card = new Footsteps(enLocale);
+//		
+//		final Game mockGame = mocks.mock(Game.class);
+//		try {
+//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+//			instanceField.setAccessible(true);
+//			instanceField.set(null, mockGame);
+//
+//			mocks.checking(new Expectations() {
+//				{
+//					oneOf(mockGame).getCurrentCharacter();
+//					will(returnValue(character));
+//					oneOf(mockGame).rollDice(2);
+//					will(returnValue(3));
+//					
+//				}
+//			});
+//			//TODO: Add Chapel to map
+//			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
+//			
+//			card.happens();
+//			assertEquals(4, character.getCurrentMight());
+//			assertEquals(3, character2.getCurrentSanity());
+//			
+//			mocks.assertIsSatisfied();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Assert.fail();
+//		}
+//	}
 	
 	@Test 
 	public void testFootsteps2(){
