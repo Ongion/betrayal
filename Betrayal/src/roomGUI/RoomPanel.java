@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javax.swing.JPanel;
 
@@ -40,7 +41,7 @@ public class RoomPanel extends JPanel {
 	}
 	
 	public void paint(Graphics g){
-		
+		System.out.println(ResourceBundle.getBundle("rooms/RoomsBundle", Game.getInstance().getLocale()));
 		g.setColor(background);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		

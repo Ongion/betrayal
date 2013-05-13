@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.swing.JFrame;
@@ -46,6 +47,10 @@ public class RoomFrame extends JFrame implements ActionListener {
 	private JMenuItem basementMenuItem = new JMenuItem("Basement");
 	private JMenuItem upperMenuItem = new JMenuItem("Upper Floor");
 	
+	private JMenu localeMenu = new JMenu("Locale");
+	private JMenuItem enLocaleItem = new JMenuItem("English");
+	private JMenuItem esLocaleItem = new JMenuItem("Spanish");
+	
 	//Delete Later
 	private JMenuItem updateItem = new JMenuItem("Update");
 
@@ -66,6 +71,9 @@ public class RoomFrame extends JFrame implements ActionListener {
 		
 		updateItem.addActionListener(this);
 		
+		enLocaleItem.addActionListener(this);
+		esLocaleItem.addActionListener(this);
+		
 		
 		menu.add(upperMenuItem);
 		menu.add(groundMenuItem);
@@ -75,6 +83,10 @@ public class RoomFrame extends JFrame implements ActionListener {
 		menuBar.add(menu);
 		
 		menuBar.add(updateItem);
+		
+		localeMenu.add(enLocaleItem);
+		localeMenu.add(esLocaleItem);
+		menuBar.add(localeMenu);
 		
 		this.setJMenuBar(menuBar);
 		
@@ -178,6 +190,15 @@ public class RoomFrame extends JFrame implements ActionListener {
 		if (updateItem.equals(event.getSource())){
 			this.addRoomPanels();
 			this.display();
+			return;
+		}
+		
+		if (enLocaleItem.equals(event.getSource())){
+			Game.getInstance().setLocale(new Locale("en", "US"));
+			return;
+		}
+		if (esLocaleItem.equals(event.getSource())){
+			Game.getInstance().setLocale(new Locale("es", "ES"));
 			return;
 		}
 		this.remove(basementPanel);

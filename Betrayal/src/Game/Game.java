@@ -379,6 +379,10 @@ public class Game {
 		return this.locale;
 	}
 	
+	public void setLocale(Locale l) {
+		this.locale = l;
+	}
+	
 	// Begin UI stuff
 	///CLOVER:OFF
 	public int makeYesNoDialogAndGetResult(String titleBundleString, String messageBundleString) {
