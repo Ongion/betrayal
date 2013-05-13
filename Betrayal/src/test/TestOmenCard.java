@@ -34,7 +34,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rooms.Location;
-import rooms.OmenRoom;
 import rooms.Room;
 import rooms.RoomFactory;
 import rooms.RoomName;
@@ -118,21 +117,7 @@ public class TestOmenCard {
 
 	}
 	
-	public void addStartingRooms() {
-		// Add starting rooms to the map
-		RoomFactory rooms = new RoomFactory();
-		rooms.makeRoom(RoomName.ENTRANCEHALL).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 0));
-		rooms.makeRoom(RoomName.FOYER).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 1));
-		Room grandstaircase = rooms.makeRoom(RoomName.GRANDSTAIRCASE);
-		rooms.makeRoom(RoomName.BASEMENTLANDING).setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.BASEMENT, 0, 0));
-		Room upperlanding = rooms.makeRoom(RoomName.UPPERLANDING);
-		
-		grandstaircase.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.GROUND, 0, 2));
-		upperlanding.setPlacement(Room_Orientation.NORTH, new Location(Floor_Name.UPPER, 0, 0));
-		
-		grandstaircase.addUpwardExit(upperlanding);
-		upperlanding.addDownwardExit(grandstaircase);
-	}
+
 
 	@Test
 	public void TestIsHauntRollForOmenCard() {
@@ -258,9 +243,6 @@ public class TestOmenCard {
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(6));
 					oneOf(mockGame).getEventDeck();
-					will(returnValue(new ArrayList<EventCard>()));
-					oneOf(mockGame).getItemDeck();
-					will(returnValue(new ArrayList<ItemCard>()));
 					
 				}
 			});

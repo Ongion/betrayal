@@ -3,9 +3,7 @@ package omenCards;
 import itemCards.ItemCard;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 import Game.Game;
@@ -31,13 +29,13 @@ public class CrystalBall extends OmenCard {
 		if (rollResult == 0) {
 			character.decrementSanity(2);
 		}
-		if (rollResult > 4) {
+		if (rollResult >= 4) {
 			ArrayList<EventCard> eventDeckChosen = game.getEventDeck();
 
 			if (itemOrEvent == 0) {
 				Collections.shuffle(eventDeckChosen);
 			}
-			if (itemOrEvent == 1) {
+			else if (itemOrEvent == 1) {
 				ArrayList<ItemCard> itemDeckChosen = game.getItemDeck();
 
 				Collections.shuffle(itemDeckChosen);
