@@ -240,9 +240,9 @@ public class TestOmenCard {
 			final int fRKnowledge = character.getCurrentKnowledge();
 			mocks.checking(new Expectations() {
 				{
-					oneOf(mockGame).rollDice(fRKnowledge);
+					allowing(mockGame).rollDice(fRKnowledge);
 					will(returnValue(6));
-					oneOf(mockGame).getEventDeck();
+					allowing(mockGame).getEventDeck();
 					
 				}
 			});
@@ -275,9 +275,10 @@ public class TestOmenCard {
 			final int fRKnowledge = character.getCurrentKnowledge();
 			mocks.checking(new Expectations() {
 				{
-					oneOf(mockGame).rollDice(fRKnowledge);
+					allowing(mockGame).rollDice(fRKnowledge);
 					will(returnValue(5));
-					oneOf(mockGame).getItemDeck();
+					allowing(mockGame).getItemDeck();
+					allowing(mockGame).getEventDeck();
 				}
 			});
 			crystalBallCard.itemOrEvent = 1;
