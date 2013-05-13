@@ -315,9 +315,32 @@ public abstract class Room {
 	public void leaveRoomInAbsoluteDirection(Character characterLeavingRoom, Relative_Direction exitAttemptingToLeaveBy) {
 		Room nextRoom = this.getRoomFromExitAbsoluteDirection(exitAttemptingToLeaveBy);
 		if (nextRoom == null){
-			//TODO Implement adding a new Room Card to the board
-			System.out.println("Tried to move somewhere that needs to add a new room to the board.");
-			return;
+			nextRoom = Game.getInstance().drawRoom();
+			while (!nextRoom.floorsAllowedOn.contains(this.getLocation().getFloor())){
+				nextRoom = Game.getInstance().drawRoom();
+				// TODO Stop this from being a possible infinite loop
+			}
+			Location loc = null;
+			switch(exitAttemptingToLeaveBy){
+				case NORTH:
+					loc = this.getLocation().getFloorLocationToNorth();
+					break;
+				case SOUTH:
+					loc = this.getLocation().getFloorLocationToSouth();
+					break;
+				case EAST:
+					loc = this.getLocation().getFloorLocationToEast();
+					break;
+				case WEST:
+					loc = this.getLocation().getFloorLocationToWest();
+					break;
+			}
+			
+			Game.getInstance().chooseOrientaionToAddRoomAndAddIt(nextRoom, this, loc);
+			
+			
+			System.out.println("Tried to move somewhere that needs to add a new room to the board. " + nextRoom.getOrientation());
+			
 		}
 		characterLeavingRoom.enterRoomGoingInAbsoluteDirection(nextRoom, exitAttemptingToLeaveBy);
 	}

@@ -46,6 +46,8 @@ public class RoomFrame extends JFrame implements ActionListener {
 	private JMenuItem basementMenuItem = new JMenuItem("Basement");
 	private JMenuItem upperMenuItem = new JMenuItem("Upper Floor");
 	
+	//Delete Later
+	private JMenuItem updateItem = new JMenuItem("Update");
 
 	public RoomFrame(){
 		this(400,400);
@@ -62,12 +64,18 @@ public class RoomFrame extends JFrame implements ActionListener {
 		basementMenuItem.addActionListener(this);
 		upperMenuItem.addActionListener(this);
 		
+		updateItem.addActionListener(this);
+		
+		
 		menu.add(upperMenuItem);
 		menu.add(groundMenuItem);
 		menu.add(basementMenuItem);
 		
 		
 		menuBar.add(menu);
+		
+		menuBar.add(updateItem);
+		
 		this.setJMenuBar(menuBar);
 		
 		this.addRoomPanels();
@@ -111,6 +119,8 @@ public class RoomFrame extends JFrame implements ActionListener {
 	}
 
 	private void addRoomsToFrameInGrid(ArrayList<Room> rooms, JPanel panel){
+		panel.removeAll();
+		
 		if (!rooms.isEmpty()){
 			Location first = rooms.get(0).getLocation();
 			int minX, maxX;
@@ -143,8 +153,9 @@ public class RoomFrame extends JFrame implements ActionListener {
 				roomGrid[l.getX()- minX][l.getY() - minY]  = r;
 			}
 
-			for (int i = 0; i < width; i++){
-				for (int j = height - 1; j >=0; j--){
+			
+			for (int j = height - 1; j >=0; j--){
+				for (int i = 0; i < width; i++){
 					if (roomGrid[i][j] != null){
 						panel.add(new RoomPanel(roomGrid[i][j]));
 					} else {
@@ -164,6 +175,11 @@ public class RoomFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		if (updateItem.equals(event.getSource())){
+			this.addRoomPanels();
+			this.display();
+			return;
+		}
 		this.remove(basementPanel);
 		this.remove(groundPanel);
 		this.remove(upperPanel);
@@ -172,8 +188,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 		}
 		if (groundMenuItem.equals(event.getSource())){
 			this.add(groundPanel);
-			groundPanel.setVisible(true);
-			
 		}
 		if (basementMenuItem.equals(event.getSource())){	
 			this.add(basementPanel);

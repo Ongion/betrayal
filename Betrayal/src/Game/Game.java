@@ -16,6 +16,7 @@ import omenCards.OmenCard;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
+import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
@@ -106,6 +107,19 @@ public class Game {
 	public static void resetGame() {
 		INSTANCE = new Game();
 		INSTANCE.addStartingRooms();
+		
+		INSTANCE.resetDecks();
+	}
+	
+	public void resetDecks() {
+		//TODO Actually do all the Decks. Just doing Rooms for now.
+		RoomFactory rooms = new RoomFactory();
+		
+		this.roomDeck.clear();
+		for (RoomName name :RoomName.values()){
+			this.roomDeck.add(rooms.makeRoom(name));
+		}
+		
 	}
 		
 	public Boolean getIsHaunt() {
@@ -438,6 +452,52 @@ public class Game {
 			return Trait.SPEED; 
 		}
 	}
+	
+	public void chooseOrientaionToAddRoomAndAddIt(Room roomToAdd, Room adjacentRoom, Location l){
+		int numExits = roomToAdd.getExits().size();
+		
+		Room_Orientation directionOfAdjacentExit = null;
+		
+		//Determine which direction an exit needs to be in.
+		if (adjacentRoom.getLocation().equals(l.getFloorLocationToEast())){
+			directionOfAdjacentExit = Room_Orientation.EAST;
+		} else if (adjacentRoom.getLocation().equals(l.getFloorLocationToWest())){
+			directionOfAdjacentExit = Room_Orientation.WEST;
+		} else if (adjacentRoom.getLocation().equals(l.getFloorLocationToNorth())){
+			directionOfAdjacentExit = Room_Orientation.NORTH;
+		} else if (adjacentRoom.getLocation().equals(l.getFloorLocationToSouth())){
+			directionOfAdjacentExit = Room_Orientation.SOUTH;
+		}
+		
+		Object[] options = new Object[numExits];
+		
+		int count = 0;
+		for(Relative_Direction dir : roomToAdd.getExits()){
+			if (dir == Relative_Direction.UP || dir == Relative_Direction.DOWN) continue;
+			//Can't add the exit to either of these directions, so ignore them
+			
+			System.out.println(dir + " " + dir.ordinal());
+			System.out.println(directionOfAdjacentExit + " " + directionOfAdjacentExit.ordinal());
+			
+			options[count] = Room_Orientation.values()[(dir.ordinal() + directionOfAdjacentExit.ordinal())%4];
+			count++;
+		}
+		
+		// TODO Localize
+		String message = "Choose the orientation for the new room.";
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, message, message, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		
+		Room_Orientation orientationForRoom = Room_Orientation.values()[dialogResult];
+		
+		roomToAdd.setPlacement(orientationForRoom, l);
+		
+		
+	}
+	
 		
 	public boolean attemptToFree() {
 		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
