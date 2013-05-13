@@ -11,10 +11,9 @@ public class HealingSalve extends ItemCard {
 	}
 
 	@Override
-	public
-	void whatToDo(Character character) {
-		// TODO Auto-generated method stub
-		
+	public void whatToDo(Character character) {
+		// This card will not be implemented for the project.
+
 	}
 
 }
