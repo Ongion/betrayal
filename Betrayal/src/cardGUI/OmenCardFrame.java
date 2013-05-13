@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -12,12 +14,16 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Game.Game;
+
 import omenCards.OmenCard;
 
-public class OmenCardFrame extends JFrame {
+public class OmenCardFrame extends JFrame implements ActionListener{
 
 	/**
 	 * Ya I really don't know what this is for but Eclipse always wants it.
@@ -26,6 +32,10 @@ public class OmenCardFrame extends JFrame {
 	
 	private OmenCard card;
 	
+	//Menubar stuff
+	private JMenuBar menuBar = new JMenuBar();
+
+	private JMenuItem useCardMenuItem = new JMenuItem("Use This Card");
 	
 	public OmenCardFrame(OmenCard card) {
 		this(340,630,card);
@@ -72,6 +82,10 @@ public class OmenCardFrame extends JFrame {
 		rules.setBorder(BorderFactory.createEmptyBorder(30,0,50,0));
 		panel.add(rules);
 		
+		useCardMenuItem.addActionListener(this);
+		menuBar.add(useCardMenuItem);
+		this.setJMenuBar(menuBar);
+		
 		this.setContentPane(panel);
 		
 	}
@@ -82,4 +96,7 @@ public class OmenCardFrame extends JFrame {
 	}
 	
  
+	public void actionPerformed(ActionEvent e){
+		this.card.whatToDo(Game.getInstance().getCurrentCharacter());
+	}
 }

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -12,12 +14,16 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Game.Game;
+
 import eventCards.EventCard;
 
-public class EventCardFrame extends JFrame {
+public class EventCardFrame extends JFrame{
 
 	/**
 	 * Ya I really don't know what this is for but Eclipse always wants it.
@@ -25,7 +31,6 @@ public class EventCardFrame extends JFrame {
 	private static final long serialVersionUID = -300674110989890700L;
 	
 	private EventCard card;
-	
 	
 	public EventCardFrame(EventCard card) {
 		this(340,630,card);
@@ -79,6 +84,6 @@ public class EventCardFrame extends JFrame {
 		this.setVisible(true);
 		this.repaint();
 	}
-	
+
  
 }

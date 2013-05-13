@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -12,12 +14,16 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import itemCards.*;
+import Game.Game;
 
-public class ItemCardFrame extends JFrame {
+public class ItemCardFrame extends JFrame implements ActionListener{
 
 	/**
 	 * Ya I really don't know what this is for but Eclipse always wants it.
@@ -25,6 +31,11 @@ public class ItemCardFrame extends JFrame {
 	private static final long serialVersionUID = -300674110989890700L;
 	
 	private ItemCard card;
+	
+	//Menubar stuff
+	private JMenuBar menuBar = new JMenuBar();
+
+	private JMenuItem useCardMenuItem = new JMenuItem("Use This Card");
 	
 	
 	public ItemCardFrame(ItemCard card) {
@@ -71,6 +82,10 @@ public class ItemCardFrame extends JFrame {
 		rules.setBorder(BorderFactory.createEmptyBorder(30,0,50,0));
 		panel.add(rules);
 		
+		useCardMenuItem.addActionListener(this);
+		menuBar.add(useCardMenuItem);
+		this.setJMenuBar(menuBar);
+		
 		this.setContentPane(panel);
 		
 	}
@@ -78,6 +93,10 @@ public class ItemCardFrame extends JFrame {
 	public void display(){
 		this.setVisible(true);
 		this.repaint();
+	}
+	
+	public void actionPerformed(ActionEvent e){
+		this.card.whatToDo(Game.getInstance().getCurrentCharacter());
 	}
 	
  

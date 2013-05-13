@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import actions.Action;
+import actions.DisplayEventCardsAction;
+import actions.DisplayItemCardsAction;
+import actions.DisplayOmenCardsAction;
 import actions.EndTurnAction;
 import actions.MoveAction;
 
@@ -52,6 +55,8 @@ public class Character {
 	protected ArrayList<ItemCard> itemHand = new ArrayList<ItemCard>();
 	private Set<Room> statRoomsThisCharacterHasEndedTurnIn;
 	
+	private int movementCounter;
+	
 	public Character(Character_Name name, ICharacterType type, IStats stats) {
 		this.name = name;
 		this.type = type;
@@ -60,6 +65,8 @@ public class Character {
 		
 		type.setCharacter(this);
 		stats.setCharacter(this);
+		
+		this.movementCounter = this.getCurrentSpeed();
 	}
 		
 	public void askForAction() {
@@ -77,14 +84,29 @@ public class Character {
 	
 	public ArrayList<Action> getPossibleActions() {
 		ArrayList<Action> possibleActions = new ArrayList<Action>();
-		for (Relative_Direction absoluteExitDirection : this.getCurrentRoom().getAbsoluteExits()) {
-			possibleActions.add(new MoveAction(absoluteExitDirection));
+		
+		if (this.movementCounter > 0){
+			for (Relative_Direction absoluteExitDirection : this.getCurrentRoom().getAbsoluteExits()) {
+				possibleActions.add(new MoveAction(absoluteExitDirection));
+			}
 		}
+		
 		possibleActions.addAll(this.getCurrentRoom().getRoomActions());
 		
 		if (Game.getInstance().getCurrentCharacter() == this) {
 			possibleActions.add(new EndTurnAction());
 		}
+		
+		DisplayItemCardsAction displayItems = new DisplayItemCardsAction();
+		if (displayItems.canPerform(this)) possibleActions.add(displayItems);
+		
+		DisplayOmenCardsAction displayOmens = new DisplayOmenCardsAction();
+		if (displayOmens.canPerform(this)) possibleActions.add(displayOmens);
+		
+		DisplayEventCardsAction displayEvents = new DisplayEventCardsAction();
+		if (displayEvents.canPerform(this)) possibleActions.add(displayEvents);
+		
+		
 		return possibleActions;
 	}
 
@@ -213,6 +235,10 @@ public class Character {
 	
 	public boolean attemptMoveInAbsoluteDirection(Relative_Direction dir) {
 		currentRoom.leaveRoomInAbsoluteDirection(this, dir);
+		
+		//Decrement the movement counter
+		this.movementCounter--;
+		
 		return true;
 //		Room next = this.currentRoom.getRoomFromExitAbsoluteDirection(dir);
 //		if (next == null){
@@ -402,6 +428,13 @@ public class Character {
 		}
 	}
 	
+	public void resetMovementCounter() {
+		this.movementCounter = this.getCurrentSpeed();
+	}
+	
+	public int getMovesLeft() {
+		return this.movementCounter;
+	}
 	
 	public String toString() {
 		return this.getName();

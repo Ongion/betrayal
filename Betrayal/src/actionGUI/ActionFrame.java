@@ -1,8 +1,12 @@
 package actionGUI;
 
+import itemCards.Axe;
+import itemCards.Candle;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,6 +76,8 @@ public class ActionFrame extends JFrame {
 		
 		father.setCurrentRoom(Game.getInstance().getRoomAtLocation(new Location(Floor_Name.GROUND,0,0)));
 		two.setCurrentRoom(Game.getInstance().getRoomAtLocation(new Location(Floor_Name.GROUND,0,0)));
+		
+		father.addItemCard(new Candle(new Locale("us")));
 		
 		Game.getInstance().addCharacter(father);
 		Game.getInstance().addCharacter(two);

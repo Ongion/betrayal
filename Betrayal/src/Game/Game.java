@@ -209,6 +209,8 @@ public class Game {
 		if (this.currentCharacter >= characters.size()){
 			this.currentCharacter = 0;
 		}
+		
+		this.getCurrentCharacter().resetMovementCounter();
 	}
 	
 	public void addRoomToMap(Room roomToBeAdded) {
