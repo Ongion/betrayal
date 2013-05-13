@@ -10,15 +10,13 @@ public class Axe extends ItemCard {
 
 	public Axe(Locale loc) {
 		super("Axe", loc);
-		
+
 	}
 
 	@Override
-	public
-	void whatToDo(Character character) {
+	public void whatToDo(Character character) {
 		Game.getInstance().rollDice(1);
-		this.numRolls++;
-		
+
 	}
 
 }
