@@ -2,6 +2,8 @@ package itemCards;
 
 import java.util.Locale;
 
+import Game.Game;
+
 import characters.Character;
 
 public class Idol extends ItemCard {
@@ -13,7 +15,8 @@ public class Idol extends ItemCard {
 	@Override
 	public
 	void whatToDo(Character character) {
-		// TODO Auto-generated method stub
+		Game.getInstance().rollDice(2);
+		character.decrementSanity();
 		
 	}
 

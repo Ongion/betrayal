@@ -1608,7 +1608,7 @@ public void TestWhatToDoForRevolver(){
 
 	@Test
 	public void TestWhatToDoForIdol() {
-		assertEquals(idolCard.numRolls, 2);
+	
 		int expectedSanity = ((HumanStats) (character.getStats()))
 				.getCurrentSanityIndex() - 1;
 		idolCard.whatToDo(character);
