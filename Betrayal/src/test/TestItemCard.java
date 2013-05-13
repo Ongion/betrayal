@@ -1072,89 +1072,25 @@ public void TestWhatToDoForRevolver(){
 	}
 
 	@Test
+	public void TestWhatToDoForBell(){
+		bellCard.whatToDo(character);
+		int sanityAfter = ((HumanStats) (character.getStats()))
+				.getCurrentSanityIndex();
+		assertEquals(4, sanityAfter);
+		
+	}
+	@Test
 	public void TestWhatToDoForBellBeingLost() {
 		character.getItemHand().remove(bellCard);
-		int expectedSanity = ((HumanStats) (character.getStats()))
-				.getCurrentSanityIndex() - 1;
 		bellCard.whatToDo(character);
 		int sanityAfter = ((HumanStats) (character.getStats()))
 				.getCurrentSanityIndex();
 		assertFalse(character.getItemHand().contains(bellCard));
-		assertEquals(expectedSanity, sanityAfter);
+		assertEquals(4, sanityAfter);
 
 	}
 
-	@Test
-	public void TestWhatToDoForBellSanityRollGreaterThanFive() {
-		// incomplete mock
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
 
-			final int fRSanity = character.getCurrentSanity();
-			mocks.checking(new Expectations() {
-				{
-					oneOf(mockGame).rollDice(fRSanity);
-					will(returnValue(6));
-				}
-			});
-
-			int expectedSanity = ((HumanStats) (character.getStats()))
-					.getCurrentSanityIndex() + 1;
-			sacrificialDaggerCard.whatToDo(character);
-			int sanityAfter = ((HumanStats) (character.getStats()))
-					.getCurrentSanityIndex();
-			assertEquals(sanityAfter, expectedSanity);
-
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
-
-	@Test
-	public void TestWhatToDoForBellSanityRollZeroToFour() {
-		// incomplete mock
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
-
-			final int fRSanity = character.getCurrentSanity();
-			mocks.checking(new Expectations() {
-				{
-					oneOf(mockGame).rollDice(fRSanity);
-					will(returnValue(3));
-				}
-			});
-
-			int expectedSanity = ((HumanStats) (character.getStats()))
-					.getCurrentSanityIndex() + 1;
-			sacrificialDaggerCard.whatToDo(character);
-			int sanityAfter = ((HumanStats) (character.getStats()))
-					.getCurrentSanityIndex();
-			assertEquals(sanityAfter, expectedSanity);
-
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
 
 	@Test
 	public void TestHealingSalveInit() {
