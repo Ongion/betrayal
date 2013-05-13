@@ -16,6 +16,6 @@ public class Spear extends OmenCard {
 
 	@Override
 	public void whatToDo(Character character) {
-		//TODO: No
+		Game.getInstance().rollDice(2);
 	}
 }
