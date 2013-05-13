@@ -475,7 +475,7 @@ public class Game {
 		for(Relative_Direction dir : roomToAdd.getExits()){
 			if (dir == Relative_Direction.UP || dir == Relative_Direction.DOWN) continue;
 			//Can't add the exit to either of these directions, so ignore them
-			
+			System.out.println(count + " " + dir);
 			switch (dir){
 				case NORTH:
 					options[count] = directionOfAdjacentExit;
@@ -490,8 +490,10 @@ public class Game {
 							break;
 						case EAST:
 							options[count] = Room_Orientation.WEST;
+							break;
 						case WEST:
 							options[count] = Room_Orientation.EAST;
+							break;
 					}
 					break;
 				case EAST:
