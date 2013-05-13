@@ -156,6 +156,11 @@ public class TestItemCard {
 	}
 
 	@Test
+	public void TestWhatToDoForAngelCardInit(){
+		angelFeatherCard.whatToDo(character);
+	}
+	
+	@Test
 	public void TestAdrenalineShotInit() {
 		assertEquals(mesEN.getString("titleAdrenalineShot"),
 				adrenalineShotCard.getName());
@@ -327,6 +332,26 @@ public void TestWhatToDoForRevolver(){
 	@Test
 	public void TestWhatToDoForRabbitsFoot() {
 		rabbitsFootCard.whatToDo(character);
+	}
+	
+	@Test
+	public void TestWhatToDoForLuckyStoneInit(){
+		luckyStoneCard.whatToDo(character);
+	}
+	
+	@Test
+	public void TestWhatToDoForMusicBoxInit(){
+		musicBoxCard.whatToDo(character);
+	}
+	
+	@Test
+	public void TestWhatToDoForAdrenalineShotInit(){
+		adrenalineShotCard.whatToDo(character);
+	}
+	
+	@Test
+	public void TestWhatToDoForSmellingSaltsInit(){
+		smellingSaltsCard.whatToDo(character);
 	}
 
 	@Test
@@ -1235,6 +1260,11 @@ public void TestWhatToDoForRevolver(){
 	}
 
 	@Test
+	public void TestWhatToDoForHealingSalveInit(){
+		healingSalveCard.whatToDo(character);
+	}
+	
+	@Test
 	public void TestArmorInit() {
 		assertEquals(mesEN.getString("titleArmor"), armorCard.getName());
 		assertEquals(mesEN.getString("desArmor"), armorCard.getDescription());
@@ -1254,6 +1284,11 @@ public void TestWhatToDoForRevolver(){
 				armorCard.getDescription());
 	}
 
+	@Test
+	public void TestArmorWhatToDoInit(){
+		armorCard.whatToDo(character);
+	}
+	
 	@Test
 	public void TestAmuletOfAgesInit() {
 		assertEquals(mesEN.getString("titleAmuletOfAges"),
@@ -1369,6 +1404,11 @@ public void TestWhatToDoForRevolver(){
 				"It makes the shadows move-at least, you hope it's doing that.",
 				candleCard.getDescription());
 	}
+	
+	@Test
+	public void TestWhatToDoForCandleInit(){
+		candleCard.whatToDo(character);
+	}
 
 	@Test
 	public void TestDynamiteInit() {
@@ -1389,6 +1429,11 @@ public void TestWhatToDoForRevolver(){
 		dynamiteCard.setDescription("The fuse isn't lit...yet.");
 		assertEquals("Dynamite", dynamiteCard.getName());
 		assertEquals("The fuse isn't lit...yet.", dynamiteCard.getDescription());
+	}
+	
+	@Test
+	public void TestWhatToDoForDynamiteInit(){
+		dynamiteCard.whatToDo(character);
 	}
 
 	@Test
