@@ -376,6 +376,11 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("desRing"), ringCard.getDescription());
 		assertEquals(mesSP.getString("rulesRing"), ringCard.getRules());
 	}
+	
+	@Test
+	public void TestWhatToDoForRingInit(){
+		ringCard.whatToDo(character);
+	}
 
 	@Test
 	public void IsHauntRollWithMadman() {
@@ -501,7 +506,7 @@ public class TestOmenCard {
 
 	@Test
 	public void TestWhatToDoForSpear(){
-		assertEquals(spearCard.numRolls, 3);
+		spearCard.whatToDo(character);
 		
 	}
 	
@@ -517,6 +522,10 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("rulesSpiritBoard"), spiritBoardCard.getRules());
 	}
 	
+	@Test
+	public void TestWhatToDoForSpiritBoardInit(){
+		spiritBoardCard.whatToDo(character);
+	}
 	
 
 	@Test
@@ -682,6 +691,11 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("titleMedallion"), medallionCard.getName());
 		assertEquals(mesSP.getString("desMedallion"), medallionCard.getDescription());
 		assertEquals(mesSP.getString("rulesMedallion"), medallionCard.getRules());
+	}
+	
+	@Test
+	public void TestWhatToDoInitForMedallion(){
+		medallionCard.whatToDo(character);
 	}
 
 	@Test
@@ -897,6 +911,11 @@ public class TestOmenCard {
 		assertEquals(mesSP.getString("titleSkull"), skullCard.getName());
 		assertEquals(mesSP.getString("desSkull"), skullCard.getDescription());
 		assertEquals(mesSP.getString("rulesSkull"), skullCard.getRules());
+	}
+	
+	@Test
+	public void TestWhatToDoForSkullInit(){
+		skullCard.whatToDo(character);
 	}
 
 	@Test

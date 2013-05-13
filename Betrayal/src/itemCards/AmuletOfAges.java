@@ -14,17 +14,15 @@ public class AmuletOfAges extends ItemCard {
 
 	@Override
 	public void whatToDo(Character character) {
+		character.incrementKnowledge();
+		character.incrementMight();
+		character.incrementSpeed();
+		character.incrementSanity();
 		if(!character.getItemHand().contains(this)){
-			character.incrementKnowledge();
-			character.incrementMight();
-			character.incrementSpeed();
-			character.incrementSanity();
-		}else{
 			character.decrementKnowledge(3);
 			character.decrementSanity(3);
 			character.decrementSpeed(3);
 			character.decrementMight(3);
-			
 		}
 	}
 

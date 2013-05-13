@@ -14,8 +14,10 @@ public class Bell extends ItemCard {
 	@Override
 	public
 	void whatToDo(Character character) {
-		// TODO Auto-generated method stub
-		
+		character.incrementSanity();
+		if(!character.getItemHand().contains(this)){
+			character.decrementSanity();
+		}
 	}
 
 }

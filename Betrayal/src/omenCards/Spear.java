@@ -16,13 +16,6 @@ public class Spear extends OmenCard {
 
 	@Override
 	public void whatToDo(Character character) {
-		Game game = Game.getInstance();
-		if(character.attack()){
-			for(int i = 2; i < 3; i++){
-				numRolls ++;
-				game.rollDice(character.getCurrentMight());
-			}
-		}
-
+		Game.getInstance().rollDice(2);
 	}
 }

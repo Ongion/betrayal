@@ -2,8 +2,6 @@ package Game;
 
 import itemCards.ItemCard;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,20 +10,16 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import actions.Action;
 
 import omenCards.OmenCard;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
-import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
+import actions.Action;
 import characters.Character;
 import characters.Trait;
 import eventCards.EventCard;
@@ -515,15 +509,23 @@ public class Game {
 
 	///CLOVER:ON
 
-	// ONLY CALL IF YOU KNOW THE ROOM YOU WANT IS ON THE BORD
 	public Room getRoomByRoomName(RoomName nameOfRoomWanted) {
 		for (Room roomChecking : mapRooms) {
 			if (roomChecking.getNameEnum().equals(nameOfRoomWanted)) {
 				return roomChecking;
 			}
 		}
-		// We should never actually get here.
+		// Guess we CAN get here actually. But that's still ok. Just don't assume it won't be null unless it's a starting room.
 		return null;
+	}
+
+	public boolean askToStealAnItem() {
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			//TODO: I18N
+			dialogResult = JOptionPane.showOptionDialog(null, "Do you want to steal an item?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
+		}
+		return dialogResult == JOptionPane.YES_OPTION;
 	}
 
 }

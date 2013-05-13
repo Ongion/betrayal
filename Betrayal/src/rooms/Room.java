@@ -28,6 +28,7 @@ public abstract class Room {
 	
 	protected Room upwardsRoom = null;
 	protected Room downwardsRoom = null;
+	//TODO: Rooms need to be able to hold items!
 	
 	protected Relative_Direction sideOfSecretStairs;
 	protected Relative_Direction sideOfWallSwitch;

@@ -12,7 +12,7 @@ public class SpiritBoard extends OmenCard {
 
 	@Override
 	public void whatToDo(Character character) {
-		
+		// This card will not be implemented for the project
 	}
 
 }
