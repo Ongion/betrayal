@@ -35,12 +35,12 @@ public class Footsteps extends EventCard {
 	public void happens() {
 		Character character = Game.getInstance().getCurrentCharacter();
 		int rollResult = 0;
-		// TODO: uncomment once Chapel is in place.
-//		if (character.getCurrentRoom().getNameEnum() == RoomName.CHAPEL){
-//			rollResult = Game.getInstance().rollDice(2);
-//		}else{
+
+		if (character.getCurrentRoom().getNameEnum() == RoomName.CHAPEL){
+			rollResult = Game.getInstance().rollDice(2);
+		}else{
 			rollResult = Game.getInstance().rollDice(1);
-//		}
+		}
 		if(rollResult == 4){
 			character.incrementMight();
 			Character char2 = character.getNearestCharacter();

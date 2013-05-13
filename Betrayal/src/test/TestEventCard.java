@@ -121,6 +121,7 @@ public class TestEventCard {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Room> rooms = new ArrayList<Room>();
 	private ArrayList<Character> characters = new ArrayList<Character>();
+	private Room entrance;
 	
 	@Before
 	public void setUp(){
@@ -168,8 +169,9 @@ public class TestEventCard {
 		game.addAllToRoomDeck(rooms);
 		game.addCharacter(character);
 		game.addCharacter(character2);
-		character.setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
-		character2.setCurrentRoom(game.getRoomByRoomName(RoomName.ENTRANCEHALL));
+		entrance = game.getRoomByRoomName(RoomName.ENTRANCEHALL);
+		character.setCurrentRoom(entrance);
+		character2.setCurrentRoom(entrance);
 
 	}
 	
@@ -837,36 +839,149 @@ public class TestEventCard {
 	
 	@Test
 	public void testFuneral4OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Funeral(enLocale);
 		
-		// Test to be removed
-		assertEquals(character, character);
-		card.happen(4);
-		assertEquals(7, character.getCurrentSanity());
-		card.happen(5);	
-		assertEquals(7, character.getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(4));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(7);
+					will(returnValue(5));
+				}
+			});
+			
+			card.happens();
+			assertEquals(7, character.getCurrentSanity());
+			card.happens();	
+			assertEquals(7, character.getCurrentSanity());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
 	public void testFuneral2Or3(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Funeral(enLocale);
 		
-		card.happen(3);
-		assertEquals(5, character.getCurrentSanity());
-		card.happen(2);
-		assertEquals(5, character.getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(3));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(2));
+				}
+			});
+			
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 
 	@Test
 	public void testFuneral0Or1(){
+		final Room gy = roomFact.makeRoom(RoomName.GRAVEYARD);
+		final Room cy = roomFact.makeRoom(RoomName.CRYPT);
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Funeral(enLocale);
 		
-		card.happen(1);
-		assertEquals(5, character.getCurrentSanity());
-		assertEquals(2, character.getCurrentMight());
-		card.happen(0);
-		assertEquals(5, character.getCurrentSanity());
-		assertEquals(1, character.getCurrentMight());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(1));
+					oneOf(mockGame).getRoomByRoomName(RoomName.GRAVEYARD);
+					will(returnValue(null));
+					oneOf(mockGame).getRoomByRoomName(RoomName.CRYPT);
+					will(returnValue(null));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(0));
+					oneOf(mockGame).getRoomByRoomName(RoomName.GRAVEYARD);
+					will(returnValue(gy));
+					oneOf(mockGame).getRoomByRoomName(RoomName.CRYPT);
+					will(returnValue(cy));
+					oneOf(mockGame).chooseGraveyardOrCrypt();
+					will(returnValue(RoomName.GRAVEYARD));
+					oneOf(mockGame).getRoomByRoomName(RoomName.GRAVEYARD);
+					will(returnValue(gy));
+					
+				}
+			});
+			
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(entrance, character.getCurrentRoom());
+			card.happens();
+			assertEquals(5, character.getCurrentSanity());
+			assertEquals(1, character.getCurrentMight());
+			assertEquals(gy, character.getCurrentRoom());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
@@ -1054,40 +1169,186 @@ public class TestEventCard {
 	}
 	
 	@Test
-	public void testSkeletons5orGreater(){
+	public void testSkeletonsHappens(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Skeletons(enLocale);
 		
-		assertEquals(0, character.getItemHand().size());
-		card.happen(5);
-		assertEquals(1, character.getItemHand().size());
-		assertEquals(angelFeather, character.getItemHand().get(0));
-		card.happen(6);	
-		assertEquals(2, character.getItemHand().size());
-		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));					
+				}
+			});
+			
+			card.happens();
+			assertEquals(3, character.getCurrentKnowledge());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
-	public void testSkeletonsLessThan5(){
+	public void testSkeletonsBeginningOfTurn5OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Skeletons(enLocale);
 		
-		assertEquals(0, character.getItemHand().size());
-		card.happen(0);
-		assertEquals(0, character.getItemHand().size());
-		assertEquals(5, character.getCurrentSanity());
-		card.happen(1);	
-		assertEquals(0, character.getItemHand().size());
-		assertEquals(5, character.getCurrentSanity());
-		card.happen(2);
-		assertEquals(0, character.getItemHand().size());
-		assertEquals(4, character.getCurrentSanity());
-		card.happen(3);
-		assertEquals(0, character.getItemHand().size());
-		assertEquals(3, character.getCurrentSanity());
-		card.happen(5);
-		card.happen(4);
-		assertEquals(1, character.getItemHand().size());
-		assertEquals(angelFeather, character.getItemHand().get(0));
-		assertEquals(3, character.getCurrentSanity());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(5));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(6));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(false));
+				}
+			});
+			
+			assertEquals(0, character.getItemHand().size());
+			card.beginningOfTurn();
+			assertEquals(1, character.getItemHand().size());
+			card.beginningOfTurn();	
+			assertEquals(2, character.getItemHand().size());
+			card.beginningOfTurn();
+			assertEquals(2, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+	}
+	
+	@Test
+	public void testSkeletonsBeginningOfTurnLessThan5(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
+		card = new Skeletons(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(6);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).attemptRoll();
+					will(returnValue(true));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+				}
+			});
+			
+			assertEquals(0, character.getItemHand().size());
+			card.beginningOfTurn();
+			assertEquals(0, character.getItemHand().size());
+			assertEquals(5, character.getCurrentSanity());
+			card.beginningOfTurn();	
+			assertEquals(0, character.getItemHand().size());
+			assertEquals(5, character.getCurrentSanity());
+			card.beginningOfTurn();
+			assertEquals(0, character.getItemHand().size());
+			assertEquals(4, character.getCurrentSanity());
+			card.beginningOfTurn();
+			assertEquals(0, character.getItemHand().size());
+			assertEquals(3, character.getCurrentSanity());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
 	}
 	
 	@Test
@@ -1774,7 +2035,7 @@ public class TestEventCard {
 			}
 		};
 
-		card = new TheBeckoning(enLocale);
+		card = new ShriekingWind(enLocale);
 		
 		final Game mockGame = mocks.mock(Game.class);
 		try {
@@ -1786,18 +2047,13 @@ public class TestEventCard {
 				{
 					oneOf(mockGame).getCharacters();
 					will(returnValue(characters));
-					oneOf(mockGame).rollDice(5);
-					will(returnValue(0));
-					oneOf(mockGame).chooseAMentalTrait();
-					will(returnValue(Trait.SANITY));
 					oneOf(mockGame).rollDice(2);
-					will(returnValue(2));
-					oneOf(mockGame).rollDice(4);
-					will(returnValue(0));
-					oneOf(mockGame).chooseAMentalTrait();
-					will(returnValue(Trait.SANITY));
+					will(returnValue(5));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
 					oneOf(mockGame).rollDice(2);
-					will(returnValue(2));
+					will(returnValue(6));
 					
 				}
 			});
@@ -1805,126 +2061,248 @@ public class TestEventCard {
 			Room room = roomFact.makeRoom(RoomName.GRAVEYARD);
 			character.setCurrentRoom(room);
 			
-			card.happen(3);
-			assertEquals(character, character);
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
 			
-			card.happen(4);
-			assertEquals(character, character);
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
 			
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
-		card = new ShriekingWind(enLocale);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
-		
-		card.happen(5);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
-		
-		card.happen(6);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
 		
 	}
 	
 	@Test
 	public void testShriekingWind3or4(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(4));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+				}
+			});
+			
+			Room room = roomFact.makeRoom(RoomName.GRAVEYARD);
+			character.setCurrentRoom(room);
 		
-		character.addItemCard(game.drawItem());
-		
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(4);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(3);
-		
-		assertEquals(2, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(1, character.getItemHand().size());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(2, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 
 	@Test
 	public void testShriekingWind1or2(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+				}
+			});
+			
+			Room room = roomFact.makeRoom(RoomName.GRAVEYARD);
+			character.setCurrentRoom(room);
 		
-		character.addItemCard(game.drawItem());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(3, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(2);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(3, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(1);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(3, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(1, character.getItemHand().size());
 	}
 	
 	@Test
 	public void testShriekingWind0(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ShriekingWind(enLocale);
 		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
-		
-		character.addItemCard(game.drawItem());
-		
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(0);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
-		
-		character.addItemCard(game.drawItem());
-		
-		assertEquals(1, character.getItemHand().size());
-		
-		card.happen(0);
-		
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		assertEquals(1, character.getCurrentMight());
-		assertEquals(0, character.getItemHand().size());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).chooseItemCard(character);
+					will(returnValue(adrenalineShotCard));
+					
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					oneOf(mockGame).chooseItemCard(character);
+					will(returnValue(adrenalineShotCard));
+					
+				}
+			});
+			
+			Room room = roomFact.makeRoom(RoomName.GRAVEYARD);
+			character.setCurrentRoom(room);
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			character.addItemCard(adrenalineShotCard);
+			
+			assertEquals(1, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			character.addItemCard(adrenalineShotCard);
+			
+			assertEquals(1, character.getItemHand().size());
+			
+			card.happens();
+			
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			assertEquals(1, character.getCurrentMight());
+			assertEquals(0, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
@@ -2949,47 +3327,140 @@ public class TestEventCard {
 	
 	@Test
 	public void testPossession4OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Possession(enLocale);
 		
-		card.happen(4);
-		assertEquals(5, character.getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(4));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(5);
+					will(returnValue(5));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					
+				}
+			});
+			
+			card.happens();
+			assertEquals(5, character.getCurrentKnowledge());
+			
+			card.happens();
+			assertEquals(6, character.getCurrentKnowledge());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		card.happen(5);
-		assertEquals(6, character.getCurrentKnowledge());
 	}
 	
 	@Test
 	public void testPossession0To3(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new Possession(enLocale);
 		
-		assertEquals(6, character.getCurrentSanity());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(4, character.getCurrentKnowledge());
-		
-		card.happen(0);
-		assertEquals(6, character.getCurrentSanity());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(1, character.getCurrentKnowledge());
-		
-		card.happen(1);
-		assertEquals(3, character.getCurrentSanity());
-		assertEquals(2, character.getCurrentMight());
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(1, character.getCurrentKnowledge());
-		
-		card.happen(2);
-		assertEquals(1, character.getCurrentMight());
-		assertEquals(3, character.getCurrentSpeed());
-		assertEquals(1, character.getCurrentKnowledge());
-		assertEquals(3, character.getCurrentSanity());
-		
-		card.happen(3);
-		assertEquals(3, character.getCurrentSanity());
-		assertEquals(1, character.getCurrentMight());
-		assertEquals(2, character.getCurrentSpeed());
-		assertEquals(1, character.getCurrentKnowledge());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(2));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).chooseATrait();
+					will(returnValue(Trait.KNOWLEDGE));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(3));
+					
+				}
+			});
+			
+			assertEquals(6, character.getCurrentSanity());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(4, character.getCurrentKnowledge());
+			
+			card.happens();
+			assertEquals(6, character.getCurrentSanity());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(1, character.getCurrentKnowledge());
+			
+			card.happens();
+			assertEquals(3, character.getCurrentSanity());
+			assertEquals(2, character.getCurrentMight());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(1, character.getCurrentKnowledge());
+			
+			card.happens();
+			assertEquals(1, character.getCurrentMight());
+			assertEquals(3, character.getCurrentSpeed());
+			assertEquals(1, character.getCurrentKnowledge());
+			assertEquals(3, character.getCurrentSanity());
+			
+			card.happens();
+			assertEquals(3, character.getCurrentSanity());
+			assertEquals(1, character.getCurrentMight());
+			assertEquals(2, character.getCurrentSpeed());
+			assertEquals(1, character.getCurrentKnowledge());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
 	}
 	
@@ -3009,61 +3480,193 @@ public class TestEventCard {
 	
 	@Test
 	public void testLockedSafe5OrGreater(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new LockedSafe(enLocale);
 		
-		assertEquals(0, character.getItemHand().size());
-		
-		card.happen(5);
-		assertEquals(2, character.getItemHand().size());
-		assertEquals(angelFeather, character.getItemHand().get(0));
-		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
-		assertEquals(2, game.getItemDeck().size());
-		
-		card.happen(6);
-		assertEquals(4, character.getItemHand().size());
-		assertEquals(angelFeather, character.getItemHand().get(0));
-		assertEquals(adrenalineShotCard, character.getItemHand().get(1));
-		assertEquals(revolverCard, character.getItemHand().get(2));
-		assertEquals(puzzleBoxCard, character.getItemHand().get(3));
-		assertEquals(0, game.getItemDeck().size());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(5));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					oneOf(mockGame).drawItem();
+					will(returnValue(adrenalineShotCard));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(6));
+					oneOf(mockGame).drawItem();
+					will(returnValue(revolverCard));
+					oneOf(mockGame).drawItem();
+					will(returnValue(puzzleBoxCard));
+					
+				}
+			});
+			
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			assertEquals(2, character.getItemHand().size());
+			assertEquals(angelFeather, character.getItemHand().get(0));
+			assertEquals(adrenalineShotCard, character.getItemHand().get(1));
+			
+			card.happens();
+			assertEquals(4, character.getItemHand().size());
+			assertEquals(angelFeather, character.getItemHand().get(0));
+			assertEquals(adrenalineShotCard, character.getItemHand().get(1));
+			assertEquals(revolverCard, character.getItemHand().get(2));
+			assertEquals(puzzleBoxCard, character.getItemHand().get(3));
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
 	}
 	
 	@Test
 	public void testLockedSafe2To4(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new LockedSafe(enLocale);
 		
-		character.incrementSpeed();
-		character.incrementSpeed();
-		character.incrementSpeed();
-		
-		assertEquals(6, character.getCurrentSpeed());
-		
-		card.happen(2);
-		assertEquals(5, character.getCurrentSpeed());
-		
-		card.happen(3);
-		assertEquals(4, character.getCurrentSpeed());
-		
-		card.happen(4);
-		assertEquals(3, character.getCurrentSpeed());
-		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(2));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(3));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(4));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(1);
+					will(returnValue(1));
+					
+				}
+			});
+			
+			character.incrementSpeed();
+			character.incrementSpeed();
+			character.incrementSpeed();
+			
+			assertEquals(6, character.getCurrentSpeed());
+			
+			card.happens();
+			assertEquals(5, character.getCurrentSpeed());
+			
+			card.happens();
+			assertEquals(4, character.getCurrentSpeed());
+			
+			card.happens();
+			assertEquals(3, character.getCurrentSpeed());
+			
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 
 	@Test
 	public void testLockedSafe0And1(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new LockedSafe(enLocale);
 		
-		character.incrementSpeed();
-		character.incrementSpeed();
-		assertEquals(5, character.getCurrentSpeed());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(1));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(4);
+					will(returnValue(0));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					
+				}
+			});
+			
+			character.incrementSpeed();
+			character.incrementSpeed();
+			assertEquals(5, character.getCurrentSpeed());
+			
+			card.happens();
+			assertEquals(3, character.getCurrentSpeed());
+			
+			card.happens();
+			assertEquals(2, character.getCurrentSpeed());
+			
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		card.happen(0);
-		assertEquals(3, character.getCurrentSpeed());
-		
-		card.happen(1);
-		assertEquals(2, character.getCurrentSpeed());
 	}
 	
 	@Test
@@ -3078,56 +3681,6 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("titleTheBeckoning"), card.getName());
 		assertEquals(mesSP.getString("desTheBeckoning"), card.getDescription());
 		assertEquals(mesSP.getString("rulesTheBeckoning"), card.getRules());
-	}
-
-	@Test
-	public void testTheBeckoning3OrGreater(){
-		Mockery mocks = new Mockery() {
-			{
-				setImposteriser(ClassImposteriser.INSTANCE);
-			}
-		};
-
-		card = new TheBeckoning(enLocale);
-		
-		final Game mockGame = mocks.mock(Game.class);
-		try {
-			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-			instanceField.setAccessible(true);
-			instanceField.set(null, mockGame);
-
-			mocks.checking(new Expectations() {
-				{
-					oneOf(mockGame).getCharacters();
-					will(returnValue(characters));
-					oneOf(mockGame).rollDice(5);
-					will(returnValue(0));
-					oneOf(mockGame).chooseAMentalTrait();
-					will(returnValue(Trait.SANITY));
-					oneOf(mockGame).rollDice(2);
-					will(returnValue(2));
-					oneOf(mockGame).rollDice(4);
-					will(returnValue(0));
-					oneOf(mockGame).chooseAMentalTrait();
-					will(returnValue(Trait.SANITY));
-					oneOf(mockGame).rollDice(2);
-					will(returnValue(2));
-					
-				}
-			});
-			
-			card.happen(3);
-			assertEquals(character, character);
-			
-			card.happen(4);
-			assertEquals(character, character);
-			
-			mocks.assertIsSatisfied();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-		
 	}
 
 	@Test
@@ -3165,83 +3718,89 @@ public class TestEventCard {
 		assertEquals(mesSP.getString("rulesFootsteps"), card.getRules());
 	}
 	
-//	@Test 
-//	public void testFootsteps4(){
-//		Mockery mocks = new Mockery() {
-//			{
-//				setImposteriser(ClassImposteriser.INSTANCE);
-//			}
-//		};
-//
-//		card = new Footsteps(enLocale);
-//		
-//		final Game mockGame = mocks.mock(Game.class);
-//		try {
-//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-//			instanceField.setAccessible(true);
-//			instanceField.set(null, mockGame);
-//
-//			mocks.checking(new Expectations() {
-//				{
-//					oneOf(mockGame).getCurrentCharacter();
-//					will(returnValue(character));
-//					oneOf(mockGame).rollDice(2);
-//					will(returnValue(4));
-//					
-//				}
-//			});
-//			//TODO: Add Chapel to map
-//			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
-//			
-//			card.happens();
-//			assertEquals(4, character.getCurrentMight());
-//			assertEquals(5, character2.getCurrentMight());
-//			
-//			mocks.assertIsSatisfied();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//	}
-//	
-//	@Test 
-//	public void testFootsteps3(){
-//		Mockery mocks = new Mockery() {
-//			{
-//				setImposteriser(ClassImposteriser.INSTANCE);
-//			}
-//		};
-//
-//		card = new Footsteps(enLocale);
-//		
-//		final Game mockGame = mocks.mock(Game.class);
-//		try {
-//			Field instanceField = Game.class.getDeclaredField("INSTANCE");
-//			instanceField.setAccessible(true);
-//			instanceField.set(null, mockGame);
-//
-//			mocks.checking(new Expectations() {
-//				{
-//					oneOf(mockGame).getCurrentCharacter();
-//					will(returnValue(character));
-//					oneOf(mockGame).rollDice(2);
-//					will(returnValue(3));
-//					
-//				}
-//			});
-//			//TODO: Add Chapel to map
-//			//character.setCurrentRoom(game.getRoomByRoomName(RoomName.CHAPEL));
-//			
-//			card.happens();
-//			assertEquals(4, character.getCurrentMight());
-//			assertEquals(3, character2.getCurrentSanity());
-//			
-//			mocks.assertIsSatisfied();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//	}
+	@Test 
+	public void testFootsteps4(){
+		final Room chapel = roomFact.makeRoom(RoomName.CHAPEL);
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
+		card = new Footsteps(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(4));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					
+				}
+			});
+			
+			character.setCurrentRoom(chapel);
+			
+			card.happens();
+			assertEquals(4, character.getCurrentMight());
+			assertEquals(5, character2.getCurrentMight());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test 
+	public void testFootsteps3(){
+		final Room chapel = roomFact.makeRoom(RoomName.CHAPEL);
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
+		card = new Footsteps(enLocale);
+		
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(3));
+					oneOf(mockGame).getCharacters();
+					will(returnValue(characters));
+					
+				}
+			});
+			
+			character.setCurrentRoom(chapel);
+			
+			card.happens();
+			assertEquals(4, character.getCurrentMight());
+			assertEquals(3, character2.getCurrentSanity());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 	
 	@Test 
 	public void testFootsteps2(){
@@ -3897,44 +4456,160 @@ public class TestEventCard {
 	
 	@Test
 	public void testClosetDoor4(){
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, character.getItemHand().size());
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(4));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+				}
+			});
+			
+			assertEquals(0, character.getItemHand().size());
+			
+			card.happens();
+			assertEquals(1, character.getItemHand().size());
+			assertEquals(angelFeather, character.getItemHand().get(0));
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 		
-		card.happen(4);
-		assertEquals(1, character.getItemHand().size());
-		assertEquals(angelFeather, character.getItemHand().get(0));
 	}
 	
 	@Test
 	public void testClosetDoor2Or3(){
+		final Mirror2 mirror = new Mirror2(enLocale);
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, character.getEventHand().size());
-		
-		card.happen(2);
-		assertEquals(1, character.getEventHand().size());
-		assertEquals(angryBeing, character.getEventHand().get(0));
-		
-		card.happen(3);
-		assertEquals(2, character.getEventHand().size());
-		assertEquals(creepyCrawlies, character.getEventHand().get(1));
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(2));
+					oneOf(mockGame).drawEvent();
+					will(returnValue(mirror));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(3));
+					oneOf(mockGame).drawEvent();
+					will(returnValue(mirror));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+				}
+			});
+			
+			assertEquals(0, character.getEventHand().size());
+			
+			card.happens();
+			assertEquals(1, character.getItemHand().size());
+			
+			card.happens();
+			assertEquals(2, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test
 	public void testClosetDoor1Or0(){
 		// Eventually needs to test for removal of Closet Token
+		final Mirror2 mirror = new Mirror2(enLocale);
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+
 		card = new ClosetDoor(enLocale);
 		
-		assertEquals(0, character.getEventHand().size());
-		
-		card.happen(0);
-		assertEquals(1, character.getEventHand().size());
-		assertEquals(angryBeing, character.getEventHand().get(0));
-		
-		card.happen(1);
-		assertEquals(2, character.getEventHand().size());
-		assertEquals(creepyCrawlies, character.getEventHand().get(1));
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(0));
+					oneOf(mockGame).drawEvent();
+					will(returnValue(mirror));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+					
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).rollDice(2);
+					will(returnValue(1));
+					oneOf(mockGame).drawEvent();
+					will(returnValue(mirror));
+					oneOf(mockGame).getCurrentCharacter();
+					will(returnValue(character));
+					oneOf(mockGame).drawItem();
+					will(returnValue(angelFeather));
+				}
+			});
+			
+			assertEquals(0, character.getEventHand().size());
+			
+			card.happens();
+			assertEquals(1, character.getItemHand().size());
+			
+			card.happens();
+			assertEquals(2, character.getItemHand().size());
+			
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
 	}
 	
 	@Test

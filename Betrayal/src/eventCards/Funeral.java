@@ -2,6 +2,7 @@ package eventCards;
 
 import java.util.Locale;
 
+import rooms.Room;
 import rooms.RoomName;
 
 import characters.Trait;
@@ -39,13 +40,15 @@ public class Funeral extends EventCard {
 		} else{
 			character.decrementSanity();
 			character.decrementMight();
-			if(Game.getInstance().getRoomByRoomName(RoomName.GRAVEYARD) != null && Game.getInstance().getRoomByRoomName(RoomName.CRYPT) != null){
+			Room gy = Game.getInstance().getRoomByRoomName(RoomName.GRAVEYARD);
+			Room cy = Game.getInstance().getRoomByRoomName(RoomName.CRYPT);
+			if(gy != null && cy != null){
 				RoomName room = Game.getInstance().chooseGraveyardOrCrypt();
 				character.setCurrentRoom(Game.getInstance().getRoomByRoomName(room));
-			} else if (Game.getInstance().getRoomByRoomName(RoomName.GRAVEYARD) != null && Game.getInstance().getRoomByRoomName(RoomName.CRYPT) == null){
-				character.setCurrentRoom(Game.getInstance().getRoomByRoomName(RoomName.GRAVEYARD));
-			} else if (Game.getInstance().getRoomByRoomName(RoomName.GRAVEYARD) == null && Game.getInstance().getRoomByRoomName(RoomName.CRYPT) != null){
-				character.setCurrentRoom(Game.getInstance().getRoomByRoomName(RoomName.CRYPT));
+			} else if (gy != null && cy == null){
+				character.setCurrentRoom(gy);
+			} else if (gy == null && cy != null){
+				character.setCurrentRoom(cy);
 			}
 		}
 	}

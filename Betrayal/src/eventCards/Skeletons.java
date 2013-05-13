@@ -2,36 +2,50 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
+import characters.Trait;
 import Game.Game;
 
 public class Skeletons extends EventCard {
 	// TODO: Add further implementation for skeleton token
 
-	private Game game;
-	
 	public Skeletons(Locale loc) {
 		super("Skeletons", loc);
-		this.game = Game.getInstance();
 	}
 
 	@Override
 	public void happen(int rollResult) {
 		// For testing purposes only
 		if (rollResult >= 5){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			Game.getInstance().getCurrentCharacter().addItemCard(Game.getInstance().drawItem());
 		} else{
-			game.getCurrentCharacter().decrementSanity(); //TODO: Change this to decrementMental
+			Game.getInstance().getCurrentCharacter().decrementSanity(); //TODO: Change this to decrementMental
 		}
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(game.getCurrentCharacter().getCurrentSanity());
-		if (rollResult >= 5){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
-		} else{
-			game.getCurrentCharacter().decrementSanity(game.rollDice(1)); //TODO: Change this to decrementMental
-		}
+		Character character = Game.getInstance().getCurrentCharacter();
+		Trait chosenTrait = Game.getInstance().chooseAMentalTrait();
+		int damage = Game.getInstance().rollDice(1);
+		character.decrementTrait(chosenTrait, damage);
+		// TODO: Place Token
 	}
 
+	@Override
+	public void beginningOfTurn(){
+		Character character = Game.getInstance().getCurrentCharacter();
+		Boolean attempt = Game.getInstance().attemptRoll();
+		if(attempt){
+			int rollResult = character.getTraitRoll(Trait.SANITY);
+			if (rollResult >= 5){
+				character.addItemCard(Game.getInstance().drawItem());
+				// TODO: Remove Token
+			} else{
+				Trait chosenTrait = Game.getInstance().chooseAMentalTrait();
+				int damage = Game.getInstance().rollDice(1);
+				character.decrementTrait(chosenTrait, damage);
+			}
+		}
+	}
 }

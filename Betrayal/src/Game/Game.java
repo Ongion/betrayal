@@ -449,6 +449,24 @@ public class Game {
 		}
 	}
 	
+	public boolean attemptRoll() {
+		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
+		String localizedYes = dialogBoxBundle.getString("Yes");
+		String localizedNo = dialogBoxBundle.getString("No");
+		String localizedMessage = dialogBoxBundle.getString("attemptRoll");
+		Object[] options = {localizedYes, localizedNo};
+		
+		int dialogResult = JOptionPane.CLOSED_OPTION;
+		while (dialogResult == JOptionPane.CLOSED_OPTION) {
+			dialogResult = JOptionPane.showOptionDialog(null, localizedMessage, localizedMessage, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
+		if (dialogResult == 0) { // User selected Yes
+			return true;
+		} else { // User selected No
+			return false; 
+		}
+	}
+	
 	public Trait chooseSpeedOrSanity() {
 		ResourceBundle dialogBoxBundle = ResourceBundle.getBundle("Game/DialogBoxBundle", this.getLocale());
 		String localizedSanity = dialogBoxBundle.getString("SanityTrait");

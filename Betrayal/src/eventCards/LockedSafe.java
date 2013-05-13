@@ -2,44 +2,48 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
 import characters.Trait;
 import Game.Game;
 
 public class LockedSafe extends EventCard {
 	// TODO: Add functionality for tokens
-
-	private Game game;
 	
 	public LockedSafe(Locale loc) {
 		super("LockedSafe", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
 	public void happen(int rollResult) {
 		if(rollResult >= 5){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			Game.getInstance().getCurrentCharacter().addItemCard(Game.getInstance().drawItem());
+			Game.getInstance().getCurrentCharacter().addItemCard(Game.getInstance().drawItem());
 			// TODO: Remove safe token
 		} else if (rollResult >= 2 && rollResult <= 4){
-			game.getCurrentCharacter().decrementSpeed(); // TODO: Change this to decrementphysical
+			Game.getInstance().getCurrentCharacter().decrementSpeed(); // TODO: Change this to decrementphysical
 		} else {
-			game.getCurrentCharacter().decrementSpeed(2); // TODO: Change this to decrementPhysical
+			Game.getInstance().getCurrentCharacter().decrementSpeed(2); // TODO: Change this to decrementPhysical
 		}
 
 	}
 
 	@Override
 	public void happens() {
-		int rollResult = game.getCurrentCharacter().getTraitRoll(Trait.KNOWLEDGE);
+		Character character = Game.getInstance().getCurrentCharacter();
+		// TODO: Place token
+		int rollResult = character.getTraitRoll(Trait.KNOWLEDGE);
 		if(rollResult >= 5){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			character.addItemCard(Game.getInstance().drawItem());
+			character.addItemCard(Game.getInstance().drawItem());
 			// TODO: Remove safe token
 		} else if (rollResult >= 2 && rollResult <= 4){
-			game.getCurrentCharacter().decrementSpeed(game.rollDice(1)); // TODO: Change this to decrementphysical
+			Trait chosenTrait = Game.getInstance().chooseAPhysicalTrait();
+			int damage = Game.getInstance().rollDice(1);
+			character.decrementTrait(chosenTrait, damage);
 		} else {
-			game.getCurrentCharacter().decrementSpeed(game.rollDice(2)); // TODO: Change this to decrementPhysical
+			Trait chosenTrait = Game.getInstance().chooseAPhysicalTrait();
+			int damage = Game.getInstance().rollDice(2);
+			character.decrementTrait(chosenTrait, damage);
 		}
 	}
 
