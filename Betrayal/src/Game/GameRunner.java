@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 
+import actionGUI.ActionFrame;
+
 import characters.Character.Character_Name;
 import characters.ExplorerFactory;
 import characters.Trait;
@@ -87,12 +89,9 @@ public class GameRunner {
 		
 		rf.display();
 		
-		// Current character does stuff now
-		while (true) {
-			Character currentCharacter = Game.getInstance().getCurrentCharacter();
-			currentCharacter.askForAction();
-			rf.repaint();
-		}
+		ActionFrame actionFrame = new ActionFrame();
+		actionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		actionFrame.display();
 		
 	}
 	

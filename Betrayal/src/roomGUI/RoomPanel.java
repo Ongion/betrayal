@@ -59,7 +59,7 @@ public class RoomPanel extends JPanel {
 		g.drawString(name, xOffset, fSize*2);
 		
 		
-		this.drawCharacters(g ,20, fSize*4);
+		this.drawCharacters(g ,20, fSize*3);
 		
 		this.drawExits(g);
 		
@@ -71,12 +71,14 @@ public class RoomPanel extends JPanel {
 	private void drawCharacters(Graphics g, int xOffset, int yOffset){
 		ArrayList<Character> characters = Game.getInstance().getCharacters();
 		
+		Font f = new Font(Font.MONOSPACED,0,12);
+		g.setFont(f);
 		g.setColor(characterColor);
 		
 		for (Character c:characters){
 			if (c.getCurrentRoom().equals(this.room)){
 				g.drawString(c.getName(), xOffset, yOffset);
-				yOffset *= 2;
+				yOffset += 17;
 			}
 		}
 	}
