@@ -9,6 +9,7 @@ import java.util.Locale;
 import Game.Game;
 import characters.Character;
 import eventCards.EventCard;
+import eventCards.Rotten;
 
 public class CrystalBall extends OmenCard {
 

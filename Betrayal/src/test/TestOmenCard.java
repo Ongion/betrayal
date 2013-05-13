@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import itemCards.AngelFeather;
+import itemCards.BloodDagger;
 import itemCards.ItemCard;
 
 import java.lang.reflect.Field;
@@ -91,6 +92,7 @@ public class TestOmenCard {
 	private EventCard nightView = new NightView(enLocale);
 	private EventCard rotten = new Rotten(enLocale);
 	private ItemCard angelFeather = new AngelFeather(enLocale);
+	private ItemCard bloodDagger = new BloodDagger(enLocale);
 	
 
 	@Before
@@ -248,6 +250,8 @@ public class TestOmenCard {
 			});
 			crystalBallCard.itemOrEvent = 0;
 			ArrayList<EventCard> eventStackBefore = mockGame.getEventDeck();
+			eventStackBefore.add(rotten);
+			eventStackBefore.add(angryBeing);
 			crystalBallCard.whatToDo(character);
 			ArrayList<EventCard> eventStackAfter = mockGame.getEventDeck();
 			assertFalse(eventStackAfter.equals(eventStackBefore));
@@ -283,6 +287,8 @@ public class TestOmenCard {
 			});
 			crystalBallCard.itemOrEvent = 1;
 			ArrayList<ItemCard> itemStackBefore = mockGame.getItemDeck();
+			itemStackBefore.add(angelFeather);
+			itemStackBefore.add(bloodDagger);
 			crystalBallCard.whatToDo(character);
 			ArrayList<ItemCard> itemStackAfter = mockGame.getItemDeck();
 			assertFalse(itemStackAfter.equals(itemStackBefore));
