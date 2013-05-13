@@ -2,26 +2,23 @@ package eventCards;
 
 import java.util.Locale;
 
+import characters.Character;
 import Game.Game;
 
 public class ClosetDoor extends EventCard {
-	//TODO: Add functionality to token
 
-	private Game game;
-	
 	public ClosetDoor(Locale loc) {
 		super("ClosetDoor", loc);
-		this.game = Game.getInstance();
 	}
 	
 	@Override
 	public void happen(int rollResult) {
 		if (rollResult == 4){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			Game.getInstance().getCurrentCharacter().addItemCard(Game.getInstance().drawItem());
 		} else if (rollResult == 1 || rollResult == 2){
-			game.getCurrentCharacter().addEventCard(game.drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
+			Game.getInstance().getCurrentCharacter().addEventCard(Game.getInstance().drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
 		} else {
-			game.getCurrentCharacter().addEventCard(game.drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
+			Game.getInstance().getCurrentCharacter().addEventCard(Game.getInstance().drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
 			// TODO: Remove Closet token
 		}
 
@@ -29,13 +26,15 @@ public class ClosetDoor extends EventCard {
 
 	@Override
 	public void happens() {
-		int rollResult = game.rollDice(2);
+		Character character = Game.getInstance().getCurrentCharacter();
+		// TODO: Place Closet token
+		int rollResult = Game.getInstance().rollDice(2);
 		if (rollResult == 4){
-			game.getCurrentCharacter().addItemCard(game.drawItem());
+			character.addItemCard(Game.getInstance().drawItem());
 		} else if (rollResult == 1 || rollResult == 2){
-			game.getCurrentCharacter().addEventCard(game.drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
+			Game.getInstance().drawEvent().happens(); 
 		} else {
-			game.getCurrentCharacter().addEventCard(game.drawEvent()); // TODO: Change this so the event happens instead of adding the card to hand
+			Game.getInstance().drawEvent().happens(); 
 			// TODO: Remove Closet token
 		}
 	}
