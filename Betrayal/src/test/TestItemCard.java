@@ -1003,6 +1003,8 @@ public void TestWhatToDoForRevolver(){
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(4));
+					oneOf(mockGame).chooseAMentalTrait();
+					will(returnValue(Trait.SANITY));
 				}
 			});
 
