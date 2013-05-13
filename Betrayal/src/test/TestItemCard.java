@@ -355,7 +355,7 @@ public void TestWhatToDoForRevolver(){
 	}
 
 	@Test
-	public void TestWhatToDoForMedicalKitKnowledgeRollGreaterThanEight() {
+	public void TestWhatToDoForMedicalKitKnowledgeRollGreaterThanEightMightTrait() {
 		Mockery mocks = new Mockery() {
 			{
 				setImposteriser(ClassImposteriser.INSTANCE);
@@ -372,6 +372,8 @@ public void TestWhatToDoForRevolver(){
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(9));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
 				}
 			});
 
@@ -388,9 +390,47 @@ public void TestWhatToDoForRevolver(){
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void TestWhatToDoForMedicalKitKnowledgeRollGreaterThanEightSpeedTrait() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(9));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+				}
+			});
+
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() + 3;
+			medicalKitCard.whatToDo(character);
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			assertEquals(speedAfter, expectedSpeed);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 
 	@Test
-	public void TestWhatToDoForMedicalKitKnowledgeRollSixOrSeven() {
+	public void TestWhatToDoForMedicalKitKnowledgeRollSixOrSevenMightTrait() {
 		Mockery mocks = new Mockery() {
 			{
 				setImposteriser(ClassImposteriser.INSTANCE);
@@ -407,6 +447,8 @@ public void TestWhatToDoForRevolver(){
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(7));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
 				}
 			});
 
@@ -423,9 +465,46 @@ public void TestWhatToDoForRevolver(){
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void TestWhatToDoForMedicalKitKnowledgeRollSixOrSevenSpeedTrait() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(7));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+				}
+			});
+
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() + 2;
+			medicalKitCard.whatToDo(character);
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			assertEquals(speedAfter, expectedSpeed);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	@Test
-	public void TestWhatToDoForMedicalKitKnowledgeRollFourOrFive() {
+	public void TestWhatToDoForMedicalKitKnowledgeRollFourOrFiveMightTrait() {
 		Mockery mocks = new Mockery() {
 			{
 				setImposteriser(ClassImposteriser.INSTANCE);
@@ -442,6 +521,8 @@ public void TestWhatToDoForRevolver(){
 				{
 					oneOf(mockGame).rollDice(fRKnowledge);
 					will(returnValue(4));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.MIGHT));
 				}
 			});
 
@@ -451,6 +532,43 @@ public void TestWhatToDoForRevolver(){
 			int mightAfter = ((HumanStats) (character.getStats()))
 					.getCurrentMightIndex();
 			assertEquals(mightAfter, expectedMight);
+
+			mocks.assertIsSatisfied();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void TestWhatToDoForMedicalKitKnowledgeRollFourOrFiveSpeedTrait() {
+		Mockery mocks = new Mockery() {
+			{
+				setImposteriser(ClassImposteriser.INSTANCE);
+			}
+		};
+		final Game mockGame = mocks.mock(Game.class);
+		try {
+			Field instanceField = Game.class.getDeclaredField("INSTANCE");
+			instanceField.setAccessible(true);
+			instanceField.set(null, mockGame);
+
+			final int fRKnowledge = character.getCurrentKnowledge();
+			mocks.checking(new Expectations() {
+				{
+					oneOf(mockGame).rollDice(fRKnowledge);
+					will(returnValue(4));
+					oneOf(mockGame).chooseAPhysicalTrait();
+					will(returnValue(Trait.SPEED));
+				}
+			});
+
+			int expectedSpeed = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex() + 1;
+			medicalKitCard.whatToDo(character);
+			int speedAfter = ((HumanStats) (character.getStats()))
+					.getCurrentSpeedIndex();
+			assertEquals(speedAfter, expectedSpeed);
 
 			mocks.assertIsSatisfied();
 		} catch (Exception e) {
