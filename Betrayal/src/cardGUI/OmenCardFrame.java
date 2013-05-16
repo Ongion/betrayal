@@ -46,7 +46,7 @@ public class OmenCardFrame extends JFrame implements ActionListener{
 		this.card = card;
 		
 		this.setSize(width, height);
-		this.setTitle("Event Card - " + card.getName());
+		this.setTitle("Omen Card - " + card.getName());
 		
 		JPanel panel = null;
 		try {

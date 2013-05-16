@@ -26,28 +26,16 @@ public class GameRunner {
 	 * @param args
 	 * @throws IOException 
 	 */
+	
+	
+	public GameRunner () {
+		
+		
+	}
+	
+	
 	public static void main(String[] args) throws IOException {
-//		GameFrame win = new GameFrame();
-//		win.displayMenu();
-//		
-//		TraitPopup pop = new TraitPopup();
-//		pop.displayChooseRollTypePopup();
-//		pop.displayChooseMentalPopup();
-//		pop.displayChoosePhysicalPopup();
-//		
-//		DeckAndCardPopups deck = new DeckAndCardPopups();
-//		deck.displayChooseDeckPopup();
-//		GameFrame.displayMenu();
 		
-		
-//		String localizedSanity = dialogBoxBundle.getString("SanityTrait");
-//		String localizedKnowledge = dialogBoxBundle.getString("KnowledgeTrait");
-//		String localizedMessage = dialogBoxBundle.getString("MentalTraitChoiceMessage");
-		
-		
-		//Start the Game
-		
-		//Determine the number of characters
 		Object[] options = {1, 2, 3, 4, 5, 6};
 		
 		int dialogResult = JOptionPane.CLOSED_OPTION;
@@ -83,15 +71,10 @@ public class GameRunner {
 			Game.getInstance().addCharacter(toAdd);
 		}
 		
-		//Display Rooms
-		RoomFrame rf = new RoomFrame();
-		rf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		rf.display();
 		
-		ActionFrame actionFrame = new ActionFrame();
-		actionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		actionFrame.display();
+		Game.getInstance().createAndDisplayFrames();
+		
 		
 	}
 	

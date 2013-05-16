@@ -60,11 +60,11 @@ public class Debris extends EventCard {
 				if(rollResult >= 4){
 					this.characterHolding.removeEventCard(this);
 					Game.getInstance().discardEvent(this);
-					character.endMovement();
+					character.endTurn();
 					attempts = 0;
 				}else{
 					attempts++;
-					character.endMovement(); //TODO: Ensure this is correct
+					character.endTurn(); //TODO: Ensure this is correct
 				}
 			}
 		}else{

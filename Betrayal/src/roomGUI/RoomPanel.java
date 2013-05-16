@@ -41,7 +41,7 @@ public class RoomPanel extends JPanel {
 	}
 	
 	public void paint(Graphics g){
-		System.out.println(ResourceBundle.getBundle("rooms/RoomsBundle", Game.getInstance().getLocale()));
+		
 		g.setColor(background);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -93,8 +93,8 @@ public class RoomPanel extends JPanel {
 		int width = 0;
 		int height = 0;
 		
-		for (Relative_Direction exit: room.getExits()){
-			Relative_Direction dir = room.convertAbsoluteDirectionToRoomRelativeDirection(exit);
+		for (Relative_Direction dir: room.getAbsoluteExits()){
+			//Relative_Direction dir = room.convertAbsoluteDirectionToRoomRelativeDirection(exit);
 			
 			
 			switch (dir){
@@ -114,13 +114,14 @@ public class RoomPanel extends JPanel {
 					width = 10;
 					height = this.getHeight() / 2;
 					yPos = (this.getHeight() - height)/2;
-					xPos = 0;
+					xPos = this.getWidth()-width;
+					
 					break;
 				case WEST:
 					width = 10;
 					height = this.getHeight() / 2;
 					yPos = (this.getHeight() - height)/2;
-					xPos = this.getWidth()-width;
+					xPos = 0;
 					break;
 				default:
 					continue;

@@ -91,7 +91,12 @@ public class Character {
 			}
 		}
 		
-		possibleActions.addAll(this.getCurrentRoom().getRoomActions());
+		Set<Action> roomActions = this.getCurrentRoom().getRoomActions();
+		for(Action a : roomActions){
+			if (a.canPerform(this)){
+				possibleActions.add(a);
+			}
+		}
 		
 		if (Game.getInstance().getCurrentCharacter() == this) {
 			possibleActions.add(new EndTurnAction());
@@ -186,11 +191,12 @@ public class Character {
 		this.playerControlledBy = p;
 	}
 
-	public void endMovement() {
-		// TODO Implement this. Probably will call a method in Game?
-		
-		
+	public void endTurn() {
 		Game.getInstance().endCharacterTurn();
+	}
+	
+	public void endMovement() {
+		this.movementCounter = 1; //1 so that when it gets decremented it goes to 0
 	}
 
 	public void setCurrentRoom(Room room) {

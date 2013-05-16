@@ -1,6 +1,28 @@
 package Game;
 
+import itemCards.AdrenalineShot;
+import itemCards.AmuletOfAges;
+import itemCards.AngelFeather;
+import itemCards.Armor;
+import itemCards.Axe;
+import itemCards.Bell;
+import itemCards.BloodDagger;
+import itemCards.Bottle;
+import itemCards.Candle;
+import itemCards.DarkDice;
+import itemCards.Dynamite;
+import itemCards.HealingSalve;
+import itemCards.Idol;
 import itemCards.ItemCard;
+import itemCards.LuckyStone;
+import itemCards.MedicalKit;
+import itemCards.MusicBox;
+import itemCards.PickpocketsGloves;
+import itemCards.PuzzleBox;
+import itemCards.RabbitsFoot;
+import itemCards.Revolver;
+import itemCards.SacrificialDagger;
+import itemCards.SmellingSalts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +32,24 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import omenCards.Bite;
+import omenCards.Book;
+import omenCards.CrystalBall;
+import omenCards.Dog;
+import omenCards.Girl;
+import omenCards.HolySymbol;
+import omenCards.Madman;
+import omenCards.Mask;
+import omenCards.Medallion;
 import omenCards.OmenCard;
+import omenCards.Ring;
+import omenCards.Skull;
+import omenCards.Spear;
+import omenCards.SpiritBoard;
+import roomGUI.RoomFrame;
 import rooms.Location;
 import rooms.Room;
 import rooms.Room.Floor_Name;
@@ -20,10 +57,11 @@ import rooms.Room.Relative_Direction;
 import rooms.Room.Room_Orientation;
 import rooms.RoomFactory;
 import rooms.RoomName;
+import actionGUI.ActionFrame;
 import actions.Action;
 import characters.Character;
 import characters.Trait;
-import eventCards.EventCard;
+import eventCards.*;
 
 public class Game {
 	
@@ -109,16 +147,95 @@ public class Game {
 		INSTANCE.addStartingRooms();
 		
 		INSTANCE.resetDecks();
+		
+		Collections.shuffle(INSTANCE.itemDeck);
+		Collections.shuffle(INSTANCE.omenDeck);
+		Collections.shuffle(INSTANCE.eventDeck);
+		Collections.shuffle(INSTANCE.roomDeck);
+		
+		//TODO delete
+		RoomFactory rooms = new RoomFactory();
+		INSTANCE.roomDeck.add(rooms.makeRoom(RoomName.LIBRARY));
+		
 	}
 	
 	public void resetDecks() {
-		//TODO Actually do all the Decks. Just doing Rooms for now.
+		
 		RoomFactory rooms = new RoomFactory();
 		
 		this.roomDeck.clear();
 		for (RoomName name :RoomName.values()){
+			if (name == RoomName.FOYER || name == RoomName.ENTRANCEHALL || name == RoomName.GRANDSTAIRCASE || name == RoomName.UPPERLANDING || name == RoomName.BASEMENTLANDING || name == RoomName.CATACOMBS || name == RoomName.TOWER || name == RoomName.CHASM)
+				continue;//Can't add starting rooms to the deck.
 			this.roomDeck.add(rooms.makeRoom(name));
 		}
+		
+		Locale enLocale = Game.getInstance().getLocale();
+		
+		//Add Item Cards
+		itemDeck.add(new AngelFeather(enLocale));
+		itemDeck.add(new AdrenalineShot(enLocale));
+		itemDeck.add(new Revolver(enLocale));
+		itemDeck.add(new PuzzleBox(enLocale));
+		itemDeck.add(new RabbitsFoot(enLocale));
+		itemDeck.add(new MedicalKit(enLocale));
+		itemDeck.add(new Bottle(enLocale));
+		itemDeck.add(new LuckyStone(enLocale));
+		itemDeck.add(new SacrificialDagger(enLocale));
+		itemDeck.add(new MusicBox(enLocale));
+		itemDeck.add(new Bell(enLocale));
+		itemDeck.add(new HealingSalve(enLocale));
+		itemDeck.add(new Armor(enLocale));
+		itemDeck.add(new AmuletOfAges(enLocale));
+		itemDeck.add(new Candle(enLocale));
+		itemDeck.add(new Dynamite(enLocale));
+		itemDeck.add(new PickpocketsGloves(enLocale));
+		itemDeck.add(new Axe(enLocale));
+		itemDeck.add(new SmellingSalts(enLocale));
+		itemDeck.add(new DarkDice(enLocale));
+		itemDeck.add(new BloodDagger(enLocale));
+		itemDeck.add(new Idol(enLocale));
+		
+		//Add Omen Cards
+		omenDeck.add(new CrystalBall(enLocale));
+		omenDeck.add(new Book(enLocale));
+		omenDeck.add(new Ring(enLocale));
+		omenDeck.add(new Madman(enLocale));
+		omenDeck.add(new Spear(enLocale));
+		omenDeck.add(new SpiritBoard(enLocale));
+		omenDeck.add(new Mask(enLocale));
+		omenDeck.add(new Medallion(enLocale));
+		omenDeck.add(new Girl(enLocale));
+		omenDeck.add(new Bite(enLocale));
+		omenDeck.add(new Skull(enLocale));
+		omenDeck.add(new HolySymbol(enLocale));
+		omenDeck.add(new Dog(enLocale));
+		
+		
+		//Add Event Cards
+		eventDeck.add(new Rotten(enLocale));
+		eventDeck.add(new TheVoice(enLocale));
+		eventDeck.add(new Mirror2(enLocale));
+		eventDeck.add(new NightView(enLocale));
+		eventDeck.add(new SomethingSlimy(enLocale));
+		eventDeck.add(new CreepyCrawlies(enLocale));
+		eventDeck.add(new Silence(enLocale));
+		eventDeck.add(new MistsFromTheWalls(enLocale));
+		eventDeck.add(new HideousShriek(enLocale));
+		eventDeck.add(new SomethingHidden(enLocale));
+		eventDeck.add(new Footsteps(enLocale));
+		eventDeck.add(new Spider(enLocale));
+		eventDeck.add(new HangedMen(enLocale));
+		eventDeck.add(new BurningMan(enLocale));
+		eventDeck.add(new PhoneCall(enLocale));
+		eventDeck.add(new AngryBeing(enLocale));
+		eventDeck.add(new DisquietingSounds(enLocale));
+		eventDeck.add(new JonahsTurn(enLocale));
+		eventDeck.add(new Debris(enLocale));
+		eventDeck.add(new Mirror(enLocale));
+		eventDeck.add(new Funeral(enLocale));
+		eventDeck.add(new Possession(enLocale));
+		
 		
 	}
 		
@@ -381,6 +498,8 @@ public class Game {
 	
 	public void setLocale(Locale l) {
 		this.locale = l;
+		
+		this.updateFrames();
 	}
 	
 	// Begin UI stuff
@@ -478,8 +597,6 @@ public class Game {
 		int count = 0;
 		for(Relative_Direction dir : roomToAdd.getExits()){
 			if (dir == Relative_Direction.UP || dir == Relative_Direction.DOWN) continue;
-			//Can't add the exit to either of these directions, so ignore them
-			System.out.println(count + " " + dir);
 			switch (dir){
 				case NORTH:
 					options[count] = directionOfAdjacentExit;
@@ -534,7 +651,7 @@ public class Game {
 					break;
 			}
 			
-//			options[count] = Room_Orientation.values()[(dir.ordinal() + directionOfAdjacentExit.ordinal())%4];
+			
 			count++;
 		}
 		
@@ -546,12 +663,12 @@ public class Game {
 			dialogResult = JOptionPane.showOptionDialog(null, message, message, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		}
 		
-		System.out.println(dialogResult);
-		
 		Room_Orientation orientationForRoom = (Room_Orientation) options[dialogResult];
 		
 		roomToAdd.setPlacement(orientationForRoom, l);
 		
+		//TODO Ben delete this too
+    	Game.getInstance().updateFrames();
 		
 	}
 	
@@ -669,6 +786,41 @@ public class Game {
 			dialogResult = JOptionPane.showOptionDialog(null, "Do you want to steal an item?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.NO_OPTION);
 		}
 		return dialogResult == JOptionPane.YES_OPTION;
+	}
+	
+	//TODO Ben delete from here down
+	
+	private RoomFrame rf;
+	private ActionFrame actionFrame;
+	
+	public RoomFrame getRoomFrame() {
+		return this.rf;
+	}
+	
+	public ActionFrame getActionFrame() {
+		return this.actionFrame;
+	}
+	
+	public void createAndDisplayFrames(){
+		//Display Rooms
+		rf = new RoomFrame();
+		rf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		rf.display();
+		
+		actionFrame = new ActionFrame();
+		actionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		actionFrame.display();
+	}
+	
+	public void updateFrames(){
+		
+		this.rf.update();
+		
+		this.actionFrame.update();
+		
+		this.rf.repaint();
+		this.actionFrame.repaint();
 	}
 
 }

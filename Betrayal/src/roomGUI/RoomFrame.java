@@ -50,9 +50,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 	private JMenu localeMenu = new JMenu("Locale");
 	private JMenuItem enLocaleItem = new JMenuItem("English");
 	private JMenuItem esLocaleItem = new JMenuItem("Spanish");
-	
-	//Delete Later
-	private JMenuItem updateItem = new JMenuItem("Update");
 
 	public RoomFrame(){
 		this(400,400);
@@ -69,7 +66,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 		basementMenuItem.addActionListener(this);
 		upperMenuItem.addActionListener(this);
 		
-		updateItem.addActionListener(this);
 		
 		enLocaleItem.addActionListener(this);
 		esLocaleItem.addActionListener(this);
@@ -82,7 +78,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 		
 		menuBar.add(menu);
 		
-		menuBar.add(updateItem);
 		
 		localeMenu.add(enLocaleItem);
 		localeMenu.add(esLocaleItem);
@@ -91,6 +86,8 @@ public class RoomFrame extends JFrame implements ActionListener {
 		this.setJMenuBar(menuBar);
 		
 		this.addRoomPanels();
+		
+		this.add(groundPanel);
 		
 
 	}
@@ -125,9 +122,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 		addRoomsToFrameInGrid(basement, basementPanel);
 		addRoomsToFrameInGrid(upper, upperPanel);
 
-		
-
-		this.add(groundPanel);
 	}
 
 	private void addRoomsToFrameInGrid(ArrayList<Room> rooms, JPanel panel){
@@ -185,14 +179,16 @@ public class RoomFrame extends JFrame implements ActionListener {
 		this.repaint();
 	}
 
+	public void update(){
+		this.addRoomPanels();
+		
+		this.display();
+		
+		this.repaint();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (updateItem.equals(event.getSource())){
-			this.addRoomPanels();
-			this.display();
-			return;
-		}
-		
 		if (enLocaleItem.equals(event.getSource())){
 			Game.getInstance().setLocale(new Locale("en", "US"));
 			return;
@@ -217,28 +213,6 @@ public class RoomFrame extends JFrame implements ActionListener {
 		this.display();
 		
 	}
-
-	//This should be removed later on. This is used to test this GUI Window and just display it without messing with everyone else's code.
-	public static void main(String[] args){
-		Game.resetGame();
-		RoomFrame rf = new RoomFrame();
-		rf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		RoomFactory rooms = new RoomFactory();
-		Room r1 = Game.getInstance().getRoomAtLocation(new Location(Floor_Name.GROUND,0,0));
-
-		ExplorerFactory exps = new ExplorerFactory();
-		Character father = exps.getExplorer(Character_Name.FatherRhinehardt);
-		Game.getInstance().addCharacter(father);
-		father.setCurrentRoom(r1);
-		
-		System.out.println(father.getCurrentRoom().equals(r1));
-		
-		//rf.addRoomPanels();
-
-		rf.display();
-	}
-
 	
 
 }

@@ -24,6 +24,8 @@ public class ItemRoom extends Room{
 		ItemCard cardRecieved = Game.getInstance().drawItem();
 		Character currentCharacter = Game.getInstance().getCurrentCharacter();
 		currentCharacter.addItemCard(cardRecieved);
+		
+		currentCharacter.endMovement();
 	}
 
 }

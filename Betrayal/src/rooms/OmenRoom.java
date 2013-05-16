@@ -24,6 +24,8 @@ public class OmenRoom extends Room{
 		OmenCard cardRecieved = game.drawOmen();
 		Character currentCharacter = game.getCurrentCharacter();
 		currentCharacter.addOmenCard(cardRecieved);
+		
+		currentCharacter.endMovement();
 	}
 
 }

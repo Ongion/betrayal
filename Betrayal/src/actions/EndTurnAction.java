@@ -25,7 +25,7 @@ public class EndTurnAction extends Action {
 
 	@Override
 	public void perform(Character characterPerformingAction) {
-		characterPerformingAction.endMovement();
+		characterPerformingAction.endTurn();
 	}
 
 }

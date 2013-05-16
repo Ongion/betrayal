@@ -22,6 +22,9 @@ public class ActionButton extends JButton {
 		this.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent arg0) {
 	        	action.perform(Game.getInstance().getCurrentCharacter());
+	        	
+	        	//TODO Ben delete this too
+	        	Game.getInstance().updateFrames();
 	        }
 		});
 		

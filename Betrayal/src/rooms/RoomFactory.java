@@ -110,7 +110,7 @@ public class RoomFactory {
 						int rollResult = Game.getInstance().rollDice(diceToRoll);
 						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 						if (rollResult < TARGET_RESULT) {
-							characterLeavingRoom.endMovement();
+							characterLeavingRoom.endTurn();
 							System.out.println(String.format("%s had to stop moving.", characterLeavingRoom.getName()));
 						} else {
 							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));
@@ -140,7 +140,7 @@ public class RoomFactory {
 						int rollResult = Game.getInstance().rollDice(diceToRoll);
 						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 						if (rollResult < TARGET_RESULT) {
-							characterLeavingRoom.endMovement();
+							characterLeavingRoom.endTurn();
 							System.out.println(String.format("%s had to stop moving.", characterLeavingRoom.getName()));
 						} else {
 							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));
@@ -307,7 +307,7 @@ public class RoomFactory {
 						int rollResult = Game.getInstance().rollDice(diceToRoll);
 						System.out.println(String.format("Rolled %d dice and got a %d", diceToRoll, rollResult));
 						if (rollResult < TARGET_RESULT) {
-							characterLeavingRoom.endMovement();
+							characterLeavingRoom.endTurn();
 							System.out.println(String.format("%s had to stop moving.", characterLeavingRoom.getName()));
 						} else {
 							System.out.println(String.format("%s made it across.", characterLeavingRoom.getName()));

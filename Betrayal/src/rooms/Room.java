@@ -115,7 +115,7 @@ public abstract class Room {
 			if (doesCharacterStillWantToLeaveTheRoom) {
 				characterLeavingRoom.decrementTrait(traitDecrementedIfFailed, 1);
 			} else {
-				characterLeavingRoom.endMovement();
+				characterLeavingRoom.endTurn();
 			}
 		}
 		return doesCharacterStillWantToLeaveTheRoom;
@@ -317,6 +317,7 @@ public abstract class Room {
 		if (nextRoom == null){
 			nextRoom = Game.getInstance().drawRoom();
 			while (!nextRoom.floorsAllowedOn.contains(this.getLocation().getFloor())){
+				Game.getInstance().discardRoom(nextRoom);
 				nextRoom = Game.getInstance().drawRoom();
 				// TODO Stop this from being a possible infinite loop
 			}
@@ -336,12 +337,11 @@ public abstract class Room {
 					break;
 			}
 			
+			nextRoom.flipCard();
 			Game.getInstance().chooseOrientaionToAddRoomAndAddIt(nextRoom, this, loc);
 			
-			
-			System.out.println("Tried to move somewhere that needs to add a new room to the board. " + nextRoom.getOrientation());
-			
 		}
+		
 		characterLeavingRoom.enterRoomGoingInAbsoluteDirection(nextRoom, exitAttemptingToLeaveBy);
 	}
 

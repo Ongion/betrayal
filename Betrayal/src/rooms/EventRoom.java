@@ -23,6 +23,8 @@ public class EventRoom extends Room{
 		EventCard cardRecieved = Game.getInstance().drawEvent();
 		Character currentCharacter = Game.getInstance().getCurrentCharacter();
 		currentCharacter.addEventCard(cardRecieved);
+		
+		currentCharacter.endMovement();
 	}
 
 }
